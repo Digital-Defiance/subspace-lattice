@@ -1,0 +1,30 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "latticeTei",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "localAi.matches", "order": "DESCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "latticeTei",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "localAi.displayGrade", "order": "ASCENDING" },
+        { "fieldPath": "localAi.matches", "order": "DESCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "latticeTei",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "online.matches", "order": "DESCENDING" },
+        { "fieldPath": "__name__", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

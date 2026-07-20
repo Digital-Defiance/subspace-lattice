@@ -1,0 +1,219 @@
+$teal: #34e3c5;
+$blue: #3b82f6;
+$copy-muted: #a9b7d4;
+
+.landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(64, 129, 255, 0.18),
+      transparent
+    ),
+    #000;
+  padding: clamp(1.5rem, 4vw, 4rem) 1.5rem 2rem;
+  text-align: center;
+}
+
+.landing-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 52rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.landing-logo {
+  width: min(34rem, 90vw);
+  height: auto;
+  // The source PNG has a solid black background; screen-blending drops it
+  // out against the dark gradient so the mark floats on the page.
+  mix-blend-mode: screen;
+}
+
+.landing-kicker,
+.landing-section-label {
+  margin: 1.5rem 0 0;
+  color: $teal;
+  font-family: var(--font-sol-pro-regular);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.landing-headline {
+  display: flex;
+  flex-direction: column;
+  margin: 0.8rem 0 0;
+  color: #f4f8ff;
+  font-family: var(--font-all-round-gothic);
+  font-size: clamp(1.75rem, 4vw, 3.15rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+
+  span {
+    background: linear-gradient(90deg, #a855f7, $teal);
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.landing-copy {
+  max-width: 46rem;
+  margin: 1.4rem 0 2.25rem;
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  line-height: 1.7;
+  color: #b7c4e0;
+}
+
+.landing-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.landing-docs {
+  margin: 1.25rem 0 0;
+  font-size: 0.9rem;
+  color: $copy-muted;
+
+  a {
+    color: $teal;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.landing-cta {
+  padding: 0.85rem 2.4rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: #041018;
+  font-family: var(--font-sol-pro-regular);
+  background: linear-gradient(90deg, $teal, $blue);
+  box-shadow: 0 0 24px rgba(52, 227, 197, 0.35);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 34px rgba(52, 227, 197, 0.55);
+  }
+}
+
+.landing-secondary {
+  padding: 0.85rem 1.8rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: #9fb4d8;
+  border: 1px solid rgba(120, 148, 200, 0.4);
+  font-family: var(--font-sol-pro-regular);
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+
+  &:hover {
+    color: #e8eefc;
+    border-color: rgba(120, 148, 200, 0.8);
+  }
+}
+
+.landing-premise {
+  max-width: 52rem;
+  margin-top: clamp(4rem, 8vw, 7rem);
+  padding: 0 clamp(0rem, 3vw, 2rem);
+
+  .landing-section-label {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin: 0.65rem 0 1rem;
+    color: #eef5ff;
+    font-size: clamp(1.6rem, 3vw, 2.45rem);
+    line-height: 1.15;
+    font-family: var(--font-all-round-gothic);
+  }
+
+  > p:last-child {
+    margin: 0;
+    color: $copy-muted;
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+}
+
+.landing-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  max-width: 62rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.landing-feature {
+  background: rgba(20, 30, 52, 0.55);
+  border: 1px solid rgba(80, 105, 155, 0.25);
+  border-radius: 12px;
+  padding: 1.25rem 1.4rem;
+  text-align: left;
+
+  .landing-feature-number {
+    display: block;
+    margin-bottom: 1.4rem;
+    color: rgba(52, 227, 197, 0.6);
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, $teal, #7c8cf8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-family: var(--font-sol-pro-regular);
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: $copy-muted;
+    font-family: var(--font-all-round-gothic);
+  }
+}
+
+.landing-footer {
+  margin-top: 4rem;
+  font-size: 0.8rem;
+  color: #5d6c8c;
+}
+
+.landing-iwgf-link {
+  text-decoration: none !important;
+  color: #ffffff;
+}
+
+.landing-footer-iwgf-text-logo {
+  font-family: var(--font-federation-wide);
+  color: var(--warp-accent,#38bdf8);
+}

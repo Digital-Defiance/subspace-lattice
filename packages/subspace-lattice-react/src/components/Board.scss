@@ -1,0 +1,178 @@
+@use './variables' as *;
+
+.subspace-board {
+  display: grid;
+  gap: 2px;
+  background-color: #333;
+  padding: 4px;
+  border-radius: $radius-sm;
+  margin: 20px auto;
+  width: fit-content;
+}
+
+.subspace-cell {
+  width: 40px;
+  height: 40px;
+  background-color: $input-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid $border;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  position: relative;
+
+  &:focus-visible {
+    z-index: 1;
+    outline: 3px solid #f8fafc;
+    outline-offset: -3px;
+  }
+
+  &:hover {
+    background-color: $border;
+  }
+
+  &.gravity-well {
+    background-color: $panel-bg-deep;
+    background-image: radial-gradient(circle, #500 10%, transparent 60%);
+  }
+
+  &.selected {
+    background-color: #555;
+    box-shadow: inset 0 0 0 2px #0f0;
+  }
+
+  &.tutorial-selectable {
+    animation: tutorial-pulse 1.5s ease-in-out infinite;
+  }
+
+  &.legal-destination::before,
+  &.tutorial-destination::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(52, 227, 197, 0.72);
+    box-shadow: 0 0 9px rgba(52, 227, 197, 0.65);
+  }
+
+  &.tutorial-focus {
+    outline: 2px solid #a855f7;
+    outline-offset: -3px;
+  }
+
+  &.advisor-from {
+    outline: 2px solid #f59e0b;
+    outline-offset: -3px;
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35);
+  }
+
+  &.advisor-to {
+    outline: 2px solid #fbbf24;
+    outline-offset: -3px;
+    animation: advisor-pulse 1.4s ease-in-out infinite;
+  }
+
+  &.advisor-to::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(251, 191, 36, 0.85);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+  }
+
+  &.sovereign-white {
+    background-color: #1a2a3a;
+    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.35);
+  }
+
+  &.sovereign-black {
+    background-color: #2a1a1a;
+    box-shadow: inset 0 0 0 1px rgba(255, 140, 100, 0.35);
+  }
+
+  &.sovereign-contested {
+    background-color: #2a2430;
+    box-shadow: inset 0 0 0 1px rgba(200, 160, 255, 0.4);
+  }
+
+  &.spool-target {
+    position: relative;
+    box-shadow:
+      inset 0 0 0 2px $warning,
+      inset 0 0 14px rgba(245, 158, 11, 0.45);
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #fbbf24;
+      border-radius: 50%;
+      box-shadow: 0 0 8px $warning;
+      pointer-events: none;
+    }
+  }
+}
+
+@keyframes tutorial-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 1px rgba(52, 227, 197, 0.35);
+  }
+
+  50% {
+    box-shadow:
+      inset 0 0 0 2px rgba(52, 227, 197, 0.9),
+      0 0 12px rgba(52, 227, 197, 0.32);
+  }
+}
+
+@keyframes advisor-pulse {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35);
+  }
+
+  50% {
+    box-shadow:
+      inset 0 0 0 2px rgba(251, 191, 36, 0.95),
+      0 0 14px rgba(245, 158, 11, 0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subspace-cell.tutorial-selectable,
+  .subspace-cell.advisor-to {
+    animation: none;
+  }
+}
+
+.piece {
+  font-size: 28px;
+  user-select: none;
+
+  &.white {
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  }
+
+  &.black {
+    // Dark fill with a crisp light stroke: reads as "black piece" without
+    // disappearing into the dark board. A text-shadow halo alone is too
+    // diffuse at this glyph size.
+    color: #0b0e13;
+    -webkit-text-stroke: 1px rgba(226, 234, 246, 0.9);
+    text-shadow: 0 0 5px rgba(150, 170, 200, 0.4);
+  }
+
+  &.detected {
+    outline: 1px solid $warning;
+    border-radius: 2px;
+  }
+}

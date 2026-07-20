@@ -1,0 +1,83 @@
+# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# compiled output
+dist
+lib
+tmp
+out-tsc
+
+# dependencies
+node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# env
+.env
+.env.local
+apps/web/.env.local
+apps/functions/.env.local
+apps/desktop/src-tauri/tauri.conf.local.json
+
+# firebase
+.firebase
+.firebase-emulator-data
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*-debug.log
+
+# tauri / rust
+**/src-tauri/target
+**/src-tauri/*.p12
+**/src-tauri/*.mobileprovision
+**/src-tauri/*.provisionprofile
+**/src-tauri/*.jks
+**/src-tauri/gen/android/keystore.properties
+**/src-tauri/gen/android/local.properties
+**/src-tauri/gen/android/**/build/
+
+# LaTeX aux (docs/rules.pdf + docs/rules.tex.sha256 are kept)
+docs/*.aux
+docs/*.log
+docs/*.out
+docs/*.toc
+docs/*.fls
+docs/*.fdb_latexmk
+docs/*.synctex.gz
+
+# Evolution / sim run artifacts (regenerate with yarn evolve -- --out …)
+apps/web/public/docs/*.pdf
+
+# System Files
+.DS_Store
+Thumbs.db
+
+.nx/cache
+.nx/workspace-data
+.nx/migrate-runs
+.claude/worktrees
+.claude/settings.local.json

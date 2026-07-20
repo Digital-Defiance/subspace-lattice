@@ -1,0 +1,252 @@
+@use './variables' as *;
+
+.tutorial {
+  min-height: 100vh;
+  padding: 1rem clamp(1rem, 3vw, 2.5rem) 2.5rem;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(37, 99, 235, 0.16), transparent 32rem),
+    #030812;
+  color: $text;
+}
+
+.tutorial-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1180px;
+  margin: 0 auto;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  button {
+    justify-self: end;
+    font-family: var(--font-sol-pro-regular);
+  }
+
+  span {
+    font-family: var(--font-sol-pro-regular);
+  }
+}
+
+.tutorial-home {
+  color: $text;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: var(--font-sol-pro-regular);
+}
+
+.tutorial button,
+.tutorial-actions a {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #cbd5e1;
+  cursor: pointer;
+  font: inherit;
+  text-decoration: none;
+
+  &:hover:not(:disabled) {
+    border-color: $accent;
+    color: #fff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
+}
+
+.tutorial-progress {
+  max-width: 1180px;
+  height: 2px;
+  margin: 0.9rem auto 1.5rem;
+  overflow: hidden;
+  background: #172033;
+
+  span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #a855f7, #34e3c5);
+    transition: width 220ms ease;
+  }
+}
+
+.tutorial-layout {
+  display: grid;
+  grid-template-columns: minmax(500px, 1.45fr) minmax(290px, 0.8fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
+  align-items: start;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.tutorial-board-panel {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #1e293b;
+  border-radius: 14px;
+  background: rgba(8, 17, 31, 0.78);
+
+  .subspace-board {
+    margin-top: 0;
+  }
+}
+
+.tutorial-coach {
+  position: sticky;
+  top: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid #23314a;
+  border-radius: 14px;
+  background: rgba(10, 19, 34, 0.94);
+
+  h1 {
+    margin: 0.55rem 0 1rem;
+    color: #f8fafc;
+    font-size: clamp(1.65rem, 3vw, 2.35rem);
+    line-height: 1.08;
+  }
+}
+
+.tutorial-kicker {
+  color: #34e3c5;
+  font-size: 0.68rem;
+  font-family: var(--font-sol-pro-regular);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tutorial-explanation {
+  color: #aebbd0;
+  font-size: 0.96rem;
+  line-height: 1.7;
+}
+
+.tutorial-objective {
+  margin-top: 1.4rem;
+  padding: 1rem;
+  border-left: 3px solid $accent;
+  border-radius: 0 8px 8px 0;
+  background: rgba(37, 99, 235, 0.09);
+
+  > span {
+    color: #93c5fd;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--font-sol-pro-regular);
+  }
+
+  p {
+    margin: 0.35rem 0 0;
+    color: #dbeafe;
+    font-size: 0.9rem;
+    font-family: var(--font-all-round-gothic);
+    line-height: 1.5;
+  }
+
+  &.is-complete {
+    border-color: #34e3c5;
+    background: rgba(52, 227, 197, 0.08);
+
+    > span {
+      color: #5eead4;
+    }
+  }
+}
+
+.tutorial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+
+  .tutorial-primary {
+    border-color: transparent;
+    background: linear-gradient(90deg, #34e3c5, #3b82f6);
+    font-family: var(--font-sol-pro-regular);
+    color: #041018;
+    font-weight: 700;
+  }
+  button {
+    font-family: var(--font-sol-pro-regular);
+  }
+}
+
+.tutorial-lessons {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+
+  button {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border-radius: 50%;
+    font: 700 0.65rem ui-monospace, monospace;
+
+    &.is-current {
+      border-color: #34e3c5;
+      color: #34e3c5;
+    }
+  }
+}
+
+.tutorial--graduated {
+  display: grid;
+  place-items: center;
+}
+
+.tutorial-graduation {
+  max-width: 42rem;
+  padding: clamp(2rem, 6vw, 4rem);
+  border: 1px solid #23314a;
+  border-radius: 18px;
+  background: rgba(10, 19, 34, 0.94);
+  text-align: center;
+
+  h1 {
+    margin: 0.65rem 0 1rem;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  p {
+    color: #aebbd0;
+    line-height: 1.7;
+  }
+
+  .tutorial-actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 900px) {
+  .tutorial-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tutorial-coach {
+    position: static;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .tutorial-topbar {
+    grid-template-columns: 1fr auto;
+
+    > span {
+      display: none;
+    }
+  }
+
+  .tutorial-board-panel {
+    overflow-x: auto;
+  }
+}

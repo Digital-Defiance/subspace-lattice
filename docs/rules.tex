@@ -1,0 +1,506 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\graphicspath{{figures/}}
+
+\newcommand{\rulesfig}[2]{%
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\linewidth]{#1}%
+    \caption{#2}%
+    \label{fig:#1}%
+  \end{figure}%
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue!50!black
+}
+
+\title{Subspace Lattice\\[0.4em]\large Official Rules}
+\author{Interstellar Warp Gaming Federation \\ Digital Defiance}
+\date{Rules version \texttt{hybrid-fleet} (soft-ship) / \texttt{hybrid} / \texttt{hybrid-spool} \\
+Defaults as of 2026-07 \\ Hosted at \texttt{lattice.iwgf.org} \\
+TEI shared with Warp via \texttt{warp12-engine}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Subspace Lattice is a two-player strategy game on an $11\times 11$ sector grid.
+It combines individual piece movement with territory projected by a
+\textbf{Sensor Net}. Online play and local AI soft-ship
+\textbf{hybrid-fleet} (Integration Hold, Contested Space, late activation,
+Initiative Relay). Legacy \textbf{hybrid} (instant sector win, mirrored
+setup) and \textbf{classic} (chess-like, no Sensor Net movement effects)
+remain for sims and regression. This document describes Sensor Net play;
+fleet knobs are in Section~\ref{sec:clock}.
+
+Digital skill uses the same \textbf{TEI} (Tactical Efficiency Index) as
+Warp~12 (Section~\ref{sec:tei}) across the IWGF product family.
+\end{abstract}
+
+\tableofcontents
+\vspace{1em}
+
+%% ------------------------------------------------------------------
+\section{Players and turn order}
+%% ------------------------------------------------------------------
+
+Two players, \textbf{White} and \textbf{Black}, each command a fleet.
+White moves first. Players alternate turns. On a turn, a player must move
+exactly one of their pieces according to the movement rules in
+Section~\ref{sec:movement}.
+
+%% ------------------------------------------------------------------
+\section{The board}
+%% ------------------------------------------------------------------
+
+\begin{itemize}[leftmargin=*]
+  \item The board is an $11\times 11$ grid of \emph{coordinates}
+        $(x,y)$ with $0 \le x,y \le 10$.
+  \item The center cell $(5,5)$ is a \textbf{Gravity Well}.
+  \item Gravity Wells \textbf{block}: pieces may not occupy them or path
+        through them. They have no other geometric effects.
+\end{itemize}
+
+%% ------------------------------------------------------------------
+\section{The fleet}
+%% ------------------------------------------------------------------
+
+Each side begins with eight pieces:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Piece} & \textbf{Count} & \textbf{Symbols (White / Black)} \\
+\midrule
+Command Hub   & 1 & $\mathrm{K}$ / king-style hub \\
+Escort        & 3 & pawn-style \\
+Infiltrator   & 2 & knight-style \\
+Beam          & 2 & rook-style \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+White deploys along the low-$y$ edge (near $y=0$); Black mirrors on the
+far rank ($y=10$). Exact starting coordinates match the engine setup.
+Under \texttt{hybrid-fleet}, White also receives Initiative Relay Escorts
+(Section~\ref{sec:clock}).
+
+\rulesfig{opening-hybrid}{%
+  Opening setup under \texttt{hybrid}: mirrored fleets, no Initiative Relay.
+  White along $y=0$ (bottom of the capture); Gravity Well at $(5,5)$.}
+
+\rulesfig{opening-fleet-relay}{%
+  Soft-ship \texttt{hybrid-fleet} opening. Highlighted Escort at $(5,3)$ is
+  White's Initiative Relay---forward compensation for the first move.}
+
+Capturing an enemy piece is done by landing on its coordinate (subject to
+legal movement). The captured piece is removed from the board.
+
+%% ------------------------------------------------------------------
+\section{Sensor Net (Sovereign Space)}
+\label{sec:sensor-net}
+%% ------------------------------------------------------------------
+
+Distance on the Sensor Net uses \textbf{Chebyshev} (king-move) metric:
+\[
+  d\bigl((x_1,y_1),(x_2,y_2)\bigr)
+  = \max\bigl(|x_1-x_2|,\,|y_1-y_2|\bigr).
+\]
+
+\subsection{Radiation}
+
+\begin{center}
+\begin{tabular}{@{}lp{0.55\textwidth}@{}}
+\toprule
+\textbf{Source} & \textbf{Effect} \\
+\midrule
+Command Hub
+  & Always radiates radius $R_{\mathrm{hub}}=3$. \\
+Escort
+  & Radiates radius $R_{\mathrm{escort}}=1$ only if \emph{linked}
+    to its Command Hub (see below). \\
+Beam / Infiltrator
+  & Do not radiate. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A player's \textbf{Sensor Net} (also called \textbf{Sovereign Space}) is the
+set of all coordinates within any of that player's radiating radii.
+Occupied squares are included. Gravity Wells may fall inside a radius but
+are excluded from Sector Integration counting (Section~\ref{sec:victory}).
+
+\subsection{Linking}
+
+Friendly pieces form a link graph: two friendly pieces are connected if
+their Chebyshev distance is at most $L=2$ (\texttt{linkDistance}).
+
+Start a breadth-first search from the Command Hub through that graph.
+Every Escort in the connected component is \textbf{linked} and radiates.
+Escorts outside the component do not expand the net.
+
+\rulesfig{sensor-net-sovereign}{%
+  Linked White Escorts projecting Sensor Net / Sovereign Space (blue tint).
+  Coverage follows the Hub through the escort chain.}
+
+\rulesfig{broken-escort}{%
+  Broken relay: the Escort at $(8,1)$ is more than two squares from the linked
+  chain ending at $(5,1)$, so it is dark and does not radiate. Closing the gap
+  restores coverage.}
+
+%% ------------------------------------------------------------------
+\section{Target Lock}
+\label{sec:detection}
+%% ------------------------------------------------------------------
+
+A piece is \textbf{Target Locked} (engine term: \texttt{detected}) if its
+current coordinate lies in the \emph{opponent's} Sensor Net.
+
+While Target Locked, the piece loses special movement and may only move
+\textbf{one orthogonal step} (up, down, left, or right), regardless of type.
+
+\rulesfig{target-lock}{%
+  White Infiltrator (highlighted) sits inside Black's Sensor Net and is
+  Target Locked: warp is suppressed; only one orthogonal step is legal.}
+
+%% ------------------------------------------------------------------
+\section{Movement}
+\label{sec:movement}
+%% ------------------------------------------------------------------
+
+Unless Target Locked (Section~\ref{sec:detection}), pieces move as follows.
+
+\begin{center}
+\begin{tabular}{@{}p{0.22\textwidth}p{0.35\textwidth}p{0.28\textwidth}@{}}
+\toprule
+\textbf{Piece} & \textbf{Normal} & \textbf{If Target Locked} \\
+\midrule
+Command Hub
+  & One step in any of the eight directions
+  & One orthogonal step \\
+Escort
+  & One orthogonal step
+  & One orthogonal step \\
+Infiltrator
+  & \textbf{Warp} to any coordinate that is empty or enemy-occupied
+    and \emph{not} inside the enemy Sensor Net.
+    Path is ignored (may jump).
+    Under \texttt{hybrid-spool}, warps use Navigational Target Lock
+    (Section~\ref{sec:spool}).
+  & One orthogonal step \\
+Beam
+  & Orthogonal rook slide: clear path (no pieces or Gravity Wells
+    between). \emph{Every} intermediate square and the destination
+    must lie in the \textbf{own} Sensor Net.
+  & One orthogonal step \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A piece may not move onto a friendly piece or a Gravity Well.
+Moving onto an enemy piece captures it.
+
+\rulesfig{beam-lane}{%
+  Beam lane: highlighted path must stay inside White's own Sensor Net.
+  Beams cannot slide through empty space outside coverage.}
+
+%% ------------------------------------------------------------------
+\section{Navigational Target Lock (\texttt{hybrid-spool})}
+\label{sec:spool}
+%% ------------------------------------------------------------------
+
+Experimental rules version sharing hybrid Sensor Net defaults.
+An Infiltrator warp requires two turns:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Spool.} Announce a currently legal warp destination.
+        The piece does not move. The turn ends.
+  \item \textbf{Execute.} On a later turn of yours, the only legal action
+        for that Infiltrator is the locked coordinate. If it remains legal,
+        the warp (and any capture) resolves. If it has become illegal
+        (e.g.\ swallowed by the enemy Sensor Net), the jump fails: the
+        Infiltrator stays put and the turn is still consumed.
+\end{enumerate}
+
+%% ------------------------------------------------------------------
+\section{Victory}
+\label{sec:victory}
+%% ------------------------------------------------------------------
+
+The game ends when any of the following occurs after a move:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Surgical Strike.}
+        Capture the enemy Command Hub. The capturer wins.
+  \item \textbf{Sector Integration.}
+        After your move, your Sensor Net covers at least
+        $\rho = 0.45$ (45\%) of all non--Gravity-Well coordinates.
+        You win immediately.
+        Let $N$ be the number of non-well cells and $C$ the number of
+        those cells in your Sensor Net; you win if $C/N \ge \rho$.
+  \item \textbf{No legal moves.}
+        The opponent has no legal moves. You win.
+\end{enumerate}
+
+\rulesfig{surgical-strike}{%
+  Surgical Strike threat: White Escort adjacent to the Black Command Hub.
+  Capturing the Hub ends the battle immediately.}
+
+\paragraph{Design intent (not a separate win rule).}
+Surgical Strike is the primary tactical resolution.
+Sector Integration is a \textbf{forcing clock}: it rewards sustained net
+expansion and punishes endless turtling, but it is not meant to be a
+fifty--fifty coin-flip with hub hunting. Simulation scorecards prefer
+configurations where Sector Integration accounts for roughly
+$25$--$40\%$ of decided games. The clock's health is verified by
+\emph{ablation}: with the sector path disabled under paired seeds,
+self-play must degrade measurably (more deadlocks, longer grinds) —
+see \texttt{docs/adr/005-functional-clock-gate.md}. Notably, working
+clock pressure mostly cashes out as \emph{faster hub captures}, so
+sector wins need not be the slowest win type. Defaults change only
+through the human gate (Section~\ref{sec:params}).
+
+%% ------------------------------------------------------------------
+\section{Fleet soft-ship (\texttt{hybrid-fleet})}
+\label{sec:clock}
+\label{sec:fleet-preset}
+%% ------------------------------------------------------------------
+
+Online rooms and local AI soft-ship \texttt{hybrid-fleet}. The mechanics
+below remain gated by human playtest
+(\texttt{docs/playtest-fleet-checklist.md}) before treating them as the
+sole ``official hybrid'' in marketing copy. Track~A production sims
+(2026-07-21) passed fairness under
+$\rho=0.45$ / hold $1$ / contested / activation $100$ / Initiative Relay $1$
+(White $45\%$ / Black $55\%$, sector $30\%$, OpenSkill sep $13.3$).
+
+Legacy \texttt{hybrid} keeps instant sector wins and a mirrored setup.
+
+\begin{description}[leftmargin=*]
+  \item[Integration Hold (\texttt{sectorHoldPlies} $=K$).]
+        Sector Integration no longer wins instantly. Coverage
+        $\ge \rho$ must persist for $K$ consecutive plies (either
+        side's). Each side has a streak counter that ticks on every ply
+        its coverage holds and resets to zero when coverage drops below
+        $\rho$; a side wins when its counter reaches $K$, so the
+        opponent always has $K-1$ plies to break the net. If both
+        counters reach $K$ together, neither wins while the tie persists;
+        this prevents the activation ply from granting a hidden color
+        advantage. The clock resolves when only one side still meets its hold.
+        $K=0$ restores the instant win.
+  \item[Contested Space (\texttt{contestedCellsNeutral}).]
+        A coordinate covered by \emph{both} Sensor Nets counts for
+        \emph{neither} side's Sector Integration coverage. Projecting
+        your net into the opponent's territory directly stalls their
+        clock (and resets their Integration Hold streak if it drops
+        them below $\rho$).
+\end{description}
+
+\rulesfig{contested-space}{%
+  Contested Space: where White and Black nets overlap (purple), cells count
+  for neither side's Sector Integration coverage.}
+
+\begin{description}[leftmargin=*]
+  \item[Late-game activation (\texttt{sectorActivationPly} $=A$).]
+        The Sector Integration clock is \textbf{disarmed} before $A$
+        completed plies: no sector wins occur and Integration Hold
+        streaks do not accrue. From ply $A$ onward, normal
+        coverage/hold rules apply. $A=0$ arms the clock from the start.
+  \item[Initiative Relay (\texttt{firstPlayerRelayCount} $=N$).]
+        The first player begins with $N$ additional Escorts placed
+        forward of the opening formation and linked through the central
+        Escort. This is a visible seat compensation for the structural
+        first-mover disadvantage observed under equal-strength play.
+        $N=0$ restores the mirrored setup.
+\end{description}
+
+\rulesfig{objective-hud}{%
+  Objective HUD with the Sector Integration clock armed (ply past
+  activation). Coverage bars show each fleet's progress toward $\rho$.}
+
+%% ------------------------------------------------------------------
+\section{Configurable parameters}
+\label{sec:params}
+%% ------------------------------------------------------------------
+
+The engine exposes these knobs (defaults shown). Evolution and sims may
+sample alternate values under a frozen \texttt{rulesVersion}; shipping
+defaults change only after human review of scorecards
+(\texttt{docs/adr/002-evolution-human-gate.md}).
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Parameter} & \texttt{hybrid} & \texttt{hybrid-fleet} (soft-ship) \\
+\midrule
+\texttt{boardSize} & $11$ & $11$ \\
+\texttt{hubSensorRadius} & $3$ & $3$ \\
+\texttt{escortSensorRadius} & $1$ & $1$ \\
+\texttt{linkDistance} & $2$ & $2$ \\
+\texttt{sectorIntegrationRatio} & $0.45$ & $0.45$ \\
+\texttt{infiltratorSpoolUp} & false & false \\
+\texttt{sectorHoldPlies} & $0$ (instant) & $1$ \\
+\texttt{contestedCellsNeutral} & false & true \\
+\texttt{sectorActivationPly} & $0$ & $100$ \\
+\texttt{firstPlayerRelayCount} & $0$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Sim sample space for evolution still includes alternate hold / activation /
+relay values; see \texttt{packages/subspace-lattice/docs/evolution-lab.md}.
+
+Asymmetric Komi (e.g.\ a higher $\rho$ for White) is \textbf{not} required
+for the current fleet candidate: the Initiative Relay provides an explicit,
+board-visible alternative. Other seat compensations may still justify a
+later \texttt{rulesVersion}.
+
+%% ------------------------------------------------------------------
+\section{Classic mode (reference)}
+\label{sec:classic}
+%% ------------------------------------------------------------------
+
+\texttt{classic} ignores Sensor Net for movement and Sector Integration.
+Movement is chess-inspired:
+
+\begin{itemize}[leftmargin=*]
+  \item Command Hub: one step any direction
+  \item Escort: one orthogonal step
+  \item Infiltrator: knight leap ($2{+}1$)
+  \item Beam: unrestricted orthogonal rook slide (blocked by pieces/wells)
+\end{itemize}
+
+Wins: Surgical Strike or no legal moves only.
+
+%% ------------------------------------------------------------------
+\section{TEI (Tactical Efficiency Index)}
+\label{sec:tei}
+%% ------------------------------------------------------------------
+
+Subspace Lattice uses the same TEI presentation layer as Warp~12 so a
+grade like \texttt{V67} means the same thing across IWGF products.
+The normative implementation is imported from \texttt{warp12-engine}
+(see \texttt{docs/adr/003-tei-grades.md}).
+
+\subsection{What TEI is}
+
+Backend ratings are OpenSkill Bayesian skill estimates $(\mu,\sigma)$.
+TEI is \textbf{display-only}: it never replaces the stored $(\mu,\sigma)$.
+
+\begin{center}
+\begin{tabular}{@{}lp{0.62\textwidth}@{}}
+\toprule
+\textbf{Term} & \textbf{Meaning} \\
+\midrule
+\textbf{TEI}
+  & Grade string: letter + score, e.g.\ \texttt{V67}. \\
+\textbf{TEI Grade} (letter)
+  & Confidence from $\sigma$:
+    \textbf{E} Elite, \textbf{V} Veteran, \textbf{C} Consistent,
+    \textbf{I} Improving, \textbf{P} Provisional. \\
+\textbf{TEI Score} (number)
+  & Integer $0$--$99$ from the conservative skill estimate
+    $\mu - 3\sigma$, normalized on a shared population scale
+    ($\mathrm{min}\,\mu=10$, $\mathrm{max}\,\mu=50$). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Letter transitions use \textbf{hysteresis} so small $\sigma$ noise does
+not flicker the grade every match. New or uncertain ratings sit at
+\textbf{P}; more games tighten $\sigma$ and improve the letter.
+
+\subsection{AI strength anchors}
+
+Local AI rated games update the human against fixed OpenSkill \textbf{anchors}
+(Warp points-track). UI strengths map as follows (display TEI at the
+anchor itself):
+
+\begin{center}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{UI} & \textbf{Search} & \textbf{Track} & $(\mu,\sigma)$ & \textbf{Anchor TEI} \\
+\midrule
+Fast & Heuristic & Ensign & $(13.5,\,4.0)$ & \texttt{P0} \\
+Normal & MCTS $50$ & Lieutenant & $(24.5,\,3.5)$ & \texttt{I10} \\
+Strong & MCTS $200$ & Commander & $(40.0,\,3.0)$ & \texttt{I52} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These anchors are Lattice-calibrated (2026-07-21 hybrid-fleet ladder:
+\texttt{docs/sim-runs/evolve-20260721-ai-tier-calibration.jsonl}).
+$\mu$ comes from measured self-play; $\sigma$ is a tight known-opponent
+value so the TEI letter is not stuck provisional. Re-run
+\texttt{yarn calibrate:ai} after changing search budgets or shipping rules.
+
+\subsection{Federation commission (flavor)}
+
+Warp maps TEI strings to a naval commission ladder (Cadet through Fleet
+Admiral). Subspace Lattice may show the same commission flavor over TEI
+when the UI surfaces ranks; commission is \textbf{not} a second rating
+system and does not change update math.
+
+\subsection{Scope in this product}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Simulations / ladders:} TEI is computed for agent ratings.
+  \item \textbf{Local AI:} Fast / Normal / Strong map to Ensign /
+        Lieutenant / Commander anchors; signed-in results write
+        \texttt{latticeTei.localAi} and appear on Federation standings.
+  \item \textbf{Online human vs human:} Rated sectors (unassisted) write
+        \texttt{latticeTei.online} via \texttt{reportLatticeOnlineMatch}
+        when the game ends; casual and assisted sectors do not update TEI.
+\end{itemize}
+
+%% ------------------------------------------------------------------
+\section{Figure sources}
+\label{sec:figures}
+%% ------------------------------------------------------------------
+
+Board captures in this document ship as SVG under \texttt{docs/figures/}
+(and PDF companions for \texttt{pdflatex}). Regenerate via
+\texttt{/harness/figures} (DOM$\to$SVG \texttt{\#figure-capture-root});
+see \texttt{docs/figures/README.md}. Inline figures:
+\ref{fig:opening-hybrid},
+\ref{fig:opening-fleet-relay},
+\ref{fig:sensor-net-sovereign},
+\ref{fig:broken-escort},
+\ref{fig:target-lock},
+\ref{fig:beam-lane},
+\ref{fig:surgical-strike},
+\ref{fig:contested-space},
+\ref{fig:objective-hud}.
+
+%% ------------------------------------------------------------------
+\section{Authority}
+%% ------------------------------------------------------------------
+
+Authoritative rules live in the shared engine package
+\texttt{@subspace-lattice/core} (\texttt{SubspaceLatticeEngine}) with
+\texttt{rulesVersion} on game state. Product host:
+\texttt{lattice.iwgf.org} on Firebase project \texttt{warp-12}.
+
+\begin{itemize}[leftmargin=*]
+  \item Hybrid Sensor Net: \texttt{docs/adr/001-hybrid-sensor-net.md}
+  \item Evolution human gate: \texttt{docs/adr/002-evolution-human-gate.md}
+  \item TEI / OpenSkill: \texttt{docs/adr/003-tei-grades.md}
+  \item Infiltrator spool (\texttt{hybrid-spool}): \texttt{docs/adr/004-infiltrator-spool.md}
+  \item Functional clock gate: \texttt{docs/adr/005-functional-clock-gate.md}
+  \item Color-neutral sector ties: \texttt{docs/adr/006-color-neutral-sector-ties.md}
+\end{itemize}
+
+\end{document}

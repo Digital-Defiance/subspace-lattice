@@ -1,0 +1,39 @@
+{
+  "name": "@subspace-lattice/desktop",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "tauri": "tauri",
+    "tauri:windows:build": "node scripts/sync-windows-msix-assets.mjs && tauri-windows-bundle build --arch x64,arm64 --runner yarn"
+  },
+  "devDependencies": {
+    "@choochmeque/tauri-windows-bundle": "^0.1.28",
+    "@tauri-apps/cli": "^2.11.4"
+  },
+  "nx": {
+    "name": "desktop",
+    "tags": [
+      "scope:desktop",
+      "type:app"
+    ],
+    "targets": {
+      "tauri-dev": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/desktop",
+          "command": "yarn tauri dev"
+        }
+      },
+      "tauri-build": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/desktop",
+          "command": "yarn tauri build"
+        },
+        "dependsOn": [
+          "web:build"
+        ]
+      }
+    }
+  }
+}

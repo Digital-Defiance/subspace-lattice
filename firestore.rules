@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isLatticeRoomMember(roomId) {
+      return signedIn()
+        && request.auth.uid in get(/databases/$(database)/documents/latticeRooms/$(roomId)).data.memberIds;
+    }
+
+    // Code → roomId index used by callables; clients may read codes to resolve joins
+    match /latticeRoomCodes/{code} {
+      allow read: if signedIn();
+      allow write: if false;
+    }
+
+    match /latticeRooms/{roomId} {
+      allow read: if isLatticeRoomMember(roomId);
+      allow write: if false;
+
+      match /meta/{docId} {
+        allow read: if isLatticeRoomMember(roomId);
+        allow write: if false;
+      }
+
+      match /chat/{messageId} {
+        allow read: if isLatticeRoomMember(roomId);
+        allow write: if false;
+      }
+
+      match /events/{eventId} {
+        allow read: if isLatticeRoomMember(roomId);
+        allow write: if false;
+      }
+
+      // Warp-style coach presence: members may write only their own doc.
+      // Never stores suggestion text — only that advisor was engaged.
+      match /presence/{uid} {
+        allow read: if isLatticeRoomMember(roomId);
+        allow create, update: if signedIn()
+          && request.auth.uid == uid
+          && isLatticeRoomMember(roomId)
+          && request.resource.data.keys().hasOnly([
+            'coachRequestedAt',
+            'coachUsedThisMatch',
+            'plyCount',
+          ]);
+        allow delete: if false;
+      }
+    }
+
+    // Lattice-only TEI pool (not Warp playerStats). Functions write only.
+    match /latticeTei/{uid} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /latticeRatingEvents/{eventId} {
+      allow read: if signedIn() && (
+        resource.data.uid == request.auth.uid
+        || (
+          resource.data.memberUids is list
+          && request.auth.uid in resource.data.memberUids
+        )
+      );
+      allow write: if false;
+    }
+  }
+}

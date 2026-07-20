@@ -1,0 +1,48 @@
+{
+  "name": "@subspace-lattice/functions",
+  "version": "0.0.1",
+  "private": true,
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.6.0",
+    "firebase-functions": "^7.0.5"
+  },
+  "nx": {
+    "name": "functions",
+    "tags": [
+      "scope:functions",
+      "type:app"
+    ],
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "outputs": [
+          "{projectRoot}/lib"
+        ],
+        "options": {
+          "cwd": "apps/functions",
+          "commands": [
+            "esbuild src/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=lib/index.js --external:firebase-admin --external:firebase-functions"
+          ],
+          "parallel": false
+        },
+        "dependsOn": [
+          "^build"
+        ]
+      },
+      "typecheck": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/functions",
+          "command": "tsc -p tsconfig.lib.json --noEmit"
+        },
+        "dependsOn": [
+          "^build"
+        ]
+      }
+    }
+  }
+}

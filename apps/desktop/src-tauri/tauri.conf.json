@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Subspace Lattice",
+  "version": "0.1.1",
+  "identifier": "org.digitaldefiance.app.subspacelattice",
+  "build": {
+    "frontendDist": "../../web/dist",
+    "devUrl": "http://localhost:4200",
+    "beforeDevCommand": {
+      "script": "yarn nx serve web",
+      "cwd": "../.."
+    },
+    "beforeBuildCommand": {
+      "script": "yarn nx build web",
+      "cwd": "../.."
+    }
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Subspace Lattice",
+        "width": 1280,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "android": {
+      "versionCode": 1
+    },
+    "iOS": {
+      "bundleVersion": "1"
+    }
+  }
+}

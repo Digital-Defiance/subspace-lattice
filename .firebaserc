@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "warp-12"
+  },
+  "targets": {
+    "warp-12": {
+      "hosting": {
+        "lattice": [
+          "subspacelattice"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

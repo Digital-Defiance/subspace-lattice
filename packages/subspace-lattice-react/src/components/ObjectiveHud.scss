@@ -1,0 +1,132 @@
+@use './variables' as *;
+
+.objective-hud {
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba($accent, 0.22);
+  border-radius: $radius-lg;
+  background: rgba(4, 13, 24, 0.7);
+}
+
+.objective-hud__header,
+.objective-hud__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.objective-hud__header {
+  strong {
+    display: block;
+    color: $text;
+    font-size: 0.86rem;
+  }
+  div {
+    span {
+      font-family: var(--font-sol-pro-regular);
+    }
+    strong {
+      font-family: var(--font-all-round-gothic);
+    }
+  }
+}
+
+.objective-hud__eyebrow {
+  display: block;
+  margin-bottom: 0.15rem;
+  color: $accent;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.objective-hud__status {
+  flex: none;
+  padding: 0.25rem 0.45rem;
+  border: 1px solid #526176;
+  border-radius: $radius-sm;
+  color: #94a3b8;
+  font: 700 0.65rem ui-monospace, monospace;
+  font-family: var(--font-sol-pro-regular);
+  letter-spacing: 0.06em;
+
+  &.is-armed {
+    border-color: rgba($warning, 0.65);
+    color: #fbbf24;
+    box-shadow: 0 0 12px rgba($warning, 0.14);
+  }
+}
+
+.objective-hud__sides {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 0.75rem;
+}
+
+.objective-hud__label {
+  margin-bottom: 0.3rem;
+  color: $text-dim;
+  font-size: 0.72rem;
+
+  strong {
+    color: $text;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.objective-hud__track {
+  position: relative;
+  height: 7px;
+  overflow: visible;
+  border-radius: 999px;
+  background: #1e293b;
+}
+
+.objective-hud__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 180ms ease;
+}
+
+.objective-hud__side--white .objective-hud__fill {
+  background: linear-gradient(90deg, #2563eb, #67e8f9);
+}
+
+.objective-hud__side--black .objective-hud__fill {
+  background: linear-gradient(90deg, #7f1d1d, #fb7185);
+}
+
+.objective-hud__target {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 13px;
+  background: #f8fafc;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.objective-hud__side small {
+  display: block;
+  margin-top: 0.25rem;
+  color: $text-muted;
+  font-size: 0.66rem;
+}
+
+.objective-hud__explanation {
+  margin: 0.75rem 0 0;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  color: #94a3b8;
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 560px) {
+  .objective-hud__sides {
+    grid-template-columns: 1fr;
+  }
+}

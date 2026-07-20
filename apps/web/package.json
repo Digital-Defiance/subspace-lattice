@@ -1,0 +1,21 @@
+{
+  "name": "@subspace-lattice/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@subspace-lattice/core": "workspace:*",
+    "@subspace-lattice/react": "workspace:*",
+    "firebase": "^12.16.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^7.18.1"
+  },
+  "nx": {
+    "name": "web",
+    "tags": [
+      "scope:web",
+      "type:app"
+    ]
+  }
+}

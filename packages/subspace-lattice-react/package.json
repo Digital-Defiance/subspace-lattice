@@ -1,0 +1,54 @@
+{
+  "name": "@subspace-lattice/react",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@subspace-lattice/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./style.css": "./dist/index.css"
+  },
+  "dependencies": {
+    "@subspace-lattice/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "firebase": "^12.0.0",
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0",
+    "react-router-dom": ">=6.0.0"
+  },
+  "nx": {
+    "name": "react-ui",
+    "tags": [
+      "scope:react",
+      "type:lib"
+    ],
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "outputs": [
+          "{projectRoot}/dist"
+        ],
+        "options": {
+          "cwd": "packages/subspace-lattice-react",
+          "commands": [
+            "vite build",
+            "tsc --build tsconfig.lib.json --force"
+          ],
+          "parallel": false
+        },
+        "dependsOn": [
+          "^build"
+        ]
+      }
+    }
+  }
+}

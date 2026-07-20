@@ -1,0 +1,74 @@
+@use './variables' as *;
+
+.rules-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.rules-dialog {
+  background-color: $panel-bg;
+  border: 1px solid $accent;
+  border-radius: $radius-lg;
+  padding: 30px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: $text;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+
+  h2 {
+    color: $accent;
+    margin-top: 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+  }
+
+  h3 {
+    color: #ddd;
+    margin-top: 20px;
+  }
+}
+
+.rules-content {
+  font-size: 15px;
+  line-height: 1.5;
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  a {
+    color: $accent;
+  }
+}
+
+.rules-doc-links {
+  margin-top: 0.5rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: 28px;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #fff;
+  }
+}

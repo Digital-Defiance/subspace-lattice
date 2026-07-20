@@ -1,0 +1,142 @@
+@use './variables' as *;
+
+.figures-harness {
+  min-height: 100vh;
+  padding: 1.25rem clamp(1rem, 3vw, 2rem) 3rem;
+  background: $panel-bg-deep;
+  color: $text;
+}
+
+.figures-harness-top {
+  max-width: 1100px;
+  margin: 0 auto 1.5rem;
+
+  a {
+    color: $accent;
+    text-decoration: none;
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.35rem;
+    font-family: var(--font-sol-pro-regular);
+    font-size: 1.6rem;
+  }
+
+  p {
+    margin: 0;
+    color: $text-dim;
+    max-width: 52rem;
+    line-height: 1.45;
+  }
+
+  code {
+    color: $accent;
+  }
+}
+
+.figures-harness-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: start;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.figures-harness-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  button {
+    text-align: left;
+    background: $panel-bg;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    color: $text;
+    padding: 0.55rem 0.7rem;
+    cursor: pointer;
+    font: inherit;
+
+    &:hover {
+      border-color: $accent;
+    }
+
+    &.active,
+    &[aria-pressed='true'] {
+      border-color: $warning;
+      box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.35);
+    }
+  }
+}
+
+.figures-btn-id {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: $warning;
+  font-family: ui-monospace, monospace;
+}
+
+.figures-btn-title {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.9rem;
+}
+
+.figures-harness-meta {
+  margin-bottom: 0.85rem;
+
+  h2 {
+    margin: 0 0 0.35rem;
+    font-size: 1.2rem;
+  }
+
+  p {
+    margin: 0.25rem 0;
+    color: $text-dim;
+    line-height: 1.4;
+  }
+}
+
+.figures-harness-file code {
+  color: $accent;
+}
+
+.figures-harness-teach {
+  color: $text !important;
+}
+
+.figures-capture-shell {
+  display: inline-block;
+  padding: 0.75rem;
+  border: 2px dashed rgba(245, 158, 11, 0.55);
+  border-radius: $radius-sm;
+  background: transparent;
+}
+
+.figures-capture-hint {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  color: $text-dim;
+
+  code {
+    color: $warning;
+  }
+}
+
+.figures-capture-frame {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #0a1018;
+}
+
+.figures-capture-hud {
+  max-width: 520px;
+}

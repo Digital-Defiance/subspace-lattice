@@ -1,0 +1,53 @@
+{
+  "name": "@subspace-lattice/core",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "@subspace-lattice/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "name": "core",
+    "tags": [
+      "scope:core",
+      "type:lib"
+    ],
+    "targets": {
+      "sim": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/sim.sh"
+        }
+      },
+      "calibrate-ai": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/calibrate-ai-tiers.sh"
+        }
+      },
+      "evolve": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/evolve.sh"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "double-eighteen": "^0.4.3",
+    "openskill": "^5.0.1",
+    "warp12-engine": "^0.4.26"
+  }
+}

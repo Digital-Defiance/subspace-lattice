@@ -1,0 +1,369 @@
+@use './variables' as *;
+
+.pregame-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+
+  &.auth-gate {
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      letter-spacing: 0.04em;
+      font-family: var(--font-sol-pro-regular);
+    }
+
+    p {
+      margin: 0;
+      opacity: 0.8;
+    }
+  }
+}
+
+.pregame-logo {
+  margin-bottom: 20px;
+}
+
+.auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.auth-actions button,
+.auth-bar button {
+  background: #2f6fed;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.65rem 1.1rem;
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.2;
+  align-self: center;
+  height: auto;
+  min-height: 0;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.auth-bar {
+  width: min(100%, 420px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+
+.auth-bar span {
+  font-family: var(--font-sol-pro-regular);
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr minmax(240px, 300px);
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-info {
+  grid-column: 1 / -1;
+  background-color: $panel-bg;
+  padding: 12px 16px 14px;
+  border-radius: $radius-lg;
+  border: 1px solid $border;
+  color: $text;
+
+  p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 0.75rem;
+}
+
+.game-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.game-header-logo {
+  display: block;
+  flex-shrink: 0;
+  line-height: 0;
+
+  img {
+    display: block;
+    width: clamp(140px, 18vw, 200px);
+    height: auto;
+  }
+}
+
+.game-header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+
+  h2 {
+    margin: 0;
+    color: $accent;
+    font-family: var(--font-sol-pro-regular);
+    font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+    line-height: 1.15;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  button {
+    font-family: var(--font-sol-pro-regular);
+  }
+}
+
+.game-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+  margin: 0 0 0.65rem;
+  font-size: 13px;
+  color: $text;
+  line-height: 1.35;
+
+  span {
+    white-space: nowrap;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.local-ai-hint {
+  color: $text-dim;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  padding: 0.5rem;
+}
+
+.coach-presence-banner {
+  margin: 0.35rem 0;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid $warning;
+  border-radius: $radius-sm;
+  background: rgba(245, 158, 11, 0.1);
+  color: $warning;
+  font-size: 0.85rem;
+}
+
+.spectator-badge {
+  color: $text-dim;
+  font-size: 0.9rem;
+}
+
+.gallery-controls {
+  margin: 0.35rem 0;
+}
+
+.pass-hand-off {
+  margin: 0.35rem 0;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid $accent;
+  border-radius: $radius-sm;
+  background: $accent-soft;
+  color: $text;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  width: 25%;
+}
+
+.pass-handoff-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(6, 10, 18, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.pass-handoff-card {
+  width: min(100%, 26rem);
+  padding: 1.5rem 1.35rem;
+  border: 1px solid $accent;
+  border-radius: $radius-lg;
+  background: $panel-bg;
+  text-align: center;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+}
+
+.pass-handoff-eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $accent;
+  font-family: var(--font-sol-pro-regular);
+}
+
+.pass-handoff-title {
+  margin: 0 0 0.65rem;
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-family: var(--font-sol-pro-regular);
+  color: $text;
+}
+
+.pass-handoff-body {
+  margin: 0 0 1.25rem;
+  color: $text-dim;
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.pass-handoff-ready {
+  background: #2f6fed;
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.7rem 1.25rem;
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-sol-pro-regular);
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.ai-strength-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #ccc;
+
+  select {
+    background: $input-bg;
+    color: $text;
+    border: 1px solid #555;
+    border-radius: $radius-sm;
+    padding: 0.35rem 0.5rem;
+    font: inherit;
+  }
+}
+
+.seat-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #ccc;
+
+  select {
+    background: $input-bg;
+    color: $text;
+    border: 1px solid #555;
+    border-radius: $radius-sm;
+    padding: 0.35rem 0.5rem;
+    font: inherit;
+  }
+}
+
+.rules-btn,
+.copy-code-btn {
+  background-color: #333;
+  color: $accent;
+  border: 1px solid $accent;
+  padding: 6px 12px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $accent;
+    color: #000;
+  }
+}
+
+.room-code-share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.65rem;
+  align-items: center;
+  margin: 0;
+  font-size: 13px;
+  button {
+    font-family: var(--font-sol-pro-regular);
+  }
+}
+
+.winner-announcement {
+  color: #0f0 !important;
+  font-size: 18px !important;
+  margin-top: 10px !important;
+  text-transform: uppercase;
+}
+
+.game-main-panel {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: $panel-bg-deep;
+  border-radius: $radius-lg;
+  border: 1px solid $border;
+  padding: 20px;
+  min-height: 600px;
+}
+
+.game-side-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 800px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .game-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-actions {
+    justify-content: flex-end;
+  }
+}

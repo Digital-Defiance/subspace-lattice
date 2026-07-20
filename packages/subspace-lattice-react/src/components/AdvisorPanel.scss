@@ -1,0 +1,125 @@
+@use './variables' as *;
+
+.advisor-panel {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $panel-bg-deep;
+}
+
+.advisor-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+
+  h3 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-family: var(--font-sol-pro-regular);
+    color: $accent;
+  }
+}
+
+.advisor-star {
+  color: $warning;
+}
+
+.advisor-assisted {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $warning;
+}
+
+.advisor-suppressed {
+  margin-top: 0.35rem;
+
+  p {
+    margin: 0 0 0.55rem;
+    font-size: 0.85rem;
+    color: $text-dim;
+    line-height: 1.4;
+  }
+}
+
+
+.advisor-panel-hint {
+  margin: 0.4rem 0 0.65rem;
+  font-size: 0.8rem;
+  color: $text-dim;
+  line-height: 1.35;
+}
+
+.advisor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.advisor-ask,
+.advisor-teach,
+.advisor-clear,
+.advisor-consent-actions button {
+  background: transparent;
+  color: $accent;
+  border: 1px solid $accent;
+  border-radius: $radius-sm;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-family: var(--font-sol-pro-regular);
+
+  &:hover:not(:disabled) {
+    background: $accent-soft;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &.active {
+    background: $accent-soft;
+  }
+}
+
+.advisor-suggestion {
+  margin-top: 0.65rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid $border;
+
+  .advisor-move {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: $text-dim;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+}
+
+.advisor-consent {
+  margin-top: 0.65rem;
+  padding: 0.65rem;
+  border: 1px solid $warning;
+  border-radius: $radius-sm;
+  background: rgba(245, 158, 11, 0.08);
+
+  p {
+    margin: 0 0 0.55rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}
+
+.advisor-consent-actions {
+  display: flex;
+  gap: 0.4rem;
+}

@@ -1,0 +1,123 @@
+$log-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+$log-cyan: #38bdf8;
+$log-slate: #94a3b8;
+
+.sll-log-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.75rem 1rem;
+  max-height: 280px;
+}
+
+.sll-log-line {
+  margin: 0 0 0.55rem;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  letter-spacing: 0.02em;
+  color: #cbd5e1;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sll-log-timestamp {
+  color: $log-cyan;
+  font-variant-numeric: tabular-nums;
+}
+
+.sll-captain-name {
+  font-weight: 600;
+}
+
+.sll-tei-cell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.05em;
+  margin: 0 0.05em;
+  padding: 0.05em 0.28em;
+  border-radius: 0.3em;
+  background: rgba(148, 163, 184, 0.12);
+  vertical-align: baseline;
+}
+
+.sll-tei-ref {
+  font-size: 0.78em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: $log-slate;
+}
+
+.sll-tei-grade {
+  font-weight: 700;
+  font-variant-ligatures: none;
+  letter-spacing: 0.02em;
+
+  &--elite {
+    color: var(--grade-elite, #ffeb3b);
+  }
+
+  &--veteran {
+    color: var(--grade-veteran, #64b5f6);
+  }
+
+  &--consistent {
+    color: var(--grade-consistent, #66bb6a);
+  }
+
+  &--improving {
+    color: var(--grade-improving, #ffb74d);
+  }
+
+  &--provisional {
+    color: var(--grade-provisional, #bdbdbd);
+  }
+}
+
+.sll-tei-score {
+  font-family: $log-mono;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.sll-coord-cell {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: $log-mono;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.sll-coord-pip {
+  color: $log-cyan;
+}
+
+.sll-coord-sep {
+  margin: 0 0.04em;
+  color: $log-slate;
+  font-weight: 500;
+}
+
+.sll-game-log {
+  display: flex;
+  flex-direction: column;
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+  min-height: 160px;
+}
+
+.sll-game-log-header {
+  font-family: var(--font-sol-pro-regular);
+  margin: 0;
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $log-slate;
+  border-bottom: 1px solid #334155;
+}
