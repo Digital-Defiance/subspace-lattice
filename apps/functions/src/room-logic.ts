@@ -8,6 +8,8 @@ export type RoomData = {
   creatorId: string;
   whitePlayerId?: string | null;
   blackPlayerId?: string | null;
+  whiteDisplayName?: string | null;
+  blackDisplayName?: string | null;
   observerIds?: string[];
   allowObservers?: boolean;
   rated?: boolean;
@@ -90,6 +92,8 @@ export function serializeRoom(
     creatorId: room.creatorId,
     whitePlayerId: room.whitePlayerId ?? undefined,
     blackPlayerId: room.blackPlayerId ?? undefined,
+    whiteDisplayName: room.whiteDisplayName?.trim() || undefined,
+    blackDisplayName: room.blackDisplayName?.trim() || undefined,
     observerIds: room.observerIds ?? [],
     allowObservers: room.allowObservers ?? true,
     rated: room.rated === true,
@@ -126,10 +130,23 @@ export type JoinDecision =
       reason: 'password' | 'observers-disabled' | 'full' | 'gallery-full';
     };
 
+export function sanitizeSeatDisplayName(
+  raw: unknown,
+  max = 40,
+): string | undefined {
+  if (typeof raw !== 'string') return undefined;
+  const trimmed = raw.trim().slice(0, max);
+  return trimmed || undefined;
+}
+
 export function planJoinRoom(
   room: RoomData,
   uid: string,
-  options: { password?: string; asObserver?: boolean } = {},
+  options: {
+    password?: string;
+    asObserver?: boolean;
+    displayName?: string;
+  } = {},
 ): JoinDecision {
   if (room.password && room.password !== options.password) {
     return { ok: false, reason: 'password' };
@@ -140,6 +157,7 @@ export function planJoinRoom(
   }
 
   const memberIds = Array.from(new Set([...(room.memberIds ?? []), uid]));
+  const seatName = sanitizeSeatDisplayName(options.displayName);
 
   if (options.asObserver) {
     if (room.allowObservers === false) {
@@ -161,20 +179,30 @@ export function planJoinRoom(
   }
 
   if (!room.whitePlayerId) {
+    const label = seatName ?? 'White player';
     return {
       ok: true,
       alreadyMember: false,
-      patch: { whitePlayerId: uid, memberIds },
-      systemMessage: 'White player has joined.',
+      patch: {
+        whitePlayerId: uid,
+        memberIds,
+        ...(seatName ? { whiteDisplayName: seatName } : {}),
+      },
+      systemMessage: `${label} has joined as White.`,
     };
   }
 
   if (!room.blackPlayerId && room.whitePlayerId !== uid) {
+    const label = seatName ?? 'Black player';
     return {
       ok: true,
       alreadyMember: false,
-      patch: { blackPlayerId: uid, memberIds },
-      systemMessage: 'Black player has joined.',
+      patch: {
+        blackPlayerId: uid,
+        memberIds,
+        ...(seatName ? { blackDisplayName: seatName } : {}),
+      },
+      systemMessage: `${label} has joined as Black.`,
     };
   }
 

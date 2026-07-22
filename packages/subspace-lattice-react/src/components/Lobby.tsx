@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
 import './Lobby.scss';
 
@@ -12,18 +12,23 @@ interface LobbyProps {
       allowObservers?: boolean;
       rated?: boolean;
       preferredColor?: 'WHITE' | 'BLACK';
+      displayName?: string;
     },
   ) => void;
   onJoinRoom: (
     roomCode: string,
     password?: string,
     asObserver?: boolean,
+    displayName?: string,
   ) => void;
   onPlayLocalAi?: () => void;
   onPlayPassAndPlay?: () => void;
   aiStrengthPicker?: React.ReactNode;
   preferredColor?: 'WHITE' | 'BLACK';
   onPreferredColorChange?: (color: 'WHITE' | 'BLACK') => void;
+  /** Federation Profile call sign — defaults the match name field. */
+  defaultCallSign?: string;
+  federationProfileUrl?: string;
   /** Pre-fill the join form and switch to the Join tab automatically. */
   initialRoomCode?: string;
   /** Prefer observer join (e.g. deep link ?watch=1). */
@@ -38,6 +43,8 @@ export const Lobby: React.FC<LobbyProps> = ({
   aiStrengthPicker,
   preferredColor = 'WHITE',
   onPreferredColorChange,
+  defaultCallSign = '',
+  federationProfileUrl,
   initialRoomCode,
   preferWatch = false,
 }) => {
@@ -52,6 +59,11 @@ export const Lobby: React.FC<LobbyProps> = ({
   const [asObserver, setAsObserver] = useState(preferWatch);
   const [allowObservers, setAllowObservers] = useState(true);
   const [rated, setRated] = useState(false);
+  const [callSign, setCallSign] = useState(defaultCallSign);
+
+  useEffect(() => {
+    setCallSign(defaultCallSign);
+  }, [defaultCallSign]);
 
   const setSeat = (color: 'WHITE' | 'BLACK') => {
     onPreferredColorChange?.(color);
@@ -72,18 +84,50 @@ export const Lobby: React.FC<LobbyProps> = ({
     </div>
   );
 
+  const callSignField = !asObserver ? (
+    <div className="form-group">
+      <label htmlFor="lobby-call-sign">Call sign (this match)</label>
+      <input
+        id="lobby-call-sign"
+        type="text"
+        value={callSign}
+        onChange={(e) => setCallSign(e.target.value)}
+        maxLength={40}
+        placeholder={defaultCallSign || 'Commander'}
+        autoComplete="nickname"
+        data-testid="lobby-call-sign"
+      />
+      <p className="lobby-call-sign-hint">
+        Defaults from your{' '}
+        {federationProfileUrl ? (
+          <a href={federationProfileUrl} target="_blank" rel="noreferrer">
+            Federation Profile
+          </a>
+        ) : (
+          'Federation Profile'
+        )}
+        . Override for this sector only — ladders still use your profile call
+        sign.
+      </p>
+    </div>
+  ) : null;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const matchName = callSign.trim() || undefined;
     if (tab === 'create') {
       if (roomName.trim()) {
         onCreateRoom(roomName, password, {
           allowObservers,
           rated,
           preferredColor,
+          displayName: matchName,
         });
       }
     } else if (tab === 'join') {
-      if (roomCode.trim()) onJoinRoom(roomCode, password, asObserver);
+      if (roomCode.trim()) {
+        onJoinRoom(roomCode, password, asObserver, matchName);
+      }
     }
   };
 
@@ -145,7 +189,7 @@ export const Lobby: React.FC<LobbyProps> = ({
           <p className="lobby-fleet-hint">
             Soft-ship hybrid-fleet: Initiative Relay + sector clock. Pick your
             seat, then play vs AI (rated TEI when signed in) or pass &amp; play
-            (unrated, optional names).
+            (unrated; your seat defaults to Federation Profile call sign).
           </p>
         </div>
       ) : (
@@ -163,6 +207,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                 />
               </div>
               {seatField}
+              {callSignField}
               <div className="form-group checkbox">
                 <label>
                   <input
@@ -210,6 +255,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                   Join as spectator
                 </label>
               </div>
+              {callSignField}
             </>
           )}
 

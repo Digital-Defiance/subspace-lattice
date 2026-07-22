@@ -15,6 +15,7 @@ import {
   shouldRecordOnlineTei,
 } from '@subspace-lattice/core';
 import { useAuth } from '../firebase/useAuth';
+import { useFederationProfile } from '../firebase/useFederationProfile';
 import {
   coachIndicatorForSeat,
   signalCoachRequest,
@@ -47,6 +48,8 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
 }) => {
   const { user, loading, uid, signInAnonymous, signInWithGoogle, logOut } =
     useAuth();
+  const { callSign, profileUrl, profileUrlFallback } = useFederationProfile();
+  const federationProfileHref = profileUrl || profileUrlFallback;
   const localPlayerId = uid || '';
   const [showRules, setShowRules] = useState(false);
   const [aiStrength, setAiStrength] = useState<AiStrengthId>('normal');
@@ -276,16 +279,22 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
       allowObservers?: boolean;
       rated?: boolean;
       preferredColor?: 'WHITE' | 'BLACK';
+      displayName?: string;
     },
   ) => {
-    await createAndJoinRoom(name, password, options);
+    const displayName =
+      options?.displayName?.trim() || callSign.trim() || undefined;
+    await createAndJoinRoom(name, password, { ...options, displayName });
   };
+
   const handleJoinRoom = async (
-    code: string,
+    roomCode: string,
     password?: string,
     asObserver?: boolean,
+    displayName?: string,
   ) => {
-    await joinRoom(code, password, asObserver);
+    const name = displayName?.trim() || callSign.trim() || undefined;
+    await joinRoom(roomCode, password, asObserver, name);
   };
 
   const beginLocalAi = () => {
@@ -480,6 +489,9 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         <PassAndPlaySetup
           onConfirm={confirmPassAndPlaySetup}
           onCancel={exitPassAndPlayGame}
+          preferredSeat={preferredSeat}
+          defaultCallSign={callSign}
+          federationProfileUrl={federationProfileHref}
         />
       </div>
     );
@@ -756,7 +768,21 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           />
         </Link>
         <div className="auth-bar">
-          <span>{user.isAnonymous ? 'Anonymous' : user.email ?? user.uid}</span>
+          <span>
+            {user.isAnonymous
+              ? 'Anonymous'
+              : callSign || user.email || user.uid}
+          </span>
+          {!user.isAnonymous && (
+            <a
+              href={federationProfileHref}
+              target="_blank"
+              rel="noreferrer"
+              className="federation-profile-link"
+            >
+              Federation Profile
+            </a>
+          )}
           <button type="button" onClick={() => void logOut()}>
             Sign out
           </button>
@@ -771,6 +797,8 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           onPreferredColorChange={(color) =>
             setPreferredSeat(color as PlayerColor)
           }
+          defaultCallSign={callSign}
+          federationProfileUrl={federationProfileHref}
           initialRoomCode={pendingRoomCode}
           preferWatch={preferWatch}
         />
@@ -892,6 +920,18 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               {engine.getState().rulesVersion ??
                 activeRoom.rulesVersion ??
                 'classic'}
+            </strong>
+          </span>
+          <span>
+            White:{' '}
+            <strong>
+              {activeRoom.whiteDisplayName?.trim() || 'White'}
+            </strong>
+          </span>
+          <span>
+            Black:{' '}
+            <strong>
+              {activeRoom.blackDisplayName?.trim() || 'Black'}
             </strong>
           </span>
           <span>

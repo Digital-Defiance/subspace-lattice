@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { PlayerColor } from '@subspace-lattice/core';
 import type { PassPlaySeatNames } from '../hooks/usePassAndPlayGame';
 import './PassAndPlaySetup.scss';
 
 export interface PassAndPlaySetupProps {
   onConfirm: (names: PassPlaySeatNames) => void;
   onCancel: () => void;
+  /** Seat the local player claimed in the lobby — prefilled from profile. */
+  preferredSeat?: PlayerColor;
+  /** Federation Profile call sign for the preferred seat. */
+  defaultCallSign?: string;
+  federationProfileUrl?: string;
 }
 
 export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
   onConfirm,
   onCancel,
+  preferredSeat = PlayerColor.White,
+  defaultCallSign = '',
+  federationProfileUrl,
 }) => {
   const [white, setWhite] = useState('');
   const [black, setBlack] = useState('');
+
+  useEffect(() => {
+    if (!defaultCallSign) return;
+    if (preferredSeat === PlayerColor.Black) {
+      setBlack(defaultCallSign);
+    } else {
+      setWhite(defaultCallSign);
+    }
+  }, [defaultCallSign, preferredSeat]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +46,15 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
       <p className="pass-setup-eyebrow">Pass &amp; Play</p>
       <h2 className="pass-setup-title">Name the commanders</h2>
       <p className="pass-setup-copy">
-        Optional — leave blank to use White / Black at the helm.
+        Your seat defaults from{' '}
+        {federationProfileUrl ? (
+          <a href={federationProfileUrl} target="_blank" rel="noreferrer">
+            Federation Profile
+          </a>
+        ) : (
+          'Federation Profile'
+        )}
+        . Override either name for this match only.
       </p>
       <div className="pass-setup-fields">
         <label className="pass-setup-field">

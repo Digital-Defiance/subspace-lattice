@@ -5,6 +5,7 @@ import { setGlobalOptions } from 'firebase-functions/v2/options';
 import {
   isRulesVersion,
   LATTICE_COLLECTIONS,
+  FEDERATION_COLLECTIONS,
   onlineRatingEventId,
   rateLocalAiMatch,
   rateOnlinePvpMatch,
@@ -21,6 +22,7 @@ import {
   isSeatedPlayer,
   planJoinRoom,
   planOnlineTeiReport,
+  sanitizeSeatDisplayName,
   serializeRoom,
   type RoomData,
 } from './room-logic';
@@ -68,6 +70,23 @@ async function appendSystemChat(roomId: string, text: string): Promise<void> {
   });
 }
 
+/** IWGF Federation Profile call sign — never Google Auth displayName. */
+async function resolveFederationCallSign(uid: string): Promise<string> {
+  const profile = await db
+    .collection(FEDERATION_COLLECTIONS.playerProfiles)
+    .doc(uid)
+    .get();
+  const fromProfile = String(profile.data()?.displayName ?? '').trim();
+  if (fromProfile) return fromProfile.slice(0, 40);
+  const stats = await db
+    .collection(FEDERATION_COLLECTIONS.playerStats)
+    .doc(uid)
+    .get();
+  const fromStats = String(stats.data()?.displayName ?? '').trim();
+  if (fromStats) return fromStats.slice(0, 40);
+  return 'Commander';
+}
+
 export const createRoom = onCall(async (request) => {
   const uid = requireAuth(request.auth?.uid);
   const name = String(request.data?.name ?? '').trim();
@@ -81,6 +100,7 @@ export const createRoom = onCall(async (request) => {
     .trim()
     .toUpperCase();
   const hostAsBlack = preferredRaw === 'BLACK';
+  const seatDisplayName = sanitizeSeatDisplayName(request.data?.displayName);
   const requestedRules = request.data?.rulesVersion;
   const rulesVersion =
     isRulesVersion(requestedRules) && requestedRules !== 'classic'
@@ -97,6 +117,8 @@ export const createRoom = onCall(async (request) => {
   const roomRef = db.collection(ROOMS).doc();
   const whitePlayerId = hostAsBlack ? null : uid;
   const blackPlayerId = hostAsBlack ? uid : null;
+  const whiteDisplayName = hostAsBlack ? null : seatDisplayName ?? null;
+  const blackDisplayName = hostAsBlack ? seatDisplayName ?? null : null;
 
   await db.runTransaction(async (tx) => {
     tx.set(db.collection(ROOM_CODES).doc(roomCode), { roomId: roomRef.id });
@@ -107,6 +129,8 @@ export const createRoom = onCall(async (request) => {
       creatorId: uid,
       whitePlayerId,
       blackPlayerId,
+      whiteDisplayName,
+      blackDisplayName,
       observerIds: [],
       allowObservers,
       rated,
@@ -119,11 +143,13 @@ export const createRoom = onCall(async (request) => {
     tx.set(roomRef.collection('meta').doc('gameState'), gameState);
   });
 
+  const hostLabel =
+    seatDisplayName ?? (hostAsBlack ? 'Black' : 'White');
   await appendSystemChat(
     roomRef.id,
     `Room "${name}" created (Code: ${roomCode}, rules: ${rulesVersion}${
       rated ? ', rated' : ', casual'
-    }, host ${hostAsBlack ? 'Black' : 'White'}).`,
+    }, host ${hostLabel} as ${hostAsBlack ? 'Black' : 'White'}).`,
   );
 
   return serializeRoom(
@@ -134,6 +160,8 @@ export const createRoom = onCall(async (request) => {
       creatorId: uid,
       whitePlayerId: whitePlayerId ?? undefined,
       blackPlayerId: blackPlayerId ?? undefined,
+      whiteDisplayName: whiteDisplayName ?? undefined,
+      blackDisplayName: blackDisplayName ?? undefined,
       observerIds: [],
       allowObservers,
       rated,
@@ -181,6 +209,7 @@ export const joinRoom = onCall(async (request) => {
       ? request.data.password
       : undefined;
   const asObserver = Boolean(request.data?.asObserver);
+  const displayName = sanitizeSeatDisplayName(request.data?.displayName);
 
   if (!/^[A-Z0-9]{5}$/.test(roomCode)) {
     throw new HttpsError('invalid-argument', 'Invalid room code.');
@@ -201,7 +230,11 @@ export const joinRoom = onCall(async (request) => {
       throw new HttpsError('not-found', 'Room not found.');
     }
     const room = roomSnap.data()! as RoomData;
-    const decision = planJoinRoom(room, uid, { password, asObserver });
+    const decision = planJoinRoom(room, uid, {
+      password,
+      asObserver,
+      displayName,
+    });
 
     if (!decision.ok) {
       if (decision.reason === 'password') {
@@ -510,10 +543,7 @@ export const reportLatticeLocalAiMatch = onCall(async (request) => {
   const eventId = String(request.data?.eventId ?? '').trim();
   const strength = String(request.data?.strength ?? 'normal') as AiStrengthId;
   const humanWon = Boolean(request.data?.humanWon);
-  const displayName =
-    typeof request.data?.displayName === 'string'
-      ? request.data.displayName.trim().slice(0, 40)
-      : 'Commander';
+  const displayName = await resolveFederationCallSign(uid);
 
   if (!eventId || eventId.length > 128) {
     throw new HttpsError('invalid-argument', 'eventId is required.');
@@ -546,7 +576,7 @@ export const reportLatticeLocalAiMatch = onCall(async (request) => {
       teiRef,
       {
         uid,
-        displayName: displayName || 'Commander',
+        displayName,
         updatedAt: FieldValue.serverTimestamp(),
         localAi: {
           mu: next.mu,
@@ -604,6 +634,11 @@ export const reportLatticeOnlineMatch = onCall(async (request) => {
     return { ok: true as const, rated: false as const, reason: plan.reason };
   }
 
+  const [whiteCallSign, blackCallSign] = await Promise.all([
+    resolveFederationCallSign(plan.whitePlayerId),
+    resolveFederationCallSign(plan.blackPlayerId),
+  ]);
+
   const eventId = onlineRatingEventId(roomId);
   const eventRef = db.collection(RATING_EVENTS).doc(eventId);
   const whiteTeiRef = db.collection(TEI).doc(plan.whitePlayerId);
@@ -644,6 +679,7 @@ export const reportLatticeOnlineMatch = onCall(async (request) => {
       whiteTeiRef,
       {
         uid: plan.whitePlayerId,
+        displayName: whiteCallSign,
         updatedAt: FieldValue.serverTimestamp(),
         online: {
           mu: next.white.mu,
@@ -659,6 +695,7 @@ export const reportLatticeOnlineMatch = onCall(async (request) => {
       blackTeiRef,
       {
         uid: plan.blackPlayerId,
+        displayName: blackCallSign,
         updatedAt: FieldValue.serverTimestamp(),
         online: {
           mu: next.black.mu,

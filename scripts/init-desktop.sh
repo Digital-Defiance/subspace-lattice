@@ -81,27 +81,39 @@ bash "${ROOT}/scripts/ensure-tauri-cli-links.sh"
 cd "$DESKTOP_DIR"
 
 if [ "$DO_IOS" = 1 ]; then
-  if [ -d "${TAURI_DIR}/gen/apple" ]; then
-    echo "✓ iOS already initialized (${TAURI_DIR}/gen/apple)"
+  APPLE_GEN="${TAURI_DIR}/gen/apple"
+  APPICONS="${APPLE_GEN}/Assets.xcassets/AppIcon.appiconset"
+  if [ -d "$APPICONS" ]; then
+    echo "✓ iOS already initialized (${APPLE_GEN})"
   else
+    if [ -d "$APPLE_GEN" ] && [ ! -d "${APPLE_GEN}/Assets.xcassets" ]; then
+      echo "→ removing incomplete ${APPLE_GEN} before ios init"
+      rm -rf "$APPLE_GEN"
+    fi
     echo "→ tauri ios init (Xcode project under gen/apple)"
     echo "  Requires: Xcode + CocoaPods (optional) on macOS"
     "$TAURI_BIN" ios init
   fi
-  if [ -d "${TAURI_DIR}/gen/apple/Assets.xcassets/AppIcon.appiconset" ]; then
+  if [ -d "$APPICONS" ]; then
     bash "${ROOT}/scripts/sync-ios-icons.sh" || true
   fi
 fi
 
 if [ "$DO_ANDROID" = 1 ]; then
-  if [ -d "${TAURI_DIR}/gen/android" ]; then
-    echo "✓ Android already initialized (${TAURI_DIR}/gen/android)"
+  ANDROID_GEN="${TAURI_DIR}/gen/android"
+  ANDROID_MARKER="${ANDROID_GEN}/app/src/main/AndroidManifest.xml"
+  if [ -f "$ANDROID_MARKER" ]; then
+    echo "✓ Android already initialized (${ANDROID_GEN})"
   else
+    if [ -d "$ANDROID_GEN" ] && [ ! -f "$ANDROID_MARKER" ]; then
+      echo "→ removing incomplete ${ANDROID_GEN} before android init"
+      rm -rf "$ANDROID_GEN"
+    fi
     echo "→ tauri android init (Gradle project under gen/android)"
     echo "  Requires: Android Studio / SDK (NDK installable later)"
     "$TAURI_BIN" android init
   fi
-  if [ -d "${TAURI_DIR}/gen/android/app/src/main/res" ]; then
+  if [ -d "${ANDROID_GEN}/app/src/main/res" ]; then
     bash "${ROOT}/scripts/ensure-tauri-cli-links.sh"
     if [ -n "${APPLE_BUNDLE_ID:-}" ]; then
       bash "${ROOT}/scripts/inject-android-manifest.sh" || true

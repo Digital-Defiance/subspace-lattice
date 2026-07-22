@@ -166,6 +166,7 @@ write_export_options_plist() {
   local profile_name="$1"
   local bundle_id="$2"
   local export_plist="${APPLE_GEN_DIR}/ExportOptions.plist"
+  mkdir -p "$APPLE_GEN_DIR" || die "failed to create ${APPLE_GEN_DIR}"
   cat > "$export_plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -188,6 +189,27 @@ write_export_options_plist() {
 </plist>
 EOF
   echo "Wrote export options → ${export_plist}" >&2
+}
+
+# gen/apple must be a real `tauri ios init` tree (Assets.xcassets), not just ExportOptions.
+ensure_ios_xcode_project() {
+  local appicons="${APPLE_GEN_DIR}/Assets.xcassets/AppIcon.appiconset"
+  if [ -d "$appicons" ]; then
+    return 0
+  fi
+
+  echo "iOS Xcode project missing — running tauri ios init…" >&2
+  if [ -d "$APPLE_GEN_DIR" ] && [ ! -d "${APPLE_GEN_DIR}/Assets.xcassets" ]; then
+    echo "Removing incomplete ${APPLE_GEN_DIR} (ExportOptions-only) before ios init…" >&2
+    rm -rf "$APPLE_GEN_DIR"
+  fi
+
+  (
+    cd "$BRIDGE_DIR"
+    "$TAURI_BIN" ios init
+  ) || die "tauri ios init failed"
+
+  [ -d "$appicons" ] || die "tauri ios init did not create ${appicons}"
 }
 
 assert_manual_signing_env() {
@@ -439,6 +461,7 @@ ensure_distribution_certificate
 prepare_signing_keychain
 
 PROFILE_NAME="$(profile_plist_value Name "$PROVISION_PROFILE")"
+ensure_ios_xcode_project
 write_export_options_plist "${PROFILE_NAME:-Subspace Lattice App Store}" "$BUNDLE_ID"
 assert_manual_signing_env
 

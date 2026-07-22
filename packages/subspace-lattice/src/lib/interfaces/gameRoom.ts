@@ -10,7 +10,11 @@ export interface IGameRoom<TId = string> {
   creatorId: TId;
   whitePlayerId?: TId;
   blackPlayerId?: TId;
+  /** Per-match seat label (defaults from Federation Profile; overridable). */
+  whiteDisplayName?: string;
+  blackDisplayName?: string;
   observerIds: TId[];
+
   allowObservers: boolean;
   /**
    * When true, tactical advisor is hidden until the sector is marked assisted

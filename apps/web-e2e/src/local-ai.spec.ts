@@ -76,21 +76,15 @@ test.describe('local AI', () => {
   });
 });
 
-test.describe('leaderboard', () => {
-  test('renders TEI standings shell', async ({ page }) => {
-    await page.goto('/leaderboard');
-    await expect(page.getByTestId('leaderboard')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'TEI Leaderboard' })).toBeVisible();
-    await expect(page.getByTestId('tei-track-local')).toBeVisible();
-    await expect(page.getByTestId('tei-track-online')).toBeVisible();
-    await page.getByTestId('tei-track-online').click();
-    // Empty, table, or Firestore error — any terminal state is fine for smoke
-    await expect(
-      page
-        .getByTestId('leaderboard-empty')
-        .or(page.getByTestId('leaderboard-table'))
-        .or(page.getByTestId('leaderboard-error')),
-    ).toBeVisible({ timeout: 15_000 });
+test.describe('standings link', () => {
+  test('landing points at federation standings hub', async ({ page }) => {
+    await page.goto('/');
+    const standings = page.getByTestId('federation-standings');
+    await expect(standings).toBeVisible();
+    await expect(standings).toHaveAttribute(
+      'href',
+      'https://iwgf.org/leaderboard',
+    );
   });
 });
 

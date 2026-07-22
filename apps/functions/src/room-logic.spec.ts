@@ -45,6 +45,21 @@ describe('room-logic', () => {
     expect(isMember(room, 'stranger')).toBe(false);
   });
 
+  it('planJoinRoom stores optional displayName on the open seat', () => {
+    const room = baseRoom({
+      whitePlayerId: null,
+      creatorId: 'host',
+      memberIds: ['host'],
+      blackPlayerId: 'host',
+    });
+    const join = planJoinRoom(room, 'white-1', { displayName: 'Sulu' });
+    expect(join.ok).toBe(true);
+    if (!join.ok || join.alreadyMember) throw new Error('expected seat');
+    expect(join.patch.whitePlayerId).toBe('white-1');
+    expect(join.patch.whiteDisplayName).toBe('Sulu');
+    expect(join.systemMessage).toContain('Sulu');
+  });
+
   it('planJoinRoom seats white when host already claimed black', () => {
     const room = baseRoom({
       whitePlayerId: null,

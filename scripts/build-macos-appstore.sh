@@ -610,8 +610,10 @@ tauri_build_config() {
     process.stdout.write(JSON.stringify({
       build: { beforeBuildCommand: '' },
       bundle: {
+        category: 'public.app-category.games',
         macOS: {
           entitlements: './Entitlements.plist',
+          hardenedRuntime: true,
           files: { 'embedded.provisionprofile': profile }
         }
       }

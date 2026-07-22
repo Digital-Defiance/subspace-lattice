@@ -8,6 +8,8 @@ export interface CreateRoomRequest {
   allowObservers?: boolean;
   rated?: boolean;
   preferredColor?: 'WHITE' | 'BLACK';
+  /** Per-match seat label (defaults from Federation Profile on the client). */
+  displayName?: string;
   rulesVersion?: string;
 }
 
@@ -15,6 +17,7 @@ export interface JoinRoomRequest {
   roomCode: string;
   password?: string;
   asObserver?: boolean;
+  displayName?: string;
 }
 
 export interface SubmitMoveRequest {
@@ -105,6 +108,7 @@ export function createSubspaceLatticeApiClient() {
         allowObservers?: boolean;
         rated?: boolean;
         preferredColor?: 'WHITE' | 'BLACK';
+        displayName?: string;
       },
     ) => {
       const result = await createRoomFn({
@@ -114,6 +118,7 @@ export function createSubspaceLatticeApiClient() {
         allowObservers: options?.allowObservers !== false,
         rated: options?.rated === true,
         preferredColor: options?.preferredColor === 'BLACK' ? 'BLACK' : 'WHITE',
+        displayName: options?.displayName,
       });
       return result.data;
     },
@@ -123,12 +128,17 @@ export function createSubspaceLatticeApiClient() {
     },
     joinRoomByCode: async (
       roomCode: string,
-      payload: { password?: string; asObserver?: boolean } = {},
+      payload: {
+        password?: string;
+        asObserver?: boolean;
+        displayName?: string;
+      } = {},
     ) => {
       const result = await joinRoomFn({
         roomCode,
         password: payload.password,
         asObserver: payload.asObserver,
+        displayName: payload.displayName,
       });
       return result.data;
     },

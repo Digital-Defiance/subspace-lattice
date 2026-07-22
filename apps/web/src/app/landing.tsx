@@ -27,9 +27,13 @@ export function Landing() {
           <Link to="/tutorial" className="landing-secondary">
             Learn to Play
           </Link>
-          <Link to="/leaderboard" className="landing-secondary">
+          <a
+            href="https://iwgf.org/leaderboard"
+            className="landing-secondary"
+            data-testid="federation-standings"
+          >
             Standings
-          </Link>
+          </a>
         </div>
         <p className="landing-docs">
           <a href="/docs/subspace-lattice-manual.pdf" target="_blank" rel="noreferrer">

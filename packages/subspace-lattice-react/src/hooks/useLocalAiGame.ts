@@ -90,7 +90,6 @@ export function useLocalAiGame() {
           eventId: id,
           strength: currentStrength,
           humanWon,
-          displayName: user.displayName ?? undefined,
         });
         if (result.tei) {
           appendLog(

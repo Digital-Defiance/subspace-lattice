@@ -35,7 +35,7 @@
     "sync:windows-msix-assets": "node apps/desktop/scripts/sync-windows-msix-assets.mjs",
     "ensure:tauri-cli-links": "bash scripts/ensure-tauri-cli-links.sh",
     "app:version": "node scripts/app-version.mjs",
-    "build:all": "bash scripts/build-all.sh",
+    "build:all": "nx run-many -t build",
     "build:all:native": "bash scripts/build-all.sh",
     "build:mac": "bash scripts/build-macos.sh",
     "build:mac-appstore": "bash scripts/build-macos-appstore.sh",

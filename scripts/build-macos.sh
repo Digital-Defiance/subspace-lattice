@@ -25,6 +25,8 @@ PKG_JSON="${DESKTOP_DIR}/package.json"
 TAURI_CONF="${TAURI_DIR}/tauri.conf.json"
 TAURI_BIN="${ROOT}/node_modules/.bin/tauri"
 DMG_DIR="${TAURI_DIR}/target/universal-apple-darwin/release/bundle/dmg"
+ENTITLEMENTS_DEVELOPER_ID_TEMPLATE="${TAURI_DIR}/Entitlements.DeveloperID.plist.in"
+ENTITLEMENTS_PLIST="${TAURI_DIR}/Entitlements.plist"
 
 SKIP_NOTARIZE=0
 PUBLISH=0
@@ -95,6 +97,33 @@ release_tag_name() {
   printf 'v%s' "$APP_VERSION"
 }
 
+# Homebrew downloads anonymously — private repos 404 even when the release exists for you.
+verify_release_asset_public() {
+  local _tag="$1" _asset="$2" _url _code _assets
+  _assets="$(gh release view "$_tag" --repo "$GITHUB_REPO" --json assets --jq '.assets[].name' 2>/dev/null || true)"
+  if ! printf '%s\n' "$_assets" | grep -Fxq "$_asset"; then
+    die "release ${_tag} is missing asset ${_asset}.
+Attached:
+${_assets:-  (none)}
+Re-upload: gh release upload ${_tag} ${DMG_DIR}/${_asset} --repo ${GITHUB_REPO} --clobber"
+  fi
+  _url="https://github.com/${GITHUB_REPO}/releases/download/${_tag}/${_asset}"
+  # Do not use -L: a public asset returns 302 to release-assets; following it (or
+  # --max-redirs 0) makes curl exit non-zero and previously concatenated "302000".
+  _code="$(curl -sI -o /dev/null -w '%{http_code}' "$_url" 2>/dev/null || true)"
+  [ -n "$_code" ] || _code=000
+  case "$_code" in
+    302|200) echo "Public download OK (${_code}): ${_url}" >&2 ;;
+    *)
+      die "Homebrew cannot download ${_url} (HTTP ${_code}).
+The release may exist while you are logged in, but anonymous brew/curl gets 404 if the
+repo is private (Warp12 is public; subspace-lattice must be too for this cask URL).
+Fix: GitHub → Settings → General → Danger zone → Change repository visibility → Public,
+then confirm: curl -sI '${_url}' | head -1"
+      ;;
+  esac
+}
+
 ensure_git_release_tag() {
   local _tag
   _tag="$(release_tag_name)"
@@ -157,6 +186,8 @@ publish_github_and_homebrew() {
       --title "$_title" \
       --generate-notes
   fi
+
+  verify_release_asset_public "$_tag" "$_asset_name"
 
   bash "${ROOT}/scripts/update-subspace-lattice-cask.sh" "$APP_VERSION" "$_sha"
 
@@ -237,6 +268,14 @@ node -e "
 
 bash "${ROOT}/scripts/tauri-icon.sh"
 bash "${ROOT}/scripts/ensure-tauri-cli-links.sh"
+
+# Developer ID + hardened runtime needs JIT entitlements for WKWebView.
+# (MAS build overwrites Entitlements.plist with the App Store sandbox template.)
+if [ ! -f "$ENTITLEMENTS_DEVELOPER_ID_TEMPLATE" ]; then
+  die "missing ${ENTITLEMENTS_DEVELOPER_ID_TEMPLATE}"
+fi
+cp "$ENTITLEMENTS_DEVELOPER_ID_TEMPLATE" "$ENTITLEMENTS_PLIST"
+echo "Wrote Developer ID entitlements → ${ENTITLEMENTS_PLIST}" >&2
 
 echo "Building Subspace Lattice ${APP_VERSION} (universal macOS)…"
 cd "$DESKTOP_DIR"

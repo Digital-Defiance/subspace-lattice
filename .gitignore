@@ -1,5 +1,10 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# creds
+client_*.apps.googleusercontent.com.plist
+client_secret_*.apps.googleusercontent.com.json
+client_secret_*.apps.googleusercontent.com.json
+
 # compiled output
 dist
 lib
@@ -59,6 +64,14 @@ ui-debug.log
 **/src-tauri/gen/android/keystore.properties
 **/src-tauri/gen/android/local.properties
 **/src-tauri/gen/android/**/build/
+# signing artifacts dropped at repo root by mistake
+/*.p12
+/*.mobileprovision
+/*.provisionprofile
+/*.jks
+/Subspace_Lattice*.p12
+/MacOS_*.provisionprofile
+/iOS_*.mobileprovision
 
 # LaTeX aux (docs/rules.pdf + docs/rules.tex.sha256 are kept)
 docs/*.aux

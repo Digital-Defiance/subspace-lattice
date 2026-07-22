@@ -52,6 +52,14 @@ First-time: commit the untracked `Casks/subspace-lattice.rb` in the tap repo, th
 | Mac App Store `.pkg` | `yarn build:macos-appstore` | Team ID, MAS profile, Distribution certs |
 | iOS App Store `.ipa` | `yarn build:ios-appstore` | Team ID, iOS profile + `.p12` |
 | Google Play `.aab` | `yarn build:android` | Upload keystore under `apps/desktop/src-tauri/` |
+| Microsoft Store `.msix` | `yarn build:windows:store` (on Windows) | Partner Center identity in `tauri.windows.conf.json` + `gen/windows/bundle.config.json` |
+
+Microsoft Store identity (Partner Center):
+
+- Package name: `DigitalDefiance.SubspaceLattice`
+- Publisher: `CN=544C5651-96F7-4626-96DB-A29175541FBB`
+- Publisher display name: `Digital Defiance`
+- Store ID: `9PNNSVNCZ2NK`
 
 Optional: `yarn build:ios-appstore --upload` / `yarn build:macos-appstore --upload` with App Store Connect API key vars.
 

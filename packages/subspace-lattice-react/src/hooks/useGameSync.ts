@@ -25,6 +25,8 @@ interface RoomDoc {
   creatorId: string;
   whitePlayerId?: string;
   blackPlayerId?: string;
+  whiteDisplayName?: string;
+  blackDisplayName?: string;
   observerIds: string[];
   allowObservers: boolean;
   rated?: boolean;
@@ -73,6 +75,8 @@ export const useGameSync = (localPlayerId: string) => {
         creatorId: roomData.creatorId,
         whitePlayerId: roomData.whitePlayerId,
         blackPlayerId: roomData.blackPlayerId,
+        whiteDisplayName: roomData.whiteDisplayName,
+        blackDisplayName: roomData.blackDisplayName,
         observerIds: roomData.observerIds ?? [],
         allowObservers: roomData.allowObservers,
         rated: roomData.rated === true,
@@ -124,6 +128,7 @@ export const useGameSync = (localPlayerId: string) => {
       allowObservers?: boolean;
       rated?: boolean;
       preferredColor?: 'WHITE' | 'BLACK';
+      displayName?: string;
     },
   ) => {
     try {
@@ -141,11 +146,13 @@ export const useGameSync = (localPlayerId: string) => {
     roomCode: string,
     password?: string,
     asObserver?: boolean,
+    displayName?: string,
   ) => {
     try {
       const room = await apiClient.joinRoomByCode(roomCode, {
         password,
         asObserver,
+        displayName,
       });
       setRoomId(room.id);
       return room;

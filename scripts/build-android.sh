@@ -277,13 +277,62 @@ Or set ANDROID_KEYSTORE to an existing .jks path."
 
   prompt_keystore_password
 
-  # Gradle reads this file — always refresh so a stale wrong password cannot linger.
-  cat > "$KEYSTORE_PROPS" <<EOF
-password=${ANDROID_KEYSTORE_PASSWORD}
-keyAlias=${KEY_ALIAS}
-storeFile=${KEYSTORE}
-EOF
-  echo "Wrote ${KEYSTORE_PROPS}" >&2
+  # Gradle Java Properties — escape so passwords with = : \ survive the load.
+  python3 - "$KEYSTORE_PROPS" "$ANDROID_KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEYSTORE" <<'PY'
+from pathlib import Path
+import sys
+
+out, password, alias, store = sys.argv[1:5]
+
+def escape(value: str) -> str:
+    return (
+        value.replace("\\", "\\\\")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\t", "\\t")
+    )
+
+Path(out).write_text(
+    f"password={escape(password)}\n"
+    f"keyAlias={escape(alias)}\n"
+    f"storeFile={escape(store)}\n",
+    encoding="utf-8",
+)
+print(f"Wrote {out}", file=sys.stderr)
+PY
+}
+
+assert_aab_signed() {
+  local aab="$1"
+  [ -f "$aab" ] || die "AAB not found: ${aab}"
+
+  # bundletool / apksigner prefer a signed *.aab; unsigned ones lack BundleConfig signing.
+  if command -v bundletool >/dev/null 2>&1; then
+    if bundletool dump manifest --bundle="$aab" >/dev/null 2>&1; then
+      :
+    fi
+  fi
+
+  # Look for a signature block in the AAB zip (signed AABs include META-INF/*.RSA|*.EC|*.DSA).
+  if unzip -l "$aab" 2>/dev/null | grep -E -q 'META-INF/.*\.(RSA|EC|DSA)$'; then
+    echo "AAB signing OK (META-INF signature present): ${aab}" >&2
+    return 0
+  fi
+
+  # Some AGP versions put the cert under BUNDLE-METADATA; fall back to jarsigner when Java exists.
+  if command -v jarsigner >/dev/null 2>&1; then
+    if jarsigner -verify "$aab" >/dev/null 2>&1; then
+      echo "AAB signing OK (jarsigner): ${aab}" >&2
+      return 0
+    fi
+  fi
+
+  die "AAB appears unsigned: ${aab}
+
+Play Console: \"All uploaded bundles must be signed.\"
+Fix: ensure keystore.properties exists and release signingConfigs are injected, then rebuild:
+  bash scripts/inject-android-signing.sh
+  ./scripts/build-android.sh"
 }
 
 find_aab() {
@@ -292,6 +341,30 @@ find_aab() {
 
 find_apk() {
   find "${ANDROID_DIR}/app/build/outputs/apk" -name "*.apk" -print 2>/dev/null | head -1
+}
+
+# gen/android must be a real `tauri android init` tree (app/ + gradle), not an empty stub.
+ensure_android_project() {
+  local marker="${ANDROID_DIR}/app/src/main/AndroidManifest.xml"
+  if [ -f "$marker" ]; then
+    return 0
+  fi
+
+  echo "Android project missing — running tauri android init…" >&2
+  if [ -d "$ANDROID_DIR" ] && [ ! -f "$marker" ]; then
+    echo "Removing incomplete ${ANDROID_DIR} before android init…" >&2
+    rm -rf "$ANDROID_DIR"
+  fi
+
+  [ -x "$TAURI_BIN" ] || TAURI_BIN="$(command -v tauri || true)"
+  [ -n "$TAURI_BIN" ] || die "tauri CLI not found; run yarn install from repo root"
+
+  (
+    cd "$BRIDGE_DIR"
+    "$TAURI_BIN" android init
+  ) || die "tauri android init failed"
+
+  [ -f "$marker" ] || die "tauri android init did not create ${marker}"
 }
 
 while [ $# -gt 0 ]; do
@@ -313,9 +386,9 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-[ -d "$ANDROID_DIR" ] || die "missing ${ANDROID_DIR} — run: cd apps/desktop && ../../node_modules/.bin/tauri android init"
 [ -x "$TAURI_BIN" ] || TAURI_BIN="$(command -v tauri || true)"
 [ -n "$TAURI_BIN" ] || die "tauri CLI not found; run yarn install from repo root"
+ensure_android_project
 
 _sdk="$(detect_android_home)" || die "Android SDK not found. Install Android Studio or set ANDROID_HOME."
 export ANDROID_HOME="$_sdk"
@@ -323,6 +396,7 @@ export ANDROID_SDK_ROOT="$_sdk"
 ensure_android_ndk "$_sdk"
 bash "${ROOT}/scripts/ensure-tauri-cli-links.sh"
 bash "${ROOT}/scripts/inject-android-manifest.sh"
+bash "${ROOT}/scripts/inject-android-signing.sh"
 echo "Syncing Android app icons..." >&2
 bash "${ROOT}/scripts/sync-android-icons.sh"
 write_keystore_properties
@@ -351,6 +425,7 @@ fi
 AAB_PATH="$(find_aab)"
 [ -n "${AAB_PATH:-}" ] && [ -f "$AAB_PATH" ] || die "AAB not found under ${ANDROID_DIR}/app/build/outputs/bundle/"
 
+assert_aab_signed "$AAB_PATH"
 verify_16kb_native_libs
 
 echo "AAB: ${AAB_PATH}" >&2

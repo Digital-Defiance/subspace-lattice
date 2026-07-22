@@ -182,3 +182,14 @@
   color: $text-muted;
   font-family: var(--font-sol-pro-regular);
 }
+
+.lobby-call-sign-hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: $text-muted;
+
+  a {
+    color: $accent;
+  }
+}

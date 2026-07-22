@@ -36,6 +36,7 @@ die() {
 usage() {
   cat >&2 <<'EOF'
 usage:
+  yarn build:all:native --next-build
   ./scripts/build-all.sh <0.minor.build>
   ./scripts/build-all.sh --next-build
   ./scripts/build-all.sh --next-minor
@@ -55,6 +56,8 @@ and src-tauri/Cargo.toml before building.
 
 NONINTERACTIVE=1 skips macOS publish [y/N] prompts.
 LATTICE_PUSH_HOMEBREW_TAP=0 commits homebrew-tap locally without pushing.
+
+(yarn build:all builds JS packages only — use build:all:native for stores.)
 
 Windows (MSIX / native): build on a Windows host —
   yarn build:windows
