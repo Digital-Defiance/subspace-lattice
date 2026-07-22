@@ -7,7 +7,7 @@ client_secret_*.apps.googleusercontent.com.json
 
 # compiled output
 dist
-lib
+/lib
 tmp
 out-tsc
 
