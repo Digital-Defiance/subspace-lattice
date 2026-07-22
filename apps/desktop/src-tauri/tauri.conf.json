@@ -3,6 +3,7 @@
   "productName": "Subspace Lattice",
   "version": "0.1.5",
   "identifier": "org.digitaldefiance.app.subspacelattice",
+  "mainBinaryName": "SubspaceLattice",
   "build": {
     "frontendDist": "../../web/dist",
     "devUrl": "http://localhost:4200",

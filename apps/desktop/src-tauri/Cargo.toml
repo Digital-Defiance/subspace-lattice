@@ -1,5 +1,5 @@
 [package]
-name = "app"
+name = "subspacelattice"
 version = "0.1.5"
 description = "Subspace Lattice desktop client"
 authors = ["Digital Defiance"]
