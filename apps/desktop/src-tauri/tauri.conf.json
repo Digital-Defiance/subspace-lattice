@@ -52,5 +52,10 @@
     "iOS": {
       "bundleVersion": "7"
     }
+  },
+  "plugins": {
+    "deep-link": {
+      "mobile": []
+    }
   }
 }

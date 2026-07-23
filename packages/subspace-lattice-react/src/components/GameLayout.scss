@@ -111,6 +111,41 @@
     filter: none;
     background: $accent-soft;
   }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+}
+
+.auth-gate-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: none;
+}
+
+.auth-gate-error {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.75rem;
+  border: 1px solid #7f1d1d;
+  border-radius: $radius-sm;
+  background: rgba(127, 29, 29, 0.2);
+
+  p {
+    margin: 0;
+    color: #fecaca;
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+}
+
+.auth-gate-note {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: $text-muted;
 }
 
 .auth-bar button {

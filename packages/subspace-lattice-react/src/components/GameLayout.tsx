@@ -46,7 +46,7 @@ export interface GameLayoutProps {
 export const GameLayout: React.FC<GameLayoutProps> = ({
   basePath = '/game',
 }) => {
-  const { user, loading, uid, signInAnonymous, signInWithGoogle, signInWithApple, logOut } =
+  const { user, loading, uid, signInAnonymous, signInWithGoogle, signInWithApple, logOut, authError, authBusy, clearAuthError, appleSignInAvailable } =
     useAuth();
   const { callSign, profileUrl, profileUrlFallback } = useFederationProfile();
   const federationProfileHref = profileUrl || profileUrlFallback;
@@ -755,9 +755,22 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           <div className="auth-gate-divider" role="presentation" />
           <div className="auth-gate-section">
             <p className="auth-gate-section-label">Online</p>
+            {authError ? (
+              <div className="auth-gate-error" role="alert">
+                <p>{authError}</p>
+                <button
+                  type="button"
+                  className="auth-gate-btn auth-gate-btn-ghost"
+                  onClick={clearAuthError}
+                >
+                  Dismiss
+                </button>
+              </div>
+            ) : null}
             <button
               type="button"
               className="auth-gate-btn"
+              disabled={authBusy}
               onClick={() => void signInAnonymous()}
             >
               Play anonymously
@@ -765,17 +778,26 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             <button
               type="button"
               className="auth-gate-btn"
+              disabled={authBusy}
               onClick={() => void signInWithGoogle()}
             >
               Sign in with Google
             </button>
-            <button
-              type="button"
-              className="auth-gate-btn"
-              onClick={() => void signInWithApple()}
-            >
-              Sign in with Apple
-            </button>
+            {appleSignInAvailable ? (
+              <button
+                type="button"
+                className="auth-gate-btn"
+                disabled={authBusy}
+                onClick={() => void signInWithApple()}
+              >
+                Sign in with Apple
+              </button>
+            ) : (
+              <p className="auth-gate-note">
+                Sign in with Apple is available on macOS and iOS. On Windows,
+                use Google or play anonymously.
+              </p>
+            )}
           </div>
         </div>
       </div>
