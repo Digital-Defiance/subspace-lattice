@@ -86,7 +86,7 @@ function updateElo(
 
 /**
  * Round-robin pairings: every agent as white vs every other as black.
- * Same agent vs itself is skipped. Ratings updated with OpenSkill (+ Elo).
+ * Same agent vs itself is skipped. Ratings updated with TEI (+ Elo).
  */
 export function runLadder(options: RunLadderOptions): LadderResult {
   const rules = options.rules ?? resolveRulesConfig('classic');

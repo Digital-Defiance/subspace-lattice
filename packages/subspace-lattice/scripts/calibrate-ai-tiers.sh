@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Calibrate Fast / Normal / Strong under hybrid-fleet (OpenSkill ladder).
+# Calibrate Fast / Normal / Strong under hybrid-fleet (TEI ladder).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

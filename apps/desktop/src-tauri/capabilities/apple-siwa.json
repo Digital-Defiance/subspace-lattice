@@ -1,0 +1,8 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "apple-siwa",
+  "description": "Sign in with Apple on iOS and macOS",
+  "platforms": ["iOS", "macOS"],
+  "windows": ["main"],
+  "permissions": ["siwa:allow-get-apple-id-credential"]
+}

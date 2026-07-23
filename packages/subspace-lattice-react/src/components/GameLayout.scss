@@ -11,18 +11,6 @@
     justify-content: center;
     gap: 1rem;
     text-align: center;
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      letter-spacing: 0.04em;
-      font-family: var(--font-sol-pro-regular);
-    }
-
-    p {
-      margin: 0;
-      opacity: 0.8;
-    }
   }
 }
 
@@ -30,16 +18,101 @@
   margin-bottom: 20px;
 }
 
-.auth-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  align-items: center;
-  margin-top: 0.5rem;
+.auth-gate-lead {
+  margin: 0;
+  max-width: 22rem;
+  opacity: 0.8;
+  line-height: 1.45;
 }
 
-.auth-actions button,
+.auth-gate-panel {
+  width: min(100%, 380px);
+  margin: 0.25rem auto 0;
+  background-color: $panel-bg;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  text-align: left;
+  overflow: hidden;
+}
+
+.auth-gate-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+}
+
+.auth-gate-section-label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $text-dim;
+  font-family: var(--font-all-round-gothic);
+}
+
+.auth-gate-divider {
+  height: 1px;
+  background: $border;
+}
+
+.auth-gate-panel {
+  .seat-picker,
+  .ai-strength-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    width: 100%;
+    margin: 0;
+    font-family: var(--font-all-round-gothic);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $text-dim;
+
+    select {
+      width: 100%;
+      padding: 0.65rem 0.7rem;
+      text-transform: none;
+      letter-spacing: normal;
+      font-size: 0.9rem;
+      font-family: var(--font-sol-pro-regular);
+    }
+  }
+}
+
+.auth-gate-btn {
+  width: 100%;
+  background: #2f6fed;
+  color: #fff;
+  border: 0;
+  border-radius: $radius-sm;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font: inherit;
+  font-family: var(--font-sol-pro-regular);
+  font-weight: 600;
+  line-height: 1.2;
+
+  &:hover {
+    filter: brightness(1.08);
+  }
+}
+
+.auth-gate-btn-ghost {
+  background: transparent;
+  color: $accent;
+  border: 1px dashed $accent;
+  font-weight: 500;
+
+  &:hover {
+    filter: none;
+    background: $accent-soft;
+  }
+}
+
 .auth-bar button {
   background: #2f6fed;
   color: #fff;

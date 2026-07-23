@@ -80,6 +80,7 @@ tracks in `latticeTei` (`localAi` and `online`).
 | In-game summary | Rules dialog in the client |
 | Normative / serious rules | [`docs/rules.pdf`](./rules.pdf) (`/docs/rules.pdf` on the site) |
 | Opening diagram | `/setup-diagram` in the web app |
+| Viability / what we tested | [`docs/game-viability-testing.md`](./game-viability-testing.md) |
 | Design / balance lab (developers) | [`packages/subspace-lattice/docs/evolution-lab.md`](../packages/subspace-lattice/docs/evolution-lab.md) |
 
 Online play and local AI soft-ship **hybrid-fleet** (Integration Hold, Contested

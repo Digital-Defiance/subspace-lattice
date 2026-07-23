@@ -62,7 +62,7 @@ Shipping changes remain human-gated after equal-strength MCTS scorecards.
 Normative rules are in `docs/rules.tex`; decisions are recorded under
 `docs/adr/`.
 
-Evolve supports two design tracks, OpenSkill skill ladders, and fixed-cell
+Evolve supports two design tracks, TEI skill ladders, and fixed-cell
 evals (no random sampling). Methodology and campaign findings:
 [`docs/evolution-lab.md`](./docs/evolution-lab.md).
 
@@ -114,7 +114,7 @@ yarn evolve -- --track A --ai-trials 0 --jobs 14 \
 ```
 
 Console reports `clock✓/✗/?` plus `medHub` / `medSec` / `Δ` (sector−hub median plies).
-Skill is scored via a mini OpenSkill ladder (calibration + ordinal separation).
+Skill is scored via a mini TEI ladder (calibration + ordinal separation).
 
 Harness guarantees: fixed-cell matrices are evaluated with **paired seeds**
 (common random numbers — cells differ only by rules). Fairness games also run

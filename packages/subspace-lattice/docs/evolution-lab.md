@@ -25,7 +25,7 @@ Design intent for the public “fleet” game (**Track A**):
 | Color balance | White win rate ~45–55% among decided games (`fairness ≥ 0.4`) |
 | Sector as clock | Sector share of decided wins in **15–45%** (sweet band **25–40%**) |
 | Clock signature | Median plies of sector wins **>** median plies of hub wins (hard reject only when both paths have ≥8 samples) |
-| Skill | OpenSkill calibration and ordinal separation on a mini ladder |
+| Skill | TEI calibration and ordinal separation on a mini ladder |
 | Length | Few truncations (`deadlockRate ≤ 0.4`); interesting midgame share |
 
 **Track B** treats territory as co-equal (looser sector ceiling, no clock hard
@@ -48,7 +48,7 @@ yarn evolve -- --track A|B [cells or --candidates N] …
        ▼
   for each config (paired seeds if --fixed):
        ├─ fairness self-play  (equal-strength MCTS @ --fairness-mcts)
-       ├─ OpenSkill mini-ladder (skill games; optional)
+       ├─ TEI mini-ladder (skill games; optional)
        └─ scorecard → reject / composite / Pareto
        │
        ▼
@@ -60,7 +60,7 @@ yarn evolve -- --track A|B [cells or --candidates N] …
 - **Fairness matches** drive win-path telemetry (hub vs sector rates, clock Δ,
   infiltrator captures, truncations). Default depth is modest MCTS
   (`--fairness-mcts 30` in most lab runs).
-- **Skill** is a small OpenSkill ladder over agents ordered by expected
+- **Skill** is a small TEI ladder over agents ordered by expected
   strength (e.g. `mcts-N > heuristic > random-legal`). Reported as
   `cal=` (pairwise order accuracy), `sep=` (mean adjacent ordinal gap),
   `σ=` (mean rating uncertainty).
@@ -72,7 +72,7 @@ yarn evolve -- --track A|B [cells or --candidates N] …
 ### Scorecard hard gates (Track A, current)
 
 Roughly: instant-win and deadlock ceilings, minimum decisive rate, fairness
-floor, OpenSkill calibration floor, **sector share ∈ [0.15, 0.45]**, and
+floor, TEI calibration floor, **sector share ∈ [0.15, 0.45]**, and
 clock-signature hard reject when both paths are well-sampled. Composite
 bonuses reward the 25–40% sector sweet band and a soft clock preference.
 

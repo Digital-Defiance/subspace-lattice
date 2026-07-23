@@ -46,7 +46,7 @@ export interface GameLayoutProps {
 export const GameLayout: React.FC<GameLayoutProps> = ({
   basePath = '/game',
 }) => {
-  const { user, loading, uid, signInAnonymous, signInWithGoogle, logOut } =
+  const { user, loading, uid, signInAnonymous, signInWithGoogle, signInWithApple, logOut } =
     useAuth();
   const { callSign, profileUrl, profileUrlFallback } = useFederationProfile();
   const federationProfileHref = profileUrl || profileUrlFallback;
@@ -727,30 +727,56 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           width={400}
           ariaLabel="Subspace Lattice — Command the Fleet. Control the Lattice."
         />
-        <p>Sign in to create or join a game — or practice offline.</p>
-        <div className="auth-actions">
-          {seatPicker}
-          {strengthPicker}
-          <button
-            type="button"
-            onClick={beginLocalAi}
-            data-testid="play-vs-ai"
-          >
-            Play vs AI (local)
-          </button>
-          <button
-            type="button"
-            onClick={beginPassAndPlay}
-            data-testid="play-pass-and-play"
-          >
-            Pass &amp; Play
-          </button>
-          <button type="button" onClick={() => void signInAnonymous()}>
-            Play anonymously
-          </button>
-          <button type="button" onClick={() => void signInWithGoogle()}>
-            Sign in with Google
-          </button>
+        <p className="auth-gate-lead">
+          Sign in to create or join a game — or practice offline.
+        </p>
+        <div className="auth-gate-panel">
+          <div className="auth-gate-section">
+            <p className="auth-gate-section-label">Practice</p>
+            {seatPicker}
+            {strengthPicker}
+            <button
+              type="button"
+              className="auth-gate-btn auth-gate-btn-ghost"
+              onClick={beginLocalAi}
+              data-testid="play-vs-ai"
+            >
+              Play vs AI (local)
+            </button>
+            <button
+              type="button"
+              className="auth-gate-btn auth-gate-btn-ghost"
+              onClick={beginPassAndPlay}
+              data-testid="play-pass-and-play"
+            >
+              Pass &amp; Play
+            </button>
+          </div>
+          <div className="auth-gate-divider" role="presentation" />
+          <div className="auth-gate-section">
+            <p className="auth-gate-section-label">Online</p>
+            <button
+              type="button"
+              className="auth-gate-btn"
+              onClick={() => void signInAnonymous()}
+            >
+              Play anonymously
+            </button>
+            <button
+              type="button"
+              className="auth-gate-btn"
+              onClick={() => void signInWithGoogle()}
+            >
+              Sign in with Google
+            </button>
+            <button
+              type="button"
+              className="auth-gate-btn"
+              onClick={() => void signInWithApple()}
+            >
+              Sign in with Apple
+            </button>
+          </div>
         </div>
       </div>
     );

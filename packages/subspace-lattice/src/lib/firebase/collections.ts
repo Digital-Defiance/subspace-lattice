@@ -3,12 +3,12 @@
  * Namespaced so Lattice never collides with Warp's `games` / `playerStats`.
  *
  * TEI lives in `latticeTei` — Lattice’s own rating collection (same TEI
- * alphabet via warp12-engine, separate OpenSkill pool / docs from Warp).
+ * alphabet via warp12-engine, separate TEI pool / docs from Warp).
  */
 export const LATTICE_COLLECTIONS = {
   rooms: 'latticeRooms',
   roomCodes: 'latticeRoomCodes',
-  /** OpenSkill + display TEI per uid (local AI + future human track). */
+  /** TEI + display TEI per uid (local AI + future human track). */
   tei: 'latticeTei',
   ratingEvents: 'latticeRatingEvents',
 } as const;
