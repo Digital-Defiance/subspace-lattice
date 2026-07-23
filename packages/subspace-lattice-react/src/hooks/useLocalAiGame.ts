@@ -3,11 +3,15 @@ import { getAuth } from 'firebase/auth';
 import {
   AiStrengthId,
   AI_STRENGTH_PRESETS,
+  buildLatticeDebugPayload,
   Coordinate,
   createAiForStrength,
+  createMatchDebugLog,
   formatMoveLogLine,
   formatSystemLogLine,
+  GameState,
   getTeiDisplay,
+  LatticeDebugExport,
   PlayerColor,
   shouldRecordLocalAiTei,
   SubspaceLatticeEngine,
@@ -48,6 +52,8 @@ export function useLocalAiGame() {
   const [matchId, setMatchId] = useState<string | null>(null);
   const ratedMatch = useRef<string | null>(null);
   const assistedMatch = useRef(false);
+  const debugLog = useRef(createMatchDebugLog());
+  const initialStateRef = useRef<GameState | null>(null);
   const ai = useMemo(() => createAiForStrength(strength), [strength]);
   const aiTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const api = useMemo(() => createSubspaceLatticeApiClient(), []);
@@ -115,9 +121,12 @@ export function useLocalAiGame() {
     (nextStrength?: AiStrengthId, seat: PlayerColor = PlayerColor.White) => {
       clearAiTimer();
       const s = nextStrength ?? strength;
-      if (nextStrength) setStrength(nextStrength);
+      if (nextStrength) setStrength(s);
       setLocalPlayerColor(seat);
-      setEngine(new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' }));
+      const next = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+      initialStateRef.current = structuredClone(next.getState());
+      debugLog.current.clear();
+      setEngine(next);
       setActive(true);
       const id = `local-ai-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       setMatchId(id);
@@ -139,6 +148,8 @@ export function useLocalAiGame() {
     setActive(false);
     setLogLines([]);
     setMatchId(null);
+    debugLog.current.clear();
+    initialStateRef.current = null;
   }, []);
 
   const refresh = (next: SubspaceLatticeEngine) => {
@@ -180,8 +191,19 @@ export function useLocalAiGame() {
 
       const choice = ai.chooseMove(current);
       if (!choice) return;
+      const piece = current.getPiece(choice.pieceId);
+      const from = piece ? { ...piece.position } : undefined;
       const target = current.getPieceAt(choice.to);
       const ok = current.movePiece(choice.pieceId, choice.to);
+      debugLog.current.append({
+        player: aiColor,
+        pieceId: choice.pieceId,
+        from,
+        to: { ...choice.to },
+        captured: target?.id,
+        source: 'ai',
+        ok,
+      });
       if (ok) {
         const tei = teiForStrength(strength);
         appendLog(
@@ -227,8 +249,19 @@ export function useLocalAiGame() {
       if (!engine) return;
       const state = engine.getState();
       if (state.winner || state.currentPlayer !== localPlayerColor) return;
+      const piece = engine.getPiece(pieceId);
+      const from = piece ? { ...piece.position } : undefined;
       const target = engine.getPieceAt(to);
       const ok = engine.movePiece(pieceId, to);
+      debugLog.current.append({
+        player: localPlayerColor,
+        pieceId,
+        from,
+        to: { ...to },
+        captured: target?.id,
+        source: 'human',
+        ok,
+      });
       if (ok) {
         appendLog(
           formatMoveLogLine({
@@ -254,6 +287,37 @@ export function useLocalAiGame() {
     [engine, appendLog, localPlayerColor, matchId, noteWinner, strength],
   );
 
+  const buildDebugExport = useCallback((): LatticeDebugExport | null => {
+    if (!engine) return null;
+    return buildLatticeDebugPayload(
+      {
+        mode: 'local-ai',
+        sectorCode: matchId ?? 'local-ai',
+        viewerId: getAuth().currentUser?.uid,
+        notes: [
+          'Local AI match — full gameState included.',
+          assistedMatch.current
+            ? 'Advisor was used (assisted / unrated).'
+            : 'No advisor assistance recorded.',
+        ],
+      },
+      {
+        gameState: structuredClone(engine.getState()),
+        initialState: initialStateRef.current
+          ? structuredClone(initialStateRef.current)
+          : undefined,
+        moveLog: debugLog.current.snapshot(),
+        displayLog: [...logLines],
+        localAi: {
+          strength,
+          localPlayerColor,
+          matchId,
+          assisted: assistedMatch.current,
+        },
+      },
+    );
+  }, [engine, logLines, localPlayerColor, matchId, strength]);
+
   const strengthLabel =
     AI_STRENGTH_PRESETS.find((p) => p.id === strength)?.label ?? strength;
 
@@ -269,5 +333,6 @@ export function useLocalAiGame() {
     exitLocalAiGame,
     sendMove,
     markAssisted,
+    buildDebugExport,
   };
 }

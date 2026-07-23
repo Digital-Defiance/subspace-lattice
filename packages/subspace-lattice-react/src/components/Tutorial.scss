@@ -127,12 +127,31 @@
   line-height: 1.7;
 }
 
+.tutorial-step-why {
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.08);
+  color: #d7e0ee;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  /* Keep action buttons from jumping when ply copy grows/shrinks. */
+  height: 7.25rem;
+  overflow-y: auto;
+
+  strong {
+    color: $accent;
+  }
+}
+
 .tutorial-objective {
   margin-top: 1.4rem;
   padding: 1rem;
   border-left: 3px solid $accent;
   border-radius: 0 8px 8px 0;
   background: rgba(37, 99, 235, 0.09);
+  /* Stable “Coming up” / objective slot under the ply box. */
+  min-height: 5.5rem;
 
   > span {
     color: #93c5fd;
@@ -166,6 +185,7 @@
   flex-wrap: wrap;
   gap: 0.65rem;
   margin-top: 1.25rem;
+  align-content: flex-start;
 
   .tutorial-primary {
     border-color: transparent;
@@ -179,22 +199,73 @@
   }
 }
 
-.tutorial-lessons {
+.tutorial--walkthrough .tutorial-actions {
+  /* Back + Play this move + Play next 5 + Skip — keep Skip from jumping. */
+  min-height: 5.75rem;
+}
+
+.tutorial-nav {
   display: flex;
-  gap: 0.4rem;
+  flex-direction: column;
+  gap: 1rem;
   margin-top: 1.5rem;
+}
 
-  button {
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    border-radius: 50%;
-    font: 700 0.65rem ui-monospace, monospace;
+.tutorial-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
 
-    &.is-current {
-      border-color: #34e3c5;
-      color: #34e3c5;
-    }
+.tutorial-nav-label {
+  color: #64748b;
+  font-size: 0.62rem;
+  font-family: var(--font-sol-pro-regular);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tutorial-lessons,
+.tutorial-missions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tutorial-lessons button {
+  box-sizing: border-box;
+  flex: 0 0 2.15rem;
+  width: 2.15rem;
+  height: 2.15rem;
+  padding: 0;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  font: 700 0.68rem ui-monospace, monospace;
+  line-height: 1;
+
+  &.is-current {
+    border-color: #34e3c5;
+    color: #34e3c5;
+  }
+}
+
+.tutorial-missions button {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  min-width: 2.6rem;
+  height: 2.15rem;
+  padding: 0 0.65rem;
+  border-radius: 4px;
+  border-color: #475569;
+  font: 700 0.7rem ui-monospace, monospace;
+  line-height: 1;
+  letter-spacing: 0.04em;
+
+  &.is-current {
+    border-color: #f59e0b;
+    color: #fcd34d;
+    background: rgba(245, 158, 11, 0.12);
   }
 }
 

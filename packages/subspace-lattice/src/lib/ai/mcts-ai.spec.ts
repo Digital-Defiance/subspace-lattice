@@ -4,7 +4,7 @@ import { PieceType, PlayerColor } from '../interfaces';
 import { createSequenceRng, createSeededRng } from './rng';
 import { evaluatePosition } from './evaluate';
 import { MctsAi, createAiForStrength } from './mcts-ai';
-import { findHubCaptureMove, findImmediateWinningMove } from './tactical';
+import { findHubCaptureMove, findImmediateWinningMove, moveLeavesHubHanging } from './tactical';
 import { HeuristicAi } from './heuristic-ai';
 import { CLASSIC_PUZZLES, evaluatePuzzle } from '../sim/puzzles';
 
@@ -109,6 +109,20 @@ describe('MctsAi', () => {
     const puzzle = CLASSIC_PUZZLES.find((p) => p.id === 'hanging-hub-beam')!;
     const ai = new MctsAi({ simulations: 5, rng: createSequenceRng([0]) });
     expect(evaluatePuzzle(puzzle, ai).passed).toBe(true);
+  });
+
+  it('refuses material bait that leaves the Command Hub hanging', () => {
+    const puzzle = CLASSIC_PUZZLES.find(
+      (p) => p.id === 'avoid-hanging-hub-mate',
+    )!;
+    const live = SubspaceLatticeEngine.fromState(puzzle.state);
+    const bait = { pieceId: 'w-e2', to: { x: 8, y: 3 } };
+    expect(moveLeavesHubHanging(live, bait)).toBe(true);
+
+    for (const strength of ['fast', 'normal', 'strong'] as const) {
+      const ai = createAiForStrength(strength, createSequenceRng([0]));
+      expect(evaluatePuzzle(puzzle, ai).passed).toBe(true);
+    }
   });
 
   it('strong preset name encodes budget', () => {

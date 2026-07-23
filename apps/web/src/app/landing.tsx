@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './landing.scss';
 import {
+  DocLink,
   SubspaceLatticeLogo,
 } from '@subspace-lattice/react';
 
@@ -36,13 +37,9 @@ export function Landing() {
           </a>
         </div>
         <p className="landing-docs">
-          <a href="/docs/subspace-lattice-manual.pdf" target="_blank" rel="noreferrer">
-            Introductory manual
-          </a>
+          <DocLink doc="manual">Introductory manual</DocLink>
           <span aria-hidden="true"> · </span>
-          <a href="/docs/rules.pdf" target="_blank" rel="noreferrer">
-            Official rules
-          </a>
+          <DocLink doc="rules">Official rules</DocLink>
         </p>
       </main>
 

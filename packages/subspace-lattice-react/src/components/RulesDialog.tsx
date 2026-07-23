@@ -1,4 +1,5 @@
 import React from 'react';
+import { DocLink } from './DocLink';
 import './RulesDialog.scss';
 
 interface RulesDialogProps {
@@ -88,19 +89,11 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
           <h3>Full documents</h3>
           <ul className="rules-doc-links">
             <li>
-              <a
-                href="/docs/subspace-lattice-manual.pdf"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Introductory manual
-              </a>{' '}
+              <DocLink doc="manual">Introductory manual</DocLink>{' '}
               — shorter walkthrough for new commanders.
             </li>
             <li>
-              <a href="/docs/rules.pdf" target="_blank" rel="noreferrer">
-                Official rules (PDF)
-              </a>{' '}
+              <DocLink doc="rules">Official rules (PDF)</DocLink>{' '}
               — normative reference for serious play.
             </li>
           </ul>

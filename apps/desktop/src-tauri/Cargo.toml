@@ -1,6 +1,6 @@
 [package]
 name = "subspacelattice"
-version = "0.1.7"
+version = "0.1.8"
 description = "Subspace Lattice desktop client"
 authors = ["Digital Defiance"]
 edition = "2021"
@@ -24,3 +24,7 @@ tauri-plugin-deep-link = "2"
 
 [target.'cfg(any(target_os = "ios", target_os = "macos"))'.dependencies]
 tauri-plugin-siwa = "1.0.0"
+
+# Native save dialog — desktop only (WKWebView ignores <a download>).
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+rfd = "0.15"

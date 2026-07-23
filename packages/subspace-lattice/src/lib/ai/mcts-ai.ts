@@ -4,7 +4,9 @@ import { Agent, AgentMove } from './agent';
 import { evaluatePosition } from './evaluate';
 import { HeuristicAi } from './heuristic-ai';
 import {
+  filterMovesAvoidingHubMate,
   findImmediateWinningMove,
+  moveLeavesHubHanging,
   shallowBestMove,
 } from './tactical';
 
@@ -68,9 +70,14 @@ export class MctsAi implements Agent {
     const instant = findImmediateWinningMove(engine);
     if (instant) return instant;
 
-    // Trust 1-ply material takes; MCTS rollouts are too noisy at low budgets.
+    // Trust 1-ply material takes when they do not leave the hub hanging;
+    // MCTS rollouts are too noisy at low budgets to recover from mate-blind greed.
     const heuristicChoice = new HeuristicAi(this.rng).chooseMove(engine);
-    if (heuristicChoice && engine.getPieceAt(heuristicChoice.to)) {
+    if (
+      heuristicChoice &&
+      engine.getPieceAt(heuristicChoice.to) &&
+      !moveLeavesHubHanging(engine, heuristicChoice)
+    ) {
       return heuristicChoice;
     }
 
@@ -79,6 +86,7 @@ export class MctsAi implements Agent {
     }
 
     // Cap branching for hybrid infiltrator warps: keep tactical + sample.
+    // Prefer root moves that avoid an immediate Surgical Strike reply.
     const rootMoves = this.selectRootMoves(engine, legal);
     const rootPlayer = engine.getState().currentPlayer;
     const root: MctsNode = {
@@ -117,16 +125,19 @@ export class MctsAi implements Agent {
     }>,
   ): AgentMove[] {
     const MAX_ROOT = 48;
-    if (legal.length <= MAX_ROOT) {
-      return legal.map((m) => ({ pieceId: m.pieceId, to: m.to }));
+    const candidates = filterMovesAvoidingHubMate(
+      engine,
+      legal.map((m) => ({ pieceId: m.pieceId, to: m.to })),
+    );
+    if (candidates.length <= MAX_ROOT) {
+      return candidates;
     }
 
     // Prefer captures, then heuristic pick, then random fill (avoid scoring all).
     const captures: AgentMove[] = [];
     const rest: AgentMove[] = [];
-    for (const m of legal) {
-      const choice = { pieceId: m.pieceId, to: m.to };
-      if (engine.getPieceAt(m.to)) captures.push(choice);
+    for (const choice of candidates) {
+      if (engine.getPieceAt(choice.to)) captures.push(choice);
       else rest.push(choice);
     }
 

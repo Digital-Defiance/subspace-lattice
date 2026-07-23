@@ -8,6 +8,7 @@ import {
   createAiForStrength,
 } from './mcts-ai';
 import { HeuristicAi } from './heuristic-ai';
+import { moveLeavesHubHanging } from './tactical';
 
 export interface AdvisorSuggestion {
   pieceId: string;
@@ -110,6 +111,19 @@ export function explainAdvisorMove(
         ? 'Capture the enemy Command Hub — win condition.'
         : `Capture enemy ${PIECE_LABEL[target.type]}.`,
     );
+  }
+
+  const myHub = Object.values(engine.getState().pieces).find(
+    (p) => p.owner === color && p.type === PieceType.CommandHub,
+  );
+  if (myHub && !moveLeavesHubHanging(engine, move)) {
+    const wasThreatened = Object.values(engine.getState().pieces).some(
+      (p) =>
+        p.owner !== color && engine.canMovePiece(p, myHub.position),
+    );
+    if (wasThreatened) {
+      reasons.push('Keeps your Command Hub safe from Surgical Strike.');
+    }
   }
 
   const enemyHub = Object.values(engine.getState().pieces).find(

@@ -15,9 +15,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.7</string>
+	<string>0.1.8</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -43,12 +43,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleURLName</key>
-			<string>google-oauth</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.googleusercontent.apps.527330456110-iclvb45vfj85gkrlievpk51fop12pt0i</string>
 				<string>com.googleusercontent.apps.527330456110-kf145nej0h4gegob744uo3qtfhfsn5m6</string>
 			</array>
+			<key>CFBundleURLName</key>
+			<string>com.googleusercontent.apps.527330456110-iclvb45vfj85gkrlievpk51fop12pt0i</string>
 		</dict>
 	</array>
 </dict>

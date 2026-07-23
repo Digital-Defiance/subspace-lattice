@@ -39,15 +39,46 @@ export function findImmediateWinningMove(
 }
 
 /**
+ * True when playing `move` leaves the opponent able to capture our Command Hub
+ * on the reply (Surgical Strike). Winning moves that end the game are safe.
+ */
+export function moveLeavesHubHanging(
+  engine: SubspaceLatticeEngine,
+  move: AgentMove,
+): boolean {
+  const child = engine.clone();
+  if (!child.movePiece(move.pieceId, move.to)) return true;
+  if (child.getState().winner) return false;
+  return findHubCaptureMove(child) !== null;
+}
+
+/**
+ * Prefer moves that do not walk into an immediate Surgical Strike.
+ * If every legal move hangs the hub (forced loss), return the full list.
+ */
+export function filterMovesAvoidingHubMate<T extends AgentMove>(
+  engine: SubspaceLatticeEngine,
+  moves: readonly T[],
+): T[] {
+  if (moves.length === 0) return [];
+  const safe = moves.filter((m) => !moveLeavesHubHanging(engine, m));
+  return safe.length > 0 ? safe : [...moves];
+}
+
+/**
  * Shallow maximizer over evaluatePosition after each legal move.
  * Depth 1 only (branching is large under hybrid infiltrator warps).
+ * Skips moves that leave the Command Hub hanging when safer options exist.
  */
 export function shallowBestMove(
   engine: SubspaceLatticeEngine,
   rng: () => number = Math.random,
 ): AgentMove | null {
   const me = engine.getState().currentPlayer;
-  const legal = engine.listLegalMoves();
+  const legal = filterMovesAvoidingHubMate(
+    engine,
+    engine.listLegalMoves().map((m) => ({ pieceId: m.pieceId, to: m.to })),
+  );
   if (legal.length === 0) return null;
 
   let bestScore = Number.NEGATIVE_INFINITY;

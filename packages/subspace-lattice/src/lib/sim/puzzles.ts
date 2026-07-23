@@ -109,10 +109,38 @@ function forcedRecapturePreference(): Puzzle {
   };
 }
 
+/**
+ * Black escort threatens White hub; a Beam capture elsewhere is bait.
+ * Any move that leaves the hub hanging fails — capture the threat or flee.
+ */
+function avoidHangingHubMate(): Puzzle {
+  const state = emptyBoard(11);
+  place(state, 'w-ch', PieceType.CommandHub, PlayerColor.White, 5, 0);
+  place(state, 'b-e1', PieceType.Escort, PlayerColor.Black, 5, 1);
+  place(state, 'w-e1', PieceType.Escort, PlayerColor.White, 4, 1);
+  // Material bait: escort can take a Beam (higher heuristic score than Escort).
+  place(state, 'w-e2', PieceType.Escort, PlayerColor.White, 8, 2);
+  place(state, 'b-b1', PieceType.Beam, PlayerColor.Black, 8, 3);
+  place(state, 'b-ch', PieceType.CommandHub, PlayerColor.Black, 10, 10);
+  return {
+    id: 'avoid-hanging-hub-mate',
+    description:
+      'White must not take the hanging Beam — resolve the hub threat first',
+    state,
+    expectedMoves: [
+      { pieceId: 'w-e1', to: { x: 5, y: 1 } },
+      { pieceId: 'w-ch', to: { x: 5, y: 1 } },
+      { pieceId: 'w-ch', to: { x: 4, y: 0 } },
+      { pieceId: 'w-ch', to: { x: 6, y: 0 } },
+    ],
+  };
+}
+
 export const CLASSIC_PUZZLES: Puzzle[] = [
   hubMateInOne(),
   hangingHubToBeam(),
   forcedRecapturePreference(),
+  avoidHangingHubMate(),
 ];
 
 /** Infiltrator must not warp onto enemy hub (inside enemy net). */

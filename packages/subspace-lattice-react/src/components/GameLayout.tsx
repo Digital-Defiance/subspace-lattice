@@ -29,6 +29,7 @@ import { usePassAndPlayGame } from '../hooks/usePassAndPlayGame';
 import { AdvisorPanel } from './AdvisorPanel';
 import { Board } from './Board';
 import { Chat } from './Chat';
+import { MatchTitleDebugExport } from './ExportDebugButton';
 import { FloatingCoachChip } from './FloatingCoachChip';
 import { GameLog } from './GameLog';
 import { Lobby } from './Lobby';
@@ -76,6 +77,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     setAllowObservers,
     markRoomAssisted,
     reportOnlineMatch,
+    buildDebugExport: buildOnlineDebugExport,
   } = useGameSync(localPlayerId);
 
   const {
@@ -88,6 +90,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     exitLocalAiGame,
     sendMove: sendLocalMove,
     markAssisted: markLocalAiAssisted,
+    buildDebugExport: buildLocalAiDebugExport,
   } = useLocalAiGame();
 
   const localAdvisor = useAdvisor(aiStrength);
@@ -112,6 +115,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     confirmPassAndPlaySetup,
     exitPassAndPlayGame,
     sendMove: sendPassPlayMove,
+    buildDebugExport: buildPassPlayDebugExport,
   } = usePassAndPlayGame();
 
   const offlineActive = localAiActive || passPlayActive || passPlaySetupOpen;
@@ -542,7 +546,9 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           <div className="game-header">
             <div className="game-header-brand">
               <div className="game-header-titles">
-                <h2>Pass &amp; Play</h2>
+                <MatchTitleDebugExport buildPayload={buildPassPlayDebugExport}>
+                  Pass &amp; Play
+                </MatchTitleDebugExport>
               </div>
             </div>
             <div className="header-actions">
@@ -618,7 +624,9 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           <div className="game-header">
             <div className="game-header-brand">
               <div className="game-header-titles">
-                <h2>Local vs AI</h2>
+                <MatchTitleDebugExport buildPayload={buildLocalAiDebugExport}>
+                  Local vs AI
+                </MatchTitleDebugExport>
               </div>
             </div>
             <div className="header-actions">
@@ -892,7 +900,9 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         <div className="game-header">
           <div className="game-header-brand">
             <div className="game-header-titles">
-              <h2>{activeRoom.name}</h2>
+              <MatchTitleDebugExport buildPayload={buildOnlineDebugExport}>
+                {activeRoom.name}
+              </MatchTitleDebugExport>
               <div className="room-code-share">
                 <span>
                   Room Code: <strong>{activeRoom.roomCode}</strong>

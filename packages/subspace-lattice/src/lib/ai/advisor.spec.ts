@@ -8,6 +8,7 @@ import {
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType, PlayerColor } from '../interfaces';
 import { createSequenceRng } from './heuristic-ai';
+import { CLASSIC_PUZZLES } from '../sim/puzzles';
 
 /** Place Black escort adjacent to White hub so Black can capture. */
 function engineWithHubCaptureOpportunity(): SubspaceLatticeEngine {
@@ -63,6 +64,19 @@ describe('suggestAdvisorMove', () => {
     expect(tip!.reasons.some((r) => /Command Hub|win condition/i.test(r))).toBe(
       true,
     );
+  });
+
+  it('does not coach a move that hangs the Command Hub for bait', () => {
+    const puzzle = CLASSIC_PUZZLES.find(
+      (p) => p.id === 'avoid-hanging-hub-mate',
+    )!;
+    const live = SubspaceLatticeEngine.fromState(puzzle.state);
+    const tip = suggestAdvisorMove(live, 'fast', createSequenceRng([0]));
+    expect(tip).not.toBeNull();
+    expect(tip!.pieceId).not.toBe('w-e2');
+    expect(
+      tip!.reasons.some((r) => /Surgical Strike|Command Hub safe/i.test(r)),
+    ).toBe(true);
   });
 
   it('labels the suggestion with the requested strength (normal budget)', () => {

@@ -25,6 +25,7 @@ export * from './lib/sim/game-log-format';
 export * from './lib/sim/param-space';
 export * from './lib/sim/scorecard';
 export * from './lib/sim/evolve';
+export * from './lib/debug/match-debug-log';
 export * from './lib/firebase/collections';
 // Node-only entrypoints (cli / evolve-cli / worker-pool / *-parallel) are
 // bundled by scripts/sim.sh & evolve.sh — never re-export them here or Vite

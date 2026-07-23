@@ -4,6 +4,7 @@ import { Coordinate } from '../interfaces/coordinate';
 import { Piece } from '../interfaces/piece';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
+import { filterMovesAvoidingHubMate } from './tactical';
 
 export interface AiMoveChoice extends AgentMove {
   from: Coordinate;
@@ -20,7 +21,8 @@ const PIECE_VALUE: Record<PieceType, number> = {
 /**
  * Deterministic-friendly heuristic AI for local testing and ladder baseline.
  * Prefers capturing the command hub, then material, then closing distance
- * on the enemy hub. Tie-breaks via injected RNG (default Math.random).
+ * on the enemy hub. Never walks into an avoidable Surgical Strike reply.
+ * Tie-breaks via injected RNG (default Math.random).
  */
 export class HeuristicAi implements Agent {
   readonly name = 'heuristic';
@@ -29,7 +31,10 @@ export class HeuristicAi implements Agent {
 
   public chooseMove(engine: SubspaceLatticeEngine): AiMoveChoice | null {
     const color = engine.getState().currentPlayer;
-    const legal = engine.listLegalMoves(color);
+    const legal = filterMovesAvoidingHubMate(
+      engine,
+      engine.listLegalMoves(color),
+    );
     if (legal.length === 0) return null;
 
     const enemyHub = Object.values(engine.getState().pieces).find(

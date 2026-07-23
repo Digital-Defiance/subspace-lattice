@@ -8,11 +8,13 @@ import {
   type Timestamp,
 } from 'firebase/firestore';
 import {
+  buildLatticeDebugPayload,
   Coordinate,
   GameState,
   IChatMessage,
   IGameRoom,
   LATTICE_COLLECTIONS,
+  LatticeDebugExport,
   PieceType,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
@@ -31,8 +33,21 @@ interface RoomDoc {
   allowObservers: boolean;
   rated?: boolean;
   assisted?: boolean;
+  rulesVersion?: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+}
+
+export interface RoomEventDoc {
+  id: string;
+  type: string;
+  pieceId?: string;
+  to?: { x: number; y: number };
+  uid?: string;
+  resigned?: string;
+  winner?: string;
+  timestamp?: string;
+  [key: string]: unknown;
 }
 
 function toDate(value: Timestamp | Date | undefined): Date {
@@ -41,13 +56,19 @@ function toDate(value: Timestamp | Date | undefined): Date {
   return value.toDate();
 }
 
+function toIso(value: Timestamp | Date | undefined): string | undefined {
+  if (!value) return undefined;
+  return toDate(value).toISOString();
+}
+
 export const useGameSync = (localPlayerId: string) => {
   const apiClient = useMemo(() => createSubspaceLatticeApiClient(), []);
   const [engine, setEngine] = useState<SubspaceLatticeEngine | null>(null);
   const [activeRoom, setActiveRoom] = useState<IGameRoom<string> | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
+  const [roomEvents, setRoomEvents] = useState<RoomEventDoc[]>([]);
 
-  // Subscribe to room + gameState + chat when we have a roomId
+  // Subscribe to room + gameState + chat + events when we have a roomId
   useEffect(() => {
     if (!roomId || !localPlayerId) return;
 
@@ -57,6 +78,10 @@ export const useGameSync = (localPlayerId: string) => {
     const gameStateRef = doc(db, rooms, roomId, 'meta', 'gameState');
     const chatQuery = query(
       collection(db, rooms, roomId, 'chat'),
+      orderBy('timestamp', 'asc'),
+    );
+    const eventsQuery = query(
+      collection(db, rooms, roomId, 'events'),
       orderBy('timestamp', 'asc'),
     );
 
@@ -81,6 +106,7 @@ export const useGameSync = (localPlayerId: string) => {
         allowObservers: roomData.allowObservers,
         rated: roomData.rated === true,
         assisted: roomData.assisted === true,
+        rulesVersion: roomData.rulesVersion as IGameRoom['rulesVersion'],
         gameState,
         chatMessages,
         createdAt: toDate(roomData.createdAt),
@@ -114,10 +140,25 @@ export const useGameSync = (localPlayerId: string) => {
       rebuild();
     });
 
+    const unsubEvents = onSnapshot(eventsQuery, (snap) => {
+      setRoomEvents(
+        snap.docs.map((d) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            ...data,
+            timestamp: toIso(data.timestamp as Timestamp | undefined),
+          } as RoomEventDoc;
+        }),
+      );
+    });
+
     return () => {
       unsubRoom();
       unsubState();
       unsubChat();
+      unsubEvents();
+      setRoomEvents([]);
     };
   }, [roomId, localPlayerId]);
 
@@ -242,6 +283,7 @@ export const useGameSync = (localPlayerId: string) => {
     setRoomId(null);
     setActiveRoom(null);
     setEngine(null);
+    setRoomEvents([]);
   }, []);
 
   const resignMatch = useCallback(
@@ -256,9 +298,55 @@ export const useGameSync = (localPlayerId: string) => {
     [apiClient],
   );
 
+  const buildDebugExport = useCallback((): LatticeDebugExport | null => {
+    if (!engine || !activeRoom) return null;
+    const moveLog = roomEvents
+      .filter((e) => e.type === 'move' && e.pieceId && e.to)
+      .map((e) => ({
+        at: e.timestamp ?? new Date().toISOString(),
+        player: e.uid ?? 'unknown',
+        pieceId: String(e.pieceId),
+        to: e.to as { x: number; y: number },
+        source: 'human' as const,
+        ok: true,
+      }));
+
+    return buildLatticeDebugPayload(
+      {
+        mode: 'online',
+        sectorCode: activeRoom.roomCode,
+        viewerId: localPlayerId || undefined,
+        notes: [
+          'Online sector — current gameState + Firestore events.',
+          'Events may lack `from` coordinates (server move records).',
+        ],
+      },
+      {
+        gameState: structuredClone(engine.getState()),
+        moveLog,
+        online: {
+          roomId: activeRoom.id,
+          roomCode: activeRoom.roomCode,
+          roomName: activeRoom.name,
+          creatorId: activeRoom.creatorId,
+          whitePlayerId: activeRoom.whitePlayerId,
+          blackPlayerId: activeRoom.blackPlayerId,
+          whiteDisplayName: activeRoom.whiteDisplayName,
+          blackDisplayName: activeRoom.blackDisplayName,
+          rated: activeRoom.rated,
+          assisted: activeRoom.assisted,
+          rulesVersion:
+            engine.getState().rulesVersion ?? activeRoom.rulesVersion,
+        },
+      },
+      { events: roomEvents },
+    );
+  }, [activeRoom, engine, localPlayerId, roomEvents]);
+
   return {
     activeRoom,
     engine,
+    roomEvents,
     createAndJoinRoom,
     joinRoom,
     hydrateFromRoomCode,
@@ -270,5 +358,6 @@ export const useGameSync = (localPlayerId: string) => {
     setAllowObservers,
     markRoomAssisted,
     reportOnlineMatch,
+    buildDebugExport,
   };
 };

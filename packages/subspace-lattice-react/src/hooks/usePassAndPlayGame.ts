@@ -1,8 +1,12 @@
 import { useCallback, useRef, useState } from 'react';
 import {
+  buildLatticeDebugPayload,
   Coordinate,
+  createMatchDebugLog,
   formatMoveLogLine,
   formatSystemLogLine,
+  GameState,
+  LatticeDebugExport,
   PlayerColor,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
@@ -36,6 +40,8 @@ export function usePassAndPlayGame() {
   const readySeatRef = useRef<PlayerColor | null>(null);
   const preferredSeatRef = useRef<PlayerColor>(PlayerColor.White);
   const namesRef = useRef<PassPlaySeatNames>({ white: '', black: '' });
+  const debugLog = useRef(createMatchDebugLog());
+  const initialStateRef = useRef<GameState | null>(null);
 
   const appendLog = useCallback((line: string) => {
     setLogLines((prev) => [...prev, line]);
@@ -57,6 +63,8 @@ export function usePassAndPlayGame() {
       setHandoffSeat(null);
       readySeatRef.current = null;
       setLogLines([]);
+      debugLog.current.clear();
+      initialStateRef.current = null;
     },
     [],
   );
@@ -69,7 +77,10 @@ export function usePassAndPlayGame() {
       namesRef.current = names;
       setSeatNames(names);
       setSetupOpen(false);
-      setEngine(new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' }));
+      const next = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+      initialStateRef.current = structuredClone(next.getState());
+      debugLog.current.clear();
+      setEngine(next);
       setActive(true);
       const whiteLabel = normalizeName(names.white, 'White');
       const blackLabel = normalizeName(names.black, 'Black');
@@ -110,6 +121,8 @@ export function usePassAndPlayGame() {
     readySeatRef.current = null;
     namesRef.current = { white: '', black: '' };
     setSeatNames({ white: '', black: '' });
+    debugLog.current.clear();
+    initialStateRef.current = null;
   }, []);
 
   const confirmHandoff = useCallback(() => {
@@ -131,8 +144,19 @@ export function usePassAndPlayGame() {
       const state = engine.getState();
       if (state.winner) return;
       const mover = state.currentPlayer;
+      const piece = engine.getPiece(pieceId);
+      const from = piece ? { ...piece.position } : undefined;
       const target = engine.getPieceAt(to);
       const ok = engine.movePiece(pieceId, to);
+      debugLog.current.append({
+        player: mover,
+        pieceId,
+        from,
+        to: { ...to },
+        captured: target?.id,
+        source: 'human',
+        ok,
+      });
       if (!ok) return;
 
       appendLog(
@@ -168,6 +192,30 @@ export function usePassAndPlayGame() {
     [engine, handoffSeat, appendLog, labelFor],
   );
 
+  const buildDebugExport = useCallback((): LatticeDebugExport | null => {
+    if (!engine) return null;
+    const names = namesRef.current;
+    return buildLatticeDebugPayload(
+      {
+        mode: 'pass-and-play',
+        sectorCode: 'pass-and-play',
+        notes: ['Pass-and-play hotseat — full gameState included.'],
+      },
+      {
+        gameState: structuredClone(engine.getState()),
+        initialState: initialStateRef.current
+          ? structuredClone(initialStateRef.current)
+          : undefined,
+        moveLog: debugLog.current.snapshot(),
+        displayLog: [...logLines],
+        passAndPlay: {
+          whiteName: normalizeName(names.white, 'White'),
+          blackName: normalizeName(names.black, 'Black'),
+        },
+      },
+    );
+  }, [engine, logLines]);
+
   const handoffPending = handoffSeat != null;
 
   return {
@@ -185,5 +233,6 @@ export function usePassAndPlayGame() {
     startPassAndPlayGame,
     exitPassAndPlayGame,
     sendMove,
+    buildDebugExport,
   };
 }

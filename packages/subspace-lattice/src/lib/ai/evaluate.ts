@@ -9,9 +9,19 @@ const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.Escort]: 25,
 };
 
+function sideToMoveCanCaptureHub(engine: SubspaceLatticeEngine): boolean {
+  for (const move of engine.listLegalMoves()) {
+    if (engine.getPieceAt(move.to)?.type === PieceType.CommandHub) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /**
  * Static evaluation from `perspective`'s point of view (higher = better).
  * Hybrid-aware: net size, sector progress, detection, mobility.
+ * Positions where the side to move can Surgical-Strike the hub score as near-terminal.
  */
 export function evaluatePosition(
   engine: SubspaceLatticeEngine,
@@ -20,6 +30,11 @@ export function evaluatePosition(
   const state = engine.getState();
   if (state.winner) {
     return state.winner === perspective ? 100_000 : -100_000;
+  }
+
+  // Hub-in-one: side to move can capture Command Hub — treat as decided.
+  if (sideToMoveCanCaptureHub(engine)) {
+    return state.currentPlayer === perspective ? 99_000 : -99_000;
   }
 
   const enemy =

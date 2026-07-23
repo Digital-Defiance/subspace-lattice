@@ -2,14 +2,32 @@ import { Link } from 'react-router-dom';
 import { PlayerColor } from '@subspace-lattice/core';
 import { Board } from './Board';
 import { ObjectiveHud } from './ObjectiveHud';
-import { TUTORIAL_LESSONS } from '../tutorial/tutorial-model';
+import {
+  TUTORIAL_LESSONS,
+  isWalkthroughLesson,
+} from '../tutorial/tutorial-model';
 import { useTutorialGame } from '../hooks/useTutorialGame';
 import './Tutorial.scss';
+
+const ACADEMY_LESSONS = TUTORIAL_LESSONS.map((item, index) => ({
+  item,
+  index,
+})).filter(({ item }) => !isWalkthroughLesson(item));
+
+const MISSION_LESSONS = TUTORIAL_LESSONS.map((item, index) => ({
+  item,
+  index,
+})).filter(({ item }) => isWalkthroughLesson(item));
 
 export function Tutorial() {
   const {
     lessonIndex,
     lesson,
+    stepIndex,
+    step,
+    seat,
+    totalSteps,
+    walkthrough,
     engine,
     phase,
     feedback,
@@ -18,8 +36,13 @@ export function Tutorial() {
     resetLesson,
     chooseLesson,
     submitMove,
+    playWalkthroughPly,
+    playWalkthroughBatch,
     continueTutorial,
   } = useTutorialGame();
+
+  const missionOrdinal =
+    MISSION_LESSONS.findIndex(({ index }) => index === lessonIndex) + 1;
 
   if (phase === 'graduated') {
     return (
@@ -28,11 +51,10 @@ export function Tutorial() {
           <span className="tutorial-kicker">Core training complete</span>
           <h1>You can command the fleet.</h1>
           <p>
-            You have moved every ship, built a Sensor Net, survived Target
-            Lock, fired a Beam, warped through a gap, captured an enemy,
-            repaired a broken relay, contested overlapping coverage, and seen
-            the sector clock arm. Guided battles and a hinted AI match come
-            next.
+            You finished the drills and three guided missions: a Surgical Strike
+            highlight reel, a chess-length battle, and a sector-clock finish.
+            Practice against the AI next—export a debug log if a match still
+            feels opaque.
           </p>
           <div className="tutorial-actions">
             <Link className="tutorial-primary" to="/play">
@@ -48,17 +70,30 @@ export function Tutorial() {
   }
 
   const state = engine.getState();
+  const humanToMove =
+    !walkthrough && phase === 'playing' && state.currentPlayer === seat;
+  const seatLabel = seat === PlayerColor.Black ? 'Black' : 'White';
+
   return (
-    <main className="tutorial">
+    <main className={`tutorial${walkthrough ? ' tutorial--walkthrough' : ''}`}>
       <header className="tutorial-topbar">
         <Link to="/" className="tutorial-home">
-          <img src="/SubspaceLattice-text-title-pretty.svg" alt="Subspace Lattice" width={250} />
+          <img
+            src="/SubspaceLattice-text-title-pretty.svg"
+            alt="Subspace Lattice"
+            width={250}
+          />
         </Link>
         <span>
-          Academy {lesson.number}/{String(TUTORIAL_LESSONS.length).padStart(2, '0')}
+          {walkthrough
+            ? `Mission ${missionOrdinal}/${MISSION_LESSONS.length}`
+            : `Academy ${lesson.number}/${String(ACADEMY_LESSONS.length).padStart(2, '0')}`}
+          {totalSteps > 1
+            ? ` · ${walkthrough ? 'Ply' : 'Step'} ${stepIndex + 1}/${totalSteps}`
+            : ''}
         </span>
         <button type="button" onClick={() => resetLesson()}>
-          Restart lesson
+          Restart {walkthrough ? 'game' : 'lesson'}
         </button>
       </header>
 
@@ -72,15 +107,18 @@ export function Tutorial() {
             gameState={state}
             onMovePiece={submitMove}
             onPlacePiece={() => undefined}
-            localPlayer={
-              phase === 'playing' && state.currentPlayer === PlayerColor.White
-                ? PlayerColor.White
-                : 'OBSERVER'
-            }
+            localPlayer={humanToMove ? seat : 'OBSERVER'}
             guidance={{
-              selectablePieceIds: [lesson.playerMove.pieceId],
-              allowedDestinations: [lesson.playerMove.to],
-              focusCells: lesson.focusCells,
+              selectablePieceIds: walkthrough
+                ? []
+                : [step.playerMove.pieceId],
+              allowedDestinations: walkthrough ? [] : [step.playerMove.to],
+              focusCells: step.focusCells ?? [
+                ...(engine.getPiece(step.playerMove.pieceId)
+                  ? [engine.getPiece(step.playerMove.pieceId)!.position]
+                  : []),
+                step.playerMove.to,
+              ],
             }}
             onInvalidAction={setFeedback}
           />
@@ -95,11 +133,30 @@ export function Tutorial() {
           <span className="tutorial-kicker">{lesson.concept}</span>
           <h1>{lesson.title}</h1>
           <p className="tutorial-explanation">{lesson.explanation}</p>
+          {totalSteps > 1 && (
+            <p className="tutorial-step-why">
+              <strong>
+                {walkthrough ? 'Ply' : 'Step'} {stepIndex + 1}/{totalSteps}
+                {' · '}
+                {seatLabel}
+              </strong>
+              {' — '}
+              {step.why}
+            </p>
+          )}
 
           <div
             className={`tutorial-objective ${phase === 'success' ? 'is-complete' : ''}`}
           >
-            <span>{phase === 'success' ? 'Objective complete' : 'Your objective'}</span>
+            <span>
+              {phase === 'success'
+                ? walkthrough
+                  ? 'How this game was won'
+                  : 'Objective complete'
+                : walkthrough
+                  ? 'Coming up'
+                  : 'Your objective'}
+            </span>
             <p>{feedback}</p>
           </div>
 
@@ -123,6 +180,29 @@ export function Tutorial() {
                   : 'Next lesson'}
               </button>
             )}
+            {phase === 'playing' && walkthrough && (
+              <>
+                <button
+                  type="button"
+                  className="tutorial-primary"
+                  onClick={() => playWalkthroughPly()}
+                  data-testid="tutorial-play-ply"
+                >
+                  {stepIndex === totalSteps - 1
+                    ? 'Play the winning move'
+                    : 'Play this move'}
+                </button>
+                {totalSteps > 12 && stepIndex < totalSteps - 1 && (
+                  <button
+                    type="button"
+                    onClick={() => playWalkthroughBatch(5)}
+                    data-testid="tutorial-play-batch"
+                  >
+                    Play next 5
+                  </button>
+                )}
+              </>
+            )}
             {phase !== 'success' && (
               <button type="button" onClick={continueTutorial}>
                 Skip
@@ -130,18 +210,42 @@ export function Tutorial() {
             )}
           </div>
 
-          <nav className="tutorial-lessons" aria-label="Academy lessons">
-            {TUTORIAL_LESSONS.map((item, index) => (
-              <button
-                key={item.id}
-                type="button"
-                className={index === lessonIndex ? 'is-current' : ''}
-                onClick={() => chooseLesson(index)}
-                aria-label={`Lesson ${item.number}: ${item.title}`}
-              >
-                {item.number}
-              </button>
-            ))}
+          <nav className="tutorial-nav" aria-label="Academy curriculum">
+            <div className="tutorial-nav-group">
+              <span className="tutorial-nav-label">Academy</span>
+              <div className="tutorial-lessons" role="list">
+                {ACADEMY_LESSONS.map(({ item, index }) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="listitem"
+                    className={index === lessonIndex ? 'is-current' : ''}
+                    onClick={() => chooseLesson(index)}
+                    aria-label={`Lesson ${item.number}: ${item.title}`}
+                  >
+                    {item.number}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="tutorial-nav-group">
+              <span className="tutorial-nav-label">Missions</span>
+              <div className="tutorial-missions" role="list">
+                {MISSION_LESSONS.map(({ item, index }, missionIndex) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="listitem"
+                    className={index === lessonIndex ? 'is-current' : ''}
+                    onClick={() => chooseLesson(index)}
+                    aria-label={`Mission ${missionIndex + 1}: ${item.title}`}
+                    title={item.title}
+                  >
+                    M{missionIndex + 1}
+                  </button>
+                ))}
+              </div>
+            </div>
           </nav>
         </aside>
       </div>

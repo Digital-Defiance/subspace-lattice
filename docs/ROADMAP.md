@@ -174,8 +174,9 @@ idea of alternating turns. Never require external game vocabulary to proceed.
       coverage percentages, and counterplay against integration.
 - [x] **6.8 The sector clock.** Activation, Integration Hold, breaking a hold,
       Sector Integration victory, and no-legal-moves victory.
-- [ ] **6.9 Command exercise.** A short guided battle combining every shipping
-      mechanic against a deterministic opponent.
+- [x] **6.9 Command exercise.** Guided drills plus three pre-calculated
+      missions: short Surgical Strike reel, chess-length battle (~50 plies),
+      and sector-clock finish.
 - [ ] **6.10 First live simulation.** A forgiving AI match with optional
       contextual hints, followed by clear routes to normal local AI and online
       play.
@@ -190,9 +191,11 @@ idea of alternating turns. Never require external game vocabulary to proceed.
 - [ ] **6.C Core curriculum.** Lessons 6.1–6.6 have a first interactive pass;
       capture and broken-link recovery drills are live; blockers and free
       exploration remain before calling the curriculum complete.
-- [ ] **6.D Fleet curriculum.** Lessons 6.7–6.8 are live; 6.9–6.10 remain.
-- [ ] **6.E Graduation.** Guided battle, hinted AI match, splash-page CTA,
-      completion state, analytics events that contain no game/account secrets.
+- [x] **6.D Fleet curriculum.** Lessons 6.7–6.8 plus Beam liberation, Hub
+      safety, Surgical Strike, command exercise, and Black seat (6.9) are live;
+      6.10 remains.
+- [ ] **6.E Graduation.** Guided battle is live; hinted AI match, splash-page
+      CTA polish, completion analytics remain.
 - [ ] **6.F Verification.** Unit tests for lesson transitions and scripted
       responses; Playwright coverage for first move, restart, completion, and
       resuming saved progress.
