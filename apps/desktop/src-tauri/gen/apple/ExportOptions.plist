@@ -13,7 +13,7 @@
   <key>provisioningProfiles</key>
   <dict>
     <key>org.digitaldefiance.app.subspacelattice</key>
-    <string>iOS Subspace Lattice</string>
+    <string>Subspace Lattice App Store Connect</string>
   </dict>
 </dict>
 </plist>

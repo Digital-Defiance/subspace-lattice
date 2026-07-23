@@ -255,12 +255,12 @@
 		1B9D5B8D34E6E0C88D0207F2 /* release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "iOS Subspace Lattice";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS Subspace Lattice";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Subspace Lattice App Store Connect";
+				PROVISIONING_PROFILE_SPECIFIER = "Subspace Lattice App Store Connect";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Digital Defiance (J6887N729S)";
 				CODE_SIGN_STYLE = Manual;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = J6887N729S;
-				DEVELOPMENT_TEAM = "J6887N729S";
+				DEVELOPMENT_TEAM = J6887N729S;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = (
 					arm64,
@@ -348,12 +348,12 @@
 		4AC19FD47C6011940ACEB467 /* debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "iOS Subspace Lattice";
-				PROVISIONING_PROFILE_SPECIFIER = "iOS Subspace Lattice";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Subspace Lattice App Store Connect";
+				PROVISIONING_PROFILE_SPECIFIER = "Subspace Lattice App Store Connect";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Digital Defiance (J6887N729S)";
 				CODE_SIGN_STYLE = Manual;
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = J6887N729S;
-				DEVELOPMENT_TEAM = "J6887N729S";
+				DEVELOPMENT_TEAM = J6887N729S;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ARCHS = (
 					arm64,
