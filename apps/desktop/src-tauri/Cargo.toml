@@ -1,6 +1,6 @@
 [package]
 name = "subspacelattice"
-version = "0.1.6"
+version = "0.1.7"
 description = "Subspace Lattice desktop client"
 authors = ["Digital Defiance"]
 edition = "2021"
