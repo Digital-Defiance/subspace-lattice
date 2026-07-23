@@ -1,0 +1,10 @@
+---
+description: Subspace Lattice project guide — architecture, commands, Firebase guardrails
+alwaysApply: true
+---
+
+The canonical agent guide for this repo is `AGENTS.md` at the project root. Read and follow it.
+
+When this repo sits under an IWGF workspace next to Warp12, also respect `../AGENTS.md` for shared Firebase / leaderboard context.
+
+@AGENTS.md
