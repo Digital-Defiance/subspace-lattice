@@ -77,13 +77,13 @@ test.describe('local AI', () => {
 });
 
 test.describe('standings link', () => {
-  test('landing points at federation standings hub', async ({ page }) => {
+  test('landing points at Lattice TEI standings', async ({ page }) => {
     await page.goto('/');
     const standings = page.getByTestId('federation-standings');
     await expect(standings).toBeVisible();
     await expect(standings).toHaveAttribute(
       'href',
-      'https://iwgf.org/leaderboard',
+      'https://iwgf.org/leaderboard/lattice',
     );
   });
 });

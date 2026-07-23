@@ -28,7 +28,7 @@ export function Landing() {
             Learn to Play
           </Link>
           <a
-            href="https://iwgf.org/leaderboard"
+            href="https://iwgf.org/leaderboard/lattice"
             className="landing-secondary"
             data-testid="federation-standings"
           >

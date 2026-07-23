@@ -7,14 +7,14 @@ import {
 } from '@subspace-lattice/react';
 import { Landing } from './landing';
 
-/** Old /leaderboard bookmarks → federation standings hub. */
+/** Old /leaderboard bookmarks → Lattice TEI on the federation standings site. */
 function FederationStandingsRedirect() {
   if (typeof window !== 'undefined') {
-    window.location.replace('https://iwgf.org/leaderboard');
+    window.location.replace('https://iwgf.org/leaderboard/lattice');
   }
   return (
     <p style={{ padding: '2rem', textAlign: 'center' }}>
-      Redirecting to Federation Standings…
+      Redirecting to Lattice TEI standings…
     </p>
   );
 }

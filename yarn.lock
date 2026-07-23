@@ -5767,7 +5767,7 @@ __metadata:
   resolution: "@subspace-lattice/functions@workspace:apps/functions"
   dependencies:
     firebase-admin: "npm:^13.6.0"
-    firebase-functions: "npm:^7.0.5"
+    firebase-functions: "npm:7.3.0"
   languageName: unknown
   linkType: soft
 
@@ -9679,7 +9679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-functions@npm:^7.0.5":
+"firebase-functions@npm:7.3.0":
   version: 7.3.0
   resolution: "firebase-functions@npm:7.3.0"
   dependencies:

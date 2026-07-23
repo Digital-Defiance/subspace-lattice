@@ -49,6 +49,25 @@ function requireAuth(uid: string | undefined): string {
   return uid;
 }
 
+/** Federation bans live in shared `bans` (same project as Warp). */
+async function assertNotBanned(uid: string): Promise<void> {
+  const snap = await db.collection('bans').doc(uid).get();
+  if (!snap.exists) return;
+  const data = snap.data() as {
+    active?: boolean;
+    expiresAt?: { toMillis?: () => number } | null;
+  };
+  if (data.active === false) return;
+  const exp = data.expiresAt;
+  if (exp && typeof exp.toMillis === 'function') {
+    if (exp.toMillis() <= Date.now()) return;
+  }
+  throw new HttpsError(
+    'permission-denied',
+    'This captain is banned from IWGF online services.'
+  );
+}
+
 async function allocateUniqueRoomCode(): Promise<string> {
   for (let attempt = 0; attempt < 20; attempt++) {
     const code = generateRoomCode();
@@ -89,6 +108,7 @@ async function resolveFederationCallSign(uid: string): Promise<string> {
 
 export const createRoom = onCall(async (request) => {
   const uid = requireAuth(request.auth?.uid);
+  await assertNotBanned(uid);
   const name = String(request.data?.name ?? '').trim();
   const password =
     typeof request.data?.password === 'string' && request.data.password
@@ -201,6 +221,7 @@ export const lookupRoom = onCall(async (request) => {
 
 export const joinRoom = onCall(async (request) => {
   const uid = requireAuth(request.auth?.uid);
+  await assertNotBanned(uid);
   const roomCode = String(request.data?.roomCode ?? '')
     .trim()
     .toUpperCase();
