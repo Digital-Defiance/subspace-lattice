@@ -150,7 +150,7 @@ export function useTutorialGame() {
   const playWalkthroughBatch = useCallback(
     (count: number) => {
       if (!walkthrough || phase !== 'playing' || count < 1) return;
-      let next = engine.clone();
+      const next = engine.clone();
       let idx = stepIndex;
       for (let n = 0; n < count; n++) {
         const current = lesson.steps[idx];

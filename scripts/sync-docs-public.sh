@@ -19,3 +19,4 @@ copy_one() {
 
 copy_one "$ROOT/docs/rules.pdf" "rules.pdf"
 copy_one "$ROOT/docs/Subspace Lattice Manual.pdf" "subspace-lattice-manual.pdf"
+copy_one "$ROOT/docs/advanced-manual.pdf" "advanced-manual.pdf"

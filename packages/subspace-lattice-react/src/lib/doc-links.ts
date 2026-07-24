@@ -5,12 +5,14 @@ export const LATTICE_DOCS_ORIGIN = 'https://lattice.iwgf.org';
 
 export const INTRO_MANUAL_PATH = '/docs/subspace-lattice-manual.pdf';
 export const OFFICIAL_RULES_PATH = '/docs/rules.pdf';
+export const ADVANCED_MANUAL_PATH = '/docs/advanced-manual.pdf';
 
-export type LatticeDocId = 'manual' | 'rules';
+export type LatticeDocId = 'manual' | 'rules' | 'advanced';
 
 const DOC_PATHS: Record<LatticeDocId, string> = {
   manual: INTRO_MANUAL_PATH,
   rules: OFFICIAL_RULES_PATH,
+  advanced: ADVANCED_MANUAL_PATH,
 };
 
 /**

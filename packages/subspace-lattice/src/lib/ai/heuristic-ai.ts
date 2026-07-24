@@ -4,7 +4,7 @@ import { Coordinate } from '../interfaces/coordinate';
 import { Piece } from '../interfaces/piece';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
-import { filterMovesAvoidingHubMate } from './tactical';
+import { pickBestAvoidingHubMate } from './tactical';
 
 export interface AiMoveChoice extends AgentMove {
   from: Coordinate;
@@ -31,37 +31,19 @@ export class HeuristicAi implements Agent {
 
   public chooseMove(engine: SubspaceLatticeEngine): AiMoveChoice | null {
     const color = engine.getState().currentPlayer;
-    const legal = filterMovesAvoidingHubMate(
-      engine,
-      engine.listLegalMoves(color),
-    );
+    const legal = engine.listLegalMoves(color);
     if (legal.length === 0) return null;
 
     const enemyHub = Object.values(engine.getState().pieces).find(
       (p) => p.owner !== color && p.type === PieceType.CommandHub,
     );
 
-    let bestScore = Number.NEGATIVE_INFINITY;
-    const best: AiMoveChoice[] = [];
-
-    for (const move of legal) {
+    const scored = legal.map((move) => {
       const score = this.scoreMove(engine, move.pieceId, move.to, enemyHub);
-      const choice: AiMoveChoice = { ...move, score };
-      if (score > bestScore) {
-        bestScore = score;
-        best.length = 0;
-        best.push(choice);
-      } else if (score === bestScore) {
-        best.push(choice);
-      }
-    }
+      return { move: { ...move, score } as AiMoveChoice, score };
+    });
 
-    if (best.length === 0) return null;
-    const index = Math.min(
-      best.length - 1,
-      Math.floor(this.rng() * best.length),
-    );
-    return best[index] ?? null;
+    return pickBestAvoidingHubMate(engine, scored, this.rng);
   }
 
   private scoreMove(

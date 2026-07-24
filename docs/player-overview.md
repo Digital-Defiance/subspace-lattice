@@ -77,6 +77,7 @@ tracks in `latticeTei` (`localAi` and `online`).
 | Audience | Document |
 | --- | --- |
 | New / casual players | Introductory manual (`/docs/subspace-lattice-manual.pdf` on the site) |
+| Improving players | Advanced manual — three fully annotated games ([`docs/advanced-manual.pdf`](./advanced-manual.pdf), `/docs/advanced-manual.pdf` on the site; rebuild via `yarn build:advanced-manual`) |
 | In-game summary | Rules dialog in the client |
 | Normative / serious rules | [`docs/rules.pdf`](./rules.pdf) (`/docs/rules.pdf` on the site) |
 | Opening diagram | `/setup-diagram` in the web app |

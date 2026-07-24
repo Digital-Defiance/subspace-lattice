@@ -15,6 +15,8 @@ export default tseslint.config(
       '**/src-tauri/target/**',
       '**/vite.config.ts.timestamp*',
       '**/vite.config.*.timestamp*',
+      // Vendored third-party sources (see each vendor/<pkg>/README.md).
+      '**/src/vendor/**',
     ],
   },
   eslint.configs.recommended,

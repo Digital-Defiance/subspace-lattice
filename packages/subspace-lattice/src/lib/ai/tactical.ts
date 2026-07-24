@@ -41,15 +41,29 @@ export function findImmediateWinningMove(
 /**
  * True when playing `move` leaves the opponent able to capture our Command Hub
  * on the reply (Surgical Strike). Winning moves that end the game are safe.
+ *
+ * Cheap by design (hot path for every agent): instead of enumerating the
+ * opponent's full legal-move list, test each enemy piece directly against the
+ * hub square.
  */
 export function moveLeavesHubHanging(
   engine: SubspaceLatticeEngine,
   move: AgentMove,
 ): boolean {
+  const me = engine.getState().currentPlayer;
   const child = engine.clone();
   if (!child.movePiece(move.pieceId, move.to)) return true;
-  if (child.getState().winner) return false;
-  return findHubCaptureMove(child) !== null;
+  const state = child.getState();
+  if (state.winner) return false;
+  const hub = Object.values(state.pieces).find(
+    (p) => p.owner === me && p.type === PieceType.CommandHub,
+  );
+  if (!hub) return false;
+  for (const piece of Object.values(state.pieces)) {
+    if (piece.owner === me) continue;
+    if (child.canMovePiece(piece, hub.position)) return true;
+  }
+  return false;
 }
 
 /**
@@ -66,6 +80,38 @@ export function filterMovesAvoidingHubMate<T extends AgentMove>(
 }
 
 /**
+ * Pick the best-scoring move that does not hang the Hub, checking hub safety
+ * lazily from the top score band down (cheap for the common case where the
+ * best move is already safe). Falls back to the best hanging move when every
+ * option loses. Ties within a band break via `rng`.
+ */
+export function pickBestAvoidingHubMate<T extends AgentMove>(
+  engine: SubspaceLatticeEngine,
+  scored: readonly { move: T; score: number }[],
+  rng: () => number,
+): T | null {
+  if (scored.length === 0) return null;
+  const bands = new Map<number, T[]>();
+  for (const { move, score } of scored) {
+    const band = bands.get(score);
+    if (band) band.push(move);
+    else bands.set(score, [move]);
+  }
+  const scores = [...bands.keys()].sort((a, b) => b - a);
+  for (const score of scores) {
+    const safe = bands
+      .get(score)!
+      .filter((m) => !moveLeavesHubHanging(engine, m));
+    if (safe.length > 0) {
+      return safe[Math.min(safe.length - 1, Math.floor(rng() * safe.length))]!;
+    }
+  }
+  // Everything hangs — forced loss; keep the strongest attempt.
+  const top = bands.get(scores[0]!)!;
+  return top[Math.min(top.length - 1, Math.floor(rng() * top.length))]!;
+}
+
+/**
  * Shallow maximizer over evaluatePosition after each legal move.
  * Depth 1 only (branching is large under hybrid infiltrator warps).
  * Skips moves that leave the Command Hub hanging when safer options exist.
@@ -75,30 +121,14 @@ export function shallowBestMove(
   rng: () => number = Math.random,
 ): AgentMove | null {
   const me = engine.getState().currentPlayer;
-  const legal = filterMovesAvoidingHubMate(
-    engine,
-    engine.listLegalMoves().map((m) => ({ pieceId: m.pieceId, to: m.to })),
-  );
-  if (legal.length === 0) return null;
+  const scored: { move: AgentMove; score: number }[] = [];
 
-  let bestScore = Number.NEGATIVE_INFINITY;
-  const best: AgentMove[] = [];
-
-  for (const move of legal) {
+  for (const legal of engine.listLegalMoves()) {
+    const move = { pieceId: legal.pieceId, to: legal.to };
     const child = engine.clone();
     if (!child.movePiece(move.pieceId, move.to)) continue;
-    const score = evaluatePosition(child, me);
-    const choice = { pieceId: move.pieceId, to: move.to };
-    if (score > bestScore) {
-      bestScore = score;
-      best.length = 0;
-      best.push(choice);
-    } else if (score === bestScore) {
-      best.push(choice);
-    }
+    scored.push({ move, score: evaluatePosition(child, me) });
   }
 
-  if (best.length === 0) return null;
-  const index = Math.min(best.length - 1, Math.floor(rng() * best.length));
-  return best[index] ?? null;
+  return pickBestAvoidingHubMate(engine, scored, rng);
 }

@@ -203,7 +203,7 @@ $copy-muted: #a9b7d4;
 }
 
 .landing-footer {
-  margin-top: 4rem;
+  margin-top: 1rem;
   font-size: 0.8rem;
   color: #5d6c8c;
 }
@@ -216,4 +216,28 @@ $copy-muted: #a9b7d4;
 .landing-footer-iwgf-text-logo {
   font-family: var(--font-federation-wide);
   color: var(--warp-accent,#38bdf8);
+}
+
+.appAvailability {
+  margin-top: 1rem;
+ ul {
+  li {
+    text-align: left;
+    list-style: none;
+  }
+ }
+}
+
+.platformIcon {
+  height: 16px;
+  width: auto;
+  vertical-align: -0.15em;
+  /* black → target color via filter chain */
+  filter: brightness(0) saturate(100%) invert(88%) sepia(8%) saturate(427%)
+    hue-rotate(169deg) brightness(98%) contrast(92%);
+}
+
+.platformLink {
+  text-decoration: none;
+  color: #38bdf8;
 }

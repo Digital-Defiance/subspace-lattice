@@ -12,6 +12,8 @@
     "calibrate:ai": "nx run core:calibrate-ai",
     "evolve": "nx run core:evolve",
     "build:rules": "bash scripts/build-rules.sh",
+    "build:advanced-manual": "bash scripts/build-advanced-manual.sh",
+    "capture:mission-figures": "node scripts/capture-mission-figures.mjs",
     "sync:docs-public": "bash scripts/sync-docs-public.sh",
     "deploy:firebase": "bash scripts/deploy-firebase.sh",
     "deploy:firebase:hosting": "bash scripts/deploy-firebase.sh hosting:lattice",

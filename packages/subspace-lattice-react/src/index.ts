@@ -15,6 +15,7 @@ export * from './lib/debug-export';
 export * from './lib/deliver-file';
 export * from './components/SetupDiagram';
 export * from './components/FiguresCaptureHarness';
+export * from './components/MissionFiguresHarness';
 export * from './components/ObjectiveHud';
 export * from './components/Tutorial';
 export * from './components/SubspaceLatticeLogo';

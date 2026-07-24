@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import {
   FiguresCaptureHarness,
   GameLayout,
+  MissionFiguresHarness,
   SetupDiagramHarness,
   Tutorial,
 } from '@subspace-lattice/react';
@@ -31,6 +32,10 @@ export function App() {
       <Route path="/setup-diagram" element={<SetupDiagramHarness />} />
       <Route path="/harness/setup" element={<SetupDiagramHarness />} />
       <Route path="/harness/figures" element={<FiguresCaptureHarness />} />
+      <Route
+        path="/harness/mission-figures"
+        element={<MissionFiguresHarness />}
+      />
     </Routes>
   );
 }

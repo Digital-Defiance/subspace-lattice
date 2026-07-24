@@ -5,6 +5,16 @@ import {
   SubspaceLatticeLogo,
 } from '@subspace-lattice/react';
 
+// <li><img className={styles.platformIcon} height="16" src="/google-play-brands-solid-full.svg" alt="Google Play" /> <a className={styles.platformLink} target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=org.digitaldefiance.app.warp12">Google Play</a></li>
+const appsSection = (<section className="appAvailability">
+  <h4>Available on multiple platforms</h4>
+  <ul>
+    <li><img className="platformIcon" height="16" src="/microsoft-brands-solid-full.svg" alt="Microsoft Store" /> <a className="platformLink" target="_blank" rel="noopener noreferrer" href="https://apps.microsoft.com/detail/9PNNSVNCZ2NK">Microsoft Store</a></li>
+    <li><img className="platformIcon" height="16" src="/beer-mug-duotone-solid-full.svg" alt="Homebrew" /> <a className="platformLink" target="_blank" rel="noopener noreferrer" href="https://brew.digitaldefiance.org">Mac via Homebrew</a></li>
+  </ul>
+  <p>More pending app store review!</p>
+</section>);
+
 export function Landing() {
   return (
     <div className="landing">
@@ -40,6 +50,8 @@ export function Landing() {
           <DocLink doc="manual">Introductory manual</DocLink>
           <span aria-hidden="true"> · </span>
           <DocLink doc="rules">Official rules</DocLink>
+          <span aria-hidden="true"> · </span>
+          <DocLink doc="advanced">Advanced walkthrough</DocLink>
         </p>
       </main>
 
@@ -81,6 +93,7 @@ export function Landing() {
           </p>
         </div>
       </section>
+      {appsSection}
 
       <footer className="landing-footer">
         <div className="landing-footer-links">Subspace Lattice · <Link to="https://iwgf.org" className="landing-iwgf-link">Interstellar Warp Gaming Federation</Link> · lattice.iwgf.org</div>
