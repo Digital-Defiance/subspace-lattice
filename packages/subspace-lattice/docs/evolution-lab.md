@@ -29,7 +29,7 @@ Design intent for the public “fleet” game (**Track A**):
 | Length | Few truncations (`deadlockRate ≤ 0.4`); interesting midgame share |
 
 **Track B** treats territory as co-equal (looser sector ceiling, no clock hard
-reject). Track B’s soft-ship candidate remains the territorial default
+reject). Track B’s shipping candidate remains the territorial default
 `hub3 / esc1 / link2 / ρ0.45` (no hold, no neutral, no activation).
 
 Nothing in this lab auto-promotes defaults. Evolve always sets
@@ -262,7 +262,7 @@ the seat fix and brought sector share back into band.
 
 **Production confirm (`…-initiative-relay-production-confirm.jsonl`):**
 `hub3/esc1/link2/ρ0.45/hold1/neutral/act100/relay1` → White 45% / Black 55%,
-sector 30%, sep 13.3, composite 0.755, Track A **OK**. Soft-ship as
+sector 30%, sep 13.3, composite 0.755, Track A **OK**. Ships as
 `FLEET_V1_RULES`; do not replace shipping `HYBRID_RULES` without playtest.
 
 ### 4.9 TEI anchors (UI strengths → rated opponent)
@@ -287,10 +287,10 @@ large ordinal gaps (~15 / ~12). Combined win rates: Strong beat Normal
 
 ## 5. Current status
 
-| Track | Soft-ship / candidate | Status |
+| Track | Shipping / candidate | Status |
 | --- | --- | --- |
-| **B** | `hub3/esc1/link2/ρ0.45` (legacy hybrid) | Soft-ship OK for internal territorial play; weak skill sep under territory race |
-| **A** | `hub3/esc1/link2/ρ0.45/hold1/neutral/act100/relay1` | **Passes Track A** at production budget; soft-ship `FLEET_V1_RULES`; human playtest before shipping default |
+| **B** | `hub3/esc1/link2/ρ0.45` (legacy hybrid) | OK for internal territorial play; weak skill sep under territory race |
+| **A** | `hub3/esc1/link2/ρ0.45/hold1/neutral/act100/relay1` | **Passes Track A** at production budget; ships as `FLEET_V1_RULES`; human playtest before shipping default |
 | Spool | `hybrid-spool` | Benched — improves fairness slightly, craters infiltrator lethality without fixing win-path |
 
 Clock-function verification for any future candidate:
@@ -356,7 +356,7 @@ omit it when you want the machine to prioritize the run.
 | `evolve-20260721-hybrid-fair.jsonl` | Baseline hybrid fairness |
 | `evolve-20260721-spool-fair.jsonl` | Spool A/B |
 | `evolve-20260721-trackA.jsonl` | Random Track A sweep |
-| `evolve-20260721-trackB-hybrid.jsonl` | Track B soft-ship |
+| `evolve-20260721-trackB-hybrid.jsonl` | Track B shipping candidate |
 | `evolve-20260721-trackA-matrix.jsonl` | Fixed ρ bridge attempt |
 | `evolve-20260721-rho-focus.jsonl` | ρ focus |
 | `evolve-20260721-hold-matrix.jsonl` | Hold @ maxPlies=120 |
@@ -388,7 +388,7 @@ omit it when you want the machine to prioritize the run.
 2. **Paired seeds or you are not comparing rules.** Unpaired indices confounded
    the first hold1–3 “OK” call.
 3. **Thin sector samples lie.** Confirm any `clock?` survivor at ≥48 fairness
-   games before soft-shipping.
+   games before shipping as the default.
 4. **Truncation ≠ interesting late game.** Raise `--max-plies` when adding hold
    or activation, or “deadlocks” are just the ply cap.
 5. **Integer geometry has no continuum.** Board size 11 ⇒ 120 controllable

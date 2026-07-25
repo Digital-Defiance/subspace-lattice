@@ -87,18 +87,21 @@
   }
 
   &.sovereign-white {
-    background-color: #1a2a3a;
-    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.35);
+    // Cool blue wash — keep dark enough for White glyphs to pop.
+    background-color: #1e3348;
+    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.42);
   }
 
   &.sovereign-black {
-    background-color: #2a1a1a;
-    box-shadow: inset 0 0 0 1px rgba(255, 140, 100, 0.35);
+    // Warm rose wash — light enough that near-black glyphs still silhouette.
+    // #2a1a1a was too close to the piece fill and swallowed Black ships.
+    background-color: #4a2c34;
+    box-shadow: inset 0 0 0 1px rgba(255, 150, 120, 0.5);
   }
 
   &.sovereign-contested {
-    background-color: #2a2430;
-    box-shadow: inset 0 0 0 1px rgba(200, 160, 255, 0.4);
+    background-color: #3a3048;
+    box-shadow: inset 0 0 0 1px rgba(200, 160, 255, 0.48);
   }
 
   &.spool-target {
@@ -163,12 +166,13 @@
   }
 
   &.black {
-    // Dark fill with a crisp light stroke: reads as "black piece" without
-    // disappearing into the dark board. A text-shadow halo alone is too
-    // diffuse at this glyph size.
-    color: #0b0e13;
-    -webkit-text-stroke: 1px rgba(226, 234, 246, 0.9);
-    text-shadow: 0 0 5px rgba(150, 170, 200, 0.4);
+    // Near-black glyph with a light rim so it silhouettes on dark / Black-net
+    // cells. The rim is -webkit-text-stroke (not a disc); the figure capture
+    // converter emits it as an SVG text stroke so manuals/videos match the app.
+    color: #0e1118;
+    -webkit-text-stroke: 2px rgba(244, 236, 232, 0.98);
+    paint-order: stroke fill;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
   }
 
   &.detected {

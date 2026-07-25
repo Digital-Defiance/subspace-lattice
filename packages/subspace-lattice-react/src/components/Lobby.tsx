@@ -187,9 +187,9 @@ export const Lobby: React.FC<LobbyProps> = ({
             </button>
           )}
           <p className="lobby-fleet-hint">
-            Soft-ship hybrid-fleet: Initiative Relay + sector clock. Pick your
-            seat, then play vs AI (rated TEI when signed in) or pass &amp; play
-            (unrated; your seat defaults to Federation Profile call sign).
+            Hybrid-fleet: Initiative Relay + sector clock. Pick your seat, then
+            play vs AI (rated TEI when signed in) or pass &amp; play (unrated;
+            your seat defaults to Federation Profile call sign).
           </p>
         </div>
       ) : (

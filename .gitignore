@@ -85,6 +85,10 @@ docs/*.synctex.gz
 # Evolution / sim run artifacts (regenerate with yarn evolve -- --out …)
 apps/web/public/docs/*.pdf
 
+# Remotion academy videos
+apps/academy-videos/out/
+apps/academy-videos/public/audio/
+
 # System Files
 .DS_Store
 Thumbs.db

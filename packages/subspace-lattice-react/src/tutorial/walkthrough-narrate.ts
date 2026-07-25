@@ -21,6 +21,10 @@ const PIECE_LABEL: Record<string, string> = {
   [PieceType.Beam]: 'Beam',
 };
 
+function article(label: string): string {
+  return /^[aeiou]/i.test(label) ? 'an' : 'a';
+}
+
 function phaseForPly(
   plyIndex: number,
   total: number,
@@ -59,19 +63,19 @@ export function narrateMissionPly(
       return {
         seat,
         objective: `${seatName} delivers Surgical Strike.`,
-        why: `${seatName} captures the enemy Command Hub with a ${label}. The battle ends immediately—this is the primary win most fleet games are playing toward.`,
+        why: `${seatName} captures the enemy Command Hub with ${article(label)} ${label}. The battle ends immediately—this is the primary win most fleet games are playing toward.`,
         focusCells,
       };
     }
     return {
       seat,
-      objective: `${seatName} captures with a ${label}.`,
+      objective: `${seatName} captures with ${article(label)} ${label}.`,
       why:
         phase === 'opening'
           ? `${seatName} takes material early to loosen the opponent’s screen and free lanes.`
           : phase === 'endgame'
             ? `${seatName} removes a defender. Captures this late usually open the Hub or collapse a relay.`
-            : `${seatName} trades or takes with a ${label} at ${dest}, reshaping the net fight.`,
+            : `${seatName} trades or takes with ${article(label)} ${label} at ${dest}, reshaping the net fight.`,
       focusCells,
     };
   }
@@ -109,8 +113,8 @@ export function narrateMissionPly(
   if (phase === 'opening') {
     return {
       seat,
-      objective: `${seatName} develops an ${label}.`,
-      why: `Opening: ${seatName} advances an ${label} to ${dest}, linking coverage and contesting the midboard before big tactics appear.`,
+      objective: `${seatName} develops ${article(label)} ${label}.`,
+      why: `Opening: ${seatName} advances ${article(label)} ${label} to ${dest}, linking coverage and contesting the midboard before big tactics appear.`,
       focusCells,
     };
   }
@@ -118,7 +122,7 @@ export function narrateMissionPly(
   if (phase === 'endgame') {
     return {
       seat,
-      objective: `${seatName} presses with an ${label}.`,
+      objective: `${seatName} presses with ${article(label)} ${label}.`,
       why: `Late game: ${seatName} plays ${label} to ${dest}. With the board tense, each step either threatens the Hub, expands a finishing net, or refuses a hang.`,
       focusCells,
     };
@@ -126,8 +130,8 @@ export function narrateMissionPly(
 
   return {
     seat,
-    objective: `${seatName} maneuvers an ${label}.`,
-    why: `Midgame: ${seatName} moves an ${label} to ${dest}. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake—not racing to paint the map.`,
+    objective: `${seatName} maneuvers ${article(label)} ${label}.`,
+    why: `Midgame: ${seatName} moves ${article(label)} ${label} to ${dest}. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake—not racing to paint the map.`,
     focusCells,
   };
 }

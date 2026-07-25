@@ -24,7 +24,7 @@ describe('TEI AI anchors (UI tiers)', () => {
     expect(getTeiDisplay(TEI_AI_ANCHORS.commander).formatted).toBe('I52');
   });
 
-  it('AI_STRENGTH_PRESETS search budgets match soft-ship UI', () => {
+  it('AI_STRENGTH_PRESETS search budgets match shipping UI', () => {
     expect(AI_STRENGTH_PRESETS).toEqual([
       { id: 'fast', label: 'Fast', simulations: 0 },
       { id: 'normal', label: 'Normal', simulations: 50 },

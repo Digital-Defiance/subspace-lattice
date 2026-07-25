@@ -1,6 +1,6 @@
 # Fleet rules playtest checklist (`hybrid-fleet`)
 
-Soft-shipped as the default for **local AI** and **new online rooms**.
+Ships as the default for **local AI** and **new online rooms**.
 Do not promote as the only documented “official hybrid” until this list is green.
 
 ## Setup visibility

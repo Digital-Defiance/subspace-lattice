@@ -10,7 +10,7 @@ import {
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PlayerColor } from '../interfaces';
 
-describe('hybrid-fleet soft-ship preset', () => {
+describe('hybrid-fleet shipping preset', () => {
   it('resolveRulesConfig(hybrid-fleet) matches FLEET_V1 + hybrid base', () => {
     const cfg = resolveRulesConfig('hybrid-fleet');
     expect(cfg).toEqual(HYBRID_FLEET_RULES);

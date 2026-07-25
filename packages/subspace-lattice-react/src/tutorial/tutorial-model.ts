@@ -31,13 +31,13 @@ const teachingRules = resolveRulesConfig('hybrid', {
   sectorActivationPly: 999,
 });
 
-/** Fleet soft-ship knobs with the sector clock disarmed for teaching. */
+/** Fleet default knobs with the sector clock disarmed for teaching. */
 const fleetTeachingRules = resolveRulesConfig('hybrid-fleet', {
   sectorIntegrationRatio: 0.45,
   sectorActivationPly: 999,
 });
 
-/** Fleet defaults with the real activation ply (soft-ship 100) for the clock lesson. */
+/** Fleet defaults with the real activation ply (100) for the clock lesson. */
 const clockTeachingRules = resolveRulesConfig('hybrid-fleet', {
   sectorIntegrationRatio: 0.45,
 });
@@ -483,7 +483,7 @@ export const TUTORIAL_DRILLS: readonly TutorialLesson[] = [
     title: 'The sector clock',
     concept: 'Activation and Integration Hold',
     explanation:
-      'Under hybrid-fleet, Sector Integration does not win from move one. The clock arms after many plies (soft-ship: 100). Once armed, coverage at or above 45% must hold for one full ply—Contested Space can break a streak. The training board is already past activation so the HUD reads ACTIVE.',
+      'Under hybrid-fleet, Sector Integration does not win from move one. The clock arms after many plies (default: 100). Once armed, coverage at or above 45% must hold for one full ply—Contested Space can break a streak. The training board is already past activation so the HUD reads ACTIVE.',
     objective:
       'Advance the highlighted Escort while the sector clock is armed. Watch coverage and hold on the HUD.',
     success:

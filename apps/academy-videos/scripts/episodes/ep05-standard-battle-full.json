@@ -1,0 +1,1053 @@
+{
+  "id": "ep05-standard-battle-full",
+  "compositionId": "Episode05",
+  "title": "Every Ply: The Standard Battle",
+  "youtubeTitle": "Subspace Lattice Academy Ep.5 — Every Ply of a Full Game (57-Ply Surgical Strike)",
+  "description": "Turn-by-turn walkthrough of Mission 2 with the Advanced Manual annotation for every single ply: net counts, Target Locks, Hub-en-prise warnings, and the Surgical Strike finish.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 5 · Full annotated game",
+      "headline": "Every Ply: The Standard Battle",
+      "subhead": "All 57 plies of Mission 2, exactly as annotated in the Advanced Manual.",
+      "voiceover": "Episode five: the full game, one ply at a time. No skipping, no scrubbing. This is Mission 2 from the Advanced Manual, and every move carries the same annotation you will find in the PDF — including the net counts and Hub warnings.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "start",
+      "missionId": "mission-standard-battle",
+      "ply": 0,
+      "moveLabel": "Starting position",
+      "overlays": {
+        "nets": "both"
+      },
+      "voiceover": "Starting seat under hybrid-fleet with the teaching clock disarmed. White holds the Initiative Relay Escort forward. Follow the ply counter in the corner; the caption is the manual text for that move.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "narration",
+      "id": "phase-opening",
+      "headline": "Opening · plies 1–14",
+      "bullets": [
+        "Advance central Escorts — they carry the net forward",
+        "Keep every Escort within two squares of the chain",
+        "Slide Beams into files that will matter later"
+      ],
+      "voiceover": "Opening phase. Structure, not gambits: advance central Escorts to carry the net forward, keep the chain linked within two squares, and pre-slide Beams into files that will matter once coverage arrives.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-001",
+      "missionId": "mission-standard-battle",
+      "ply": 1,
+      "moveLabel": "White Beam (2,0)→(2,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "White slides a Beam inside the blue Sensor Net. Beams only travel in that glow — this is repositioning inside the box until Escorts expand it.",
+      "durationHintSec": 8.9
+    },
+    {
+      "kind": "board",
+      "id": "ply-002",
+      "missionId": "mission-standard-battle",
+      "ply": 2,
+      "moveLabel": "Black Beam (2,10)→(2,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-003",
+      "missionId": "mission-standard-battle",
+      "ply": 3,
+      "moveLabel": "White Beam (8,0)→(8,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "White slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-004",
+      "missionId": "mission-standard-battle",
+      "ply": 4,
+      "moveLabel": "Black Beam (2,7)→(5,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-005",
+      "missionId": "mission-standard-battle",
+      "ply": 5,
+      "moveLabel": "White Beam (8,3)→(6,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "White slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-006",
+      "missionId": "mission-standard-battle",
+      "ply": 6,
+      "moveLabel": "Black Beam (8,10)→(8,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-007",
+      "missionId": "mission-standard-battle",
+      "ply": 7,
+      "moveLabel": "White Beam (2,3)→(4,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "White slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-008",
+      "missionId": "mission-standard-battle",
+      "ply": 8,
+      "moveLabel": "Black Beam (8,7)→(6,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
+      "durationHintSec": 3.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-009",
+      "missionId": "mission-standard-battle",
+      "ply": 9,
+      "moveLabel": "White Escort (4,0)→(4,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 4, row 1, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-010",
+      "missionId": "mission-standard-battle",
+      "ply": 10,
+      "moveLabel": "Black Escort (5,9)→(5,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: Black advances an Escort to column 5, row 8, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-011",
+      "missionId": "mission-standard-battle",
+      "ply": 11,
+      "moveLabel": "White Escort (6,0)→(6,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 6, row 1, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-012",
+      "missionId": "mission-standard-battle",
+      "ply": 12,
+      "moveLabel": "Black Command Hub (5,10)→(5,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 5, row 9. The Hub is both king and radio tower — every move changes the net's core.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "board",
+      "id": "ply-013",
+      "missionId": "mission-standard-battle",
+      "ply": 13,
+      "moveLabel": "White Escort (5,3)→(5,4)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Opening: White advances an Escort to column 5, row 4, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-014",
+      "missionId": "mission-standard-battle",
+      "ply": 14,
+      "moveLabel": "Black Escort (6,10)→(5,10)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Opening: Black advances an Escort to column 5, row 10, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "narration",
+      "id": "phase-midgame",
+      "headline": "Midgame · plies 15–49",
+      "bullets": [
+        "Net pressure over map painting",
+        "Target Locks punish overextension",
+        "Probe for a Hub mistake"
+      ],
+      "voiceover": "Midgame. This is net pressure and Target Lock threats, probing for a Hub mistake — not a race to paint the map. Watch for the moment an enemy Beam lane and a Hub share a file.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-015",
+      "missionId": "mission-standard-battle",
+      "ply": 15,
+      "moveLabel": "White Beam (6,3)→(6,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "White uses a Beam lane to column 6, row 5. Long slides mean the net already covers the path.",
+      "durationHintSec": 5.9
+    },
+    {
+      "kind": "board",
+      "id": "ply-016",
+      "missionId": "mission-standard-battle",
+      "ply": 16,
+      "moveLabel": "Black Beam (5,7)→(5,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Black uses a Beam lane to column 5, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-017",
+      "missionId": "mission-standard-battle",
+      "ply": 17,
+      "moveLabel": "White Beam (4,3)→(4,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "White uses a Beam lane to column 4, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-018",
+      "missionId": "mission-standard-battle",
+      "ply": 18,
+      "moveLabel": "Black Beam (6,7)→(5,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Black uses a Beam lane to column 5, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-019",
+      "missionId": "mission-standard-battle",
+      "ply": 19,
+      "moveLabel": "White Escort (4,1)→(4,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 4, row 2. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake — not racing to paint the map.",
+      "durationHintSec": 9.6
+    },
+    {
+      "kind": "board",
+      "id": "ply-020",
+      "missionId": "mission-standard-battle",
+      "ply": 20,
+      "moveLabel": "Black Escort (4,10)→(4,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-021",
+      "missionId": "mission-standard-battle",
+      "ply": 21,
+      "moveLabel": "White Escort (4,2)→(5,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-022",
+      "missionId": "mission-standard-battle",
+      "ply": 22,
+      "moveLabel": "Black Escort (4,9)→(4,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-023",
+      "missionId": "mission-standard-battle",
+      "ply": 23,
+      "moveLabel": "White Escort (5,2)→(5,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-024",
+      "missionId": "mission-standard-battle",
+      "ply": 24,
+      "moveLabel": "Black Escort (4,8)→(4,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-025",
+      "missionId": "mission-standard-battle",
+      "ply": 25,
+      "moveLabel": "White Escort (5,1)→(5,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-026",
+      "missionId": "mission-standard-battle",
+      "ply": 26,
+      "moveLabel": "Black Escort (4,7)→(4,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 38,
+        "locked": 1
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-027",
+      "missionId": "mission-standard-battle",
+      "ply": 27,
+      "moveLabel": "White Beam (4,5)→(4,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35,
+        "locked": 1,
+        "capture": "Escort"
+      },
+      "voiceover": "White trades or takes with a Beam at column 4, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-028",
+      "missionId": "mission-standard-battle",
+      "ply": 28,
+      "moveLabel": "Black Beam (5,6)→(4,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35,
+        "capture": "Beam"
+      },
+      "voiceover": "Black trades or takes with a Beam at column 4, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-029",
+      "missionId": "mission-standard-battle",
+      "ply": 29,
+      "moveLabel": "White Escort (6,1)→(5,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-030",
+      "missionId": "mission-standard-battle",
+      "ply": 30,
+      "moveLabel": "Black Beam (4,6)→(5,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Black uses a Beam lane to column 5, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-031",
+      "missionId": "mission-standard-battle",
+      "ply": 31,
+      "moveLabel": "White Command Hub (5,0)→(6,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 38,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 6, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-032",
+      "missionId": "mission-standard-battle",
+      "ply": 32,
+      "moveLabel": "Black Command Hub (5,9)→(6,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 38,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 6, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-033",
+      "missionId": "mission-standard-battle",
+      "ply": 33,
+      "moveLabel": "White Command Hub (6,1)→(6,2)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 6, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-034",
+      "missionId": "mission-standard-battle",
+      "ply": 34,
+      "moveLabel": "Black Escort (5,10)→(5,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 5, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-035",
+      "missionId": "mission-standard-battle",
+      "ply": 35,
+      "moveLabel": "White Command Hub (6,2)→(6,3)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 6, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-036",
+      "missionId": "mission-standard-battle",
+      "ply": 36,
+      "moveLabel": "Black Escort (5,9)→(6,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-037",
+      "missionId": "mission-standard-battle",
+      "ply": 37,
+      "moveLabel": "White Escort (5,4)→(6,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-038",
+      "missionId": "mission-standard-battle",
+      "ply": 38,
+      "moveLabel": "Black Beam (5,7)→(6,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 6, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-039",
+      "missionId": "mission-standard-battle",
+      "ply": 39,
+      "moveLabel": "White Escort (5,3)→(5,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-040",
+      "missionId": "mission-standard-battle",
+      "ply": 40,
+      "moveLabel": "Black Beam (6,7)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2,
+        "capture": "Beam"
+      },
+      "voiceover": "Black trades or takes with a Beam at column 6, row 5, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-041",
+      "missionId": "mission-standard-battle",
+      "ply": 41,
+      "moveLabel": "White Escort (6,4)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2,
+        "capture": "Beam"
+      },
+      "voiceover": "White trades or takes with an Escort at column 6, row 5, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-042",
+      "missionId": "mission-standard-battle",
+      "ply": 42,
+      "moveLabel": "Black Escort (5,8)→(5,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 5, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-043",
+      "missionId": "mission-standard-battle",
+      "ply": 43,
+      "moveLabel": "White Escort (5,1)→(6,1)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-044",
+      "missionId": "mission-standard-battle",
+      "ply": 44,
+      "moveLabel": "Black Escort (5,7)→(6,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-045",
+      "missionId": "mission-standard-battle",
+      "ply": 45,
+      "moveLabel": "White Escort (5,2)→(5,3)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: White moves an Escort to column 5, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-046",
+      "missionId": "mission-standard-battle",
+      "ply": 46,
+      "moveLabel": "Black Beam (5,6)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 6, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-047",
+      "missionId": "mission-standard-battle",
+      "ply": 47,
+      "moveLabel": "White Escort (6,5)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 52,
+        "netBlack": 42,
+        "locked": 2,
+        "capture": "Beam"
+      },
+      "voiceover": "White trades or takes with an Escort at column 6, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-048",
+      "missionId": "mission-standard-battle",
+      "ply": 48,
+      "moveLabel": "Black Escort (6,7)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 1,
+        "capture": "Escort"
+      },
+      "voiceover": "Black trades or takes with an Escort at column 6, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-049",
+      "missionId": "mission-standard-battle",
+      "ply": 49,
+      "moveLabel": "White Escort (5,4)→(6,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "narration",
+      "id": "phase-endgame",
+      "headline": "Endgame · plies 50–57",
+      "bullets": [
+        "Strike if the Hub hunt is winning",
+        "Otherwise coverage becomes the scoreboard",
+        "Every ply threatens, builds, or refuses a hang"
+      ],
+      "voiceover": "Endgame. Either a Hub hunt converts, or coverage becomes the scoreboard. Each step should threaten, expand a finishing net, or refuse a hang.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-050",
+      "missionId": "mission-standard-battle",
+      "ply": 50,
+      "moveLabel": "Black Command Hub (6,8)→(6,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 6, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-051",
+      "missionId": "mission-standard-battle",
+      "ply": 51,
+      "moveLabel": "White Escort (5,3)→(5,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 3
+      },
+      "voiceover": "Late game: White plays Escort to column 5, row 4. With the board tense, each step either threatens the Hub, expands a finishing net, or refuses a hang.",
+      "durationHintSec": 9.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-052",
+      "missionId": "mission-standard-battle",
+      "ply": 52,
+      "moveLabel": "Black Escort (6,9)→(6,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 3
+      },
+      "voiceover": "Late game: Black plays Escort to column 6, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-053",
+      "missionId": "mission-standard-battle",
+      "ply": 53,
+      "moveLabel": "White Escort (6,1)→(6,2)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 3
+      },
+      "voiceover": "Late game: White plays Escort to column 6, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-054",
+      "missionId": "mission-standard-battle",
+      "ply": 54,
+      "moveLabel": "Black Escort (6,6)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 3
+      },
+      "voiceover": "Late game: Black plays Escort to column 6, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-055",
+      "missionId": "mission-standard-battle",
+      "ply": 55,
+      "moveLabel": "White Escort (6,4)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 2,
+        "capture": "Escort"
+      },
+      "voiceover": "White removes a defender. Captures this late usually open the Hub or collapse a relay.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-056",
+      "missionId": "mission-standard-battle",
+      "ply": 56,
+      "moveLabel": "Black Command Hub (6,7)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "hubEnPrise": true,
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 49,
+        "locked": 4
+      },
+      "voiceover": "Black steps the Hub toward column 6, row 6. The Hub is both king and radio tower — every move changes the net's core.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "board",
+      "id": "ply-057",
+      "missionId": "mission-standard-battle",
+      "ply": 57,
+      "moveLabel": "White Escort (6,5)→(6,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 52,
+        "netBlack": 0,
+        "capture": "Command Hub",
+        "result": "White wins"
+      },
+      "voiceover": "White captures the enemy Command Hub with an Escort. The battle ends immediately — this is the primary win most fleet games are playing toward.",
+      "durationHintSec": 8.5
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "That is a complete fleet game",
+      "nextEpisode": "Episode 6 — every ply of the 115-ply sector-clock siege",
+      "voiceover": "Mission complete. White wins by Surgical Strike after 57 plies. That length is normal for hybrid-fleet when the Hub hunt succeeds. Next: what happens when both Hubs survive into the sector clock.",
+      "durationHintSec": 10
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import {
   resolveSvgFontFamily,
   shouldRasterizeText,
 } from "./fonts.js";
-import { escText, parseLength, tag } from "./utils.js";
+import { escText, parseColor, parseLength, tag } from "./utils.js";
 
 /**
  * Measure wrapped text lines using Range.getClientRects().
@@ -125,6 +125,18 @@ export function renderTextNode(textNode, style, rootRect, options = {}) {
     };
     if (letterSpacing) attrs["letter-spacing"] = letterSpacing;
     if (textAnchor && textAnchor !== "start") attrs["text-anchor"] = textAnchor;
+
+    // Preserve CSS text-stroke as SVG stroke so outlined glyphs survive
+    // capture. Browsers expose this as webkitTextStrokeWidth /
+    // webkitTextStrokeColor on computed style.
+    const strokeWidth = parseFloat(style.webkitTextStrokeWidth) || 0;
+    const strokeColor = parseColor(style.webkitTextStrokeColor);
+    if (strokeWidth > 0 && strokeColor) {
+      attrs.stroke = strokeColor;
+      attrs["stroke-width"] = strokeWidth;
+      // Always stroke-then-fill so the rim sits behind a solid glyph.
+      attrs["paint-order"] = "stroke fill";
+    }
 
     let textEl = tag("text", attrs, escText(displayText));
 

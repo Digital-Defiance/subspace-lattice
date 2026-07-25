@@ -18,7 +18,7 @@ shows all of the following:
 | Claim | How we measure it |
 | --- | --- |
 | **Decisive** | Games finish before the ply budget; truncation/deadlock rate stays low |
-| **Color-fair** | White win rate among decided games sits near even (Track A band ~40–60%, fairness ≥ 0.80 for soft-ship) |
+| **Color-fair** | White win rate among decided games sits near even (Track A band ~40–60%, fairness ≥ 0.80 for the shipping preset) |
 | **Two real win paths** | Surgical Strike (hub) remains primary; Sector Integration takes ~15–45% of decided wins (sweet band 25–40%) |
 | **Clock is functional** | Removing Sector Integration makes games worse — more truncations and longer grinds ([ADR 005](./adr/005-functional-clock-gate.md)) |
 | **Skill matters** | Stronger agents beat weaker ones on an TEI mini-ladder (calibration + ordinal separation) |
@@ -77,7 +77,7 @@ activation, Initiative Relay, spool). Each cell gets:
 4. Optional **counterfactual** twin with Sector Integration disabled
 
 Track **A** optimizes the public fleet game (sector as clock). Track **B** allows
-a more territorial soft-ship for internal comparison. Fixed-cell matrices with
+a more territorial shipping candidate for internal comparison. Fixed-cell matrices with
 **paired seeds** are preferred once a hypothesis exists — unpaired random
 sweeps hid cliffs and false OK calls early in the campaign.
 
@@ -104,7 +104,7 @@ ordinal gaps; anchors map into the `latticeTei` officer track (see evolution-lab
 
 ### 6. Human playtest gate
 
-Automated Track A OK is necessary, not sufficient. Soft-shipped `FLEET_V1_RULES`
+Automated Track A OK is necessary, not sufficient. Shipping `FLEET_V1_RULES`
 still waits on the
 [fleet playtest checklist](./playtest-fleet-checklist.md) (≥5 human games with
 no broken clock moments, HUD clarity, relay feel) before replacing documented
@@ -130,7 +130,7 @@ Condensed from the evolution lab chronology:
    overshoot.
 7. **Production confirm** of
    `hub3 / esc1 / link2 / ρ0.45 / hold1 / neutral / act100 / relay1` passes
-   Track A (White 45% / Black 55%, sector ~30%, strong separation) and soft-ships
+   Track A (White 45% / Black 55%, sector ~30%, strong separation) and ships
    as fleet / `FLEET_V1_RULES`.
 
 ---
@@ -141,7 +141,7 @@ Condensed from the evolution lab chronology:
 - Online Elo/TEI pools are thin relative to the sim ladder.
 - Imperfect-information / fog variants are out of scope (no ISMCTS yet).
 - Passing Track A does not mean every agent family or every seed budget looks
-  identical — always re-confirm at ≥48 fairness games before soft-shipping.
+  identical — always re-confirm at ≥48 fairness games before shipping as the default.
 
 ---
 

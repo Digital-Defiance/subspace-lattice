@@ -18,7 +18,7 @@ const fleetNoClock = resolveRulesConfig('hybrid-fleet', {
 const standard = standardReplay;
 const clock = clockReplay;
 
-/** Soft-ship opening with Infiltrators removed (matches recorded missions). */
+/** Hybrid-fleet opening with Infiltrators removed (matches recorded missions). */
 export function fleetOpeningWithoutInfiltrators(
   rules: RulesConfig = fleetRules,
 ): GameState {

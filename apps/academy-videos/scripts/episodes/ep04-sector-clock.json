@@ -1,0 +1,78 @@
+{
+  "id": "ep04-sector-clock",
+  "compositionId": "Episode04",
+  "title": "The Siege & The Sector Clock",
+  "youtubeTitle": "Subspace Lattice Academy Ep.4 — Sector Integration (115-Ply Siege)",
+  "description": "Mission 3 masterclass: dig-in defense, clock arming at ply 100, Contested Space as a stall weapon. Full advanced-manual record.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 4 · Mission 3",
+      "headline": "When the Clock Decides",
+      "subhead": "A 115-ply hybrid-fleet siege. Hubs never fall — coverage does.",
+      "voiceover": "Episode four: the siege. One hundred fifteen plies. In the app you join near activation. Here we study the whole dig-in — and how Sector Integration ends eternal turtling.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "start",
+      "missionId": "mission-clock-finish",
+      "ply": 0,
+      "overlays": { "nets": "both" },
+      "voiceover": "Full hybrid-fleet rules: Integration Hold, Contested Space, activation at ply one hundred, Initiative Relay. Surgical Strike is still available — it just never lands in this game.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "montage",
+      "id": "siege",
+      "missionId": "mission-clock-finish",
+      "fromPly": 1,
+      "toPly": 95,
+      "caption": "Siege · plies 1–95",
+      "voiceover": "Plies one through ninety-five: both fleets dig in. Escort chains thicken, Beams reposition inside their glow, Hubs stay screened. No walk-in appears — this is the turtling the clock was built to break.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "clock-arms",
+      "missionId": "mission-clock-finish",
+      "ply": 100,
+      "moveLabel": "Sector clock arms",
+      "overlays": { "nets": "contested", "threeQuestions": true },
+      "voiceover": "Ply one hundred: Sector Integration can now win. Coverage at or above the marker must hold. Contested Space can break a streak. Surgical Strike is still legal — but the scoreboard is live.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "montage",
+      "id": "endgame",
+      "missionId": "mission-clock-finish",
+      "fromPly": 100,
+      "toPly": 115,
+      "caption": "Clock endgame · coverage as points",
+      "voiceover": "After activation, every net cell is a point. Projecting into the enemy net paints Contested Space — stalling their Integration Hold. White converts the coverage race into Sector Integration.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "finish",
+      "missionId": "mission-clock-finish",
+      "ply": 115,
+      "moveLabel": "Sector Integration",
+      "overlays": { "nets": "white" },
+      "voiceover": "Game over: White wins by Sector Integration. The clock only matters after activation. Until then, hunt the Hub. When both fleets dig in, coverage and Contested Space stop the draw forever.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Academy complete",
+      "nextEpisode": "Practice vs AI · Export a debug log if something feels off",
+      "voiceover": "That’s the Fleet Academy series: mindset, Surgical Strike, midgame control, and the sector clock. Open the advanced manual for every annotated ply — then practice against the AI.",
+      "durationHintSec": 9
+    }
+  ]
+}

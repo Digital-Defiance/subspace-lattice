@@ -39,7 +39,7 @@ function seatLabel(color: PlayerColor): 'White' | 'Black' {
 /**
  * Offline human vs AI. Human may sit White or Black; AI takes the other seat.
  * Strength maps to MCTS simulation budget.
- * Uses soft-shipped hybrid-fleet rules (Initiative Relay + sector clock).
+ * Uses shipping hybrid-fleet rules (Initiative Relay + sector clock).
  */
 export function useLocalAiGame() {
   const [engine, setEngine] = useState<SubspaceLatticeEngine | null>(null);

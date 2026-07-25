@@ -1,0 +1,2036 @@
+{
+  "id": "ep06-clock-siege-full",
+  "compositionId": "Episode06",
+  "title": "Every Ply: The Sector-Clock Siege",
+  "youtubeTitle": "Subspace Lattice Academy Ep.6 — Every Ply of the 115-Ply Sector Integration Siege",
+  "description": "The complete record of Mission 3: dig-in defense, the sector clock arming at ply 100, Contested Space as a stalling weapon, and a win by coverage rather than capture.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 6 · Full annotated game",
+      "headline": "Every Ply: The Sector-Clock Siege",
+      "subhead": "All 115 plies of Mission 3 — the game the Advanced Manual uses to explain Sector Integration.",
+      "voiceover": "Episode six: the long one. One hundred fifteen plies, every move annotated. This is the game where no Hub ever falls and coverage decides it — the reason the sector clock exists.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "start",
+      "missionId": "mission-clock-finish",
+      "ply": 0,
+      "moveLabel": "Starting position",
+      "overlays": {
+        "nets": "both"
+      },
+      "voiceover": "Full hybrid-fleet rules: Integration Hold, Contested Space, activation at ply one hundred, and the Initiative Relay. Surgical Strike stays legal the whole way; it simply never lands.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "narration",
+      "id": "phase-opening",
+      "headline": "Opening · plies 1–14",
+      "bullets": [
+        "Advance central Escorts — they carry the net forward",
+        "Keep every Escort within two squares of the chain",
+        "Slide Beams into files that will matter later"
+      ],
+      "voiceover": "Opening phase. Structure, not gambits: advance central Escorts to carry the net forward, keep the chain linked within two squares, and pre-slide Beams into files that will matter once coverage arrives.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-001",
+      "missionId": "mission-clock-finish",
+      "ply": 1,
+      "moveLabel": "White Escort (4,0)→(4,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 4, row 1, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-002",
+      "missionId": "mission-clock-finish",
+      "ply": 2,
+      "moveLabel": "Black Escort (5,9)→(5,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 31,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: Black advances an Escort to column 5, row 8, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-003",
+      "missionId": "mission-clock-finish",
+      "ply": 3,
+      "moveLabel": "White Escort (5,3)→(5,4)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 5, row 4, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-004",
+      "missionId": "mission-clock-finish",
+      "ply": 4,
+      "moveLabel": "Black Escort (5,8)→(5,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: Black advances an Escort to column 5, row 7, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-005",
+      "missionId": "mission-clock-finish",
+      "ply": 5,
+      "moveLabel": "White Escort (4,1)→(4,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 4, row 2, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-006",
+      "missionId": "mission-clock-finish",
+      "ply": 6,
+      "moveLabel": "Black Escort (5,7)→(5,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: Black advances an Escort to column 5, row 6, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-007",
+      "missionId": "mission-clock-finish",
+      "ply": 7,
+      "moveLabel": "White Escort (6,0)→(6,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 6, row 1, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-008",
+      "missionId": "mission-clock-finish",
+      "ply": 8,
+      "moveLabel": "Black Escort (4,10)→(4,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: Black advances an Escort to column 4, row 9, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-009",
+      "missionId": "mission-clock-finish",
+      "ply": 9,
+      "moveLabel": "White Escort (5,1)→(5,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 28
+      },
+      "voiceover": "Opening: White advances an Escort to column 5, row 2, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-010",
+      "missionId": "mission-clock-finish",
+      "ply": 10,
+      "moveLabel": "Black Escort (4,9)→(4,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 34
+      },
+      "voiceover": "Opening: Black advances an Escort to column 4, row 8, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-011",
+      "missionId": "mission-clock-finish",
+      "ply": 11,
+      "moveLabel": "White Escort (5,2)→(5,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 34
+      },
+      "voiceover": "Opening: White advances an Escort to column 5, row 3, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-012",
+      "missionId": "mission-clock-finish",
+      "ply": 12,
+      "moveLabel": "Black Escort (6,10)→(6,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 34
+      },
+      "voiceover": "Opening: Black advances an Escort to column 6, row 9, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-013",
+      "missionId": "mission-clock-finish",
+      "ply": 13,
+      "moveLabel": "White Escort (6,1)→(6,2)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 34
+      },
+      "voiceover": "Opening: White advances an Escort to column 6, row 2, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-014",
+      "missionId": "mission-clock-finish",
+      "ply": 14,
+      "moveLabel": "Black Escort (4,8)→(4,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 34,
+        "netBlack": 35
+      },
+      "voiceover": "Opening: Black advances an Escort to column 4, row 7, linking coverage and contesting the midboard before big tactics appear.",
+      "durationHintSec": 6.3
+    },
+    {
+      "kind": "narration",
+      "id": "phase-midgame",
+      "headline": "Midgame · plies 15–107",
+      "bullets": [
+        "Net pressure over map painting",
+        "Target Locks punish overextension",
+        "Probe for a Hub mistake"
+      ],
+      "voiceover": "Midgame. This is net pressure and Target Lock threats, probing for a Hub mistake — not a race to paint the map. Watch for the moment an enemy Beam lane and a Hub share a file.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-015",
+      "missionId": "mission-clock-finish",
+      "ply": 15,
+      "moveLabel": "White Escort (4,2)→(4,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 35
+      },
+      "voiceover": "Midgame: White moves an Escort to column 4, row 3. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake — not racing to paint the map.",
+      "durationHintSec": 9.6
+    },
+    {
+      "kind": "board",
+      "id": "ply-016",
+      "missionId": "mission-clock-finish",
+      "ply": 16,
+      "moveLabel": "Black Escort (4,7)→(4,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-017",
+      "missionId": "mission-clock-finish",
+      "ply": 17,
+      "moveLabel": "White Escort (4,3)→(4,4)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: White moves an Escort to column 4, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-018",
+      "missionId": "mission-clock-finish",
+      "ply": 18,
+      "moveLabel": "Black Escort (6,9)→(6,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 36
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-019",
+      "missionId": "mission-clock-finish",
+      "ply": 19,
+      "moveLabel": "White Escort (6,2)→(6,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 36
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-020",
+      "missionId": "mission-clock-finish",
+      "ply": 20,
+      "moveLabel": "Black Escort (6,8)→(6,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-021",
+      "missionId": "mission-clock-finish",
+      "ply": 21,
+      "moveLabel": "White Escort (6,3)→(6,4)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-022",
+      "missionId": "mission-clock-finish",
+      "ply": 22,
+      "moveLabel": "Black Escort (4,6)→(4,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 4, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-023",
+      "missionId": "mission-clock-finish",
+      "ply": 23,
+      "moveLabel": "White Escort (4,4)→(4,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28,
+        "capture": "Escort"
+      },
+      "voiceover": "White trades or takes with an Escort at column 4, row 5, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-024",
+      "missionId": "mission-clock-finish",
+      "ply": 24,
+      "moveLabel": "Black Escort (6,7)→(6,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-025",
+      "missionId": "mission-clock-finish",
+      "ply": 25,
+      "moveLabel": "White Escort (6,4)→(6,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Midgame: White moves an Escort to column 6, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-026",
+      "missionId": "mission-clock-finish",
+      "ply": 26,
+      "moveLabel": "Black Escort (6,6)→(6,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28,
+        "capture": "Escort"
+      },
+      "voiceover": "Black trades or takes with an Escort at column 6, row 5, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-027",
+      "missionId": "mission-clock-finish",
+      "ply": 27,
+      "moveLabel": "White Beam (8,0)→(8,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "White uses a Beam lane to column 8, row 1. Long slides mean the net already covers the path.",
+      "durationHintSec": 5.9
+    },
+    {
+      "kind": "board",
+      "id": "ply-028",
+      "missionId": "mission-clock-finish",
+      "ply": 28,
+      "moveLabel": "Black Command Hub (5,10)→(5,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 5, row 9. The Hub is both king and radio tower — every move changes the net's core.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "board",
+      "id": "ply-029",
+      "missionId": "mission-clock-finish",
+      "ply": 29,
+      "moveLabel": "White Beam (8,1)→(4,1)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 39,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "White uses a Beam lane to column 4, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-030",
+      "missionId": "mission-clock-finish",
+      "ply": 30,
+      "moveLabel": "Black Beam (2,10)→(3,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 39,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 3, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-031",
+      "missionId": "mission-clock-finish",
+      "ply": 31,
+      "moveLabel": "White Beam (4,1)→(2,1)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-032",
+      "missionId": "mission-clock-finish",
+      "ply": 32,
+      "moveLabel": "Black Beam (3,10)→(6,10)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Black uses a Beam lane to column 6, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-033",
+      "missionId": "mission-clock-finish",
+      "ply": 33,
+      "moveLabel": "White Command Hub (5,0)→(6,1)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 6, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-034",
+      "missionId": "mission-clock-finish",
+      "ply": 34,
+      "moveLabel": "Black Beam (6,10)→(5,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 5, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-035",
+      "missionId": "mission-clock-finish",
+      "ply": 35,
+      "moveLabel": "White Command Hub (6,1)→(6,2)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 6, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-036",
+      "missionId": "mission-clock-finish",
+      "ply": 36,
+      "moveLabel": "Black Command Hub (5,9)→(6,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 45,
+        "locked": 4
+      },
+      "voiceover": "Black steps the Hub toward column 6, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-037",
+      "missionId": "mission-clock-finish",
+      "ply": 37,
+      "moveLabel": "White Beam (2,1)→(3,1)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 45,
+        "locked": 4
+      },
+      "voiceover": "White uses a Beam lane to column 3, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-038",
+      "missionId": "mission-clock-finish",
+      "ply": 38,
+      "moveLabel": "Black Command Hub (6,8)→(7,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-039",
+      "missionId": "mission-clock-finish",
+      "ply": 39,
+      "moveLabel": "White Command Hub (6,2)→(5,2)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 5, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-040",
+      "missionId": "mission-clock-finish",
+      "ply": 40,
+      "moveLabel": "Black Beam (8,10)→(10,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 10, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-041",
+      "missionId": "mission-clock-finish",
+      "ply": 41,
+      "moveLabel": "White Command Hub (5,2)→(4,2)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 35,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 4, row 2.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-042",
+      "missionId": "mission-clock-finish",
+      "ply": 42,
+      "moveLabel": "Black Command Hub (7,9)→(8,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 45,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-043",
+      "missionId": "mission-clock-finish",
+      "ply": 43,
+      "moveLabel": "White Command Hub (4,2)→(4,3)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 4, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-044",
+      "missionId": "mission-clock-finish",
+      "ply": 44,
+      "moveLabel": "Black Beam (10,10)→(10,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 10, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-045",
+      "missionId": "mission-clock-finish",
+      "ply": 45,
+      "moveLabel": "White Command Hub (4,3)→(4,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 4, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-046",
+      "missionId": "mission-clock-finish",
+      "ply": 46,
+      "moveLabel": "Black Beam (10,8)→(10,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 10, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-047",
+      "missionId": "mission-clock-finish",
+      "ply": 47,
+      "moveLabel": "White Beam (2,0)→(2,3)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-048",
+      "missionId": "mission-clock-finish",
+      "ply": 48,
+      "moveLabel": "Black Beam (10,9)→(10,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 10, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-049",
+      "missionId": "mission-clock-finish",
+      "ply": 49,
+      "moveLabel": "White Beam (3,1)→(6,1)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 2
+      },
+      "voiceover": "White uses a Beam lane to column 6, row 1.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-050",
+      "missionId": "mission-clock-finish",
+      "ply": 50,
+      "moveLabel": "Black Command Hub (8,10)→(7,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 28,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-051",
+      "missionId": "mission-clock-finish",
+      "ply": 51,
+      "moveLabel": "White Beam (6,1)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 28,
+        "locked": 1,
+        "capture": "Escort"
+      },
+      "voiceover": "White trades or takes with a Beam at column 6, row 5, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-052",
+      "missionId": "mission-clock-finish",
+      "ply": 52,
+      "moveLabel": "Black Command Hub (7,10)→(8,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-053",
+      "missionId": "mission-clock-finish",
+      "ply": 53,
+      "moveLabel": "White Command Hub (4,4)→(3,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 24,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 3, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-054",
+      "missionId": "mission-clock-finish",
+      "ply": 54,
+      "moveLabel": "Black Command Hub (8,10)→(9,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 25,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-055",
+      "missionId": "mission-clock-finish",
+      "ply": 55,
+      "moveLabel": "White Beam (2,3)→(2,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 25,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-056",
+      "missionId": "mission-clock-finish",
+      "ply": 56,
+      "moveLabel": "Black Beam (10,7)→(6,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 25,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 6, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-057",
+      "missionId": "mission-clock-finish",
+      "ply": 57,
+      "moveLabel": "White Beam (6,5)→(6,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 25,
+        "locked": 2,
+        "capture": "Beam"
+      },
+      "voiceover": "White trades or takes with a Beam at column 6, row 7, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-058",
+      "missionId": "mission-clock-finish",
+      "ply": 58,
+      "moveLabel": "Black Command Hub (9,9)→(8,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 36,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-059",
+      "missionId": "mission-clock-finish",
+      "ply": 59,
+      "moveLabel": "White Beam (6,7)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 36,
+        "locked": 2
+      },
+      "voiceover": "White uses a Beam lane to column 6, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-060",
+      "missionId": "mission-clock-finish",
+      "ply": 60,
+      "moveLabel": "Black Escort (5,6)→(6,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 36,
+        "locked": 1,
+        "capture": "Beam"
+      },
+      "voiceover": "Black trades or takes with an Escort at column 6, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-061",
+      "missionId": "mission-clock-finish",
+      "ply": 61,
+      "moveLabel": "White Beam (2,7)→(2,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 36,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-062",
+      "missionId": "mission-clock-finish",
+      "ply": 62,
+      "moveLabel": "Black Escort (6,6)→(6,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 49,
+        "netBlack": 36,
+        "locked": 1
+      },
+      "voiceover": "Midgame: Black moves an Escort to column 6, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-063",
+      "missionId": "mission-clock-finish",
+      "ply": 63,
+      "moveLabel": "White Command Hub (3,5)→(2,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 46,
+        "netBlack": 36,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 2, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-064",
+      "missionId": "mission-clock-finish",
+      "ply": 64,
+      "moveLabel": "Black Command Hub (8,8)→(8,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 46,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-065",
+      "missionId": "mission-clock-finish",
+      "ply": 65,
+      "moveLabel": "White Command Hub (2,5)→(1,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 1, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-066",
+      "missionId": "mission-clock-finish",
+      "ply": 66,
+      "moveLabel": "Black Command Hub (8,7)→(7,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-067",
+      "missionId": "mission-clock-finish",
+      "ply": 67,
+      "moveLabel": "White Command Hub (1,6)→(1,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 1, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-068",
+      "missionId": "mission-clock-finish",
+      "ply": 68,
+      "moveLabel": "Black Command Hub (7,8)→(8,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 30
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-069",
+      "missionId": "mission-clock-finish",
+      "ply": 69,
+      "moveLabel": "White Beam (2,8)→(2,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 44,
+        "netBlack": 30,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-070",
+      "missionId": "mission-clock-finish",
+      "ply": 70,
+      "moveLabel": "Black Beam (5,10)→(5,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 44,
+        "netBlack": 30,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 5, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-071",
+      "missionId": "mission-clock-finish",
+      "ply": 71,
+      "moveLabel": "White Command Hub (1,5)→(0,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 30,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 0, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-072",
+      "missionId": "mission-clock-finish",
+      "ply": 72,
+      "moveLabel": "Black Beam (5,6)→(4,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 30,
+        "locked": 2
+      },
+      "voiceover": "Black uses a Beam lane to column 4, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-073",
+      "missionId": "mission-clock-finish",
+      "ply": 73,
+      "moveLabel": "White Escort (4,5)→(4,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 44,
+        "netBlack": 30,
+        "locked": 1,
+        "capture": "Beam"
+      },
+      "voiceover": "White trades or takes with an Escort at column 4, row 6, reshaping the net fight.",
+      "durationHintSec": 6.5
+    },
+    {
+      "kind": "board",
+      "id": "ply-074",
+      "missionId": "mission-clock-finish",
+      "ply": 74,
+      "moveLabel": "Black Command Hub (8,9)→(7,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 44,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-075",
+      "missionId": "mission-clock-finish",
+      "ply": 75,
+      "moveLabel": "White Escort (4,6)→(4,5)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Midgame: White moves an Escort to column 4, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-076",
+      "missionId": "mission-clock-finish",
+      "ply": 76,
+      "moveLabel": "Black Command Hub (7,8)→(7,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 35,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-077",
+      "missionId": "mission-clock-finish",
+      "ply": 77,
+      "moveLabel": "White Beam (2,5)→(0,5)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "White uses a Beam lane to column 0, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-078",
+      "missionId": "mission-clock-finish",
+      "ply": 78,
+      "moveLabel": "Black Command Hub (7,9)→(8,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 30
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-079",
+      "missionId": "mission-clock-finish",
+      "ply": 79,
+      "moveLabel": "White Beam (0,5)→(0,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 30
+      },
+      "voiceover": "White uses a Beam lane to column 0, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-080",
+      "missionId": "mission-clock-finish",
+      "ply": 80,
+      "moveLabel": "Black Command Hub (8,9)→(9,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 25
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-081",
+      "missionId": "mission-clock-finish",
+      "ply": 81,
+      "moveLabel": "White Beam (0,3)→(3,3)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 25
+      },
+      "voiceover": "White uses a Beam lane to column 3, row 3.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-082",
+      "missionId": "mission-clock-finish",
+      "ply": 82,
+      "moveLabel": "Black Command Hub (9,9)→(8,9)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 30
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-083",
+      "missionId": "mission-clock-finish",
+      "ply": 83,
+      "moveLabel": "White Beam (3,3)→(3,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 30
+      },
+      "voiceover": "White uses a Beam lane to column 3, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-084",
+      "missionId": "mission-clock-finish",
+      "ply": 84,
+      "moveLabel": "Black Command Hub (8,9)→(7,10)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-085",
+      "missionId": "mission-clock-finish",
+      "ply": 85,
+      "moveLabel": "White Beam (3,7)→(3,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "White uses a Beam lane to column 3, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-086",
+      "missionId": "mission-clock-finish",
+      "ply": 86,
+      "moveLabel": "Black Command Hub (7,10)→(8,10)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 24
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-087",
+      "missionId": "mission-clock-finish",
+      "ply": 87,
+      "moveLabel": "White Beam (3,6)→(2,6)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 24,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-088",
+      "missionId": "mission-clock-finish",
+      "ply": 88,
+      "moveLabel": "Black Command Hub (8,10)→(7,10)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 28,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 10.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-089",
+      "missionId": "mission-clock-finish",
+      "ply": 89,
+      "moveLabel": "White Beam (2,6)→(2,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 28,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 2, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-090",
+      "missionId": "mission-clock-finish",
+      "ply": 90,
+      "moveLabel": "Black Command Hub (7,10)→(7,9)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 42,
+        "netBlack": 35,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-091",
+      "missionId": "mission-clock-finish",
+      "ply": 91,
+      "moveLabel": "White Command Hub (0,6)→(1,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 1, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-092",
+      "missionId": "mission-clock-finish",
+      "ply": 92,
+      "moveLabel": "Black Command Hub (7,9)→(7,8)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 7, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-093",
+      "missionId": "mission-clock-finish",
+      "ply": 93,
+      "moveLabel": "White Command Hub (1,7)→(0,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "White steps the Hub toward column 0, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-094",
+      "missionId": "mission-clock-finish",
+      "ply": 94,
+      "moveLabel": "Black Command Hub (7,8)→(8,7)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-095",
+      "missionId": "mission-clock-finish",
+      "ply": 95,
+      "moveLabel": "White Beam (2,4)→(0,4)",
+      "overlays": {
+        "nets": "both",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 42,
+        "locked": 1
+      },
+      "voiceover": "White uses a Beam lane to column 0, row 4.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-096",
+      "missionId": "mission-clock-finish",
+      "ply": 96,
+      "moveLabel": "Black Command Hub (8,7)→(9,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-097",
+      "missionId": "mission-clock-finish",
+      "ply": 97,
+      "moveLabel": "White Command Hub (0,7)→(1,8)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 30,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 1, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-098",
+      "missionId": "mission-clock-finish",
+      "ply": 98,
+      "moveLabel": "Black Command Hub (9,6)→(10,6)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 30,
+        "netBlack": 28
+      },
+      "voiceover": "Black steps the Hub toward column 10, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-099",
+      "missionId": "mission-clock-finish",
+      "ply": 99,
+      "moveLabel": "White Command Hub (1,8)→(0,7)",
+      "overlays": {
+        "nets": "both"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 28
+      },
+      "voiceover": "White steps the Hub toward column 0, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-100",
+      "missionId": "mission-clock-finish",
+      "ply": 100,
+      "moveLabel": "Black Command Hub (10,6)→(9,6)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Ply 100: Sector Integration can now win. Coverage at or above the marker must hold — Contested Space can break a streak. Surgical Strike is still available.",
+      "durationHintSec": 9.3
+    },
+    {
+      "kind": "board",
+      "id": "ply-101",
+      "missionId": "mission-clock-finish",
+      "ply": 101,
+      "moveLabel": "White Command Hub (0,7)→(1,6)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 1, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-102",
+      "missionId": "mission-clock-finish",
+      "ply": 102,
+      "moveLabel": "Black Command Hub (9,6)→(9,7)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-103",
+      "missionId": "mission-clock-finish",
+      "ply": 103,
+      "moveLabel": "White Command Hub (1,6)→(0,6)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 0, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-104",
+      "missionId": "mission-clock-finish",
+      "ply": 104,
+      "moveLabel": "Black Command Hub (9,7)→(9,6)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 28,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-105",
+      "missionId": "mission-clock-finish",
+      "ply": 105,
+      "moveLabel": "White Command Hub (0,6)→(1,7)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 1, row 7.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-106",
+      "missionId": "mission-clock-finish",
+      "ply": 106,
+      "moveLabel": "Black Command Hub (9,6)→(8,5)",
+      "overlays": {
+        "nets": "contested",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 35,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "Black steps the Hub toward column 8, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-107",
+      "missionId": "mission-clock-finish",
+      "ply": 107,
+      "moveLabel": "White Command Hub (1,7)→(1,8)",
+      "overlays": {
+        "nets": "contested",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 30,
+        "netBlack": 42,
+        "locked": 2
+      },
+      "voiceover": "White steps the Hub toward column 1, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "narration",
+      "id": "phase-endgame",
+      "headline": "Endgame · plies 108–115",
+      "bullets": [
+        "Strike if the Hub hunt is winning",
+        "Otherwise coverage becomes the scoreboard",
+        "Every ply threatens, builds, or refuses a hang"
+      ],
+      "voiceover": "Endgame. Either a Hub hunt converts, or coverage becomes the scoreboard. Each step should threaten, expand a finishing net, or refuse a hang.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "ply-108",
+      "missionId": "mission-clock-finish",
+      "ply": 108,
+      "moveLabel": "Black Command Hub (8,5)→(9,5)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 30,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-109",
+      "missionId": "mission-clock-finish",
+      "ply": 109,
+      "moveLabel": "White Command Hub (1,8)→(1,9)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 25,
+        "netBlack": 35
+      },
+      "voiceover": "White steps the Hub toward column 1, row 9.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-110",
+      "missionId": "mission-clock-finish",
+      "ply": 110,
+      "moveLabel": "Black Command Hub (9,5)→(10,6)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 25,
+        "netBlack": 28
+      },
+      "voiceover": "Black steps the Hub toward column 10, row 6.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-111",
+      "missionId": "mission-clock-finish",
+      "ply": 111,
+      "moveLabel": "White Command Hub (1,9)→(2,8)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 28
+      },
+      "voiceover": "White steps the Hub toward column 2, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-112",
+      "missionId": "mission-clock-finish",
+      "ply": 112,
+      "moveLabel": "Black Command Hub (10,6)→(9,5)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 35
+      },
+      "voiceover": "Black steps the Hub toward column 9, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-113",
+      "missionId": "mission-clock-finish",
+      "ply": 113,
+      "moveLabel": "White Beam (0,4)→(0,8)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 35
+      },
+      "voiceover": "White uses a Beam lane to column 0, row 8.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-114",
+      "missionId": "mission-clock-finish",
+      "ply": 114,
+      "moveLabel": "Black Command Hub (9,5)→(10,5)",
+      "overlays": {
+        "nets": "contested"
+      },
+      "stats": {
+        "netWhite": 36,
+        "netBlack": 28
+      },
+      "voiceover": "Black steps the Hub toward column 10, row 5.",
+      "durationHintSec": 3.2
+    },
+    {
+      "kind": "board",
+      "id": "ply-115",
+      "missionId": "mission-clock-finish",
+      "ply": 115,
+      "moveLabel": "White Command Hub (2,8)→(3,7)",
+      "overlays": {
+        "nets": "contested",
+        "targetLocked": true
+      },
+      "stats": {
+        "netWhite": 55,
+        "netBlack": 28,
+        "locked": 1,
+        "result": "White wins"
+      },
+      "voiceover": "White steps the Hub toward column 3, row 7. The Hub is both king and radio tower — every move changes the net's core.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Won by coverage, not capture",
+      "nextEpisode": "Practice against the AI · Read the Advanced Manual",
+      "voiceover": "White wins by Sector Integration. The clock only matters after activation; Surgical Strike remains the primary hunt until then. When both fleets dig in, coverage and Contested Space stop eternal turtling.",
+      "durationHintSec": 10
+    }
+  ]
+}

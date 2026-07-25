@@ -28,7 +28,7 @@
 
 \title{Subspace Lattice\\[0.4em]\large Official Rules}
 \author{Interstellar Warp Gaming Federation \\ Digital Defiance}
-\date{Rules version \texttt{hybrid-fleet} (soft-ship) / \texttt{hybrid} / \texttt{hybrid-spool} \\
+\date{Rules version \texttt{hybrid-fleet} (shipping default) / \texttt{hybrid} / \texttt{hybrid-spool} \\
 Defaults as of 2026-07 \\ Hosted at \texttt{lattice.iwgf.org} \\
 TEI shared with Warp via \texttt{warp12-engine}}
 
@@ -39,7 +39,7 @@ TEI shared with Warp via \texttt{warp12-engine}}
 \noindent
 Subspace Lattice is a two-player strategy game on an $11\times 11$ sector grid.
 It combines individual piece movement with territory projected by a
-\textbf{Sensor Net}. Online play and local AI soft-ship
+\textbf{Sensor Net}. Online play and local AI use
 \textbf{hybrid-fleet} (Integration Hold, Contested Space, late activation,
 Initiative Relay). Legacy \textbf{hybrid} (instant sector win, mirrored
 setup) and \textbf{classic} (chess-like, no Sensor Net movement effects)
@@ -103,7 +103,7 @@ Under \texttt{hybrid-fleet}, White also receives Initiative Relay Escorts
   White along $y=0$ (bottom of the capture); Gravity Well at $(5,5)$.}
 
 \rulesfig{opening-fleet-relay}{%
-  Soft-ship \texttt{hybrid-fleet} opening. Highlighted Escort at $(5,3)$ is
+  Shipping \texttt{hybrid-fleet} opening. Highlighted Escort at $(5,3)$ is
   White's Initiative Relay---forward compensation for the first move.}
 
 Capturing an enemy piece is done by landing on its coordinate (subject to
@@ -274,12 +274,12 @@ sector wins need not be the slowest win type. Defaults change only
 through the human gate (Section~\ref{sec:params}).
 
 %% ------------------------------------------------------------------
-\section{Fleet soft-ship (\texttt{hybrid-fleet})}
+\section{Fleet default (\texttt{hybrid-fleet})}
 \label{sec:clock}
 \label{sec:fleet-preset}
 %% ------------------------------------------------------------------
 
-Online rooms and local AI soft-ship \texttt{hybrid-fleet}. The mechanics
+Online rooms and local AI use \texttt{hybrid-fleet}. The mechanics
 below remain gated by human playtest
 (\texttt{docs/playtest-fleet-checklist.md}) before treating them as the
 sole ``official hybrid'' in marketing copy. Track~A production sims
@@ -344,7 +344,7 @@ defaults change only after human review of scorecards
 \begin{center}
 \begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Parameter} & \texttt{hybrid} & \texttt{hybrid-fleet} (soft-ship) \\
+\textbf{Parameter} & \texttt{hybrid} & \texttt{hybrid-fleet} (default) \\
 \midrule
 \texttt{boardSize} & $11$ & $11$ \\
 \texttt{hubSensorRadius} & $3$ & $3$ \\

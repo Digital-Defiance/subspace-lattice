@@ -24,7 +24,7 @@ function normalizeName(raw: string, fallback: string): string {
 /**
  * Offline pass-and-play (hotseat): two humans share one device.
  * Optional name setup, then a Warp-style handoff gate between turns.
- * Soft-shipped hybrid-fleet rules (Initiative Relay + sector clock).
+ * Shipping hybrid-fleet rules (Initiative Relay + sector clock).
  */
 export function usePassAndPlayGame() {
   const [engine, setEngine] = useState<SubspaceLatticeEngine | null>(null);

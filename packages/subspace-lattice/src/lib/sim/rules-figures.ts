@@ -121,7 +121,7 @@ export const RULES_FIGURES: readonly RulesFigure[] = [
     id: 'opening-fleet-relay',
     title: 'Opening — fleet Initiative Relay',
     caption: 'hybrid-fleet opening; White’s relay Escort at (5,3) highlighted.',
-    teach: 'Highlight w-e4 at (5,3) — the soft-ship Initiative Relay.',
+    teach: 'Highlight w-e4 at (5,3) — the shipping Initiative Relay.',
     rulesVersion: 'hybrid-fleet',
     createState: () => openingState('hybrid-fleet'),
     highlightCells: [{ x: 5, y: 3 }],

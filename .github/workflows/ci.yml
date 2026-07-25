@@ -37,7 +37,7 @@ jobs:
 
       - run: yarn nx run-many -t lint test build typecheck
 
-      # Firestore security rules (emulator). Soft-ship collections: latticeRooms / latticeTei / …
+      # Firestore security rules (emulator). Lattice collections: latticeRooms / latticeTei / …
       - run: yarn test:rules
 
       # Playwright smoke (local AI hybrid-fleet + academy + leaderboard shell)

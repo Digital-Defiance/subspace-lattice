@@ -19,7 +19,7 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
           <h3>Overview</h3>
           <p>
             Subspace Lattice is a hybrid of territory control and piece agency
-            on an 11×11 sector grid. Online and local AI soft-ship{' '}
+            on an 11×11 sector grid. Online and local AI use{' '}
             <strong>hybrid-fleet</strong> (Sensor Net + sector clock + Initiative
             Relay). Legacy <strong>hybrid</strong> / <strong>classic</strong>{' '}
             remain for sims.

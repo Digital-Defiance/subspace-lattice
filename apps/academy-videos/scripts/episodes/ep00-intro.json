@@ -1,0 +1,155 @@
+{
+  "id": "ep00-intro",
+  "compositionId": "Episode00",
+  "title": "Intro to Subspace Lattice",
+  "youtubeTitle": "What Is Subspace Lattice? — Beginner’s Guide (How to Play & How to Win)",
+  "description": "A friendly first look at Subspace Lattice: what the game is, why it’s fun, how a match feels, and the three ways to win. Play free at lattice.iwgf.org.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Subspace Lattice · Beginner intro",
+      "headline": "What is Subspace Lattice?",
+      "subhead": "A two-player fleet duel — chess tactics, a growing Sensor Net, and one job: take their Command Hub.",
+      "voiceover": "This is Subspace Lattice — a two-player strategy game where you command a small fleet on an eleven-by-eleven sector. It feels a bit like chess, a bit like staking out territory with a sensor network, and it plays unlike either one alone.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "hook",
+      "headline": "The fantasy in one breath",
+      "bullets": [
+        "You are a captain with a tiny fleet",
+        "Your Command Hub is both king and radio tower",
+        "You hunt theirs — while your Sensor Net grows"
+      ],
+      "voiceover": "Here’s the fantasy. You are a captain. Your Command Hub is both your king and your radio tower — protect it, and push influence through the ships that stay linked to it. You are not racing to paint the whole map. You are hunting the enemy Hub, while the growing Sensor Net makes endless turtling impossible.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "the-board",
+      "missionId": "mission-standard-battle",
+      "ply": 0,
+      "moveLabel": "Opening position",
+      "overlays": { "nets": "both" },
+      "voiceover": "This is the board. Eleven by eleven, with a Gravity Well in the center that nothing can enter or cross. Blue glow is White’s Sensor Net. Red is Black’s. That glow is not decoration — it is where your Beams can move, and where enemy ships get Target Locked.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "narration",
+      "id": "the-fleet",
+      "headline": "Your fleet — four kinds of ship",
+      "bullets": [
+        "Command Hub — protect it or you lose",
+        "Escorts — short steps that relay the net when linked",
+        "Infiltrators — jump into gaps outside the enemy net",
+        "Beams — long slides, but only inside your own glow"
+      ],
+      "voiceover": "Each side starts with eight ships. The Command Hub is the prize — lose it and the battle ends. Escorts take short steps and, while linked to the Hub, expand your Sensor Net. Infiltrators jump into empty gaps outside the enemy net. Beams fire long distances — but only along your own glow. No glow, no Beam shot.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "sensor-net",
+      "missionId": "mission-standard-battle",
+      "ply": 14,
+      "moveLabel": "Nets after the opening",
+      "overlays": { "nets": "both" },
+      "voiceover": "The Sensor Net is the heart of the game. Your Hub always broadcasts a wide field. Escorts add a short ring only while they stay linked — friendly ships no more than two squares apart, chaining back to the Hub. Push Escorts forward and the glow grows. Break the chain and a distant Escort goes dark.",
+      "durationHintSec": 17
+    },
+    {
+      "kind": "narration",
+      "id": "target-lock",
+      "headline": "Target Lock — punish overreach",
+      "bullets": [
+        "Enemy ship in your glow → Target Locked",
+        "Locked ships: one orthogonal step only",
+        "A locked Beam can’t do Beam things"
+      ],
+      "voiceover": "Stand an enemy ship inside your Sensor Net and they are Target Locked. Special systems shut down. They may take only one step, and only orthogonally. That is how the net punishes overextension — and why careless advances get stuck in your glow.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "why-fun",
+      "headline": "Why it’s fun",
+      "bullets": [
+        "Tactics you can see — Hub threats, traps, tempo",
+        "A living map of coverage that shifts every move",
+        "You can win by capture or by late coverage pressure"
+      ],
+      "voiceover": "Why people stick with it: every turn asks a sharp question — can I take their Hub, can they take mine, and what does this do to the nets? You get chess-like tactics layered on a glowing map that actually matters. Captures feel decisive. Coverage builds a second story for games that dig in. It rewards looking one move ahead without needing a thousand-page opening book.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "narration",
+      "id": "how-to-play",
+      "headline": "How to play — the first ten minutes",
+      "bullets": [
+        "Link Escorts so the net reaches midboard",
+        "Slide Beams into files that will matter later",
+        "Never hang your Hub — refuse the free capture",
+        "Look for their Hub sitting on an open Beam file"
+      ],
+      "voiceover": "How to play, simply. Early on: advance central Escorts, keep them linked, and grow the glow toward the middle. Pre-position Beams inside your net so they have lanes when the fight opens. Midgame: Target Locks and trades — but always check Hub safety first. If their Hub shares a file with your Beam and the path is clear, that is often the whole game.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "win-strike",
+      "missionId": "mission-short-strike",
+      "ply": 7,
+      "moveLabel": "Surgical Strike",
+      "overlays": { "nets": "both" },
+      "voiceover": "How you win, number one — Surgical Strike. Capture the enemy Command Hub. Most games are playing toward this. One careless Hub step, one prepared Beam or Escort, and the battle ends immediately. That is the primary payoff.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "win-clock",
+      "missionId": "mission-clock-finish",
+      "ply": 115,
+      "moveLabel": "Sector Integration",
+      "overlays": { "nets": "contested" },
+      "voiceover": "How you win, number two — Sector Integration, decided by the sector clock. For the first hundred plies, that is fifty moves each, coverage counts for nothing and only the Hub hunt matters. After that the clock arms and the size of your net becomes a scoreboard: cover a little under half the sector and you win. Squares both nets reach are Contested Space and count for neither side, so a defender can stall your clock by pushing into your glow. Most games never get here — but it is why turtling forever doesn’t work.",
+      "durationHintSec": 26
+    },
+    {
+      "kind": "narration",
+      "id": "three-wins",
+      "headline": "Three ways to win",
+      "bullets": [
+        "Surgical Strike — capture their Command Hub",
+        "Sector Integration — hold coverage after the clock arms",
+        "Lockout — the opponent has no legal move"
+      ],
+      "voiceover": "So, three ways to win. Surgical Strike — capture the Hub — decides most games. Sector Integration decides the long ones. And third, rare but real: if your opponent has no legal move at all, they lose. Play for the first, respect the second, and remember the third exists.",
+      "durationHintSec": 15
+    },
+    {
+      "kind": "narration",
+      "id": "feel",
+      "headline": "How a game feels",
+      "bullets": [
+        "Opening — link up, contest the middle",
+        "Midgame — locks, trades, Hub hunts",
+        "Late — strike if you can; otherwise the clock decides"
+      ],
+      "voiceover": "A typical match: open by linking and contesting the midboard. Midgame is net fights and Target Locks, probing for a Hub mistake. Late game, either you convert Surgical Strike, or the clock arms and coverage starts to decide it. Good play looks like fleet tactics on a shifting Sensor Net — not a race to paint cells.",
+      "durationHintSec": 15
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Play free · then go deeper",
+      "nextEpisode": "Fleet Academy Ep.1 — The Tactical Mindset",
+      "voiceover": "That’s Subspace Lattice. Play free at lattice.iwgf.org — versus the AI, pass and play, or online. When you want sharper habits, the Fleet Academy series starts next: how to scan a position, then short missions and full annotated games. Welcome aboard.",
+      "durationHintSec": 14
+    }
+  ]
+}

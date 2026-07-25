@@ -1,0 +1,100 @@
+{
+  "id": "ep02-surgical-strike",
+  "compositionId": "Episode02",
+  "title": "Surgical Strike",
+  "youtubeTitle": "Subspace Lattice Academy Ep.2 — Surgical Strike (7-Ply Mission)",
+  "description": "Mission 1 walkthrough: refuse the hang, then convert a Beam file into Surgical Strike. From the Fleet Academy advanced manual.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 2 · Mission 1",
+      "headline": "Surgical Strike",
+      "subhead": "A seven-ply highlight reel: grow the net, refuse the hang, end the game.",
+      "voiceover": "Episode two: Surgical Strike. A short, fixed highlight reel — not a full match. Watch how fast a Hub hunt ends when a mistake is punished.",
+      "durationHintSec": 6
+    },
+    {
+      "kind": "board",
+      "id": "start",
+      "missionId": "mission-short-strike",
+      "ply": 0,
+      "overlays": { "nets": "both" },
+      "voiceover": "Starting position. White already holds the Initiative Relay Escort forward. Black’s Hub sits on a file White’s Beam can eventually claim — if the net opens and the Hub stays safe.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "ply1",
+      "missionId": "mission-short-strike",
+      "ply": 1,
+      "moveLabel": "White Escort (5,3)→(5,4)",
+      "overlays": { "nets": "white" },
+      "voiceover": "Ply one. White pushes the relay Escort. Deepening the foothold grows midboard coverage so later Beam fire has somewhere to live.",
+      "durationHintSec": 6
+    },
+    {
+      "kind": "board",
+      "id": "ply2",
+      "missionId": "mission-short-strike",
+      "ply": 2,
+      "moveLabel": "Black Escort (8,8)→(8,7)",
+      "voiceover": "Ply two. Black does not yet contest the Beam’s file — a quiet side step while White telegraphs net-building on the left.",
+      "durationHintSec": 5
+    },
+    {
+      "kind": "board",
+      "id": "ply3",
+      "missionId": "mission-short-strike",
+      "ply": 3,
+      "moveLabel": "White Escort (3,2)→(3,3)",
+      "overlays": { "nets": "white" },
+      "voiceover": "Ply three. White slides an Escort beside the Beam’s file — extending the blue glow toward Black’s Hub without sitting on the lane and blocking the shot.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-ply4",
+      "missionId": "mission-short-strike",
+      "ply": 4,
+      "revealPly": 5,
+      "prompt": "Black just stepped next to White’s Hub. What does the three-question scan say?",
+      "overlays": { "hubEnPrise": true },
+      "voiceover": "Ply four. Black reaches for a classic beginner trap: step next to White’s Hub. Pause and predict — if White stares at the Beam shot and ignores this, Black takes Surgical Strike next.",
+      "durationHintSec": 8,
+      "revealVoiceover": "Ply five. White refuses the hang. The prepared Beam shot can wait one ply — Hub safety always comes first. Capture the threat.",
+      "revealDurationHintSec": 7
+    },
+    {
+      "kind": "board",
+      "id": "ply6",
+      "missionId": "mission-short-strike",
+      "ply": 6,
+      "moveLabel": "Black Escort (8,7)→(8,6)",
+      "overlays": { "hubEnPrise": true },
+      "voiceover": "Ply six. Black’s trap failed. Tempo lost — and Black’s Hub is still sitting on White’s Beam file.",
+      "durationHintSec": 5
+    },
+    {
+      "kind": "board",
+      "id": "ply7",
+      "missionId": "mission-short-strike",
+      "ply": 7,
+      "moveLabel": "White Beam (2,0)→(2,4) — Surgical Strike",
+      "overlays": { "threeQuestions": true },
+      "voiceover": "Ply seven. Net open, Hub safe, enemy Hub on the Beam’s file. White converts preparation into Surgical Strike — the usual way fleet games end when the plan works.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Lesson: Hub safety outranks the shot",
+      "nextEpisode": "Episode 3 — Midgame control over 57 plies",
+      "voiceover": "Core lesson: Hub safety outranks material and net-building. Next: a chess-length battle — openings, trade fights, and a walk-in finish.",
+      "durationHintSec": 7
+    }
+  ]
+}

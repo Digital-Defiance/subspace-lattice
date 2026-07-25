@@ -135,6 +135,16 @@
   gap: 0.75rem;
   padding: 1rem;
   background: #0a1018;
+
+  // Capture reads getComputedStyle, which samples a transition at its current
+  // value. The board fades cell backgrounds over 200ms, so a capture taken
+  // right after a ply change would serialise the *previous* Sensor Net colours.
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 .figures-capture-hud {

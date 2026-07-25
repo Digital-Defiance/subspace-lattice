@@ -1,0 +1,81 @@
+{
+  "id": "ep03-standard-battle",
+  "compositionId": "Episode03",
+  "title": "Midgame Control & Hub Hunts",
+  "youtubeTitle": "Subspace Lattice Academy Ep.3 — Standard Battle (57 Plies)",
+  "description": "Mission 2: opening structure, midgame net pressure, and a Surgical Strike finish. Quiet stretches scrub; turning points pause.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 3 · Mission 2",
+      "headline": "Midgame Control",
+      "subhead": "A fixed 57-ply fleet game — chess ballpark. Infiltrators omitted so the story stays on Escorts, Beams, and the Hub hunt.",
+      "voiceover": "Episode three: a standard battle. Fifty-seven plies. We won’t crawl every quiet step — we’ll scrub the openings, slow down for trades, and stop when the Hub hunt becomes real.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "start",
+      "missionId": "mission-standard-battle",
+      "ply": 0,
+      "overlays": { "nets": "both" },
+      "voiceover": "Starting seat under hybrid-fleet with the clock disarmed for teaching. White’s Initiative Relay Escort is already forward. Goal: Surgical Strike — not racing to paint the map.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "montage",
+      "id": "opening",
+      "missionId": "mission-standard-battle",
+      "fromPly": 1,
+      "toPly": 14,
+      "caption": "Opening · Beams inside the glow, Escorts linking",
+      "voiceover": "Opening, plies one through fourteen. Both sides slide Beams inside their Sensor Net glow, then advance central Escorts to link coverage and contest the midboard. Structure first — gambits later.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "beam-lanes",
+      "missionId": "mission-standard-battle",
+      "ply": 17,
+      "moveLabel": "White Beam (4,3)→(4,5)",
+      "overlays": { "nets": "white" },
+      "voiceover": "Ply seventeen. Long Beam slides mean the net already covers the path. White is preparing lanes — not fishing for random captures.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "montage",
+      "id": "midgame",
+      "missionId": "mission-standard-battle",
+      "fromPly": 19,
+      "toPly": 48,
+      "caption": "Midgame · net pressure & trades",
+      "voiceover": "Midgame stretch. Escort chains push, Target Locks appear, Beams and Escorts trade at key intersections. Typical play is net pressure and probing for a Hub mistake — not a Go race.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "pause-predict",
+      "id": "finish-setup",
+      "missionId": "mission-standard-battle",
+      "ply": 54,
+      "revealPly": 57,
+      "prompt": "Defenders are thinning. Can White force Surgical Strike?",
+      "overlays": { "threeQuestions": true },
+      "voiceover": "Late game. Pause and predict: with key defenders removed, does White have a walk-in on the Hub?",
+      "durationHintSec": 7,
+      "revealVoiceover": "Ply fifty-seven. White delivers Surgical Strike. Same lesson as Mission One — just earned over a full game: clear the lane, refuse hangs, strike when the Hub is forced.",
+      "revealDurationHintSec": 9
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "When Hubs survive, the clock decides",
+      "nextEpisode": "Episode 4 — Sector Integration siege (115 plies)",
+      "voiceover": "That length is normal when the Hub hunt succeeds. Next episode: what happens when both fleets dig in — and Sector Integration becomes the win condition.",
+      "durationHintSec": 8
+    }
+  ]
+}

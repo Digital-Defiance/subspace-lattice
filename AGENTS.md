@@ -8,7 +8,7 @@ Canonical instructions for AI assistants working in this repo. Sibling product u
 
 **Subspace Lattice** is a two-player perfect-info strategy game: Chess piece tactics + Go-like territorial pressure via a **Sensor Net** on an **11×11** sector. Federation / fleet theme (Digital Defiance / IWGF).
 
-- Soft-ship ruleset: **`hybrid-fleet`** (Sensor Net + sector clock + Initiative Relay). See `docs/player-overview.md` and `docs/rules.tex`.
+- Shipping default ruleset: **`hybrid-fleet`** (Sensor Net + sector clock + Initiative Relay). See `docs/player-overview.md` and `docs/rules.tex`.
 - Wins: Surgical Strike (capture Command Hub), Sector Integration (net coverage clock), or no legal moves.
 - Pieces: Command Hub, Escorts, Infiltrators, Beams. Center **Gravity Well** blocks movement. Enemy in your Sovereign Space is **Target Locked**.
 - Legacy modes (`classic`, `hybrid`, `hybrid-spool`) exist for sims/tests — do not ship them as product default.

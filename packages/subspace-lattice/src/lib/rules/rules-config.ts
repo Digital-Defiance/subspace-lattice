@@ -90,7 +90,7 @@ export const HYBRID_SPOOL_RULES: RulesConfig = {
  * Track A "v1.0-fleet" candidate — hybrid + Integration Hold 1 + Contested
  * Space + activation ply 100 + one Initiative Relay for White. Passed Track A
  * at production budget on 2026-07-21 (W 45% / B 55%, sector 30%, sep 13.3;
- * ADR 005 / 006). Soft-ship via `rulesVersion: 'hybrid-fleet'`.
+ * ADR 005 / 006). Ships as default via `rulesVersion: 'hybrid-fleet'`.
  */
 export const FLEET_V1_RULES: Partial<Omit<RulesConfig, 'version'>> = {
   sectorHoldPlies: 1,

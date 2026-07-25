@@ -126,14 +126,14 @@ parts of the tutorial—not the tutorial shell or basic movement lessons.
       MCTS@10 29→51%. Two relays overshoot (67%).
 - [x] **5.4b Fleet preset decision.** Production confirm of
       `hold1 / neutral / act100 / relay1` passed Track A (W 45% / B 55%,
-      sector 30%, sep 13.3). Soft-ship as `FLEET_V1_RULES`; human playtest
+      sector 30%, sep 13.3). Ships as `FLEET_V1_RULES`; human playtest
       still required before replacing shipping `HYBRID_RULES`.
 - [x] **5.5 Objective HUD.** In every hybrid game show both players’ Sensor Net
       coverage, Integration Hold, sector activation countdown, contested-space
       meaning, current turn, and immediate victory threats.
 - [x] **5.6 Rules parity.** Keep the engine preset, Rules dialog, tutorial copy,
       player overview, and `rules.tex` synchronized. (Figures inlined in the
-      official rules PDF; overview + Rules dialog match soft-ship hybrid-fleet.
+      official rules PDF; overview + Rules dialog match shipping hybrid-fleet.
       Introductory manual is separate from normative `rules.tex`.)
 
 ## Phase 6 — Interactive academy

@@ -39,7 +39,7 @@ const ROOM_CODES = LATTICE_COLLECTIONS.roomCodes;
 const TEI = LATTICE_COLLECTIONS.tei;
 const RATING_EVENTS = LATTICE_COLLECTIONS.ratingEvents;
 
-/** Soft-shipped fleet rules for all new rooms and local AI. */
+/** Shipping fleet rules for all new rooms and local AI. */
 const DEFAULT_RULES_VERSION = 'hybrid-fleet' as const;
 
 function requireAuth(uid: string | undefined): string {

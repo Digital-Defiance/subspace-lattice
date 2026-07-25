@@ -78,13 +78,14 @@ tracks in `latticeTei` (`localAi` and `online`).
 | --- | --- |
 | New / casual players | Introductory manual (`/docs/subspace-lattice-manual.pdf` on the site) |
 | Improving players | Advanced manual — three fully annotated games ([`docs/advanced-manual.pdf`](./advanced-manual.pdf), `/docs/advanced-manual.pdf` on the site; rebuild via `yarn build:advanced-manual`) |
+| YouTube academy (Remotion) | [`apps/academy-videos`](../apps/academy-videos/README.md) — beginner intro + Fleet Academy series (`yarn videos:studio`) |
 | In-game summary | Rules dialog in the client |
 | Normative / serious rules | [`docs/rules.pdf`](./rules.pdf) (`/docs/rules.pdf` on the site) |
 | Opening diagram | `/setup-diagram` in the web app |
 | Viability / what we tested | [`docs/game-viability-testing.md`](./game-viability-testing.md) |
 | Design / balance lab (developers) | [`packages/subspace-lattice/docs/evolution-lab.md`](../packages/subspace-lattice/docs/evolution-lab.md) |
 
-Online play and local AI soft-ship **hybrid-fleet** (Integration Hold, Contested
+Online play and local AI use **hybrid-fleet** (Integration Hold, Contested
 Space, late activation, Initiative Relay). Legacy **hybrid** / **classic** remain
 for sims. When shipping defaults change, update this overview, the in-game Rules
 dialog, and `rules.tex` together.

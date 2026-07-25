@@ -1,0 +1,58 @@
+{
+  "name": "@subspace-lattice/academy-videos",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Remotion YouTube academy series — tactical mindset + three guided missions",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts",
+    "render:ep00": "remotion render src/index.ts Episode00 out/ep00-intro.mp4",
+    "render:ep01": "remotion render src/index.ts Episode01 out/ep01-tactical-mindset.mp4",
+    "render:ep02": "remotion render src/index.ts Episode02 out/ep02-surgical-strike.mp4",
+    "render:ep03": "remotion render src/index.ts Episode03 out/ep03-standard-battle.mp4",
+    "render:ep04": "remotion render src/index.ts Episode04 out/ep04-sector-clock.mp4",
+    "render:ep05": "remotion render src/index.ts Episode05 out/ep05-standard-battle-full.mp4",
+    "render:ep06": "remotion render src/index.ts Episode06 out/ep06-clock-siege-full.mp4",
+    "tts": "node scripts/generate-tts.mjs",
+    "seed:mission-episodes": "node scripts/seed-mission-episodes.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4",
+    "@remotion/media-utils": "^4",
+    "@remotion/player": "^4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "remotion": "^4",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "~6.0.3"
+  },
+  "nx": {
+    "name": "academy-videos",
+    "tags": [
+      "scope:videos",
+      "type:app"
+    ],
+    "targets": {
+      "studio": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "yarn studio",
+          "cwd": "apps/academy-videos"
+        }
+      },
+      "typecheck": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "yarn typecheck",
+          "cwd": "apps/academy-videos"
+        }
+      }
+    }
+  }
+}

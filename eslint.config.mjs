@@ -53,6 +53,20 @@ export default tseslint.config(
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
   },
   {
+    // Build/pipeline scripts run under Node, not the browser.
+    files: ['**/scripts/**/*.mjs', '**/scripts/**/*.cjs', '**/scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        Buffer: 'readonly',
+        URL: 'readonly',
+        console: 'readonly',
+        fetch: 'readonly',
+        process: 'readonly',
+        setTimeout: 'readonly',
+      },
+    },
+  },
+  {
     files: ['**/vite.config.ts', '**/vite.config.mts', '**/vitest.config.ts'],
     languageOptions: {
       parserOptions: {

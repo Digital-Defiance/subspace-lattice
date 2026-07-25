@@ -1,0 +1,97 @@
+{
+  "id": "ep01-tactical-mindset",
+  "compositionId": "Episode01",
+  "title": "The Tactical Mindset",
+  "youtubeTitle": "Subspace Lattice Academy Ep.1 — How to Read a Position",
+  "description": "Part I of the Fleet Academy: the 4-step board scan, three currencies, and the three-question look-ahead. Companion to docs/advanced-manual.pdf.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 1",
+      "headline": "The Tactical Mindset",
+      "subhead": "How to evaluate a Subspace Lattice position before you move a ship.",
+      "voiceover": "Welcome to the Subspace Lattice Fleet Academy. Episode one: the tactical mindset — how to read a position before you ever touch a piece.",
+      "durationHintSec": 6
+    },
+    {
+      "kind": "narration",
+      "id": "scan-intro",
+      "headline": "The 4-step board scan",
+      "bullets": [
+        "1 · Hub safety",
+        "2 · Sensor Nets",
+        "3 · Target Locked ships",
+        "4 · Link integrity"
+      ],
+      "voiceover": "Every diagram in the advanced manual shows four things at once. Learn to scan them in this order: Hub safety, Sensor Nets, Target Locked ships, then link integrity.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "hub-safety",
+      "missionId": "mission-short-strike",
+      "ply": 0,
+      "moveLabel": "Opening seat",
+      "overlays": { "threeQuestions": true, "nets": "both" },
+      "voiceover": "First: Hub safety. Where is each Command Hub, and can anything reach it next ply? This question outranks every other. Most decided fleet games end by Surgical Strike — and most of those are walk-ins the loser could have seen one move earlier.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "nets",
+      "missionId": "mission-standard-battle",
+      "ply": 0,
+      "overlays": { "nets": "both" },
+      "voiceover": "Second: the nets. Blue is White’s Sensor Net, red is Black’s. Purple overlap is Contested Space — it counts for neither side’s sector coverage. Beams may only slide inside their own glow, and an enemy standing in your net is Target Locked.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "locks-links",
+      "headline": "Locks and links",
+      "bullets": [
+        "Target Lock → one orthogonal step only",
+        "Escorts radiate only while linked to the Hub",
+        "Link distance: two squares"
+      ],
+      "voiceover": "Third: locked ships. A Target Locked ship moves one orthogonal step — nothing else. A locked Beam is a wall ornament. Fourth: link integrity. Escorts only radiate while chained to the Hub through friendly ships no more than two squares apart. One careless step can silently unplug half your net.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "currencies",
+      "headline": "Three currencies",
+      "bullets": [
+        "Material — captures matter, but not all Escorts are equal",
+        "Coverage — net cells are Beam mobility and Target Locks",
+        "Tempo — White’s Initiative Relay is seat compensation"
+      ],
+      "voiceover": "Chess players value material. Go players value territory. Lattice asks you to price three currencies: material, coverage, and tempo. Trading an active linked Escort for a passive one is usually a loss even when the count says even.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "three-q",
+      "headline": "The three-question scan",
+      "bullets": [
+        "1 · Can I take their Hub?",
+        "2 · Can they take mine after my intended move?",
+        "3 · What does this do for the nets?"
+      ],
+      "voiceover": "Before every move: Can I take their Hub? If yes, play it. Can they take mine after my intended move? If any reply lands on your Hub, refuse that hang. What does the move do for the nets? Prefer answers that threaten and build at once.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Next: punish a Hub mistake",
+      "nextEpisode": "Episode 2 — Surgical Strike (Mission 1, 7 plies)",
+      "voiceover": "You have the mental framework. Next episode: a seven-ply highlight reel where Hub safety outranks everything — and White converts a prepared Beam shot into Surgical Strike.",
+      "durationHintSec": 8
+    }
+  ]
+}
