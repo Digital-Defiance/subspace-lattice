@@ -72,11 +72,14 @@ episode JSON  →  Remotion compositions  →  MP4
 
    Without a key, `yarn videos:tts` dry-runs and scenes use `durationHintSec`.
    Spoken lines run through `scripts/lib/speakable.mjs` so `(5,9)` becomes
-   **column 5, row 9** (not "five comma nine"). Re-run TTS after script changes.
+   **column five, row number nine** (not "five comma nine", and not bare
+   "row 5" — ElevenLabs often voices "row" as /raʊ/ and garbles the digit).
+   Re-run TTS after script changes; use `--scene <id>` to regenerate one clip.
 
 4. **Render** (uses TTS clips from `public/audio/<episode-id>/` when present;
-   timing follows the MP3 length + a short tail pad; falls back to
-   `durationHintSec` if a clip is missing):
+   timing follows the MP3 length + a tail pad (about 2.25s after board /
+   ply beats so you can read the position, ~0.9s after other scenes);
+   falls back to `durationHintSec` if a clip is missing):
 
    ```bash
    yarn videos:render:ep02     # → apps/academy-videos/out/ep02-surgical-strike.mp4

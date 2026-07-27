@@ -47,6 +47,8 @@ export function Landing() {
           </a>
         </div>
         <p className="landing-docs">
+          <Link to="/story">Sector 11 briefing</Link>
+          <span aria-hidden="true"> · </span>
           <DocLink doc="manual">Introductory manual</DocLink>
           <span aria-hidden="true"> · </span>
           <DocLink doc="rules">Official rules</DocLink>

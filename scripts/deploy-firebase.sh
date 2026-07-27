@@ -14,7 +14,8 @@ PROJECT="${FIREBASE_PROJECT:-warp-12}"
 ONLY="${1:-hosting:lattice,functions:lattice}"
 
 echo "deploy:firebase — project=${PROJECT} only=${ONLY}"
-echo "  Hosting target 'lattice' → site subspacelattice (lattice.iwgf.org / subspacelattice.web.app)"
+echo "  Hosting target 'lattice' → site subspacelattice (lattice.iwgf.org)"
+echo "  Hosting target 'lattice-docs' → site latticedocs (docs.lattice.iwgf.org)"
 echo "  Functions codebase 'lattice' (does not replace Warp codebase 'default')"
 echo "  Firestore rules: NOT deployed by default (shared with Warp)."
 echo "    Merge lattice* matches into Warp12/firestore.rules, then deploy from Warp."
@@ -26,7 +27,14 @@ if [[ "${ONLY}" == *firestore* ]]; then
   exit 1
 fi
 
-if [[ "${ONLY}" == *hosting* ]] && ! yarn firebase target:apply hosting lattice subspacelattice --project "${PROJECT}" 2>/dev/null; then
+if [[ "${ONLY}" == *hosting:lattice-docs* ]] || [[ "${ONLY}" == "hosting:lattice-docs" ]]; then
+  if ! yarn firebase target:apply hosting lattice-docs latticedocs --project "${PROJECT}" 2>/dev/null; then
+    echo "Note: create + bind the docs site once if needed:"
+    echo "  yarn firebase hosting:sites:create latticedocs --project ${PROJECT}"
+    echo "  yarn firebase target:apply hosting lattice-docs latticedocs --project ${PROJECT}"
+    echo "  See docs/handbook-hosting.md for DNS (docs.lattice.iwgf.org)."
+  fi
+elif [[ "${ONLY}" == *hosting* ]] && ! yarn firebase target:apply hosting lattice subspacelattice --project "${PROJECT}" 2>/dev/null; then
   echo "Note: bind the target once if needed:"
   echo "  yarn firebase target:apply hosting lattice subspacelattice --project ${PROJECT}"
 fi

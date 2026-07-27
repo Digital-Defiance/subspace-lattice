@@ -108,14 +108,17 @@ if [ "$NEXT_BUILD" = 1 ] || [ "$NEXT_MINOR" = 1 ]; then
   BUMP_ARGS=()
   [ "$NEXT_MINOR" = 1 ] && BUMP_ARGS+=(--next-minor)
   [ "$NEXT_BUILD" = 1 ] && BUMP_ARGS+=(--next-build)
-  node "${ROOT}/scripts/app-version.mjs" bump "${BUMP_ARGS[@]}"
+  VERSION="$(node "${ROOT}/scripts/app-version.mjs" bump "${BUMP_ARGS[@]}")"
 elif [ -n "$EXPLICIT_VERSION" ]; then
-  node "${ROOT}/scripts/app-version.mjs" set "$EXPLICIT_VERSION"
+  VERSION="$(node "${ROOT}/scripts/app-version.mjs" set "$EXPLICIT_VERSION")"
 else
   usage
 fi
 
-VERSION="$(node "${ROOT}/scripts/app-version.mjs" print)"
+VERSION="$(printf '%s' "$VERSION" | tr -d '\r' | tail -n 1)"
+if [ -z "$VERSION" ]; then
+  die "app-version.mjs returned an empty version (Node path/symlink CLI guard?). Try: node scripts/app-version.mjs print"
+fi
 echo "Building version ${VERSION}"
 MACOS_ARGS=("$VERSION" --publish)
 [ "$PUSH_TAP" = 1 ] && MACOS_ARGS+=(--push-tap)

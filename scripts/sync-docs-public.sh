@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copy player-facing PDFs into apps/web/public so Vite/hosting serve them.
+# Copy player-facing docs into apps/web/public so Vite/hosting serve them.
 # Source of truth stays under docs/; public copies are generated.
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -20,3 +20,5 @@ copy_one() {
 copy_one "$ROOT/docs/rules.pdf" "rules.pdf"
 copy_one "$ROOT/docs/Subspace Lattice Manual.pdf" "subspace-lattice-manual.pdf"
 copy_one "$ROOT/docs/advanced-manual.pdf" "advanced-manual.pdf"
+# Plain-text twin of the /story page (glossary + full briefing prose).
+copy_one "$ROOT/docs/story.md" "story.md"

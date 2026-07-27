@@ -44,8 +44,9 @@
       "kind": "board",
       "id": "nets",
       "missionId": "mission-standard-battle",
-      "ply": 0,
-      "overlays": { "nets": "both" },
+      "ply": 35,
+      "moveLabel": "Midgame nets — Contested Space",
+      "overlays": { "nets": "contested" },
       "voiceover": "Second: the nets. Blue is White’s Sensor Net, red is Black’s. Purple overlap is Contested Space — it counts for neither side’s sector coverage. Beams may only slide inside their own glow, and an enemy standing in your net is Target Locked.",
       "durationHintSec": 12
     },

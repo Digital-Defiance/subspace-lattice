@@ -1,0 +1,41 @@
+{
+  "name": "@subspace-lattice/handbook",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Player/dev handbook (VitePress) → docs.lattice.iwgf.org",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "nx": {
+    "name": "handbook",
+    "tags": [
+      "scope:docs",
+      "type:app"
+    ],
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "bash scripts/build-handbook.sh",
+          "cwd": "{workspaceRoot}"
+        },
+        "outputs": [
+          "{workspaceRoot}/apps/handbook/dist"
+        ]
+      },
+      "serve": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "yarn workspace @subspace-lattice/handbook dev",
+          "cwd": "{workspaceRoot}"
+        }
+      }
+    }
+  }
+}

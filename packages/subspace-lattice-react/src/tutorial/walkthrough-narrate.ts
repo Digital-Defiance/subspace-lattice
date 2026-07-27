@@ -14,6 +14,17 @@ export interface MissionReplayMove {
   pieceType: string;
 }
 
+/** Sparse human coaching for a fixed replay. Keys are absolute 1-based plies. */
+export interface MissionPlyAnnotation {
+  why: string;
+  objective?: string;
+  focusCells?: readonly Coordinate[];
+}
+
+export type MissionAnnotations = Readonly<
+  Record<number, MissionPlyAnnotation>
+>;
+
 const PIECE_LABEL: Record<string, string> = {
   [PieceType.CommandHub]: 'Command Hub',
   [PieceType.Escort]: 'Escort',
@@ -34,9 +45,14 @@ function phaseForPly(
   return 'midgame';
 }
 
+function destOf(move: MissionReplayMove): string {
+  return `(${move.to.x},${move.to.y})`;
+}
+
 /**
- * Lightweight coach copy for long pre-calculated replays.
- * Key moments get sharper lines; quiet plies stay short.
+ * Fallback coach copy for unmarked plies.
+ * Quiet moves stay short; captures / Hub / clock get a real line.
+ * Prefer sparse {@link MissionAnnotations} for teaching moments.
  */
 export function narrateMissionPly(
   move: MissionReplayMove,
@@ -51,19 +67,19 @@ export function narrateMissionPly(
   const seatName = seat === PlayerColor.Black ? 'Black' : 'White';
   const label = PIECE_LABEL[move.pieceType] ?? 'ship';
   const phase = phaseForPly(plyIndex, total);
-  const dest = `(${move.to.x},${move.to.y})`;
+  const dest = destOf(move);
   const focusCells = [move.from, move.to];
 
   if (move.captured) {
     const hubMate =
-      move.pieceType === PieceType.CommandHub ||
-      // capture target inferred only by id convention in replays
-      String(move.captured).includes('-ch');
-    if (hubMate || String(move.captured).endsWith('-ch') || move.captured.includes('ch')) {
+      String(move.captured).includes('-ch') ||
+      String(move.captured).endsWith('-ch') ||
+      move.captured.includes('ch');
+    if (hubMate) {
       return {
         seat,
         objective: `${seatName} delivers Surgical Strike.`,
-        why: `${seatName} captures the enemy Command Hub with ${article(label)} ${label}. The battle ends immediately—this is the primary win most fleet games are playing toward.`,
+        why: `${seatName} captures the enemy Command Hub with ${article(label)} ${label}. The battle ends immediately — this is the primary win most fleet games are playing toward.`,
         focusCells,
       };
     }
@@ -72,81 +88,62 @@ export function narrateMissionPly(
       objective: `${seatName} captures with ${article(label)} ${label}.`,
       why:
         phase === 'opening'
-          ? `${seatName} takes material early to loosen the opponent’s screen and free lanes.`
+          ? `${seatName} takes an early ${label === 'Beam' ? 'piece' : label.toLowerCase()} at ${dest} to loosen the screen.`
           : phase === 'endgame'
-            ? `${seatName} removes a defender. Captures this late usually open the Hub or collapse a relay.`
-            : `${seatName} trades or takes with ${article(label)} ${label} at ${dest}, reshaping the net fight.`,
+            ? `${seatName} removes a defender at ${dest}. Late captures usually open the Hub or collapse a relay.`
+            : `${seatName} takes at ${dest} with ${article(label)} ${label}.`,
       focusCells,
     };
   }
 
-  if (opts?.clockArmedFromPly != null && plyIndex + 1 === opts.clockArmedFromPly) {
+  if (
+    opts?.clockArmedFromPly != null &&
+    plyIndex + 1 === opts.clockArmedFromPly
+  ) {
     return {
       seat,
       objective: `${seatName} moves as the sector clock arms.`,
-      why: `Ply ${opts.clockArmedFromPly}: Sector Integration can now win. Coverage at or above the marker must hold—Contested Space can break a streak. Surgical Strike is still available.`,
+      why: `Ply ${opts.clockArmedFromPly}: Sector Integration can now win. Coverage at or above the marker must hold — Contested Space can break a streak. Surgical Strike is still available.`,
       focusCells,
     };
   }
 
-  if (move.pieceType === PieceType.Beam) {
-    return {
-      seat,
-      objective: `${seatName} relocates a Beam.`,
-      why:
-        phase === 'opening'
-          ? `${seatName} slides a Beam inside the blue Sensor Net. Beams only travel in that glow—this is repositioning inside the box until Escorts expand it.`
-          : `${seatName} uses a Beam lane to ${dest}. Long slides mean the net already covers the path.`,
-      focusCells,
-    };
-  }
-
-  if (move.pieceType === PieceType.CommandHub) {
-    return {
-      seat,
-      objective: `${seatName} repositions the Command Hub.`,
-      why: `${seatName} steps the Hub toward ${dest}. The Hub is both king and radio tower—every move changes the net’s core.`,
-      focusCells,
-    };
-  }
-
-  if (phase === 'opening') {
-    return {
-      seat,
-      objective: `${seatName} develops ${article(label)} ${label}.`,
-      why: `Opening: ${seatName} advances ${article(label)} ${label} to ${dest}, linking coverage and contesting the midboard before big tactics appear.`,
-      focusCells,
-    };
-  }
-
-  if (phase === 'endgame') {
-    return {
-      seat,
-      objective: `${seatName} presses with ${article(label)} ${label}.`,
-      why: `Late game: ${seatName} plays ${label} to ${dest}. With the board tense, each step either threatens the Hub, expands a finishing net, or refuses a hang.`,
-      focusCells,
-    };
-  }
-
+  // Quiet ply: name the move, nothing more. Teaching lives in annotations.
   return {
     seat,
-    objective: `${seatName} maneuvers ${article(label)} ${label}.`,
-    why: `Midgame: ${seatName} moves ${article(label)} ${label} to ${dest}. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake—not racing to paint the map.`,
+    objective: `${seatName} moves ${article(label)} ${label}.`,
+    why: `${seatName} ${label} to ${dest}.`,
     focusCells,
   };
 }
 
 export function stepsFromReplay(
   moves: readonly MissionReplayMove[],
-  opts?: { clockArmedFromPly?: number; startPlyOffset?: number },
+  opts?: {
+    clockArmedFromPly?: number;
+    startPlyOffset?: number;
+    annotations?: MissionAnnotations;
+  },
 ): TutorialStep[] {
   const offset = opts?.startPlyOffset ?? 0;
   return moves.map((move, i) => {
-    const narrated = narrateMissionPly(move, offset + i, offset + moves.length, {
+    const plyIndex = offset + i;
+    const absolutePly = plyIndex + 1;
+    const narrated = narrateMissionPly(move, plyIndex, offset + moves.length, {
       clockArmedFromPly: opts?.clockArmedFromPly,
     });
+    const override = opts?.annotations?.[absolutePly];
     return {
       ...narrated,
+      ...(override
+        ? {
+            why: override.why,
+            ...(override.objective ? { objective: override.objective } : {}),
+            ...(override.focusCells
+              ? { focusCells: [...override.focusCells] }
+              : {}),
+          }
+        : {}),
       playerMove: { pieceId: move.pieceId, to: move.to },
     };
   });

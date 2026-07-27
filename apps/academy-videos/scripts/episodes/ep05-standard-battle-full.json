@@ -14,7 +14,7 @@
       "eyebrow": "Fleet Academy · Episode 5 · Full annotated game",
       "headline": "Every Ply: The Standard Battle",
       "subhead": "All 57 plies of Mission 2, exactly as annotated in the Advanced Manual.",
-      "voiceover": "Episode five: the full game, one ply at a time. No skipping, no scrubbing. This is Mission 2 from the Advanced Manual, and every move carries the same annotation you will find in the PDF — including the net counts and Hub warnings.",
+      "voiceover": "Episode five: every ply of Mission 2. White’s plan is Surgical Strike — take Black’s Command Hub. The opening parks Beams and grows Escorts so those Beams can ride; the finish peels the Hub’s screen. Quiet hops stay short on purpose; annotated beats name the job of that move.",
       "durationHintSec": 8
     },
     {
@@ -26,19 +26,19 @@
       "overlays": {
         "nets": "both"
       },
-      "voiceover": "Starting seat under hybrid-fleet with the teaching clock disarmed. White holds the Initiative Relay Escort forward. Follow the ply counter in the corner; the caption is the manual text for that move.",
+      "voiceover": "Hybrid-fleet start, teaching clock off. White holds the Initiative Relay forward. Watch how Beam parking and relay hops become a Hub hunt — not a race to paint the map.",
       "durationHintSec": 9
     },
     {
       "kind": "narration",
       "id": "phase-opening",
-      "headline": "Opening · plies 1–14",
+      "headline": "Opening · build the Strike scaffold · plies 1–14",
       "bullets": [
-        "Advance central Escorts — they carry the net forward",
-        "Keep every Escort within two squares of the chain",
-        "Slide Beams into files that will matter later"
+        "Park Beams on files you will later shoot down",
+        "Escorts grow the glow those Beams ride",
+        "Initiative Relay buys early midboard coverage"
       ],
-      "voiceover": "Opening phase. Structure, not gambits: advance central Escorts to carry the net forward, keep the chain linked within two squares, and pre-slide Beams into files that will matter once coverage arrives.",
+      "voiceover": "Opening. White is scaffolding a Surgical Strike: park Beams on the files that will matter, then grow Escorts so those Beams can slide. Quiet Escort hops are relay work — skim them; the plan is the Hub, not painting the map.",
       "durationHintSec": 9
     },
     {
@@ -54,8 +54,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "White slides a Beam inside the blue Sensor Net. Beams only travel in that glow — this is repositioning inside the box until Escorts expand it.",
-      "durationHintSec": 8.9
+      "voiceover": "White climbs the left Beam off the back rank. Beams cannot invent a path — they only slide inside Sensor Net — so parking now means the dreadnought is already on a file when Escorts later grow the glow toward Black.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -70,8 +70,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "Black mirrors on the opposite wing. Same logic: get the long-range piece onto a file before the Escorts start laying relays.",
+      "durationHintSec": 7.8
     },
     {
       "kind": "board",
@@ -86,8 +86,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "White slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "White's second Beam leaves the corner. Corner Beams are stranded until coverage arrives; mid-file parking is cheaper tempo once the relay chain starts.",
+      "durationHintSec": 8.5
     },
     {
       "kind": "board",
@@ -102,8 +102,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "Black swings onto column 5 — the file Black's own Hub sits on, and the one White will eventually need to contest. Central Beams matter once anyone's net reaches midboard.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -118,8 +118,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "White slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "White tucks onto column 6 beside the Hub file. Two Beams flanking the center means whichever Escort chain grows first already has a rider waiting.",
+      "durationHintSec": 9.3
     },
     {
       "kind": "board",
@@ -134,8 +134,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "Black Beam to column eight, row number seven.",
+      "durationHintSec": 3.2
     },
     {
       "kind": "board",
@@ -150,8 +150,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "White slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "Left Beam steps to column 4. White now owns the two files most likely to become Hub-hunt lanes once coverage stretches forward — not attacking yet, just choosing where the shot will come from.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -166,8 +166,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Black slides a Beam inside the blue Sensor Net.",
-      "durationHintSec": 3.3
+      "voiceover": "Black's last Beam joins column 6. Opening placement is done; the next job belongs to Escorts, who actually grow the nets those Beams will ride.",
+      "durationHintSec": 9.3
     },
     {
       "kind": "board",
@@ -182,8 +182,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Opening: White advances an Escort to column 4, row 1, linking coverage and contesting the midboard before big tactics appear.",
-      "durationHintSec": 6.3
+      "voiceover": "First Escort hop. Escorts are the only ships that push Sensor Net into unmapped dark — without this chain, the parked Beams stay boxed in their starting glow.",
+      "durationHintSec": 10.4
     },
     {
       "kind": "board",
@@ -198,8 +198,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Opening: Black advances an Escort to column 5, row 8, linking coverage and contesting the midboard before big tactics appear.",
-      "durationHintSec": 6.3
+      "voiceover": "Black Escort to column five, row number eight.",
+      "durationHintSec": 3.2
     },
     {
       "kind": "board",
@@ -214,8 +214,8 @@
         "netWhite": 31,
         "netBlack": 28
       },
-      "voiceover": "Opening: White advances an Escort to column 6, row 1, linking coverage and contesting the midboard before big tactics appear.",
-      "durationHintSec": 6.3
+      "voiceover": "White Escort to column six, row number one.",
+      "durationHintSec": 3.2
     },
     {
       "kind": "board",
@@ -230,8 +230,8 @@
         "netWhite": 31,
         "netBlack": 35
       },
-      "voiceover": "Black steps the Hub toward column 5, row 9. The Hub is both king and radio tower — every move changes the net's core.",
-      "durationHintSec": 7
+      "voiceover": "Black's Hub edges forward. The Hub is the net's power anchor, so this is not king-walking for its own sake — red coverage jumps because the whole lattice moves with the flagship.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -246,8 +246,8 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Opening: White advances an Escort to column 5, row 4, linking coverage and contesting the midboard before big tactics appear.",
-      "durationHintSec": 6.3
+      "voiceover": "White's forward Escort (the first-mover's extra relay) steps to column five, row number four. That is the point of the Relay: early midboard coverage so White's Beams get lanes before Black can match.",
+      "durationHintSec": 10.7
     },
     {
       "kind": "board",
@@ -262,19 +262,19 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Opening: Black advances an Escort to column 5, row 10, linking coverage and contesting the midboard before big tactics appear.",
-      "durationHintSec": 6.3
+      "voiceover": "Black Escort to column five, row number ten.",
+      "durationHintSec": 3.2
     },
     {
       "kind": "narration",
       "id": "phase-midgame",
-      "headline": "Midgame · plies 15–49",
+      "headline": "Midgame · open the Hub files · plies 15–49",
       "bullets": [
-        "Net pressure over map painting",
-        "Target Locks punish overextension",
-        "Probe for a Hub mistake"
+        "Cut relay tips that create Target Locks",
+        "Hub marches expand the whole lattice",
+        "Trade Beams off the files you need clear"
       ],
-      "voiceover": "Midgame. This is net pressure and Target Lock threats, probing for a Hub mistake — not a race to paint the map. Watch for the moment an enemy Beam lane and a Hub share a file.",
+      "voiceover": "Midgame. Lift locks, march the Hub so coverage owns the center files, and trade away Beams that block the hunt. Each annotated beat is a job toward peeling Black’s Hub — unmarked hops stay short on purpose.",
       "durationHintSec": 9
     },
     {
@@ -290,8 +290,8 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "White uses a Beam lane to column 6, row 5. Long slides mean the net already covers the path.",
-      "durationHintSec": 5.9
+      "voiceover": "White's Beam slides to column six, row number five because the Escort chain finally covers the path. The advance is the payoff for plies 9 — 13 — Beams only move when the net lets them.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -306,8 +306,8 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Black uses a Beam lane to column 5, row 6.",
-      "durationHintSec": 3.2
+      "voiceover": "Black answers on column five, row number six. Midboard Beams are there to punish an overextended Escort or to sit on a file the enemy Hub might wander onto.",
+      "durationHintSec": 9.3
     },
     {
       "kind": "board",
@@ -322,8 +322,8 @@
         "netWhite": 28,
         "netBlack": 35
       },
-      "voiceover": "White uses a Beam lane to column 4, row 5.",
-      "durationHintSec": 3.2
+      "voiceover": "White's column-4 Beam reaches column four, row number five. Coverage dips briefly because the piece left a square the net was using; the bet is Escorts will re-link before Black can exploit the hole.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -338,7 +338,7 @@
         "netWhite": 28,
         "netBlack": 35
       },
-      "voiceover": "Black uses a Beam lane to column 5, row 7.",
+      "voiceover": "Black Beam to column five, row number seven.",
       "durationHintSec": 3.2
     },
     {
@@ -354,7 +354,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: White moves an Escort to column 4, row 2. Typical play is net pressure, Target Lock threats, and probing for a Hub mistake — not racing to paint the map.",
+      "voiceover": "Escort to column four, row number two snaps blue coverage back. This is the usual repair job after a Beam advance: reconnect the daisy-chain so the forward dreadnought stays fed.",
       "durationHintSec": 9.6
     },
     {
@@ -370,7 +370,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: Black moves an Escort to column 4, row 9.",
+      "voiceover": "Black Escort to column four, row number nine.",
       "durationHintSec": 3.2
     },
     {
@@ -386,7 +386,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 2.",
+      "voiceover": "White Escort to column five, row number two.",
       "durationHintSec": 3.2
     },
     {
@@ -402,7 +402,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: Black moves an Escort to column 4, row 8.",
+      "voiceover": "Black Escort to column four, row number eight.",
       "durationHintSec": 3.2
     },
     {
@@ -418,7 +418,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 3.",
+      "voiceover": "White Escort to column five, row number three.",
       "durationHintSec": 3.2
     },
     {
@@ -434,7 +434,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: Black moves an Escort to column 4, row 7.",
+      "voiceover": "Black Escort to column four, row number seven.",
       "durationHintSec": 3.2
     },
     {
@@ -450,7 +450,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 2.",
+      "voiceover": "White Escort to column five, row number two.",
       "durationHintSec": 3.2
     },
     {
@@ -468,8 +468,8 @@
         "netBlack": 38,
         "locked": 1
       },
-      "voiceover": "Midgame: Black moves an Escort to column 4, row 6.",
-      "durationHintSec": 3.2
+      "voiceover": "Escort to column four, row number six puts a White ship under Target Lock. Locks are the midgame punishment for standing in enemy glow — a locked Beam crawls one step and stops being a long-range threat.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -487,8 +487,8 @@
         "locked": 1,
         "capture": "Escort"
       },
-      "voiceover": "White trades or takes with a Beam at column 4, row 6, reshaping the net fight.",
-      "durationHintSec": 6.5
+      "voiceover": "White's Beam takes that Escort. Removing the tip both lifts the lock and clears a square on the file White wants open for the Hub hunt.",
+      "durationHintSec": 9.6
     },
     {
       "kind": "board",
@@ -504,8 +504,8 @@
         "netBlack": 35,
         "capture": "Beam"
       },
-      "voiceover": "Black trades or takes with a Beam at column 4, row 6, reshaping the net fight.",
-      "durationHintSec": 6.5
+      "voiceover": "Black Beam recaptures. Trading a Beam for an Escort is often fine for White — Escorts carry net, Beams only ride it — but Black at least clears the immediate taker.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -520,7 +520,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 1.",
+      "voiceover": "White Escort to column five, row number one.",
       "durationHintSec": 3.2
     },
     {
@@ -536,7 +536,7 @@
         "netWhite": 34,
         "netBlack": 35
       },
-      "voiceover": "Black uses a Beam lane to column 5, row 6.",
+      "voiceover": "Black Beam to column five, row number six.",
       "durationHintSec": 3.2
     },
     {
@@ -552,8 +552,8 @@
         "netWhite": 38,
         "netBlack": 35
       },
-      "voiceover": "White steps the Hub toward column 6, row 1.",
-      "durationHintSec": 3.2
+      "voiceover": "White Hub leaves the back rank. Flagship steps expand Sovereign Space for every linked Escort; blue coverage jumps because the power anchor moved, not because a random Escort painted a cell.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -570,8 +570,8 @@
         "netBlack": 42,
         "locked": 1
       },
-      "voiceover": "Black steps the Hub toward column 6, row 8.",
-      "durationHintSec": 3.2
+      "voiceover": "Black Hub to column six, row number eight. Once both flagships are mobile, coverage races and Target Locks appear; the board is no longer two back-rank museums.",
+      "durationHintSec": 8.5
     },
     {
       "kind": "board",
@@ -588,8 +588,8 @@
         "netBlack": 42,
         "locked": 1
       },
-      "voiceover": "White steps the Hub toward column 6, row 2.",
-      "durationHintSec": 3.2
+      "voiceover": "White Hub to column six, row number two. Nets sit even. The march is still about owning the center files so Escorts and Beams can force Black's Hub into a bad square later.",
+      "durationHintSec": 10.7
     },
     {
       "kind": "board",
@@ -606,7 +606,7 @@
         "netBlack": 42,
         "locked": 1
       },
-      "voiceover": "Midgame: Black moves an Escort to column 5, row 9.",
+      "voiceover": "Black Escort to column five, row number nine.",
       "durationHintSec": 3.2
     },
     {
@@ -624,8 +624,8 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "White steps the Hub toward column 6, row 3.",
-      "durationHintSec": 3.2
+      "voiceover": "Hub to column six, row number three: blue leaps to 49 cells and two ships lock. That spike is what turns setup into a Hub hunt — White's lattice finally covers the files Black's Hub has to live on.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -642,7 +642,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: Black moves an Escort to column 6, row 9.",
+      "voiceover": "Black Escort to column six, row number nine.",
       "durationHintSec": 3.2
     },
     {
@@ -660,8 +660,8 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: White moves an Escort to column 6, row 4.",
-      "durationHintSec": 3.2
+      "voiceover": "Escort to column six, row number four. A forward Hub without a linked relay is a coverage mirage — one capture unplugs half the glow. This Escort is insurance for the march.",
+      "durationHintSec": 10.4
     },
     {
       "kind": "board",
@@ -678,7 +678,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Black uses a Beam lane to column 6, row 7.",
+      "voiceover": "Black Beam to column six, row number seven.",
       "durationHintSec": 3.2
     },
     {
@@ -696,7 +696,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 4.",
+      "voiceover": "White Escort to column five, row number four.",
       "durationHintSec": 3.2
     },
     {
@@ -715,8 +715,8 @@
         "locked": 2,
         "capture": "Beam"
       },
-      "voiceover": "Black trades or takes with a Beam at column 6, row 5, reshaping the net fight.",
-      "durationHintSec": 6.5
+      "voiceover": "Capture on column six, row number five. With dreadnoughts trading, the fight shifts to who still has Escorts holding the chain — those are what keep the Hub hunt (or the defense) alive.",
+      "durationHintSec": 10.7
     },
     {
       "kind": "board",
@@ -734,8 +734,8 @@
         "locked": 2,
         "capture": "Beam"
       },
-      "voiceover": "White trades or takes with an Escort at column 6, row 5, reshaping the net fight.",
-      "durationHintSec": 6.5
+      "voiceover": "White Escort takes back. The point is not the piece count — it is keeping a friendly body on the file White's Hub is climbing so Black cannot plant there for free.",
+      "durationHintSec": 11
     },
     {
       "kind": "board",
@@ -752,7 +752,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: Black moves an Escort to column 5, row 7.",
+      "voiceover": "Black Escort to column five, row number seven.",
       "durationHintSec": 3.2
     },
     {
@@ -770,7 +770,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: White moves an Escort to column 6, row 1.",
+      "voiceover": "White Escort to column six, row number one.",
       "durationHintSec": 3.2
     },
     {
@@ -788,7 +788,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: Black moves an Escort to column 6, row 7.",
+      "voiceover": "Black Escort to column six, row number seven.",
       "durationHintSec": 3.2
     },
     {
@@ -806,7 +806,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Midgame: White moves an Escort to column 5, row 3.",
+      "voiceover": "White Escort to column five, row number three.",
       "durationHintSec": 3.2
     },
     {
@@ -824,7 +824,7 @@
         "netBlack": 42,
         "locked": 2
       },
-      "voiceover": "Black uses a Beam lane to column 6, row 6.",
+      "voiceover": "Black Beam to column six, row number six.",
       "durationHintSec": 3.2
     },
     {
@@ -843,8 +843,8 @@
         "locked": 2,
         "capture": "Beam"
       },
-      "voiceover": "White trades or takes with an Escort at column 6, row 6, reshaping the net fight.",
-      "durationHintSec": 6.5
+      "voiceover": "Escort takes on column six, row number six. No Black dreadnought left hanging over the Hub file means White can press the Hub without a Beam shot answering from midboard.",
+      "durationHintSec": 9.6
     },
     {
       "kind": "board",
@@ -862,7 +862,7 @@
         "locked": 1,
         "capture": "Escort"
       },
-      "voiceover": "Black trades or takes with an Escort at column 6, row 6, reshaping the net fight.",
+      "voiceover": "Recapture. Coverage dips, but Black's real problem is screen thickness around the Hub, not the trade itself.",
       "durationHintSec": 6.5
     },
     {
@@ -880,19 +880,19 @@
         "netBlack": 42,
         "locked": 1
       },
-      "voiceover": "Midgame: White moves an Escort to column 6, row 4.",
+      "voiceover": "White Escort to column six, row number four.",
       "durationHintSec": 3.2
     },
     {
       "kind": "narration",
       "id": "phase-endgame",
-      "headline": "Endgame · plies 50–57",
+      "headline": "Endgame · peel the screen, take the Hub · plies 50–57",
       "bullets": [
-        "Strike if the Hub hunt is winning",
-        "Otherwise coverage becomes the scoreboard",
-        "Every ply threatens, builds, or refuses a hang"
+        "Thin Escorts around the enemy Hub",
+        "Hub safety outranks every other plan",
+        "One hang ends it — Surgical Strike"
       ],
-      "voiceover": "Endgame. Either a Hub hunt converts, or coverage becomes the scoreboard. Each step should threaten, expand a finishing net, or refuse a hang.",
+      "voiceover": "Endgame. The scaffold pays off: thin the screen, punish a Hub that steps onto a taken square, and convert with Surgical Strike. That is the finish this opening was built for.",
       "durationHintSec": 9
     },
     {
@@ -910,8 +910,8 @@
         "netBlack": 49,
         "locked": 2
       },
-      "voiceover": "Black steps the Hub toward column 6, row 7.",
-      "durationHintSec": 3.2
+      "voiceover": "Hub to column six, row number seven. Equal nets, but every step toward White's Escorts makes Surgical Strike one mistake away. Bold when you need coverage; fatal if the screen is thin.",
+      "durationHintSec": 10.4
     },
     {
       "kind": "board",
@@ -928,8 +928,8 @@
         "netBlack": 49,
         "locked": 3
       },
-      "voiceover": "Late game: White plays Escort to column 5, row 4. With the board tense, each step either threatens the Hub, expands a finishing net, or refuses a hang.",
-      "durationHintSec": 9.3
+      "voiceover": "White Escort to column five, row number four.",
+      "durationHintSec": 3.2
     },
     {
       "kind": "board",
@@ -946,7 +946,7 @@
         "netBlack": 49,
         "locked": 3
       },
-      "voiceover": "Late game: Black plays Escort to column 6, row 8.",
+      "voiceover": "Black Escort to column six, row number eight.",
       "durationHintSec": 3.2
     },
     {
@@ -964,7 +964,7 @@
         "netBlack": 49,
         "locked": 3
       },
-      "voiceover": "Late game: White plays Escort to column 6, row 2.",
+      "voiceover": "White Escort to column six, row number two.",
       "durationHintSec": 3.2
     },
     {
@@ -982,7 +982,7 @@
         "netBlack": 49,
         "locked": 3
       },
-      "voiceover": "Late game: Black plays Escort to column 6, row 5.",
+      "voiceover": "Black Escort to column six, row number five.",
       "durationHintSec": 3.2
     },
     {
@@ -1001,8 +1001,8 @@
         "locked": 2,
         "capture": "Escort"
       },
-      "voiceover": "White removes a defender. Captures this late usually open the Hub or collapse a relay.",
-      "durationHintSec": 6.5
+      "voiceover": "White takes on column six, row number five. Thin the screen first; the Hub itself is next if Black walks onto a square White already attacks.",
+      "durationHintSec": 8.1
     },
     {
       "kind": "board",
@@ -1020,8 +1020,8 @@
         "netBlack": 49,
         "locked": 4
       },
-      "voiceover": "Black steps the Hub toward column 6, row 6. The Hub is both king and radio tower — every move changes the net's core.",
-      "durationHintSec": 7
+      "voiceover": "Hub to column six, row number six — en prise. Hub safety outranks every other plan. This single step hands White the Surgical Strike the whole opening was built to deliver.",
+      "durationHintSec": 10
     },
     {
       "kind": "board",
@@ -1038,15 +1038,15 @@
         "capture": "Command Hub",
         "result": "White wins"
       },
-      "voiceover": "White captures the enemy Command Hub with an Escort. The battle ends immediately — this is the primary win most fleet games are playing toward.",
+      "voiceover": "Escort captures the Command Hub. Game over. The Beam parking, relay chain, Hub march, and trades were all scaffolding for this one capture.",
       "durationHintSec": 8.5
     },
     {
       "kind": "outro",
       "id": "outro",
-      "headline": "That is a complete fleet game",
+      "headline": "That is a complete Surgical Strike game",
       "nextEpisode": "Episode 6 — every ply of the 115-ply sector-clock siege",
-      "voiceover": "Mission complete. White wins by Surgical Strike after 57 plies. That length is normal for hybrid-fleet when the Hub hunt succeeds. Next: what happens when both Hubs survive into the sector clock.",
+      "voiceover": "Mission complete. White wins by Surgical Strike after 57 plies — the usual finish when the Hub hunt works. Next: a dig-in game where Strike never lands and the sector clock decides.",
       "durationHintSec": 10
     }
   ]

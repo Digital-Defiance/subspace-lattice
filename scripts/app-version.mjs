@@ -203,6 +203,17 @@ function main() {
   }
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+function isExecutedAsCli() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  const self = fileURLToPath(import.meta.url);
+  try {
+    return fs.realpathSync(path.resolve(entry)) === fs.realpathSync(self);
+  } catch {
+    return path.resolve(entry) === path.resolve(self);
+  }
+}
+
+if (isExecutedAsCli()) {
   main();
 }

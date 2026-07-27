@@ -7,6 +7,9 @@
       "hosting": {
         "lattice": [
           "subspacelattice"
+        ],
+        "lattice-docs": [
+          "latticedocs"
         ]
       }
     }

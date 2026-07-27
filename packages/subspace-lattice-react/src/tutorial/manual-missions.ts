@@ -9,6 +9,7 @@ import { TUTORIAL_LESSONS } from './tutorial-model';
 import { fleetOpeningWithoutInfiltrators } from './guided-missions';
 import { stepsFromReplay } from './walkthrough-narrate';
 import clockReplay from './data/mission-clock-replay';
+import clockAnnotations from './data/mission-clock-annotations';
 
 /**
  * Advanced-manual view of the guided missions.
@@ -66,16 +67,19 @@ export function buildManualMissions(): ManualMission[] {
       title: `Mission 3 — When the clock decides (${clockReplay.plies} plies)`,
       intro:
         `The full ${clockReplay.plies}-ply record of the academy's sector-clock mission. ` +
-        'In the app you join near activation (ply 100); here you can study the whole ' +
-        'siege: how both fleets dig in, why no Hub ever falls, and how coverage — not ' +
-        'capture — finally ends it. White wins by Sector Integration.',
+        'Plan from the first Escort: neither Hub will fall, so every relay and Hub walk ' +
+        'is stockpiling Sovereign Space for ply 100+. In the app you join near activation; ' +
+        'here you see the whole siege. White wins by Sector Integration.',
       outro:
-        'White wins by Sector Integration. The clock only matters after activation; ' +
-        'Surgical Strike remains the primary hunt until then. When both fleets dig in, ' +
-        'coverage and Contested Space stop eternal turtling.',
+        'White wins by Sector Integration — coverage held past the threshold, no Hub taken. ' +
+        'Surgical Strike was legal the whole way; dig-in play simply never found it. ' +
+        'Contested Space and Hub marches are the late weapons when Strike stalls.',
       rules: fleetRules,
       createState: () => fleetOpeningWithoutInfiltrators(fleetRules),
-      steps: stepsFromReplay(clockReplay.moves, { clockArmedFromPly: 100 }),
+      steps: stepsFromReplay(clockReplay.moves, {
+        clockArmedFromPly: 100,
+        annotations: clockAnnotations,
+      }),
     },
   ];
 }

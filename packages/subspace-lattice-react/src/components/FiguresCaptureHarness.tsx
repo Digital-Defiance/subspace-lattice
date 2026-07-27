@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   resolveRulesConfig,
@@ -8,14 +8,45 @@ import {
 } from '@subspace-lattice/core';
 import { Board } from './Board';
 import { ObjectiveHud } from './ObjectiveHud';
+import { elementToSvg } from '../vendor/dom-to-svg/index.js';
 import './FiguresCaptureHarness.scss';
+
+interface RulesFiguresApi {
+  figures: { id: string }[];
+  show: (id: string) => void;
+  /** SVG of #figure-capture-root for the currently shown figure. */
+  capture: () => Promise<string>;
+}
+
+declare global {
+  interface Window {
+    __rulesFigures?: RulesFiguresApi;
+  }
+}
 
 /**
  * Click a figure → board (and optional HUD) snaps to the rules-manual preset.
- * Capture PNG yourself (or export SVG your own way). Drop files in docs/figures/.
+ * Automated capture: yarn capture:rules-figures (drives window.__rulesFigures).
+ * Manual fallback: DOM→SVG on #figure-capture-root → docs/figures/<id>.svg.
  */
 export function FiguresCaptureHarness() {
   const [activeId, setActiveId] = useState(RULES_FIGURES[0]!.id);
+
+  useEffect(() => {
+    window.__rulesFigures = {
+      figures: RULES_FIGURES.map((f) => ({ id: f.id })),
+      show: setActiveId,
+      capture: async () => {
+        const root = document.getElementById('figure-capture-root');
+        if (!root) throw new Error('figure-capture-root missing');
+        return elementToSvg(root, { embedFonts: false });
+      },
+    };
+    return () => {
+      delete window.__rulesFigures;
+    };
+  }, []);
+
   const figure = useMemo(
     () => RULES_FIGURES.find((f) => f.id === activeId) ?? RULES_FIGURES[0]!,
     [activeId],
@@ -98,6 +129,8 @@ export function FiguresCaptureHarness() {
                 onPlacePiece={() => undefined}
                 localPlayer="OBSERVER"
                 guidance={guidance}
+                contrast="high"
+                showContrastToggle={false}
               />
             </div>
           </div>

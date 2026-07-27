@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { DocLink } from './DocLink';
 import './RulesDialog.scss';
 
@@ -16,6 +17,19 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
         <h2>Subspace Lattice Rules</h2>
 
         <div className="rules-content">
+          <aside className="rules-story-briefing">
+            <p className="rules-story-eyebrow">Sector 11 · Story briefing</p>
+            <strong>Nothing beyond your formation is mapped.</strong>
+            <p>
+              Your Hub anchors a living signal network. Escorts carry it into
+              the dark; Beams fire through it; hostile glow Target Locks
+              everything it catches.
+            </p>
+            <Link to="/story" onClick={onClose}>
+              Read the story behind the board →
+            </Link>
+          </aside>
+
           <h3>Overview</h3>
           <p>
             Subspace Lattice is a hybrid of territory control and piece agency
@@ -88,6 +102,13 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
 
           <h3>Full documents</h3>
           <ul className="rules-doc-links">
+            <li>
+              <Link to="/story" onClick={onClose}>
+                Sector 11 briefing
+              </Link>{' '}
+              — illustrated story page; also available as{' '}
+              <DocLink doc="story">plain Markdown</DocLink>.
+            </li>
             <li>
               <DocLink doc="manual">Introductory manual</DocLink>{' '}
               — shorter walkthrough for new commanders.

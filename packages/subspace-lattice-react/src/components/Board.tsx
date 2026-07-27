@@ -6,9 +6,14 @@ import {
   Coordinate,
   CellType,
   Cell,
-  Piece,
+  Piece as BoardPiece,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
+import { Piece as PieceArt } from './Piece';
+import {
+  useBoardContrast,
+  type BoardContrast,
+} from '../hooks/useBoardContrast';
 import './Board.scss';
 
 interface BoardProps {
@@ -18,6 +23,10 @@ interface BoardProps {
   localPlayer: PlayerColor | 'OBSERVER';
   guidance?: BoardGuidance;
   onInvalidAction?: (message: string) => void;
+  /** Force a contrast mode (skips persisted preference). */
+  contrast?: BoardContrast;
+  /** Show Classic / High toggle above the board. Default true. */
+  showContrastToggle?: boolean;
 }
 
 export interface BoardGuidance {
@@ -38,8 +47,12 @@ export const Board: React.FC<BoardProps> = ({
   localPlayer,
   guidance,
   onInvalidAction,
+  contrast: forcedContrast,
+  showContrastToggle = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
+  const [contrast, setContrast] = useBoardContrast(forcedContrast);
+  const [styleIndex, setStyleIndex] = useState(2);
   const initialFocus =
     Object.values(gameState.pieces).find(
       (piece) => piece.owner === localPlayer,
@@ -224,7 +237,7 @@ export const Board: React.FC<BoardProps> = ({
 
   const cellLabel = (
     cell: Cell,
-    piece: Piece | null,
+    piece: BoardPiece | null,
     detected: boolean,
   ): string => {
     const coordinate = `column ${cell.coordinate.x}, row ${cell.coordinate.y}`;
@@ -241,15 +254,16 @@ export const Board: React.FC<BoardProps> = ({
     return `${coordinate}, ${piece.owner} ${pieceName}${detected ? ', Target Locked' : ''}`;
   };
 
-  return (
+  const board = (
     <div
       ref={boardRef}
-      className="subspace-board"
+      className={`subspace-board${contrast === 'high' ? ' subspace-board--high-contrast' : ''}`}
       style={{ gridTemplateColumns: `repeat(${gameState.boardSize}, 40px)` }}
       role="grid"
       aria-label="Game board. Use arrow keys to move between squares, Enter or Space to select and move, and Escape to cancel selection."
       aria-rowcount={gameState.boardSize}
       aria-colcount={gameState.boardSize}
+      data-contrast={contrast}
     >
       {displayCells.map((cell: Cell) => {
         const piece = cell.pieceId ? gameState.pieces[cell.pieceId] : null;
@@ -300,17 +314,65 @@ export const Board: React.FC<BoardProps> = ({
               handleCellKeyDown(event, cell.coordinate)
             }
           >
-            {piece && (
-              <span
-                className={`piece ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
-                aria-label={`${piece.type}${detected ? ', target locked' : ''}`}
-              >
-                {getPieceSymbol(piece.type, piece.owner)}
-              </span>
-            )}
+            {piece &&
+              (contrast === 'high' ? (
+                <span
+                  className={`piece piece-svg ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
+                  aria-hidden="true"
+                >
+                  <PieceArt
+                    size={34}
+                    color={
+                      piece.owner === PlayerColor.White ? 'white' : 'black'
+                    }
+                    styleIndex={styleIndex}
+                    pieceType={piece.type}
+                  />
+                </span>
+              ) : (
+                <span
+                  className={`piece ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
+                  aria-hidden="true"
+                >
+                  {getPieceSymbol(piece.type, piece.owner)}
+                </span>
+              ))}
           </div>
         );
       })}
+    </div>
+  );
+
+  if (!showContrastToggle) return board;
+
+  return (
+    <div className="subspace-board-shell">
+      <div
+        className="board-contrast-toggle"
+        role="group"
+        aria-label="Board contrast"
+      >
+        <button
+          type="button"
+          aria-pressed={contrast === 'classic'}
+          onClick={() => setContrast('classic')}
+        >
+          Classic
+        </button>
+        <button
+          type="button"
+          aria-pressed={contrast === 'high'}
+          onClick={() => setContrast('high')}
+        >
+            High contrast
+          </button>
+          {contrast === 'high' && (<select value={styleIndex} onChange={(e) => setStyleIndex(parseInt(e.target.value))}>
+            <option value={0} selected={styleIndex === 0}>Style 1</option>
+            <option value={1} selected={styleIndex === 1}>Style 2</option>
+            <option value={2} selected={styleIndex === 2}>Style 3</option>
+          </select>)}
+        </div>
+      {board}
     </div>
   );
 };

@@ -132,38 +132,75 @@ function phaseFor(plyIndex, total) {
   return 'midgame';
 }
 
-const PHASE_COPY = {
-  opening: {
-    headline: 'Opening',
-    bullets: [
-      'Advance central Escorts — they carry the net forward',
-      'Keep every Escort within two squares of the chain',
-      'Slide Beams into files that will matter later',
-    ],
-    voiceover:
-      'Opening phase. Structure, not gambits: advance central Escorts to carry the net forward, keep the chain linked within two squares, and pre-slide Beams into files that will matter once coverage arrives.',
-  },
-  midgame: {
-    headline: 'Midgame',
-    bullets: [
-      'Net pressure over map painting',
-      'Target Locks punish overextension',
-      'Probe for a Hub mistake',
-    ],
-    voiceover:
-      'Midgame. This is net pressure and Target Lock threats, probing for a Hub mistake — not a race to paint the map. Watch for the moment an enemy Beam lane and a Hub share a file.',
-  },
-  endgame: {
-    headline: 'Endgame',
-    bullets: [
-      'Strike if the Hub hunt is winning',
-      'Otherwise coverage becomes the scoreboard',
-      'Every ply threatens, builds, or refuses a hang',
-    ],
-    voiceover:
-      'Endgame. Either a Hub hunt converts, or coverage becomes the scoreboard. Each step should threaten, expand a finishing net, or refuse a hang.',
-  },
-};
+/** Phase cards are mission-specific so the win condition is stated once, not every ply. */
+function phaseCopy(missionId, phase) {
+  if (missionId === 'mission-clock-finish') {
+    return {
+      opening: {
+        headline: 'Opening · stockpile coverage',
+        bullets: [
+          'Escorts first — they grow Sovereign Space',
+          'Hubs will march for territory, not mate',
+          'Beams reposition inside existing glow',
+        ],
+        voiceover:
+          'Opening. This game digs in — Strike will not land — so early Escorts and Hub walks are stockpiling Sovereign Space for the clock. Quiet hops are relay work; the plan is coverage, not a highlight-reel capture.',
+      },
+      midgame: {
+        headline: 'Midgame · thin relays, keep radiating',
+        bullets: [
+          'Trades that kill linking Escorts matter most',
+          'Beam trades clear the board for a coverage race',
+          'Hub marches reshape who owns cells',
+        ],
+        voiceover:
+          'Midgame. Peel relays that hold the enemy net, trade Beams off when dreadnoughts stop mattering, and keep Hub walks aimed at territory. You are still building toward activation, not hunting a hang.',
+      },
+      endgame: {
+        headline: 'Endgame · hold the Integration line',
+        bullets: [
+          'After ply 100, coverage can win',
+          'Contested Space breaks a streak',
+          'Hub steps are scoreboard moves',
+        ],
+        voiceover:
+          'Endgame. The clock is live. Push Sovereign Space over the Integration line and make the hold survive the reply. Contested purple counts for neither side — use it to stall. Strike is still legal; here saturation finishes it.',
+      },
+    }[phase];
+  }
+  return {
+    opening: {
+      headline: 'Opening · build the Strike scaffold',
+      bullets: [
+        'Park Beams on files you will later shoot down',
+        'Escorts grow the glow those Beams ride',
+        'Initiative Relay buys early midboard coverage',
+      ],
+      voiceover:
+        'Opening. White is scaffolding a Surgical Strike: park Beams on the files that will matter, then grow Escorts so those Beams can slide. Quiet Escort hops are relay work — skim them; the plan is the Hub, not painting the map.',
+    },
+    midgame: {
+      headline: 'Midgame · open the Hub files',
+      bullets: [
+        'Cut relay tips that create Target Locks',
+        'Hub marches expand the whole lattice',
+        'Trade Beams off the files you need clear',
+      ],
+      voiceover:
+        'Midgame. Lift locks, march the Hub so coverage owns the center files, and trade away Beams that block the hunt. Each annotated beat is a job toward peeling Black’s Hub — unmarked hops stay short on purpose.',
+    },
+    endgame: {
+      headline: 'Endgame · peel the screen, take the Hub',
+      bullets: [
+        'Thin Escorts around the enemy Hub',
+        'Hub safety outranks every other plan',
+        'One hang ends it — Surgical Strike',
+      ],
+      voiceover:
+        'Endgame. The scaffold pays off: thin the screen, punish a Hub that steps onto a taken square, and convert with Surgical Strike. That is the finish this opening was built for.',
+    },
+  }[phase];
+}
 
 /** `net 49–49 · 2 ships locked · captures Escort · White wins` → structured. */
 function statsFor(facts) {
@@ -199,9 +236,9 @@ function plyDurationSec(text, facts) {
 }
 
 /**
- * The manual narrates from templates, so the same teaching sentence recurs
- * across dozens of plies. Voice the lesson the first time and drop to the
- * move-specific sentence afterwards, or the video becomes unwatchable.
+ * Quiet setup plies share the short "Seat Piece to (x,y)." shape. Voice the
+ * first occurrence of a template fully; later repeats stay as that short line
+ * (firstSentence is a no-op when the whole voiceover is one sentence).
  */
 function templateSignature(prose) {
   return prose
@@ -245,7 +282,7 @@ function buildEpisode(mission, meta) {
     const entry = mission.plies[i];
     const phase = phaseFor(i, total);
     if (phase !== lastPhase) {
-      const copy = PHASE_COPY[phase];
+      const copy = phaseCopy(mission.id, phase);
       scenes.push({
         kind: 'narration',
         id: `phase-${phase}`,
@@ -362,10 +399,10 @@ const META = {
     description:
       'Turn-by-turn walkthrough of Mission 2 with the Advanced Manual annotation for every single ply: net counts, Target Locks, Hub-en-prise warnings, and the Surgical Strike finish.',
     introVoiceover:
-      'Episode five: the full game, one ply at a time. No skipping, no scrubbing. This is Mission 2 from the Advanced Manual, and every move carries the same annotation you will find in the PDF — including the net counts and Hub warnings.',
+      'Episode five: every ply of Mission 2. White’s plan is Surgical Strike — take Black’s Command Hub. The opening parks Beams and grows Escorts so those Beams can ride; the finish peels the Hub’s screen. Quiet hops stay short on purpose; annotated beats name the job of that move.',
     startVoiceover:
-      'Starting seat under hybrid-fleet with the teaching clock disarmed. White holds the Initiative Relay Escort forward. Follow the ply counter in the corner; the caption is the manual text for that move.',
-    outroHeadline: 'That is a complete fleet game',
+      'Hybrid-fleet start, teaching clock off. White holds the Initiative Relay forward. Watch how Beam parking and relay hops become a Hub hunt — not a race to paint the map.',
+    outroHeadline: 'That is a complete Surgical Strike game',
     nextEpisode: 'Episode 6 — every ply of the 115-ply sector-clock siege',
   },
   'mission-clock-finish': {
@@ -380,9 +417,9 @@ const META = {
     description:
       'The complete record of Mission 3: dig-in defense, the sector clock arming at ply 100, Contested Space as a stalling weapon, and a win by coverage rather than capture.',
     introVoiceover:
-      'Episode six: the long one. One hundred fifteen plies, every move annotated. This is the game where no Hub ever falls and coverage decides it — the reason the sector clock exists.',
+      'Episode six: one hundred fifteen plies where Strike never lands. The plan from move one is stockpile Sovereign Space for the sector clock — after ply one hundred, coverage can win. Quiet hops are relay work; the annotated beats are the coverage jobs that matter.',
     startVoiceover:
-      'Full hybrid-fleet rules: Integration Hold, Contested Space, activation at ply one hundred, and the Initiative Relay. Surgical Strike stays legal the whole way; it simply never lands.',
+      'Full hybrid-fleet: clock arms at ply one hundred, Contested Space neutral, Initiative Relay on. Surgical Strike stays legal; this game simply digs in until saturation ends it.',
     outroHeadline: 'Won by coverage, not capture',
     nextEpisode: 'Practice against the AI · Read the Advanced Manual',
   },

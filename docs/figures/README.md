@@ -1,14 +1,26 @@
 # Rules figures
 
-SVG sources (hand-captured via DOM→SVG). PDF companions are generated for
+SVG sources captured from `/harness/figures`. PDF companions are generated for
 `pdflatex` (`yarn build:rules` runs `rsvg-convert` when available).
 
-## Regenerate
+## Regenerate (headless)
+
+```bash
+yarn capture:rules-figures -- --force   # all figures → docs/figures/<id>.svg
+yarn capture:rules-figures -- --figure target-lock   # just one
+yarn build:rules                        # SVG→PDF + rules.pdf
+```
+
+Note: `build:rules` skips entirely when `docs/rules.tex` is unchanged. If only
+figures changed, delete `docs/rules.tex.sha256` first (or run `rsvg-convert`
+manually) so the embedded figure PDFs are refreshed.
+
+## Regenerate (manual fallback)
 
 1. `yarn serve:web` → **http://localhost:4200/harness/figures**
 2. Click a figure → DOM→SVG **`#figure-capture-root`**
 3. Save as `docs/figures/<id>.svg`
-4. `yarn build:rules` (converts SVG→PDF and rebuilds `docs/rules.pdf`)
+4. `yarn build:rules`
 
 | id | Rules section |
 | --- | --- |

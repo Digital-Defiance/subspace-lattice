@@ -66,6 +66,8 @@ yarn test:rules                # firestore rules via emulator
 yarn test:e2e
 yarn sim | yarn evolve | yarn calibrate:ai
 yarn deploy:firebase           # hosting:lattice + functions:lattice ONLY
+yarn deploy:firebase:docs      # handbook → docs.lattice.iwgf.org (see docs/handbook-hosting.md)
+yarn handbook:dev              # VitePress over docs/
 yarn ensure:functions-invoker  # after functions deploy
 ```
 
@@ -85,7 +87,8 @@ Env helper: `. scripts/lib/subspace-env.sh` → `subspace_env_load|validate` (`b
 
 ## 5. Firebase & deploy guardrails
 
-- **Hosting target** `lattice` → site `subspacelattice`.
+- **Hosting target** `lattice` → site `subspacelattice` (lattice.iwgf.org).
+- **Hosting target** `lattice-docs` → site `latticedocs` (docs.lattice.iwgf.org) — VitePress handbook; one-time DNS in `docs/handbook-hosting.md`.
 - **Do not deploy Firestore from this repo.** `scripts/deploy-firebase.sh` refuses it. Merge Lattice rules into **Warp12** `firestore.rules` and deploy rules from Warp12.
 - Keep the authoritative fragment in sync: this repo’s `firestore.rules` ↔ `../Warp12/firestore.rules` (Lattice section).
 - Clients mostly **read**; Functions **write** rooms / moves / TEI (coach `presence` is self-write).

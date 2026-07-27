@@ -84,6 +84,12 @@ docs/*.synctex.gz
 
 # Evolution / sim run artifacts (regenerate with yarn evolve -- --out …)
 apps/web/public/docs/*.pdf
+apps/web/public/docs/story.md
+
+# VitePress handbook build
+apps/handbook/dist/
+apps/handbook/public/*.pdf
+apps/handbook/.vitepress/cache/
 
 # Remotion academy videos
 apps/academy-videos/out/

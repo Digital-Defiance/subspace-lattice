@@ -17,6 +17,7 @@ describe('latticeDocHref', () => {
       '/docs/subspace-lattice-manual.pdf',
     );
     expect(latticeDocHref('rules')).toBe('/docs/rules.pdf');
+    expect(latticeDocHref('story')).toBe('/docs/story.md');
   });
 
   it('uses the hosted origin inside Tauri', () => {
@@ -26,6 +27,9 @@ describe('latticeDocHref', () => {
     );
     expect(latticeDocHref('manual')).toBe(
       `${LATTICE_DOCS_ORIGIN}/docs/subspace-lattice-manual.pdf`,
+    );
+    expect(latticeDocHref('story')).toBe(
+      `${LATTICE_DOCS_ORIGIN}/docs/story.md`,
     );
   });
 });

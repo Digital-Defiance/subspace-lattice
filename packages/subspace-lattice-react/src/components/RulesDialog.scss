@@ -57,6 +57,49 @@
   margin-top: 0.5rem;
 }
 
+.rules-story-briefing {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba($accent, 0.35);
+  border-radius: $radius-lg;
+  background:
+    radial-gradient(
+      circle at 100% 0,
+      rgba(168, 85, 247, 0.16),
+      transparent 55%
+    ),
+    rgba(6, 15, 26, 0.7);
+
+  .rules-story-eyebrow {
+    margin: 0 0 0.45rem;
+    color: $accent;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    display: block;
+    color: #f0f6ff;
+    font-size: 1.05rem;
+  }
+
+  p:not(.rules-story-eyebrow) {
+    margin: 0.55rem 0 0.65rem;
+    color: $text-muted;
+  }
+
+  a {
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .close-btn {
   position: absolute;
   top: 15px;

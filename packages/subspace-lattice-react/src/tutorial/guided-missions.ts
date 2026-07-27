@@ -8,7 +8,9 @@ import {
 import type { TutorialLesson } from './tutorial-types';
 import { stepsFromReplay, type MissionReplayMove } from './walkthrough-narrate';
 import standardReplay from './data/mission-standard-replay';
+import standardAnnotations from './data/mission-standard-annotations';
 import clockReplay from './data/mission-clock-replay';
+import clockAnnotations from './data/mission-clock-annotations';
 
 const fleetRules = resolveRulesConfig('hybrid-fleet');
 const fleetNoClock = resolveRulesConfig('hybrid-fleet', {
@@ -64,11 +66,13 @@ export function buildStandardBattleMission(): TutorialLesson {
     title: 'Mission: Standard battle',
     concept: 'Guided mission · chess-length game',
     presentation: 'walkthrough',
-    explanation: `Guided mission 2 of 3. A fixed ${standard.plies}-ply fleet game (no live AI)—chess ballpark. Infiltrators omitted so the story stays on Escorts, Beams, and the Hub hunt. Use “Play next 5” to skim quiet stretches. White wins by Surgical Strike.`,
-    success: `Mission complete. White wins by Surgical Strike after ${standard.plies} plies. That length is normal for hybrid-fleet when the Hub hunt succeeds. Next: what happens when both Hubs survive into the sector clock.`,
+    explanation: `Guided mission 2 of 3. Fixed ${standard.plies}-ply game: White is building toward Surgical Strike — park Beams, grow Escorts so those Beams can ride, march the Hub for coverage, then peel the enemy Hub’s screen. Quiet hops are just relay work; use “Play next 5” to skim them.`,
+    success: `Mission complete. White wins by Surgical Strike after ${standard.plies} plies — the usual finish when the Hub hunt works. Next: a dig-in game where Strike never lands and the sector clock decides.`,
     rules: fleetNoClock,
     createState: () => fleetOpeningWithoutInfiltrators(fleetNoClock),
-    steps: stepsFromReplay(standard.moves),
+    steps: stepsFromReplay(standard.moves, {
+      annotations: standardAnnotations,
+    }),
   };
 }
 
@@ -85,13 +89,14 @@ export function buildClockFinishMission(): TutorialLesson {
     concept: 'Guided mission · Sector Integration',
     presentation: 'walkthrough',
     hudPaused: false,
-    explanation: `Guided mission 3 of 3. This pre-calculated match ran ${clock.plies} plies; we join at ply ${joinAfter + 1}, near sector-clock activation (ply 100). Watch the HUD—White wins by Sector Integration when Hubs never fall.`,
-    success: `Mission complete. White wins by Sector Integration. The clock only matters after activation; Surgical Strike remains the main hunt until then. When both fleets dig in, coverage and Contested Space stop eternal turtling.`,
+    explanation: `Guided mission 3 of 3. We join at ply ${joinAfter + 1} of a ${clock.plies}-ply dig-in: neither Hub falls. After ply 100 the scoreboard is Sovereign Space — White wins by Sector Integration. Watch coverage and Contested Space on the HUD.`,
+    success: `Mission complete. White wins by Sector Integration — saturation, not decapitation. Strike stays legal until the end; here the fleets simply never found it.`,
     rules: fleetRules,
     createState: () => replayPrefix(clock.moves, joinAfter, fleetRules),
     steps: stepsFromReplay(remaining, {
       clockArmedFromPly: 100,
       startPlyOffset: joinAfter,
+      annotations: clockAnnotations,
     }),
   };
 }

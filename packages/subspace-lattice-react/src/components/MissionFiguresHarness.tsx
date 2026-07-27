@@ -141,6 +141,8 @@ export function MissionFiguresHarness() {
                 onPlacePiece={() => undefined}
                 localPlayer="OBSERVER"
                 guidance={guidance}
+                contrast="high"
+                showContrastToggle={false}
               />
             </div>
           </div>

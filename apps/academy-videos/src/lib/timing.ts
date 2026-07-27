@@ -2,8 +2,15 @@ import type { EpisodeScript, Scene } from './schema';
 
 export const FPS = 30;
 
-/** Hold the last caption briefly after the voice clip ends. */
-export const AUDIO_TAIL_PAD_SEC = 0.45;
+/**
+ * Silence after a voice clip ends, before the next scene.
+ *
+ * Board / ply beats need a real absorb window — the old 0.45s pad made
+ * turn-by-turn episodes feel like a flipbook. Other scene kinds keep a
+ * shorter breath so title cards don't drag.
+ */
+export const BOARD_AUDIO_TAIL_PAD_SEC = 2.25;
+export const AUDIO_TAIL_PAD_SEC = 0.9;
 
 export type AudioSeconds = Readonly<Record<string, number>>;
 
@@ -11,6 +18,10 @@ function hintSec(scene: Scene): number {
   return 'durationHintSec' in scene && scene.durationHintSec
     ? scene.durationHintSec
     : 5;
+}
+
+function audioTailPadSec(scene: Scene): number {
+  return scene.kind === 'board' ? BOARD_AUDIO_TAIL_PAD_SEC : AUDIO_TAIL_PAD_SEC;
 }
 
 /** Wall-clock seconds for one scene (TTS length when present, else JSON hint). */
@@ -32,7 +43,7 @@ export function sceneDurationSec(
   }
 
   const clip = audioSeconds?.[scene.id];
-  if (clip != null) return clip + AUDIO_TAIL_PAD_SEC;
+  if (clip != null) return clip + audioTailPadSec(scene);
   return hintSec(scene);
 }
 

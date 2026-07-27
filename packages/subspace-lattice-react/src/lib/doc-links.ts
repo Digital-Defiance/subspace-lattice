@@ -6,13 +6,16 @@ export const LATTICE_DOCS_ORIGIN = 'https://lattice.iwgf.org';
 export const INTRO_MANUAL_PATH = '/docs/subspace-lattice-manual.pdf';
 export const OFFICIAL_RULES_PATH = '/docs/rules.pdf';
 export const ADVANCED_MANUAL_PATH = '/docs/advanced-manual.pdf';
+/** Plain-text Sector 11 briefing (Markdown twin of the `/story` page). */
+export const STORY_BRIEFING_PATH = '/docs/story.md';
 
-export type LatticeDocId = 'manual' | 'rules' | 'advanced';
+export type LatticeDocId = 'manual' | 'rules' | 'advanced' | 'story';
 
 const DOC_PATHS: Record<LatticeDocId, string> = {
   manual: INTRO_MANUAL_PATH,
   rules: OFFICIAL_RULES_PATH,
   advanced: ADVANCED_MANUAL_PATH,
+  story: STORY_BRIEFING_PATH,
 };
 
 /**

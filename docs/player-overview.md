@@ -8,15 +8,21 @@ across the board.
 You are not racing to paint the map. You are hunting the enemy **Command Hub**
 while the net makes turtling forever impossible.
 
+> *Sector 11: a dead zone shattered by a collapsed star. Two fleets drop in,
+> and nothing beyond your own formation is mapped until you map it.* For the
+> full backstory — what the glow is, why a Beam can't fire into open space —
+> see [the Sector 11 briefing](https://lattice.iwgf.org/story) (live page) or
+> [`docs/story.md`](./story.md) (plain text).
+
 ---
 
-## The fantasy
+## Your fleet
 
 Each side commands eight ships:
 
 | Piece | Role |
 | --- | --- |
-| **Command Hub** | Your king and your radio tower — protect it, project influence |
+| **Command Hub** | Your king and your subspace emitter — protect it, project influence |
 | **Escorts** | Close-range movers that **relay** the Sensor Net when linked |
 | **Infiltrators** | Long-range gap attackers that warp outside the enemy net |
 | **Beams** | Line pieces that may only fire along your own net |
@@ -54,7 +60,7 @@ Early game: deploy, link escorts, contest the mid-board. Infiltrators look for
 gaps outside the enemy net. Beams need your own coverage before they matter.
 
 Midgame: Target Locks punish overextension. Hub hunts and net fights trade
-blows. Good play looks like fleet tactics with a growing radio picture — not a
+blows. Good play looks like fleet tactics on a shifting Sensor Net — not a
 pure Go race.
 
 Late game: if the hubs still stand, Sector Integration tightens. Someone has to
@@ -76,6 +82,7 @@ tracks in `latticeTei` (`localAi` and `online`).
 
 | Audience | Document |
 | --- | --- |
+| Anyone who wants the story | [Sector 11 page](https://lattice.iwgf.org/story) (`/story` in the app). Handbook: [docs.lattice.iwgf.org/story](https://docs.lattice.iwgf.org/story). Source: [`docs/story.md`](./story.md) |
 | New / casual players | Introductory manual (`/docs/subspace-lattice-manual.pdf` on the site) |
 | Improving players | Advanced manual — three fully annotated games ([`docs/advanced-manual.pdf`](./advanced-manual.pdf), `/docs/advanced-manual.pdf` on the site; rebuild via `yarn build:advanced-manual`) |
 | YouTube academy (Remotion) | [`apps/academy-videos`](../apps/academy-videos/README.md) — beginner intro + Fleet Academy series (`yarn videos:studio`) |
