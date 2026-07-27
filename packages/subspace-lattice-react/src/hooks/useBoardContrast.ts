@@ -59,7 +59,7 @@ export function useBoardContrast(
 
   const setContrast = useCallback(
     (next: BoardContrast) => {
-      if (forced) return;
+      if (forced !== undefined) return;
       writeStoredContrast(next);
     },
     [forced],

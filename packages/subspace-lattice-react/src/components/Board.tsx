@@ -15,6 +15,12 @@ import {
   useBoardContrast,
   type BoardContrast,
 } from '../hooks/useBoardContrast';
+import {
+  useBoardContrastOutline,
+} from '../hooks/useBoardContrastOutline';
+import {
+  usePieceStyle,
+} from '../hooks/usePieceStyle';
 import './Board.scss';
 
 interface BoardProps {
@@ -53,8 +59,8 @@ export const Board: React.FC<BoardProps> = ({
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [contrast, setContrast] = useBoardContrast(forcedContrast);
-  const [styleIndex, setStyleIndex] = useState(2);
-  const [pieceOutline, setPieceOutline] = useState(false);
+  const [styleIndex, setStyleIndex] = usePieceStyle();
+  const [pieceOutline, setPieceOutline] = useBoardContrastOutline();
   const rimFlags = getStyleRimFlags(styleIndex);
   const bakedOutline =
     rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
@@ -149,6 +155,10 @@ export const Board: React.FC<BoardProps> = ({
         return isWhite ? '♘' : '♞';
       case PieceType.Beam:
         return isWhite ? '♖' : '♜';
+      case PieceType.Refractor:
+        return isWhite ? '♗' : '♝';
+      case PieceType.Carrier:
+        return isWhite ? '♕' : '♛';
       default:
         return '?';
     }
@@ -261,6 +271,8 @@ export const Board: React.FC<BoardProps> = ({
       [PieceType.Escort]: 'Escort',
       [PieceType.Infiltrator]: 'Infiltrator',
       [PieceType.Beam]: 'Beam',
+      [PieceType.Refractor]: 'Refractor',
+      [PieceType.Carrier]: 'Carrier',
     }[piece.type];
     return `${coordinate}, ${piece.owner} ${pieceName}${detected ? ', Target Locked' : ''}`;
   };

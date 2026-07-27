@@ -13,6 +13,9 @@ const pieceTypeFilenameMap: Record<PieceType, string> = {
   [PieceType.Escort]: 'p',
   [PieceType.Infiltrator]: 'n',
   [PieceType.Beam]: 'r',
+  // Bishop/queen art not in packs yet — reuse rook glyph until dedicated SVGs ship.
+  [PieceType.Refractor]: 'b',
+  [PieceType.Carrier]: 'q',
 };
 
 /** Build-time map of style folders under `apps/web/public/pieces/{n}/`. */
