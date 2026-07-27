@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SubspaceLatticeEngine } from './game-engine';
-import { CellType, PlayerColor } from './interfaces';
+import { CellType, PieceType, PlayerColor } from './interfaces';
 import { resolveRulesConfig } from './rules/rules-config';
 
 function oneSidedSectorEngine(
@@ -301,6 +301,7 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
         escortSensorRadius: 2,
         linkDistance: 3,
         infiltratorSpoolUp: false,
+        infiltratorActivationPly: 0,
         sectorHoldPlies: 8,
         contestedCellsNeutral: true,
         sectorActivationPly: 0,
@@ -393,5 +394,61 @@ describe('SubspaceLatticeEngine hybrid-spool (Navigational Target Lock)', () => 
     expect(eng.getPiece('w-i1')!.position).toEqual({ x: 3, y: 0 });
     expect(eng.getPiece('w-i1')!.spoolTarget).toBeUndefined();
     expect(eng.getState().currentPlayer).toBe(PlayerColor.Black);
+  });
+});
+
+describe('SubspaceLatticeEngine lobby overrides', () => {
+  it('locks infiltrators until infiltratorActivationPly', () => {
+    const engine = new SubspaceLatticeEngine({
+      rules: resolveRulesConfig('hybrid-fleet', {
+        infiltratorActivationPly: 4,
+      }),
+    });
+    const infil = engine.getPiece('w-i1')!;
+    expect(engine.infiltratorsUnlocked()).toBe(false);
+    expect(engine.canMovePiece(infil, { x: 1, y: 5 })).toBe(false);
+    expect(
+      engine.listLegalMoves(PlayerColor.White).some((m) => m.pieceId === 'w-i1'),
+    ).toBe(false);
+
+    // Burn four plies with non-infiltrators.
+    for (let i = 0; i < 4; i++) {
+      const move = engine
+        .listLegalMoves()
+        .find((m) => engine.getPiece(m.pieceId)?.type !== PieceType.Infiltrator);
+      expect(move).toBeTruthy();
+      expect(engine.movePiece(move!.pieceId, move!.to)).toBe(true);
+    }
+    expect(engine.getState().plyCount).toBe(4);
+    expect(engine.infiltratorsUnlocked()).toBe(true);
+    const infilMoves = engine
+      .listLegalMoves()
+      .filter((m) => m.pieceId === 'w-i1');
+    expect(infilMoves.length).toBeGreaterThan(0);
+    expect(engine.canMovePiece(engine.getPiece('w-i1')!, infilMoves[0]!.to)).toBe(
+      true,
+    );
+  });
+
+  it('fromState rebuilds spool + clock arm from rulesOverrides', () => {
+    const created = new SubspaceLatticeEngine({
+      rules: resolveRulesConfig('hybrid-fleet', {
+        infiltratorSpoolUp: true,
+        sectorActivationPly: 40,
+        infiltratorActivationPly: 2,
+      }),
+    });
+    const snap = created.getState();
+    expect(snap.rulesOverrides).toEqual({
+      infiltratorSpoolUp: true,
+      infiltratorActivationPly: 2,
+      sectorActivationPly: 40,
+    });
+
+    const hydrated = SubspaceLatticeEngine.fromState(snap);
+    expect(hydrated.getRules().infiltratorSpoolUp).toBe(true);
+    expect(hydrated.getRules().sectorActivationPly).toBe(40);
+    expect(hydrated.getRules().infiltratorActivationPly).toBe(2);
+    expect(hydrated.usesInfiltratorSpool()).toBe(true);
   });
 });

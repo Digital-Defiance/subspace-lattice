@@ -9,6 +9,13 @@ export type WinnerReason =
   | 'sector-integration'
   | 'resign';
 
+/** Lobby-tunable knobs persisted on GameState (see RulesConfig). */
+export interface GameRulesOverrides {
+  infiltratorSpoolUp?: boolean;
+  infiltratorActivationPly?: number;
+  sectorActivationPly?: number;
+}
+
 export interface GameState {
   boardSize: number;
   cells: Cell[];
@@ -18,6 +25,11 @@ export interface GameState {
   winnerReason?: WinnerReason;
   /** Defaults to classic when missing (legacy rooms). */
   rulesVersion?: RulesVersion;
+  /**
+   * Lobby-tunable RulesConfig knobs. Merged over the named version when
+   * hydrating the engine (`fromState`). Absent on legacy rooms → version defaults.
+   */
+  rulesOverrides?: GameRulesOverrides;
   /**
    * Consecutive plies each side has held Sector Integration coverage.
    * Only used when rules.sectorHoldPlies > 0 (Integration Hold clock).

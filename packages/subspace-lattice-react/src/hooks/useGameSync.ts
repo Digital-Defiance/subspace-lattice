@@ -170,6 +170,11 @@ export const useGameSync = (localPlayerId: string) => {
       rated?: boolean;
       preferredColor?: 'WHITE' | 'BLACK';
       displayName?: string;
+      rulesOverrides?: {
+        infiltratorSpoolUp?: boolean;
+        infiltratorActivationPly?: number;
+        sectorActivationPly?: number;
+      };
     },
   ) => {
     try {

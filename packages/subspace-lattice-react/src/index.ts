@@ -12,6 +12,7 @@ export * from './components/GameLayout';
 export * from './components/RulesDialog';
 export * from './components/DocLink';
 export * from './lib/doc-links';
+export * from './lib/lobby-rules';
 export * from './lib/debug-export';
 export * from './lib/deliver-file';
 export * from './components/SetupDiagram';

@@ -21,6 +21,11 @@ export interface RulesConfig {
    */
   infiltratorSpoolUp: boolean;
   /**
+   * Infiltrators may not move until `plyCount >=` this value.
+   * 0 = available from the opening (default / lobby “off”).
+   */
+  infiltratorActivationPly: number;
+  /**
    * Integration Hold: Sector Integration only wins after coverage ≥ ratio has
    * persisted for this many consecutive plies (either side's). 0 = instant
    * win on the mover's ply (legacy behavior). Experimental Track A clock.
@@ -46,6 +51,86 @@ export interface RulesConfig {
   firstPlayerRelayCount?: number;
 }
 
+/**
+ * Lobby-tunable subset of RulesConfig. Persisted on GameState.rulesOverrides
+ * so online hydrate / submitMove can rebuild the same RulesConfig.
+ */
+export type RulesLobbyOverrides = {
+  infiltratorSpoolUp: boolean;
+  infiltratorActivationPly: number;
+  sectorActivationPly: number;
+};
+
+/** Fleet defaults for the three lobby knobs (hybrid-fleet preset). */
+export const FLEET_LOBBY_DEFAULTS: RulesLobbyOverrides = {
+  infiltratorSpoolUp: false,
+  infiltratorActivationPly: 0,
+  sectorActivationPly: 100,
+};
+
+const LOBBY_PLY_MAX = 400;
+
+/** Extract lobby knobs from a full RulesConfig. */
+export function lobbyOverridesFromRules(
+  rules: RulesConfig,
+): RulesLobbyOverrides {
+  return {
+    infiltratorSpoolUp: rules.infiltratorSpoolUp,
+    infiltratorActivationPly: rules.infiltratorActivationPly,
+    sectorActivationPly: rules.sectorActivationPly,
+  };
+}
+
+/** True when lobby knobs match shipping hybrid-fleet defaults. */
+export function isDefaultFleetLobby(
+  overrides: Partial<RulesLobbyOverrides> | undefined | null,
+): boolean {
+  const o = { ...FLEET_LOBBY_DEFAULTS, ...overrides };
+  return (
+    o.infiltratorSpoolUp === FLEET_LOBBY_DEFAULTS.infiltratorSpoolUp &&
+    o.infiltratorActivationPly === FLEET_LOBBY_DEFAULTS.infiltratorActivationPly &&
+    o.sectorActivationPly === FLEET_LOBBY_DEFAULTS.sectorActivationPly
+  );
+}
+
+/**
+ * Sanitize untrusted lobby input (callable / UI). Unknown keys ignored;
+ * out-of-range plies clamped. Returns only defined fields.
+ */
+export function sanitizeRulesLobbyOverrides(
+  raw: unknown,
+): Partial<RulesLobbyOverrides> {
+  if (!raw || typeof raw !== 'object') return {};
+  const input = raw as Record<string, unknown>;
+  const out: Partial<RulesLobbyOverrides> = {};
+
+  if (typeof input.infiltratorSpoolUp === 'boolean') {
+    out.infiltratorSpoolUp = input.infiltratorSpoolUp;
+  }
+
+  if (
+    typeof input.infiltratorActivationPly === 'number' &&
+    Number.isFinite(input.infiltratorActivationPly)
+  ) {
+    out.infiltratorActivationPly = Math.max(
+      0,
+      Math.min(LOBBY_PLY_MAX, Math.floor(input.infiltratorActivationPly)),
+    );
+  }
+
+  if (
+    typeof input.sectorActivationPly === 'number' &&
+    Number.isFinite(input.sectorActivationPly)
+  ) {
+    out.sectorActivationPly = Math.max(
+      0,
+      Math.min(LOBBY_PLY_MAX, Math.floor(input.sectorActivationPly)),
+    );
+  }
+
+  return out;
+}
+
 /** Pre-sim classic defaults (chess-like; Sensor Net ignored for movement). */
 export const CLASSIC_RULES: RulesConfig = {
   version: 'classic',
@@ -55,6 +140,7 @@ export const CLASSIC_RULES: RulesConfig = {
   escortSensorRadius: 1,
   linkDistance: 2,
   infiltratorSpoolUp: false,
+  infiltratorActivationPly: 0,
   sectorHoldPlies: 0,
   contestedCellsNeutral: false,
   sectorActivationPly: 0,
@@ -73,6 +159,7 @@ export const HYBRID_RULES: RulesConfig = {
   escortSensorRadius: 1,
   linkDistance: 2,
   infiltratorSpoolUp: false,
+  infiltratorActivationPly: 0,
   sectorHoldPlies: 0,
   contestedCellsNeutral: false,
   sectorActivationPly: 0,
@@ -121,6 +208,16 @@ export function resolveRulesConfig(
     Object.entries(overrides).filter(([, v]) => v !== undefined),
   ) as Partial<Omit<RulesConfig, 'version'>>;
   return { ...BY_VERSION[version], ...cleaned, version };
+}
+
+/** Shipping hybrid-fleet RulesConfig with optional lobby knobs applied. */
+export function resolveFleetLobbyRules(
+  overrides: Partial<RulesLobbyOverrides> | unknown = {},
+): RulesConfig {
+  return resolveRulesConfig(
+    'hybrid-fleet',
+    sanitizeRulesLobbyOverrides(overrides),
+  );
 }
 
 export function isRulesVersion(value: unknown): value is RulesVersion {

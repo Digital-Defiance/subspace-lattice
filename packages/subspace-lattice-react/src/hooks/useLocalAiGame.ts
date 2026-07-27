@@ -11,13 +11,16 @@ import {
   formatSystemLogLine,
   GameState,
   getTeiDisplay,
+  isDefaultFleetLobby,
   LatticeDebugExport,
   PlayerColor,
+  resolveFleetLobbyRules,
   shouldRecordLocalAiTei,
   SubspaceLatticeEngine,
   TEI_AI_ANCHORS,
 } from '@subspace-lattice/core';
 import { createSubspaceLatticeApiClient } from '../services/api';
+import type { LobbyRulesOptions } from '../lib/lobby-rules';
 
 const AI_THINK_MS = 50;
 
@@ -52,6 +55,7 @@ export function useLocalAiGame() {
   const [matchId, setMatchId] = useState<string | null>(null);
   const ratedMatch = useRef<string | null>(null);
   const assistedMatch = useRef(false);
+  const customModulesMatch = useRef(false);
   const debugLog = useRef(createMatchDebugLog());
   const initialStateRef = useRef<GameState | null>(null);
   const ai = useMemo(() => createAiForStrength(strength), [strength]);
@@ -118,12 +122,19 @@ export function useLocalAiGame() {
   );
 
   const startLocalAiGame = useCallback(
-    (nextStrength?: AiStrengthId, seat: PlayerColor = PlayerColor.White) => {
+    (
+      nextStrength?: AiStrengthId,
+      seat: PlayerColor = PlayerColor.White,
+      rulesOverrides?: LobbyRulesOptions,
+    ) => {
       clearAiTimer();
       const s = nextStrength ?? strength;
       if (nextStrength) setStrength(s);
       setLocalPlayerColor(seat);
-      const next = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+      const rules = resolveFleetLobbyRules(rulesOverrides);
+      const customModules = !isDefaultFleetLobby(rulesOverrides);
+      customModulesMatch.current = customModules;
+      const next = new SubspaceLatticeEngine({ rules });
       initialStateRef.current = structuredClone(next.getState());
       debugLog.current.clear();
       setEngine(next);
@@ -133,9 +144,22 @@ export function useLocalAiGame() {
       ratedMatch.current = null;
       assistedMatch.current = false;
       const tei = teiForStrength(s);
+      const moduleBits: string[] = [];
+      if (rules.infiltratorSpoolUp) moduleBits.push('spool');
+      if (rules.infiltratorActivationPly > 0) {
+        moduleBits.push(`infil@${rules.infiltratorActivationPly}`);
+      }
+      if (rules.sectorActivationPly !== 100) {
+        moduleBits.push(`clock@${rules.sectorActivationPly}`);
+      }
+      const modulesNote = moduleBits.length
+        ? `; modules ${moduleBits.join(' ')}`
+        : '';
       setLogLines([
         formatSystemLogLine(
-          `Local fleet match (Initiative Relay) — you are ${seatLabel(seat)}; AI strength ${s} (${tei.grade}${String(tei.score).padStart(2, '0')})`,
+          `Local fleet match (Initiative Relay${modulesNote}) — you are ${seatLabel(seat)}; AI strength ${s} (${tei.grade}${String(tei.score).padStart(2, '0')})${
+            customModules ? ' — casual (custom modules)' : ''
+          }`,
         ),
       ]);
     },
@@ -170,6 +194,14 @@ export function useLocalAiGame() {
         ),
       );
       if (id) {
+        if (customModulesMatch.current) {
+          appendLog(
+            formatSystemLogLine(
+              'Custom modules match — TEI not recorded (stock fleet only).',
+            ),
+          );
+          return;
+        }
         if (!shouldRecordLocalAiTei(assistedMatch.current)) {
           appendLog(
             formatSystemLogLine(

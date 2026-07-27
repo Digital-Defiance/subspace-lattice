@@ -11,6 +11,11 @@ export interface CreateRoomRequest {
   /** Per-match seat label (defaults from Federation Profile on the client). */
   displayName?: string;
   rulesVersion?: string;
+  rulesOverrides?: {
+    infiltratorSpoolUp?: boolean;
+    infiltratorActivationPly?: number;
+    sectorActivationPly?: number;
+  };
 }
 
 export interface JoinRoomRequest {
@@ -109,6 +114,11 @@ export function createSubspaceLatticeApiClient() {
         rated?: boolean;
         preferredColor?: 'WHITE' | 'BLACK';
         displayName?: string;
+        rulesOverrides?: {
+          infiltratorSpoolUp?: boolean;
+          infiltratorActivationPly?: number;
+          sectorActivationPly?: number;
+        };
       },
     ) => {
       const result = await createRoomFn({
@@ -119,6 +129,7 @@ export function createSubspaceLatticeApiClient() {
         rated: options?.rated === true,
         preferredColor: options?.preferredColor === 'BLACK' ? 'BLACK' : 'WHITE',
         displayName: options?.displayName,
+        rulesOverrides: options?.rulesOverrides,
       });
       return result.data;
     },

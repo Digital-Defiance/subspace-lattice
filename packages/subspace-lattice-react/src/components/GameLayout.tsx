@@ -284,6 +284,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
       rated?: boolean;
       preferredColor?: 'WHITE' | 'BLACK';
       displayName?: string;
+      rulesOverrides?: {
+        infiltratorSpoolUp?: boolean;
+        infiltratorActivationPly?: number;
+        sectorActivationPly?: number;
+      };
     },
   ) => {
     const displayName =
@@ -301,15 +306,23 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     await joinRoom(roomCode, password, asObserver, name);
   };
 
-  const beginLocalAi = () => {
+  const beginLocalAi = (rules?: {
+    infiltratorSpoolUp: boolean;
+    infiltratorActivationPly: number;
+    sectorActivationPly: number;
+  }) => {
     exitPassAndPlayGame();
     localAdvisor.clearSuggestion();
-    startLocalAiGame(aiStrength, preferredSeat);
+    startLocalAiGame(aiStrength, preferredSeat, rules);
   };
 
-  const beginPassAndPlay = () => {
+  const beginPassAndPlay = (rules?: {
+    infiltratorSpoolUp: boolean;
+    infiltratorActivationPly: number;
+    sectorActivationPly: number;
+  }) => {
     exitLocalAiGame();
-    openPassAndPlaySetup(preferredSeat);
+    openPassAndPlaySetup(preferredSeat, rules);
   };
 
   const confirmLeaveOnlineMatch = async () => {
@@ -746,7 +759,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             <button
               type="button"
               className="auth-gate-btn auth-gate-btn-ghost"
-              onClick={beginLocalAi}
+              onClick={() => beginLocalAi()}
               data-testid="play-vs-ai"
             >
               Play vs AI (local)
@@ -754,7 +767,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             <button
               type="button"
               className="auth-gate-btn auth-gate-btn-ghost"
-              onClick={beginPassAndPlay}
+              onClick={() => beginPassAndPlay()}
               data-testid="play-pass-and-play"
             >
               Pass &amp; Play

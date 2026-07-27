@@ -10,6 +10,7 @@ import {
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
 import { Piece as PieceArt } from './Piece';
+import { PieceStyles, getStyleRimFlags } from './PieceStyles';
 import {
   useBoardContrast,
   type BoardContrast,
@@ -53,6 +54,16 @@ export const Board: React.FC<BoardProps> = ({
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [contrast, setContrast] = useBoardContrast(forcedContrast);
   const [styleIndex, setStyleIndex] = useState(2);
+  const [pieceOutline, setPieceOutline] = useState(false);
+  const rimFlags = getStyleRimFlags(styleIndex);
+  const bakedOutline =
+    rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
+  // Outline always adds a *white* visibility trace — never a dark one.
+  // Skip sides that already ship a light rim (avoids double-white).
+  const outlineBlack =
+    contrast === 'high' && pieceOutline && !rimFlags.lightRimOnBlack;
+  const outlineWhite =
+    contrast === 'high' && pieceOutline && !rimFlags.lightRimOnWhite;
   const initialFocus =
     Object.values(gameState.pieces).find(
       (piece) => piece.owner === localPlayer,
@@ -257,13 +268,18 @@ export const Board: React.FC<BoardProps> = ({
   const board = (
     <div
       ref={boardRef}
-      className={`subspace-board${contrast === 'high' ? ' subspace-board--high-contrast' : ''}`}
+      className={`subspace-board${contrast === 'high' ? ' subspace-board--high-contrast' : ''}${
+        outlineBlack ? ' subspace-board--outline-black' : ''
+      }${outlineWhite ? ' subspace-board--outline-white' : ''}`}
       style={{ gridTemplateColumns: `repeat(${gameState.boardSize}, 40px)` }}
       role="grid"
       aria-label="Game board. Use arrow keys to move between squares, Enter or Space to select and move, and Escape to cancel selection."
       aria-rowcount={gameState.boardSize}
       aria-colcount={gameState.boardSize}
       data-contrast={contrast}
+      data-piece-outline={
+        outlineBlack || outlineWhite ? 'true' : undefined
+      }
     >
       {displayCells.map((cell: Cell) => {
         const piece = cell.pieceId ? gameState.pieces[cell.pieceId] : null;
@@ -366,11 +382,30 @@ export const Board: React.FC<BoardProps> = ({
         >
             High contrast
           </button>
-          {contrast === 'high' && (<select value={styleIndex} onChange={(e) => setStyleIndex(parseInt(e.target.value))}>
-            <option value={0} selected={styleIndex === 0}>Style 1</option>
-            <option value={1} selected={styleIndex === 1}>Style 2</option>
-            <option value={2} selected={styleIndex === 2}>Style 3</option>
-          </select>)}
+          {contrast === 'high' && (
+            <>
+              <PieceStyles
+                selectedStyle={styleIndex}
+                onStyleChange={setStyleIndex}
+              />
+              <label
+                className="board-piece-outline-toggle"
+                title={
+                  bakedOutline
+                    ? 'This piece style already includes contrast rims'
+                    : 'Adds a white visibility trace around pieces that lack a light rim'
+                }
+              >
+                <input
+                  type="checkbox"
+                  checked={bakedOutline || pieceOutline}
+                  disabled={bakedOutline}
+                  onChange={(e) => setPieceOutline(e.target.checked)}
+                />
+                Outline
+              </label>
+            </>
+          )}
         </div>
       {board}
     </div>

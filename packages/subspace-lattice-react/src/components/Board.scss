@@ -25,6 +25,7 @@
 
 .board-contrast-toggle {
   display: inline-flex;
+  align-items: stretch;
   gap: 0;
   border: 1px solid #3a4558;
   border-radius: $radius-sm;
@@ -53,6 +54,62 @@
       outline-offset: -2px;
       z-index: 1;
     }
+  }
+
+  select {
+    appearance: none;
+    border: 0;
+    border-left: 1px solid #3a4558;
+    margin: 0;
+    padding: 0.28rem 0.55rem;
+    font: inherit;
+    font-size: 12px;
+    color: #e8f0fa;
+    background: #1a2838;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid #f8fafc;
+      outline-offset: -2px;
+      z-index: 1;
+    }
+  }
+}
+
+.board-piece-outline-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  border-left: 1px solid #3a4558;
+  padding: 0.28rem 0.65rem;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: #9aa8bc;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  white-space: nowrap;
+
+  input {
+    margin: 0;
+    accent-color: #e8f0fa;
+  }
+
+  &:has(input:checked) {
+    color: #e8f0fa;
+    background: #1a2838;
+  }
+
+  &:has(input:disabled) {
+    opacity: 0.72;
+    cursor: default;
+  }
+
+  &:focus-within {
+    outline: 2px solid #f8fafc;
+    outline-offset: -2px;
+    z-index: 1;
   }
 }
 
@@ -201,6 +258,17 @@
       box-shadow: inset 0 0 0 1px rgba(220, 190, 255, 0.65);
     }
   }
+
+  // External <img> SVGs can't take CSS stroke; stacked drop-shadows follow
+  // the alpha silhouette. Always a *white* visibility trace (black rims on
+  // white art still need this so they read on dark / net cells).
+  &.subspace-board--outline-black .piece.piece-svg.black .piece-art img,
+  &.subspace-board--outline-white .piece.piece-svg.white .piece-art img {
+    filter:
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 1.1px rgba(244, 236, 232, 0.9));
+  }
 }
 
 @keyframes tutorial-pulse {
@@ -264,6 +332,8 @@
     text-shadow: none;
     paint-order: normal;
 
+    .piece-art,
+    .piece-art img,
     svg {
       display: block;
       pointer-events: none;

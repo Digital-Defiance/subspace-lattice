@@ -11,6 +11,7 @@ import {
 import {
   RulesConfig,
   RulesVersion,
+  lobbyOverridesFromRules,
   resolveRulesConfig,
   usesSensorNet,
 } from './rules/rules-config';
@@ -53,6 +54,7 @@ export class SubspaceLatticeEngine {
       this.rules.version,
       this.rules.firstPlayerRelayCount ?? 0,
     );
+    this.state.rulesOverrides = lobbyOverridesFromRules(this.rules);
   }
 
   private static resolveOptions(options: EngineOptions): {
@@ -81,22 +83,27 @@ export class SubspaceLatticeEngine {
   /**
    * Hydrate an engine from a persisted/authoritative game state snapshot.
    * Pass `rules` to preserve non-default knobs (sim/search); otherwise the
-   * version's default RulesConfig is used (persisted rooms).
+   * named version is merged with `state.rulesOverrides` (lobby / rooms).
    */
   public static fromState(
     state: GameState,
     rules?: RulesConfig,
   ): SubspaceLatticeEngine {
     const version = rules?.version ?? state.rulesVersion ?? 'classic';
-    const engine = new SubspaceLatticeEngine(
-      rules
-        ? { rules: { ...rules, boardSize: state.boardSize } }
-        : { boardSize: state.boardSize, rulesVersion: version },
-    );
+    const resolved =
+      rules ??
+      resolveRulesConfig(version, {
+        boardSize: state.boardSize,
+        ...state.rulesOverrides,
+      });
+    const engine = new SubspaceLatticeEngine({
+      rules: { ...resolved, boardSize: state.boardSize },
+    });
     engine.state = structuredClone(state);
     if (!engine.state.rulesVersion) {
       engine.state.rulesVersion = version;
     }
+    engine.state.rulesOverrides = lobbyOverridesFromRules(engine.rules);
     return engine;
   }
 
@@ -119,6 +126,13 @@ export class SubspaceLatticeEngine {
 
   public usesInfiltratorSpool(): boolean {
     return this.rules.infiltratorSpoolUp;
+  }
+
+  /** Infiltrators may move once plyCount reaches infiltratorActivationPly. */
+  public infiltratorsUnlocked(): boolean {
+    const unlock = this.rules.infiltratorActivationPly ?? 0;
+    if (unlock <= 0) return true;
+    return (this.state.plyCount ?? 0) >= unlock;
   }
 
   private initializeGame(
@@ -299,6 +313,10 @@ export class SubspaceLatticeEngine {
     if (targetCell.pieceId) {
       const targetPiece = this.getPiece(targetCell.pieceId);
       if (targetPiece?.owner === piece.owner) return false;
+    }
+
+    if (piece.type === PieceType.Infiltrator && !this.infiltratorsUnlocked()) {
+      return false;
     }
 
     // Pending spool execute may target a now-illegal square (failed jump still legal as an action).

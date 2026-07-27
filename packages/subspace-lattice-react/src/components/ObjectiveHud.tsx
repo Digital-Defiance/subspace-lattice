@@ -33,6 +33,9 @@ export function ObjectiveHud({
   const hold = rules.sectorHoldPlies ?? 0;
   const whiteHold = state.sectorHoldProgress?.[PlayerColor.White] ?? 0;
   const blackHold = state.sectorHoldProgress?.[PlayerColor.Black] ?? 0;
+  const infilUnlock = rules.infiltratorActivationPly ?? 0;
+  const infilRemaining = Math.max(0, infilUnlock - ply);
+  const infilLocked = infilUnlock > 0 && infilRemaining > 0;
 
   return (
     <section className="objective-hud" aria-label="Battle objectives">
@@ -83,6 +86,21 @@ export function ObjectiveHud({
           {rules.contestedCellsNeutral
             ? '; space covered by both fleets counts for neither side.'
             : '.'}
+          {infilLocked
+            ? ` Infiltrators unlock in ${infilRemaining} ${infilRemaining === 1 ? 'move' : 'moves'}.`
+            : ''}
+          {rules.infiltratorSpoolUp
+            ? ' Infiltrator warps spool: announce, then execute next turn.'
+            : ''}
+        </p>
+      )}
+      {!explain && (infilLocked || rules.infiltratorSpoolUp) && (
+        <p className="objective-hud__explanation" data-testid="infil-module-status">
+          {infilLocked
+            ? `Infiltrators unlock in ${infilRemaining} ${infilRemaining === 1 ? 'move' : 'moves'}.`
+            : null}
+          {infilLocked && rules.infiltratorSpoolUp ? ' ' : null}
+          {rules.infiltratorSpoolUp ? 'Infiltrator spool armed.' : null}
         </p>
       )}
     </section>

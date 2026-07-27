@@ -8,8 +8,10 @@ import {
   GameState,
   LatticeDebugExport,
   PlayerColor,
+  resolveFleetLobbyRules,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
+import type { LobbyRulesOptions } from '../lib/lobby-rules';
 
 export type PassPlaySeatNames = {
   white: string;
@@ -39,6 +41,7 @@ export function usePassAndPlayGame() {
   const [handoffSeat, setHandoffSeat] = useState<PlayerColor | null>(null);
   const readySeatRef = useRef<PlayerColor | null>(null);
   const preferredSeatRef = useRef<PlayerColor>(PlayerColor.White);
+  const rulesOverridesRef = useRef<LobbyRulesOptions | undefined>(undefined);
   const namesRef = useRef<PassPlaySeatNames>({ white: '', black: '' });
   const debugLog = useRef(createMatchDebugLog());
   const initialStateRef = useRef<GameState | null>(null);
@@ -55,8 +58,12 @@ export function usePassAndPlayGame() {
   }, []);
 
   const openPassAndPlaySetup = useCallback(
-    (preferredSeat: PlayerColor = PlayerColor.White) => {
+    (
+      preferredSeat: PlayerColor = PlayerColor.White,
+      rulesOverrides?: LobbyRulesOptions,
+    ) => {
       preferredSeatRef.current = preferredSeat;
+      rulesOverridesRef.current = rulesOverrides;
       setSetupOpen(true);
       setActive(false);
       setEngine(null);
@@ -73,23 +80,38 @@ export function usePassAndPlayGame() {
     (
       preferredSeat: PlayerColor = PlayerColor.White,
       names: PassPlaySeatNames = { white: '', black: '' },
+      rulesOverrides?: LobbyRulesOptions,
     ) => {
       namesRef.current = names;
       setSeatNames(names);
       setSetupOpen(false);
-      const next = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+      const rules = resolveFleetLobbyRules(
+        rulesOverrides ?? rulesOverridesRef.current,
+      );
+      const next = new SubspaceLatticeEngine({ rules });
       initialStateRef.current = structuredClone(next.getState());
       debugLog.current.clear();
       setEngine(next);
       setActive(true);
       const whiteLabel = normalizeName(names.white, 'White');
       const blackLabel = normalizeName(names.black, 'Black');
+      const moduleBits: string[] = [];
+      if (rules.infiltratorSpoolUp) moduleBits.push('spool');
+      if (rules.infiltratorActivationPly > 0) {
+        moduleBits.push(`infil@${rules.infiltratorActivationPly}`);
+      }
+      if (rules.sectorActivationPly !== 100) {
+        moduleBits.push(`clock@${rules.sectorActivationPly}`);
+      }
+      const modulesNote = moduleBits.length
+        ? ` · ${moduleBits.join(' ')}`
+        : '';
       if (preferredSeat === PlayerColor.Black) {
         readySeatRef.current = null;
         setHandoffSeat(PlayerColor.White);
         setLogLines([
           formatSystemLogLine(
-            `Pass & play (fleet) — you claimed ${blackLabel}. Pass the device; ${whiteLabel} opens.`,
+            `Pass & play (fleet${modulesNote}) — you claimed ${blackLabel}. Pass the device; ${whiteLabel} opens.`,
           ),
         ]);
       } else {
@@ -97,7 +119,7 @@ export function usePassAndPlayGame() {
         setHandoffSeat(null);
         setLogLines([
           formatSystemLogLine(
-            `Pass & play (fleet) — ${whiteLabel} at helm. After each move, pass the device and confirm Ready.`,
+            `Pass & play (fleet${modulesNote}) — ${whiteLabel} at helm. After each move, pass the device and confirm Ready.`,
           ),
         ]);
       }
@@ -107,7 +129,11 @@ export function usePassAndPlayGame() {
 
   const confirmPassAndPlaySetup = useCallback(
     (names: PassPlaySeatNames) => {
-      startPassAndPlayGame(preferredSeatRef.current, names);
+      startPassAndPlayGame(
+        preferredSeatRef.current,
+        names,
+        rulesOverridesRef.current,
+      );
     },
     [startPassAndPlayGame],
   );

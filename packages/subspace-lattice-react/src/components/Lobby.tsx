@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
+import {
+  DEFAULT_LOBBY_RULES,
+  lobbyRulesAreDefault,
+  type LobbyRulesOptions,
+} from '../lib/lobby-rules';
 import './Lobby.scss';
 
 type LobbyTab = 'create' | 'join' | 'local';
+
+export type CreateRoomOptions = {
+  allowObservers?: boolean;
+  rated?: boolean;
+  preferredColor?: 'WHITE' | 'BLACK';
+  displayName?: string;
+  rulesOverrides?: Partial<LobbyRulesOptions>;
+};
 
 interface LobbyProps {
   onCreateRoom: (
     name: string,
     password?: string,
-    options?: {
-      allowObservers?: boolean;
-      rated?: boolean;
-      preferredColor?: 'WHITE' | 'BLACK';
-      displayName?: string;
-    },
+    options?: CreateRoomOptions,
   ) => void;
   onJoinRoom: (
     roomCode: string,
@@ -21,8 +29,8 @@ interface LobbyProps {
     asObserver?: boolean,
     displayName?: string,
   ) => void;
-  onPlayLocalAi?: () => void;
-  onPlayPassAndPlay?: () => void;
+  onPlayLocalAi?: (rules?: LobbyRulesOptions) => void;
+  onPlayPassAndPlay?: (rules?: LobbyRulesOptions) => void;
   aiStrengthPicker?: React.ReactNode;
   preferredColor?: 'WHITE' | 'BLACK';
   onPreferredColorChange?: (color: 'WHITE' | 'BLACK') => void;
@@ -60,10 +68,26 @@ export const Lobby: React.FC<LobbyProps> = ({
   const [allowObservers, setAllowObservers] = useState(true);
   const [rated, setRated] = useState(false);
   const [callSign, setCallSign] = useState(defaultCallSign);
+  const [infiltratorSpoolUp, setInfiltratorSpoolUp] = useState(
+    DEFAULT_LOBBY_RULES.infiltratorSpoolUp,
+  );
+  const [infiltratorActivationPly, setInfiltratorActivationPly] = useState(
+    DEFAULT_LOBBY_RULES.infiltratorActivationPly,
+  );
+  const [sectorActivationPly, setSectorActivationPly] = useState(
+    DEFAULT_LOBBY_RULES.sectorActivationPly,
+  );
 
   useEffect(() => {
     setCallSign(defaultCallSign);
   }, [defaultCallSign]);
+
+  const lobbyRules: LobbyRulesOptions = {
+    infiltratorSpoolUp,
+    infiltratorActivationPly,
+    sectorActivationPly,
+  };
+  const customModules = !lobbyRulesAreDefault(lobbyRules);
 
   const setSeat = (color: 'WHITE' | 'BLACK') => {
     onPreferredColorChange?.(color);
@@ -112,6 +136,73 @@ export const Lobby: React.FC<LobbyProps> = ({
     </div>
   ) : null;
 
+  const rulesModulesField = (
+    <fieldset className="lobby-modules" data-testid="lobby-rules-modules">
+      <legend>Advanced modules</legend>
+      <div className="form-group checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={infiltratorSpoolUp}
+            onChange={(e) => setInfiltratorSpoolUp(e.target.checked)}
+            data-testid="lobby-infiltrator-spool"
+          />
+          Infiltrator spool (announce warp, execute next turn)
+        </label>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-infil-unlock">
+          Infiltrators unlock after (plies)
+        </label>
+        <input
+          id="lobby-infil-unlock"
+          type="number"
+          min={0}
+          max={400}
+          step={1}
+          value={infiltratorActivationPly}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setInfiltratorActivationPly(
+              Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0,
+            );
+          }}
+          data-testid="lobby-infiltrator-activation"
+        />
+        <p className="lobby-module-hint">0 = available from the opening.</p>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-clock-arm">Sector clock arms at ply</label>
+        <input
+          id="lobby-clock-arm"
+          type="number"
+          min={0}
+          max={400}
+          step={1}
+          value={sectorActivationPly}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setSectorActivationPly(
+              Number.isFinite(n)
+                ? Math.max(0, Math.floor(n))
+                : DEFAULT_LOBBY_RULES.sectorActivationPly,
+            );
+          }}
+          data-testid="lobby-sector-activation"
+        />
+        <p className="lobby-module-hint">
+          Fleet default is {DEFAULT_LOBBY_RULES.sectorActivationPly}. 0 = armed
+          from the start.
+        </p>
+      </div>
+      {customModules && (
+        <p className="lobby-module-warn" data-testid="lobby-modules-unrated">
+          Custom modules play casual — rated TEI stays on stock fleet rules.
+        </p>
+      )}
+    </fieldset>
+  );
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const matchName = callSign.trim() || undefined;
@@ -119,9 +210,10 @@ export const Lobby: React.FC<LobbyProps> = ({
       if (roomName.trim()) {
         onCreateRoom(roomName, password, {
           allowObservers,
-          rated,
+          rated: rated && !customModules,
           preferredColor,
           displayName: matchName,
+          rulesOverrides: lobbyRules,
         });
       }
     } else if (tab === 'join') {
@@ -163,13 +255,14 @@ export const Lobby: React.FC<LobbyProps> = ({
       {tab === 'local' ? (
         <div className="lobby-local-panel">
           {seatField}
+          {rulesModulesField}
           {onPlayLocalAi && (
             <>
               {aiStrengthPicker}
               <button
                 type="button"
                 className="local-ai-btn"
-                onClick={onPlayLocalAi}
+                onClick={() => onPlayLocalAi(lobbyRules)}
                 data-testid="play-vs-ai"
               >
                 Play vs AI (fleet)
@@ -180,16 +273,16 @@ export const Lobby: React.FC<LobbyProps> = ({
             <button
               type="button"
               className="local-ai-btn local-pass-btn"
-              onClick={onPlayPassAndPlay}
+              onClick={() => onPlayPassAndPlay(lobbyRules)}
               data-testid="play-pass-and-play"
             >
               Pass &amp; Play
             </button>
           )}
           <p className="lobby-fleet-hint">
-            Hybrid-fleet: Initiative Relay + sector clock. Pick your seat, then
-            play vs AI (rated TEI when signed in) or pass &amp; play (unrated;
-            your seat defaults to Federation Profile call sign).
+            Hybrid-fleet base with optional modules above. Pick your seat, then
+            play vs AI (rated TEI on stock rules when signed in) or pass &amp;
+            play (unrated; your seat defaults to Federation Profile call sign).
           </p>
         </div>
       ) : (
@@ -223,13 +316,15 @@ export const Lobby: React.FC<LobbyProps> = ({
                 <label>
                   <input
                     type="checkbox"
-                    checked={rated}
+                    checked={rated && !customModules}
+                    disabled={customModules}
                     onChange={(e) => setRated(e.target.checked)}
                     data-testid="rated-sector"
                   />
                   Rated sector (hides advisor until assisted)
                 </label>
               </div>
+              {rulesModulesField}
             </>
           ) : (
             <>

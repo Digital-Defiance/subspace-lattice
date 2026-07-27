@@ -3,12 +3,16 @@ import { FieldValue, getFirestore, type Firestore } from 'firebase-admin/firesto
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import { setGlobalOptions } from 'firebase-functions/v2/options';
 import {
+  FLEET_LOBBY_DEFAULTS,
+  isDefaultFleetLobby,
   isRulesVersion,
   LATTICE_COLLECTIONS,
   FEDERATION_COLLECTIONS,
   onlineRatingEventId,
   rateLocalAiMatch,
   rateOnlinePvpMatch,
+  resolveRulesConfig,
+  sanitizeRulesLobbyOverrides,
   SubspaceLatticeEngine,
   type AiStrengthId,
   type GameState,
@@ -115,7 +119,6 @@ export const createRoom = onCall(async (request) => {
       ? request.data.password
       : undefined;
   const allowObservers = request.data?.allowObservers !== false;
-  const rated = request.data?.rated === true;
   const preferredRaw = String(request.data?.preferredColor ?? 'WHITE')
     .trim()
     .toUpperCase();
@@ -126,19 +129,43 @@ export const createRoom = onCall(async (request) => {
     isRulesVersion(requestedRules) && requestedRules !== 'classic'
       ? requestedRules
       : DEFAULT_RULES_VERSION;
+  const lobbyOverrides = sanitizeRulesLobbyOverrides(
+    request.data?.rulesOverrides,
+  );
+  const rules = resolveRulesConfig(rulesVersion, lobbyOverrides);
+  const customModules = !isDefaultFleetLobby({
+    infiltratorSpoolUp: rules.infiltratorSpoolUp,
+    infiltratorActivationPly: rules.infiltratorActivationPly,
+    sectorActivationPly: rules.sectorActivationPly,
+  });
+  let rated = request.data?.rated === true;
+  if (rated && customModules) {
+    // Custom lobby modules are casual-only so TEI stays fleet-comparable.
+    rated = false;
+  }
 
   if (!name) {
     throw new HttpsError('invalid-argument', 'Room name is required.');
   }
 
   const roomCode = await allocateUniqueRoomCode();
-  const engine = new SubspaceLatticeEngine({ rulesVersion });
+  const engine = new SubspaceLatticeEngine({ rules });
   const gameState = engine.getState();
   const roomRef = db.collection(ROOMS).doc();
   const whitePlayerId = hostAsBlack ? null : uid;
   const blackPlayerId = hostAsBlack ? uid : null;
   const whiteDisplayName = hostAsBlack ? null : seatDisplayName ?? null;
   const blackDisplayName = hostAsBlack ? seatDisplayName ?? null : null;
+
+  const moduleBits: string[] = [];
+  if (rules.infiltratorSpoolUp) moduleBits.push('spool');
+  if (rules.infiltratorActivationPly > 0) {
+    moduleBits.push(`infil@${rules.infiltratorActivationPly}`);
+  }
+  if (rules.sectorActivationPly !== FLEET_LOBBY_DEFAULTS.sectorActivationPly) {
+    moduleBits.push(`clock@${rules.sectorActivationPly}`);
+  }
+  const modulesLabel = moduleBits.length ? `, modules: ${moduleBits.join(' ')}` : '';
 
   await db.runTransaction(async (tx) => {
     tx.set(db.collection(ROOM_CODES).doc(roomCode), { roomId: roomRef.id });
@@ -167,7 +194,7 @@ export const createRoom = onCall(async (request) => {
     seatDisplayName ?? (hostAsBlack ? 'Black' : 'White');
   await appendSystemChat(
     roomRef.id,
-    `Room "${name}" created (Code: ${roomCode}, rules: ${rulesVersion}${
+    `Room "${name}" created (Code: ${roomCode}, rules: ${rulesVersion}${modulesLabel}${
       rated ? ', rated' : ', casual'
     }, host ${hostLabel} as ${hostAsBlack ? 'Black' : 'White'}).`,
   );

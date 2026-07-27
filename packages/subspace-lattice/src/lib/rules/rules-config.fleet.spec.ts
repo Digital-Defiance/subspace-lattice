@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import {
+  FLEET_LOBBY_DEFAULTS,
   FLEET_V1_RULES,
   HYBRID_FLEET_RULES,
   HYBRID_RULES,
+  isDefaultFleetLobby,
   isRulesVersion,
+  resolveFleetLobbyRules,
   resolveRulesConfig,
+  sanitizeRulesLobbyOverrides,
   usesSensorNet,
 } from './rules-config';
 import { SubspaceLatticeEngine } from '../game-engine';
@@ -22,6 +26,7 @@ describe('hybrid-fleet shipping preset', () => {
     expect(cfg.sectorActivationPly).toBe(100);
     expect(cfg.firstPlayerRelayCount).toBe(1);
     expect(cfg.infiltratorSpoolUp).toBe(false);
+    expect(cfg.infiltratorActivationPly).toBe(0);
   });
 
   it('isRulesVersion / usesSensorNet accept hybrid-fleet', () => {
@@ -64,5 +69,41 @@ describe('hybrid-fleet shipping preset', () => {
     expect(engine.movePiece(move.pieceId, move.to)).toBe(true);
     expect(engine.getState().winner).toBeUndefined();
     expect(engine.getState().plyCount).toBe(1);
+  });
+});
+
+describe('lobby rules overrides', () => {
+  it('sanitizeRulesLobbyOverrides clamps and ignores junk', () => {
+    expect(
+      sanitizeRulesLobbyOverrides({
+        infiltratorSpoolUp: true,
+        infiltratorActivationPly: 12.9,
+        sectorActivationPly: -3,
+        hubSensorRadius: 99,
+      }),
+    ).toEqual({
+      infiltratorSpoolUp: true,
+      infiltratorActivationPly: 12,
+      sectorActivationPly: 0,
+    });
+  });
+
+  it('resolveFleetLobbyRules + isDefaultFleetLobby', () => {
+    expect(isDefaultFleetLobby(undefined)).toBe(true);
+    expect(isDefaultFleetLobby(FLEET_LOBBY_DEFAULTS)).toBe(true);
+    const custom = resolveFleetLobbyRules({
+      infiltratorSpoolUp: true,
+      sectorActivationPly: 40,
+    });
+    expect(custom.infiltratorSpoolUp).toBe(true);
+    expect(custom.sectorActivationPly).toBe(40);
+    expect(custom.firstPlayerRelayCount).toBe(1);
+    expect(
+      isDefaultFleetLobby({
+        infiltratorSpoolUp: true,
+        infiltratorActivationPly: 0,
+        sectorActivationPly: 100,
+      }),
+    ).toBe(false);
   });
 });

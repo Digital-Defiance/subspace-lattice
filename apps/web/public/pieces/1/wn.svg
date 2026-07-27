@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .whiteKnightCls-1 { fill: #fff; } .whiteKnightCls-1, .whiteKnightCls-2, .whiteKnightCls-3 { fill-rule: evenodd; stroke: #000; stroke-linecap: round; stroke-linejoin: round; } .whiteKnightCls-1, .whiteKnightCls-3 { stroke-width: 1.5px; } .whiteKnightCls-2 { stroke-width: 1.5px; }
+    </style>
+  </defs>
+  <path class="whiteKnightCls-1" d="M22,10.3c10.5,1,16.5,8,16,29H15c0-9,10-6.5,8-21"/>
+  <path class="whiteKnightCls-1" d="M24,18.3c.38,2.91-5.55,7.37-8,9-3,2-2.82,4.34-5,4-1.04-.94,1.41-3.04,0-3-1,0,.19,1.23-1,2-1,0-4,1-4-4,0-2,6-12,6-12,0,0,1.89-1.9,2-3.5-.73-.99-.5-2-.5-3,1-1,3,2.5,3,2.5h2s.78-1.99,2.5-3c1,0,1,3,1,3"/>
+  <path class="whiteKnightCls-3" d="M9.5,25.8c0,.28-.22.5-.5.5s-.5-.22-.5-.5.22-.5.5-.5.5.22.5.5Z"/>
+  <path class="whiteKnightCls-2" d="M14.93,16.05c-.41.72-.94,1.19-1.18,1.05s-.1-.83.32-1.55.94-1.19,1.18-1.05.1.83-.32,1.55Z"/>
+</svg>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .blackRookCls-1 { stroke-linejoin: round; } .blackRookCls-1, .blackRookCls-2 { fill-rule: evenodd; stroke-width: 1.5px; } .blackRookCls-1, .blackRookCls-2, .blackRookCls-3 { stroke: #fff; } .blackRookCls-3 { fill: none; stroke-linecap: round; }
+    </style>
+  </defs>
+  <path class="blackRookCls-1" d="M9,39.3h27v-3H9v3Z"/>
+  <path class="blackRookCls-1" d="M12.5,32.3l1.5-2.5h17l1.5,2.5H12.5Z"/>
+  <path class="blackRookCls-1" d="M12,36.3v-4h21v4H12Z"/>
+  <path class="blackRookCls-2" d="M14,29.8v-13h17v13H14Z"/>
+  <path class="blackRookCls-1" d="M14,16.8l-3-2.5h23l-3,2.5H14Z"/>
+  <path class="blackRookCls-1" d="M11,14.3v-5h4v2h5v-2h5v2h5v-2h4v5H11Z"/>
+  <path class="blackRookCls-3" d="M12,35.8h21"/>
+  <path class="blackRookCls-3" d="M13,31.8h19"/>
+  <path class="blackRookCls-3" d="M14,29.8h17"/>
+  <path class="blackRookCls-3" d="M14,16.8h17"/>
+  <path class="blackRookCls-3" d="M11,14.3h23"/>
+</svg>
