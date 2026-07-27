@@ -7055,7 +7055,6 @@ __metadata:
     "@types/react": "npm:^19.2.17"
     "@types/react-dom": "npm:^19.2.3"
     "@vitejs/plugin-react": "npm:^6.0.3"
-    esbuild: "npm:^0.28.1"
     eslint: "npm:^10.7.0"
     eslint-plugin-react-hooks: "npm:^7.1.1"
     firebase: "npm:^12.16.0"
@@ -10620,7 +10619,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:0.28.1, esbuild@npm:^0.28.1":
+"esbuild@npm:0.28.1":
   version: 0.28.1
   resolution: "esbuild@npm:0.28.1"
   dependencies:
