@@ -5,7 +5,7 @@ import { join } from 'path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
-import { PieceType, pieceTypeChessSymbolMap } from './interfaces';
+import { pieceTypeChessSymbolMap } from './interfaces';
 
 // Recreate __dirname for ES Modules
 const __filename = fileURLToPath(import.meta.url);
