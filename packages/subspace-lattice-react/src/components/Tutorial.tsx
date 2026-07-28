@@ -105,6 +105,7 @@ export function Tutorial() {
         <section className="tutorial-board-panel" aria-label="Training board">
           <Board
             gameState={state}
+            engine={engine}
             onMovePiece={submitMove}
             onPlacePiece={() => undefined}
             localPlayer={humanToMove ? seat : 'OBSERVER'}

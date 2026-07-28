@@ -133,7 +133,9 @@
   display: inline-flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 1rem;
+  // No padding: padding made exports non-square (e.g. 500×540) and videos
+  // letterboxed the board oddly vs the live 11×11 grid.
+  padding: 0;
   background: #0a1018;
 
   // Capture reads getComputedStyle, which samples a transition at its current

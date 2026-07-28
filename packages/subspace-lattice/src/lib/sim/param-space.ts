@@ -1,4 +1,4 @@
-import { RulesConfig, resolveRulesConfig } from '../rules/rules-config';
+import { RulesConfig, resolveRulesConfig, isHeavyUnitDraft } from '../rules/rules-config';
 import { createSeededRng } from '../ai/rng';
 
 /** Evolvable knobs (board size fixed at 11 for starting layout). */
@@ -91,6 +91,17 @@ export function rulesConfigId(rules: RulesConfig): string {
   if ((rules.firstPlayerRelayCount ?? 0) > 0) {
     parts.push(`relay${rules.firstPlayerRelayCount}`);
   }
+  const draft = rules.heavyUnitDraft ?? 'standard';
+  if (draft !== 'standard') {
+    parts.push(`draft=${draft}`);
+  }
+  if (rules.carrierRequiresHubAnchor) {
+    parts.push('anchor');
+  }
+  const files = rules.heavyUnitFiles ?? [2, 8];
+  if (files[0] !== 2 || files[1] !== 8) {
+    parts.push(`files=${files[0]}-${files[1]}`);
+  }
   return parts.join('_');
 }
 
@@ -110,6 +121,8 @@ export function rulesConfigId(rules: RulesConfig): string {
  * default 0 (armed from the start).
  * `relay1`/`relay2` (or `relay=1`/`relay=2`) give the first player that many
  * Initiative Relay Escorts.
+ * `draft=refractor-carrier` (etc.) sets heavyUnitDraft; `anchor` enables
+ * carrierRequiresHubAnchor; `files=1-9` sets heavyUnitFiles.
  */
 export function parseFixedRulesSpec(spec: string): RulesConfig {
   const trimmed = spec.trim();
@@ -124,7 +137,8 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
     if (
       maybeVersion === 'classic' ||
       maybeVersion === 'hybrid' ||
-      maybeVersion === 'hybrid-spool'
+      maybeVersion === 'hybrid-spool' ||
+      maybeVersion === 'hybrid-fleet'
     ) {
       version = maybeVersion;
       body = trimmed.slice(colon + 1);
@@ -140,14 +154,35 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
   let neutral: boolean | undefined;
   let activation: number | undefined;
   let relayCount: number | undefined;
+  let heavyUnitDraft: RulesConfig['heavyUnitDraft'] | undefined;
+  let carrierRequiresHubAnchor: boolean | undefined;
+  let heavyUnitFiles: [number, number] | undefined;
 
   for (const part of parts) {
     if (/^neutral$/i.test(part)) {
       neutral = true;
       continue;
     }
+    if (/^anchor$/i.test(part)) {
+      carrierRequiresHubAnchor = true;
+      continue;
+    }
     if (/^relay$/i.test(part)) {
       relayCount = 1;
+      continue;
+    }
+    const draftEq = part.match(/^draft=(.+)$/i);
+    if (draftEq) {
+      const d = draftEq[1]!.toLowerCase();
+      if (!isHeavyUnitDraft(d)) {
+        throw new Error(`Unknown heavyUnitDraft in --fixed: ${part}`);
+      }
+      heavyUnitDraft = d;
+      continue;
+    }
+    const filesEq = part.match(/^files=(\d+)-(\d+)$/i);
+    if (filesEq) {
+      heavyUnitFiles = [Number(filesEq[1]), Number(filesEq[2])];
       continue;
     }
     const relayEq = part.match(/^relay=([012])$/i);
@@ -221,6 +256,9 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
     sectorActivationPly: activation,
     firstPlayerRelayCount: relayCount,
     infiltratorSpoolUp: version === 'hybrid-spool',
+    heavyUnitDraft,
+    carrierRequiresHubAnchor,
+    heavyUnitFiles,
   });
 }
 

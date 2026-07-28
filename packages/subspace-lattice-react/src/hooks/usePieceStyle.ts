@@ -1,19 +1,41 @@
 import { useCallback, useSyncExternalStore } from 'react';
 import { getStyleCount } from '../components/Piece';
+import { getStyleTitle } from '../components/PieceStyles';
 
-export const BOARD_PIECE_STYLE_STORAGE_KEY = 'subspace-lattice.pieceStyle';
+export const BOARD_PIECE_STYLE_STORAGE_KEY = 'subspace-lattice.pieceStyle.v2';
+/** Shipping default piece pack title (matches pack.json title). */
+export const DEFAULT_PIECE_STYLE_TITLE = 'Subspace Lattice';
 const CHANGE_EVENT = 'subspace-lattice:piece-style';
 
+/** Resolve the default style index by pack title (falls back to 0). */
+export function defaultPieceStyleIndex(): number {
+  const count = getStyleCount();
+  if (count <= 0) return 0;
+  for (let i = 0; i < count; i++) {
+    if (getStyleTitle(i) === DEFAULT_PIECE_STYLE_TITLE) return i;
+  }
+  return 0;
+}
+
+function clampStyleIndex(value: number): number {
+  const count = getStyleCount();
+  if (count <= 0) return 0;
+  if (value < 0) return 0;
+  if (value >= count) return count - 1;
+  return value;
+}
+
 function readStoredPieceStyle(): number {
-  if (typeof window === 'undefined') return 0;
+  const fallback = defaultPieceStyleIndex();
+  if (typeof window === 'undefined') return fallback;
   try {
-    const value = parseInt(window.localStorage.getItem(BOARD_PIECE_STYLE_STORAGE_KEY) ?? '0');
-    if (isNaN(value)) return 0;
-    if (value < 0) return 0;
-    if (value >= getStyleCount()) return getStyleCount() - 1;
-    return value;
+    const raw = window.localStorage.getItem(BOARD_PIECE_STYLE_STORAGE_KEY);
+    if (raw == null || raw === '') return fallback;
+    const value = parseInt(raw, 10);
+    if (Number.isNaN(value)) return fallback;
+    return clampStyleIndex(value);
   } catch {
-    return 0;
+    return fallback;
   }
 }
 
@@ -35,7 +57,10 @@ function subscribe(onStoreChange: () => void): () => void {
 function writeStoredPieceStyle(next: number): void {
   if (typeof window === 'undefined') return;
   try {
-    window.localStorage.setItem(BOARD_PIECE_STYLE_STORAGE_KEY, next.toString());
+    window.localStorage.setItem(
+      BOARD_PIECE_STYLE_STORAGE_KEY,
+      clampStyleIndex(next).toString(),
+    );
   } catch {
     // Private mode / quota — still update in-memory listeners below.
   }
@@ -44,6 +69,7 @@ function writeStoredPieceStyle(next: number): void {
 
 /**
  * Persisted board piece style (0-N). Stored under {@link BOARD_PIECE_STYLE_STORAGE_KEY}.
+ * Default: Subspace Lattice pack when no preference is stored.
  *
  * Pass `forced` to lock a mode without writing (figure harnesses).
  */
@@ -53,7 +79,7 @@ export function usePieceStyle(
   const stored = useSyncExternalStore(
     subscribe,
     readStoredPieceStyle,
-    () => 0,
+    defaultPieceStyleIndex,
   );
   const pieceStyle = forced ?? stored;
 

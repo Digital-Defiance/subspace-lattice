@@ -4,6 +4,7 @@ import { HttpsError, onCall } from 'firebase-functions/v2/https';
 import { setGlobalOptions } from 'firebase-functions/v2/options';
 import {
   FLEET_LOBBY_DEFAULTS,
+  heavyWingPresetFromRules,
   isDefaultFleetLobby,
   isRulesVersion,
   LATTICE_COLLECTIONS,
@@ -133,11 +134,7 @@ export const createRoom = onCall(async (request) => {
     request.data?.rulesOverrides,
   );
   const rules = resolveRulesConfig(rulesVersion, lobbyOverrides);
-  const customModules = !isDefaultFleetLobby({
-    infiltratorSpoolUp: rules.infiltratorSpoolUp,
-    infiltratorActivationPly: rules.infiltratorActivationPly,
-    sectorActivationPly: rules.sectorActivationPly,
-  });
+  const customModules = !isDefaultFleetLobby(lobbyOverrides);
   let rated = request.data?.rated === true;
   if (rated && customModules) {
     // Custom lobby modules are casual-only so TEI stays fleet-comparable.
@@ -165,6 +162,9 @@ export const createRoom = onCall(async (request) => {
   if (rules.sectorActivationPly !== FLEET_LOBBY_DEFAULTS.sectorActivationPly) {
     moduleBits.push(`clock@${rules.sectorActivationPly}`);
   }
+  const wingPreset = lobbyOverrides.heavyWingPreset ?? heavyWingPresetFromRules(rules);
+  if (wingPreset === 'refractor-wing') moduleBits.push('wing=refractor');
+  if (wingPreset === 'fleet-draft') moduleBits.push('wing=fleet-draft');
   const modulesLabel = moduleBits.length ? `, modules: ${moduleBits.join(' ')}` : '';
 
   await db.runTransaction(async (tx) => {

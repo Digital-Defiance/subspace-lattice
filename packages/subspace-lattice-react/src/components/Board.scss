@@ -74,42 +74,14 @@
       z-index: 1;
     }
   }
-}
 
-.board-piece-outline-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin: 0;
-  border-left: 1px solid #3a4558;
-  padding: 0.28rem 0.65rem;
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: #9aa8bc;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  white-space: nowrap;
+  .board-piece-outline-toggle {
+    border-left: 1px solid #3a4558;
 
-  input {
-    margin: 0;
-    accent-color: #e8f0fa;
-  }
-
-  &:has(input:checked) {
-    color: #e8f0fa;
-    background: #1a2838;
-  }
-
-  &:has(input:disabled) {
-    opacity: 0.72;
-    cursor: default;
-  }
-
-  &:focus-within {
-    outline: 2px solid #f8fafc;
-    outline-offset: -2px;
-    z-index: 1;
+    &:disabled {
+      opacity: 0.72;
+      cursor: default;
+    }
   }
 }
 
@@ -134,6 +106,10 @@
   color: inherit;
   font: inherit;
   position: relative;
+  // Pieces are pointer-events: none, so overflow ink does not steal clicks.
+  // Default hidden keeps large glyphs from painting into neighbors; Outline
+  // mode opts into visible below so the white silhouette rim is not clipped.
+  overflow: hidden;
 
   &:focus-visible {
     z-index: 1;
@@ -159,14 +135,27 @@
     animation: tutorial-pulse 1.5s ease-in-out infinite;
   }
 
+  // Empty legal tips must sit above neighboring piece ink for hit-testing.
+  &.legal-destination,
+  &.tutorial-destination {
+    z-index: 2;
+    background-color: color-mix(in srgb, $input-bg 72%, #34e3c5 28%);
+    box-shadow: inset 0 0 0 1px rgba(52, 227, 197, 0.55);
+  }
+
   &.legal-destination::before,
   &.tutorial-destination::before {
     content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: 10px;
     height: 10px;
+    margin: -5px 0 0 -5px;
     border-radius: 50%;
-    background: rgba(52, 227, 197, 0.72);
-    box-shadow: 0 0 9px rgba(52, 227, 197, 0.65);
+    background: rgba(52, 227, 197, 0.85);
+    box-shadow: 0 0 6px rgba(52, 227, 197, 0.55);
+    pointer-events: none;
   }
 
   &.tutorial-focus {
@@ -189,11 +178,15 @@
   &.advisor-to::after {
     content: '';
     position: absolute;
+    left: 50%;
+    top: 50%;
     width: 12px;
     height: 12px;
+    margin: -6px 0 0 -6px;
     border-radius: 50%;
     background: rgba(251, 191, 36, 0.85);
     box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
+    pointer-events: none;
   }
 
   // Classic (default): muted net washes on charcoal cells.
@@ -221,8 +214,11 @@
     &::after {
       content: '';
       position: absolute;
+      left: 50%;
+      top: 50%;
       width: 12px;
       height: 12px;
+      margin: -6px 0 0 -6px;
       border: 2px solid #fbbf24;
       border-radius: 50%;
       box-shadow: 0 0 8px $warning;
@@ -256,6 +252,12 @@
     &.sovereign-contested {
       background-color: #6a4a82;
       box-shadow: inset 0 0 0 1px rgba(220, 190, 255, 0.65);
+    }
+
+    &.legal-destination,
+    &.tutorial-destination {
+      background-color: color-mix(in srgb, #1f5f9a 55%, #34e3c5 45%);
+      box-shadow: inset 0 0 0 2px rgba(52, 227, 197, 0.85);
     }
   }
 
@@ -311,6 +313,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  // Cell owns the click target; pieces are decorative only.
+  pointer-events: none;
+  max-width: 100%;
+  max-height: 100%;
 
   &.white {
     color: #fff;
@@ -337,6 +343,14 @@
     svg {
       display: block;
       pointer-events: none;
+    }
+
+    // Pack art is often taller than wide (e.g. 100×150). Keep ship proportions
+    // inside the square cell — also makes DOM→SVG capture match live (SVG-as-
+    // <img> letterboxes; a stretched bitmap did not).
+    .piece-art img {
+      object-fit: contain;
+      object-position: center;
     }
   }
 

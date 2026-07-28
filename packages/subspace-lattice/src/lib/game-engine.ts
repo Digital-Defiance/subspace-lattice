@@ -11,6 +11,7 @@ import {
 import {
   RulesConfig,
   RulesVersion,
+  heavyUnitTypesForDraft,
   lobbyOverridesFromRules,
   resolveRulesConfig,
   usesSensorNet,
@@ -39,6 +40,54 @@ function chebyshev(a: Coordinate, b: Coordinate): number {
   return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
 }
 
+/**
+ * Back-rank Infiltrator files that avoid Hub, Escorts, and heavy wing slots.
+ * Standard Beams @ 2–8 keep Infiltrators on 3–7; Refractor Wing / Fleet Draft
+ * park heavies on 3–7, so Infiltrators shift to the vacated 2–8 files.
+ */
+function infiltratorFilesForSetup(
+  heavyFiles: [number, number],
+  boardSize: number,
+): [number, number] {
+  const reserved = new Set<number>([heavyFiles[0], heavyFiles[1], 4, 5, 6]);
+  const candidates: Array<[number, number]> = [
+    [3, 7],
+    [2, 8],
+    [1, 9],
+    [0, boardSize - 1],
+  ];
+  for (const [a, b] of candidates) {
+    if (
+      a !== b &&
+      a >= 0 &&
+      b >= 0 &&
+      a < boardSize &&
+      b < boardSize &&
+      !reserved.has(a) &&
+      !reserved.has(b)
+    ) {
+      return [a, b];
+    }
+  }
+  return [1, boardSize - 2];
+}
+
+/** Clamp / sanitize heavy-unit wing files; default Beam files are 2 and 8. */
+function normalizeHeavyUnitFiles(
+  files: [number, number] | undefined,
+  boardSize: number,
+): [number, number] {
+  const fallback: [number, number] = [2, 8];
+  if (!files || files.length !== 2) return fallback;
+  let a = Math.floor(files[0]);
+  let b = Math.floor(files[1]);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return fallback;
+  a = Math.max(0, Math.min(boardSize - 1, a));
+  b = Math.max(0, Math.min(boardSize - 1, b));
+  if (a === b) return fallback;
+  return a < b ? [a, b] : [b, a];
+}
+
 export class SubspaceLatticeEngine {
   private state: GameState;
   private readonly BOARD_SIZE: number;
@@ -49,11 +98,7 @@ export class SubspaceLatticeEngine {
     const resolved = SubspaceLatticeEngine.resolveOptions(options);
     this.rules = resolved.rules;
     this.BOARD_SIZE = resolved.rules.boardSize;
-    this.state = this.initializeGame(
-      this.BOARD_SIZE,
-      this.rules.version,
-      this.rules.firstPlayerRelayCount ?? 0,
-    );
+    this.state = this.initializeGame(this.BOARD_SIZE, this.rules);
     this.state.rulesOverrides = lobbyOverridesFromRules(this.rules);
   }
 
@@ -135,11 +180,9 @@ export class SubspaceLatticeEngine {
     return (this.state.plyCount ?? 0) >= unlock;
   }
 
-  private initializeGame(
-    boardSize: number,
-    rulesVersion: RulesVersion,
-    firstPlayerRelayCount: number,
-  ): GameState {
+  private initializeGame(boardSize: number, rules: RulesConfig): GameState {
+    const rulesVersion = rules.version;
+    const firstPlayerRelayCount = rules.firstPlayerRelayCount ?? 0;
     const cells: Cell[] = [];
     for (let x = 0; x < boardSize; x++) {
       for (let y = 0; y < boardSize; y++) {
@@ -167,16 +210,28 @@ export class SubspaceLatticeEngine {
     };
 
     const back = boardSize - 1;
+    const [leftFile, rightFile] = normalizeHeavyUnitFiles(
+      rules.heavyUnitFiles,
+      boardSize,
+    );
+    const [leftHeavy, rightHeavy] = heavyUnitTypesForDraft(
+      rules.heavyUnitDraft ?? 'standard',
+    );
+
+    const [leftInfil, rightInfil] = infiltratorFilesForSetup(
+      [leftFile, rightFile],
+      boardSize,
+    );
 
     // White starting pieces
     addPiece('w-ch', PieceType.CommandHub, PlayerColor.White, 5, 0);
     addPiece('w-e1', PieceType.Escort, PlayerColor.White, 4, 0);
     addPiece('w-e2', PieceType.Escort, PlayerColor.White, 6, 0);
     addPiece('w-e3', PieceType.Escort, PlayerColor.White, 5, 1);
-    addPiece('w-i1', PieceType.Infiltrator, PlayerColor.White, 3, 0);
-    addPiece('w-i2', PieceType.Infiltrator, PlayerColor.White, 7, 0);
-    addPiece('w-b1', PieceType.Beam, PlayerColor.White, 2, 0);
-    addPiece('w-b2', PieceType.Beam, PlayerColor.White, 8, 0);
+    addPiece('w-i1', PieceType.Infiltrator, PlayerColor.White, leftInfil, 0);
+    addPiece('w-i2', PieceType.Infiltrator, PlayerColor.White, rightInfil, 0);
+    addPiece('w-h1', leftHeavy, PlayerColor.White, leftFile, 0);
+    addPiece('w-h2', rightHeavy, PlayerColor.White, rightFile, 0);
     if (firstPlayerRelayCount === 1) {
       // A visible, connected reinforcement for the player who must commit
       // first. It begins at the edge of the opening net, linked through the
@@ -193,10 +248,10 @@ export class SubspaceLatticeEngine {
     addPiece('b-e1', PieceType.Escort, PlayerColor.Black, 4, back);
     addPiece('b-e2', PieceType.Escort, PlayerColor.Black, 6, back);
     addPiece('b-e3', PieceType.Escort, PlayerColor.Black, 5, back - 1);
-    addPiece('b-i1', PieceType.Infiltrator, PlayerColor.Black, 3, back);
-    addPiece('b-i2', PieceType.Infiltrator, PlayerColor.Black, 7, back);
-    addPiece('b-b1', PieceType.Beam, PlayerColor.Black, 2, back);
-    addPiece('b-b2', PieceType.Beam, PlayerColor.Black, 8, back);
+    addPiece('b-i1', PieceType.Infiltrator, PlayerColor.Black, leftInfil, back);
+    addPiece('b-i2', PieceType.Infiltrator, PlayerColor.Black, rightInfil, back);
+    addPiece('b-h1', leftHeavy, PlayerColor.Black, leftFile, back);
+    addPiece('b-h2', rightHeavy, PlayerColor.Black, rightFile, back);
 
     // Add central gravity well
     const center = Math.floor(boardSize / 2);
@@ -593,6 +648,15 @@ export class SubspaceLatticeEngine {
       case PieceType.Beam:
         return this.hasClearOrthogonalPath(piece.position, to);
 
+      case PieceType.Refractor:
+        return this.hasClearDiagonalPath(piece.position, to);
+
+      case PieceType.Carrier:
+        return (
+          this.hasClearOrthogonalPath(piece.position, to) ||
+          this.hasClearDiagonalPath(piece.position, to)
+        );
+
       default:
         return false;
     }
@@ -646,6 +710,26 @@ export class SubspaceLatticeEngine {
         return this.pathFullyInNet(piece.position, to, ownNet);
       }
 
+      case PieceType.Refractor: {
+        if (!this.hasClearDiagonalPath(piece.position, to)) return false;
+        return this.pathFullyInNet(piece.position, to, ownNet);
+      }
+
+      case PieceType.Carrier: {
+        if (
+          this.rules.carrierRequiresHubAnchor &&
+          !this.isWithinOwnHubRadiation(piece)
+        ) {
+          // Depowered: single king-step (distinct from Target Lock's orthogonal).
+          return this.isOneKingStep(piece.position, to);
+        }
+        const clear =
+          this.hasClearOrthogonalPath(piece.position, to) ||
+          this.hasClearDiagonalPath(piece.position, to);
+        if (!clear) return false;
+        return this.pathFullyInNet(piece.position, to, ownNet);
+      }
+
       default:
         return false;
     }
@@ -657,11 +741,41 @@ export class SubspaceLatticeEngine {
     return (dx === 1 && dy === 0) || (dx === 0 && dy === 1);
   }
 
+  private isOneKingStep(from: Coordinate, to: Coordinate): boolean {
+    const dx = Math.abs(from.x - to.x);
+    const dy = Math.abs(from.y - to.y);
+    return dx <= 1 && dy <= 1 && (dx > 0 || dy > 0);
+  }
+
+  /** True when the piece sits inside its own Command Hub radiation radius. */
+  private isWithinOwnHubRadiation(piece: Piece): boolean {
+    const hub = Object.values(this.state.pieces).find(
+      (p) => p.owner === piece.owner && p.type === PieceType.CommandHub,
+    );
+    if (!hub) return false;
+    return chebyshev(piece.position, hub.position) <= this.rules.hubSensorRadius;
+  }
+
   private hasClearOrthogonalPath(from: Coordinate, to: Coordinate): boolean {
     const dx = Math.abs(from.x - to.x);
     const dy = Math.abs(from.y - to.y);
     if (!((dx > 0 && dy === 0) || (dx === 0 && dy > 0))) return false;
+    return this.hasClearSlidingPath(from, to, dx, dy);
+  }
 
+  private hasClearDiagonalPath(from: Coordinate, to: Coordinate): boolean {
+    const dx = Math.abs(from.x - to.x);
+    const dy = Math.abs(from.y - to.y);
+    if (dx === 0 || dy === 0 || dx !== dy) return false;
+    return this.hasClearSlidingPath(from, to, dx, dy);
+  }
+
+  private hasClearSlidingPath(
+    from: Coordinate,
+    to: Coordinate,
+    dx: number,
+    dy: number,
+  ): boolean {
     const stepX = dx === 0 ? 0 : (to.x - from.x) / dx;
     const stepY = dy === 0 ? 0 : (to.y - from.y) / dy;
     const distance = Math.max(dx, dy);

@@ -1,4 +1,4 @@
-import { PieceType } from '@subspace-lattice/core';
+import { PieceType, pieceTypeChessSymbolMap } from '@subspace-lattice/core';
 import { FC } from 'react';
 
 export interface PieceProps {
@@ -7,16 +7,6 @@ export interface PieceProps {
   styleIndex: number;
   pieceType: PieceType;
 }
-
-const pieceTypeFilenameMap: Record<PieceType, string> = {
-  [PieceType.CommandHub]: 'k',
-  [PieceType.Escort]: 'p',
-  [PieceType.Infiltrator]: 'n',
-  [PieceType.Beam]: 'r',
-  // Bishop/queen art not in packs yet — reuse rook glyph until dedicated SVGs ship.
-  [PieceType.Refractor]: 'b',
-  [PieceType.Carrier]: 'q',
-};
 
 /** Build-time map of style folders under `apps/web/public/pieces/{n}/`. */
 const pieceStyleModules = import.meta.glob(
@@ -48,7 +38,7 @@ export const Piece: FC<PieceProps> = ({
     Math.max(styleCount - 1, 0),
   );
   const prefix = color === 'white' ? 'w' : 'b';
-  const src = `/pieces/${si}/${prefix}${pieceTypeFilenameMap[pieceType]}.svg`;
+  const src = `/pieces/${si}/${prefix}${pieceTypeChessSymbolMap[pieceType]}.svg`;
 
   // Decorative: the board cell’s aria-label already names seat + piece.
   return (

@@ -98,7 +98,46 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
               <strong>Beams (♜/♖):</strong> Rook-like orthogonal slides, but
               only through your own Sensor Net.
             </li>
+            <li>
+              <strong>Refractor (♝/♗):</strong> Executes diagonal slides, but
+              its entire path must remain inside your active Sensor Net.
+              Optional — see Heavy wings below.
+            </li>
+            <li>
+              <strong>Carrier (♛/♕):</strong> Combines Beam and Refractor
+              movement under the same net law. Under Fleet Draft, full slides
+              require starting the turn inside your Hub’s radiation radius;
+              outside that tether, it moves one step in any direction.
+              Optional.
+            </li>
           </ul>
+
+          <h3>Optional heavy wings</h3>
+          <p>
+            The standard hybrid-fleet opens with two Beams on files 2 and 8.
+            Advanced lobby modules can authorize alternative heavy deployments
+            (unrated online):
+          </p>
+          <ul>
+            <li>
+              <strong>Refractor Wing:</strong> Deploys one Beam and one
+              Refractor on files 3 and 7. Retain your orthogonal artillery
+              while adding a diagonal threat perfectly positioned within the
+              opening net.
+            </li>
+            <li>
+              <strong>Fleet Draft:</strong> Deploys a Refractor and a Carrier
+              on files 3 and 7. The Carrier is Hub-anchored: it must begin its
+              turn inside the Hub's radiation to execute a full slide,
+              otherwise it crawls one step.
+            </li>
+          </ul>
+          <p>
+            <em>
+              Note: Target Lock still reduces both the Refractor and Carrier
+              to a single orthogonal step.
+            </em>
+          </p>
 
           <h3>Full documents</h3>
           <ul className="rules-doc-links">

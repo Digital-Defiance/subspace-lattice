@@ -114,9 +114,6 @@ async function renderPaintNode(node, rootRect, defs, isRoot = false, options = {
 
   const ownChunks = [];
 
-  if (pseudoExists(el, "::before")) {
-    ownChunks.push(renderPseudo(el, "::before", rootRect, defs, options));
-  }
   if (markerExists(el)) {
     ownChunks.push(renderMarker(el, rootRect, options));
   }
@@ -124,7 +121,14 @@ async function renderPaintNode(node, rootRect, defs, isRoot = false, options = {
   if (tagName === "svg") {
     ownChunks.push(renderInlineSvg(el, rootRect));
   } else {
+    // Background/border first, then ::before (CSS treats ::before as the first
+    // child, so it paints *above* the element's own background). Rendering
+    // ::before before renderBox covered Lattice move-hint dots.
     ownChunks.push(renderBox(el, style, rootRect, defs, { rect: ownRect }));
+
+    if (pseudoExists(el, "::before")) {
+      ownChunks.push(renderPseudo(el, "::before", rootRect, defs, options));
+    }
 
     // When we re-apply transform in SVG, measure text/replaced content with
     // transform disabled so coordinates match the untransformed box space.

@@ -112,7 +112,7 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
       cell.pieceId = undefined;
       delete state.pieces[id];
     }
-    const beam = state.pieces['w-b1']!;
+    const beam = state.pieces['w-h1']!;
     const old = state.cells.find(
       (c) =>
         c.coordinate.x === beam.position.x &&
@@ -123,10 +123,10 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
     const cell = state.cells.find(
       (c) => c.coordinate.x === 4 && c.coordinate.y === 2,
     )!;
-    cell.pieceId = 'w-b1';
+    cell.pieceId = 'w-h1';
 
     const live = SubspaceLatticeEngine.fromState(state);
-    const piece = live.getPiece('w-b1')!;
+    const piece = live.getPiece('w-h1')!;
     // Stay inside net (hub covers y<=2 on this file)
     expect(live.canMovePiece(piece, { x: 4, y: 1 })).toBe(true);
     // Slide past net edge
@@ -443,6 +443,7 @@ describe('SubspaceLatticeEngine lobby overrides', () => {
       infiltratorSpoolUp: true,
       infiltratorActivationPly: 2,
       sectorActivationPly: 40,
+      heavyWingPreset: 'standard',
     });
 
     const hydrated = SubspaceLatticeEngine.fromState(snap);

@@ -86,7 +86,24 @@ architecture.
 | **Escort** | Subspace Repeaters | Mobile subspace repeater built for range, not armor — hardy enough to push into unmapped dark with no signal of its own. Alone, its coverage is limited; **daisy-chained back to the Hub**, it pushes active coverage to the front line. Sever the chain and forward units go dark. |
 | **Initiative Relay** | Vanguard Node | One extra Escort, granted only to the commander who **commits to the sector first**, as compensation for revealing their hand early. Deployed forward on drop-in for immediate midboard leverage. |
 | **Beam** | Lattice Dreadnought | Long-range particle lance whose own thrusters can't carry it into a fight. It **rides the energized channels of your active network**, sliding across light-years in one maneuver — but only inside your Sensor Net. Strand one outside every net and its guns are dead weight. |
+| **Refractor** | Slipstream Cutter | Optional wing dreadnought. Where a Beam relies on the orthogonal channels of your network, the Refractor exploits the diagonal subspace seams of Sovereign Space. It can slice past the Anomaly’s blocked axes, opening firing vectors a Beam could never reach. Like all heavy artillery, it requires an active telemetry link; strand it outside your glow, and its engines go dead. |
+| **Carrier** | Aegis Vanguard | Optional capital hull that combines orthogonal and diagonal routing into absolute omni-directional grid control. However, this massive dreadnought is bound to a strict **Hub-anchor**. To execute a full subspace slide, it must draw power directly from the Command Hub's natural radiation halo at the start of its maneuver. Drift beyond that tether, and its capacitors starve, reducing it to a crawl until it re-enters the flagship's power grid. |
 | **Infiltrator** | Phase Runners | Strike craft with a localized folding drive; **jumps across the board independent of any signal** to eliminate exposed targets. Entering hostile network space trips a **Target Lock** on its engine coils, stranding it without warp. |
+
+---
+
+## Optional Heavy Wings
+
+Most task forces drop into the grid with twin Lattice Dreadnoughts anchoring the outer flanks—the **Standard Beams** wing line. However, Advanced lobby modules can authorize specialized heavy packages. These are alternative tactical doctrines, not the standard shipping baseline; online lobbies utilizing them are marked as unrated.
+
+### Refractor Wing
+
+Swap one Beam for a Refractor and pull both heavy hulls inward to files
+3 and 7, ensuring they wake up already enveloped by your opening net. You retain one orthogonal lance for long, clear channels, while gaining a Slipstream Cutter capable of threading the diagonal seams around the Gravity Well. The fundamental law of the Lattice remains: no active net, no slide.
+
+### Fleet Draft
+
+Replace both Beams entirely. Deploy one Refractor for the diagonals and one Carrier for omni-directional dominance—but the Carrier deploys with its **Hub-anchor engaged**. Its long-range slides require an immense power draw from your flagship. Push the Carrier too far from the Hub’s protective halo, and it loses capital maneuverability, grinding to a halt until you feed it again. This draft is for commanders who want complex geometry, but are willing to manage the logistical leash required to keep Surgical Strikes from becoming trivial.
 
 ---
 
@@ -127,6 +144,11 @@ Every flavor term above is one game mechanic:
 | Sector Integration | Cover ≥ 45% of the sector after the clock arms |
 | Lockout | Opponent has no legal move |
 | Vanguard Node / going first | **Initiative Relay** — the first mover's extra forward Escort |
+| Slipstream Cutter / Refractor | Optional diagonal Sensor-Net slider (bishop-like) |
+| Aegis Vanguard / Carrier | Optional queen-like Sensor-Net slider; Hub-anchor when Fleet Draft is on |
+| Refractor Wing / Fleet Draft | Lobby **Heavy wing** presets (unrated when not Standard Beams) |
+| Hub-anchor | Carrier full slide only within own Hub radiation radius |
+| Telemetry link / glow | Own **Sensor Net** coverage required for heavy slides |
 
 For the exact numbers and edge cases, see [`docs/rules.pdf`](./rules.pdf). For
 how a real game unfolds, see the [advanced manual](./advanced-manual.pdf) and

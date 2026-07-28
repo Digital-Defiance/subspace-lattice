@@ -179,8 +179,8 @@ export function useTutorialGame() {
   );
 
   const submitMove = useCallback(
-    (pieceId: string, to: Coordinate) => {
-      if (walkthrough || phase !== 'playing') return;
+    (pieceId: string, to: Coordinate): boolean => {
+      if (walkthrough || phase !== 'playing') return false;
       if (
         pieceId !== step.playerMove.pieceId ||
         !sameCoordinate(to, step.playerMove.to)
@@ -188,7 +188,7 @@ export function useTutorialGame() {
         setFeedback(
           'That move is legal, but it does not complete this step’s objective.',
         );
-        return;
+        return false;
       }
 
       const next = engine.clone();
@@ -196,10 +196,11 @@ export function useTutorialGame() {
         setFeedback(
           'That order is not legal in this position. Try the highlighted destination.',
         );
-        return;
+        return false;
       }
       setEngine(next);
       advanceAfterPlayerPly(next);
+      return true;
     },
     [advanceAfterPlayerPly, engine, phase, step, walkthrough],
   );

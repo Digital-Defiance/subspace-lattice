@@ -30,6 +30,8 @@ const PIECE_LABEL: Record<string, string> = {
   [PieceType.Escort]: 'Escort',
   [PieceType.Infiltrator]: 'Infiltrator',
   [PieceType.Beam]: 'Beam',
+  [PieceType.Refractor]: 'Refractor',
+  [PieceType.Carrier]: 'Carrier',
 };
 
 function article(label: string): string {

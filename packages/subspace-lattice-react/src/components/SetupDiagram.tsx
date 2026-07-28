@@ -31,6 +31,10 @@ function pieceGlyph(type: PieceType, owner: PlayerColor): string {
       return white ? '♘' : '♞';
     case PieceType.Beam:
       return white ? '♖' : '♜';
+    case PieceType.Refractor:
+      return white ? '♗' : '♝';
+    case PieceType.Carrier:
+      return white ? '♕' : '♛';
     default:
       return '?';
   }
@@ -41,6 +45,8 @@ const PIECE_SHORT: Record<PieceType, string> = {
   [PieceType.Escort]: 'E',
   [PieceType.Infiltrator]: 'I',
   [PieceType.Beam]: 'B',
+  [PieceType.Refractor]: 'R',
+  [PieceType.Carrier]: 'C',
 };
 
 function pieceName(piece: Piece): string {
@@ -50,6 +56,8 @@ function pieceName(piece: Piece): string {
     [PieceType.Escort]: 'Escort',
     [PieceType.Infiltrator]: 'Infiltrator',
     [PieceType.Beam]: 'Beam',
+    [PieceType.Refractor]: 'Refractor',
+    [PieceType.Carrier]: 'Carrier',
   }[piece.type];
   return `${side} ${name} at (${piece.position.x}, ${piece.position.y})`;
 }

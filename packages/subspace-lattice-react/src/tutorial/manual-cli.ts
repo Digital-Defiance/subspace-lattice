@@ -25,6 +25,8 @@ const PIECE_LABEL: Record<string, string> = {
   [PieceType.Escort]: 'Escort',
   [PieceType.Infiltrator]: 'Infiltrator',
   [PieceType.Beam]: 'Beam',
+  [PieceType.Refractor]: 'Refractor',
+  [PieceType.Carrier]: 'Carrier',
 };
 
 /** Escape LaTeX specials + normalize typographic punctuation in prose. */
@@ -136,6 +138,30 @@ function missionChapter(mission: ManualMission): string {
 }
 
 const STRATEGY = String.raw`
+\section{Fleet geometry: three sliding profiles}
+
+Rated online play still opens with twin Beams (Standard Beams). Advanced lobby
+modules can authorize \textbf{Refractor Wing} or \textbf{Fleet Draft} --- same
+Sensor Net law, wider geometry. Learn all three heavy profiles as one system so
+orthogonal blockades never feel like a complete shield.
+
+\begin{description}
+  \item[The Orthogonal Lane (Beams)] Rook-equivalent slides, restricted
+        entirely to your active Sensor Net. The shipping default wing line.
+  \item[The Diagonal Vector (Refractors)] Bishop-equivalent slides under the
+        same net law. Refractors map across the corners of Chebyshev radiation
+        boundaries and exploit blind spots left by pure orthogonal setups ---
+        especially the diagonals that brush the Anomalous Core at $(5,5)$.
+  \item[The Omni-Directional Anchor (Carriers)] Queen-equivalent slides while
+        Hub-anchored (Chebyshev distance $\le$ Hub sensor radius, $3$ under
+        fleet defaults). Drift outside that tether and the Carrier crawls one
+        king-step (or one orthogonal step if Target Locked). Dual nature from
+        the first page: fortress at home, rubber band if it overextends.
+\end{description}
+
+Target Lock still reduces Refractor and Carrier to a single orthogonal step.
+No active net, no heavy slide --- for any of the three.
+
 \section{How to read a position}
 
 Every diagram in this manual shows four things at once. Learn to scan them in
@@ -145,14 +171,17 @@ this order:
   \item \textbf{Hub safety.} Where is each Command Hub, and can anything reach
         it \emph{next ply}? This question outranks every other. Most decided
         fleet games end by Surgical Strike, and most Surgical Strikes are
-        walk-ins that the loser could have seen one move earlier.
+        walk-ins that the loser could have seen one move earlier. Check
+        orthogonal \emph{and} diagonal approach lanes.
   \item \textbf{The nets.} Blue is White's Sensor Net, red is Black's, purple
         overlap is Contested Space (it counts for neither side's sector
-        coverage). The net is not decoration: Beams may only slide inside
-        their own glow, and an enemy standing in your net is Target Locked.
+        coverage). The net is not decoration: Beams, Refractors, and Carriers
+        may only execute multi-square slides inside their own glow, and an
+        enemy standing in your net is Target Locked.
   \item \textbf{Locked ships.} A Target Locked ship moves one orthogonal step,
-        nothing else. A locked Beam is a wall ornament; a locked Infiltrator
-        cannot warp. Count locked ships before you count material.
+        nothing else. A locked Beam or Refractor is a wall ornament; a locked
+        Carrier cannot slide; a locked Infiltrator cannot warp. Count locked
+        ships before you count material.
   \item \textbf{Link integrity.} Escorts only radiate while chained to the Hub
         (friendly ships no more than two squares apart). One careless step can
         silently unplug half your net.
@@ -165,32 +194,63 @@ price three currencies at once:
 
 \begin{description}
   \item[Material] Captures matter, but a dead Escort that was not radiating is
-        worth less than one holding your net together.
-  \item[Coverage] Net cells are mobility for your Beams, Target Locks against
-        the enemy, and --- after the sector clock arms --- a win condition.
+        worth less than one holding your net together. Heavy pieces sit higher
+        on the ladder (below).
+  \item[Coverage] Net cells are mobility for your heavy slides, Target Locks
+        against the enemy, and --- after the sector clock arms --- a win
+        condition. Diagonal coverage from a Refractor is real territory even
+        when no orthogonal file is open.
   \item[Tempo] White moves first and holds the Initiative Relay Escort as
         compensation for having to commit first. Spending a ply on a move that
-        neither threatens nor builds hands the initiative back.
+        neither threatens nor builds hands the initiative back. A Carrier that
+        must crawl home after drifting has spent tempo twice.
 \end{description}
+
+\paragraph{Heavy-piece hierarchy (when the wing is in play).}
+\begin{itemize}
+  \item \textbf{Refractor --- high coverage, specialized material.} It commands
+        massive diagonal reach across Chebyshev radiation squares but cannot
+        hold a purely orthogonal line. Trading Beam for Refractor is usually
+        lateral; trading an Escort for a Refractor is a massive tactical win.
+  \item \textbf{Carrier --- maximum material, conditional tempo.} The ultimate
+        defensive juggernaut while tethered: omni-directional slide dominates
+        Material and Coverage, but pushing it up the board sacrifices Tempo
+        when the Hub-anchor snaps. Prefer locking the home rank with the
+        Carrier so Beams and Refractors can press; do not treat an untethered
+        Carrier as a queen.
+\end{itemize}
 
 The recurring beginner error is over-valuing material: trading an active
 linked Escort for a passive one is usually a loss even though the count says
 even.
 
-\section{Thinking ahead: the three-question scan}
+\section{Thinking ahead: the look-ahead scan}
 
 Before every move, in order:
 
 \begin{enumerate}
-  \item \textbf{Can I take their Hub?} If yes, play it. The game ends.
+  \item \textbf{Can I take their Hub?} If yes, play it. The game ends. Scan
+        Beam files \emph{and} Refractor diagonals (including slices past the
+        Anomaly corners).
   \item \textbf{Can they take mine after my intended move?} Simulate your
         candidate, then check every enemy reply against your Hub square.
         If any reply lands there, the candidate is illegal in spirit ---
         find another. This is the discipline the academy drills as
-        \emph{refuse the hang}.
+        \emph{refuse the hang}. Orthogonal screens do not answer diagonal
+        threats.
   \item \textbf{What does the move do for the nets?} Prefer moves that answer
         two ways at once: extend coverage \emph{and} threaten, retreat
         \emph{and} keep the chain linked.
+  \item \textbf{Are my corners exposed to a Refractor slice?} The Anomalous
+        Core at $(5,5)$ blocks orthogonal Beam paths through its row and
+        column, so players feel safe behind that screen. Explicitly scan the
+        diagonal vectors that brush the Anomaly's corners --- Refractors
+        bypass orthogonal walls that look airtight.
+  \item \textbf{Is the enemy Carrier tethered or drifting?} Instantly price
+        Chebyshev distance from Carrier to its Command Hub. Within radius $3$
+        (fleet defaults), treat it as an omni-directional lethal threat.
+        Outside that radius, downgrade it to a single-step piece until it
+        re-enters the Hub's radiation.
 \end{enumerate}
 
 Depth beyond one reply comes from asking question 2 recursively about forcing
@@ -209,27 +269,55 @@ The mirrored fleet plus White's relay Escort makes openings about
         walks; an unlinked one crawls.
   \item Beams want \emph{prepared} files: slide them early inside your net to
         a lane that will point at the enemy Hub once coverage arrives.
+  \item Under Refractor Wing or Fleet Draft, park heavies on files $3$ and $7$
+        already inside the opening net. A Refractor contest of the center works
+        differently than a Beam file claim --- diagonals matter from ply one.
+  \item Under Fleet Draft, treat the Carrier as a home-rank fortress. Its
+        Hub-anchor is a natural rubber band: early aggression that drifts it
+        off the Hub trades capital mobility for a crawl.
   \item The Gravity Well at (5,5) splits the board. Decide early which side of
-        it your pressure will live on.
+        it your pressure will live on --- and which diagonal seams you will
+        contest around its corners.
 \end{itemize}
 
 \section{Midgame: pressure without overextension}
 
-Mission 2 is the model: net pressure, Target Lock threats, and probing for a
-Hub mistake --- not racing to paint the map. Overextended ships end up inside
-the enemy glow, locked, and become targets. Watch for the moment an enemy
-Beam's lane and your Hub share a file: that is when defensive plies stop being
-optional.
+Mission 2 (Standard Beams) is the orthogonal model: net pressure, Target Lock
+threats, and probing for a Hub mistake --- not racing to paint the map.
+Overextended ships end up inside the enemy glow, locked, and become targets.
+Watch for the moment an enemy Beam's lane \emph{or} Refractor diagonal and
+your Hub share a clear path: that is when defensive plies stop being optional.
+When a Carrier is on the board, re-check tether status every few plies --- the
+same ship flips from fortress to foot soldier when it drifts.
+
+\section{Pedagogical highlight: the Anomaly Slice}
+
+Missions 1--3 below stay on Standard Beams so the rated opening stays
+readable. This midgame sketch teaches the Refractor's job when Heavy wings
+are authorized --- call it \emph{the 45-ply blind spot}.
+
+\begin{description}
+  \item[Setup] White has built a strong orthogonal blockade with Beams along
+        a midboard rank, screening the Hub. Black's Escorts cannot find a
+        clean breach on the files.
+  \item[Execution] Black maneuvers a Refractor into active Sensor Net on a
+        diagonal that brushes a corner of the $(5,5)$ Anomaly.
+  \item[Lesson] White's orthogonal wall is blind to that vector. The diagonal
+        slide past the Anomaly bypasses the Beams entirely and can force a
+        Target Lock on White's Hub --- or open a Surgical Strike lane the
+        Beam screen never saw. Orthogonal safety is incomplete safety.
+\end{description}
 
 \section{Endgame: strike or clock}
 
 Two finishes exist. If a Hub hunt is winning, convert like Mission 1 and 2:
-clear the lane, refuse the hang, strike. If both fleets dig in, the sector
-clock (armed at ply 100 under fleet rules) turns coverage into the win
-condition --- Mission 3. Late game, every net cell is a point on the
+clear the lane (file or diagonal), refuse the hang, strike. If both fleets dig
+in, the sector clock (armed at ply 100 under fleet rules) turns coverage into
+the win condition --- Mission 3. Late game, every net cell is a point on the
 scoreboard, Contested Space is a weapon (project into their net to stall
 their streak), and passive defense finally loses on the clock instead of
-drawing forever.
+drawing forever. Expanded branching from Refractors and Carriers does not
+change the win conditions --- it changes which geometries feed them.
 `;
 
 function main() {
@@ -275,9 +363,11 @@ function main() {
 This manual replays the three guided missions from the in-game academy with
 every ply diagrammed and explained: a short Surgical Strike highlight reel, a
 full 57-ply battle, and a \texttt{hybrid-fleet} siege decided by the sector
-clock. Part I teaches how to think --- reading positions, valuing moves, and
-looking ahead. Parts II--IV walk the games. Each diagram shows the position
-\emph{after} the numbered ply; the moved ship's squares glow.
+clock (all Standard Beams openings). Part I teaches how to think --- fleet
+geometry including optional Refractors and Carriers, reading positions,
+valuing moves, and looking ahead. Parts II--IV walk the games. Each diagram
+shows the position \emph{after} the numbered ply; the moved ship's squares
+glow.
 \end{abstract}
 
 \tableofcontents

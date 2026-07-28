@@ -3,7 +3,7 @@
   "compositionId": "Episode01",
   "title": "The Tactical Mindset",
   "youtubeTitle": "Subspace Lattice Academy Ep.1 — How to Read a Position",
-  "description": "Part I of the Fleet Academy: the 4-step board scan, three currencies, and the three-question look-ahead. Companion to docs/advanced-manual.pdf.",
+  "description": "Part I of the Fleet Academy: fleet geometry (Beam / Refractor / Carrier), the board scan, three currencies, and the look-ahead checklist including Anomaly slices and Carrier tether. Companion to docs/advanced-manual.pdf.",
   "fps": 30,
   "width": 1920,
   "height": 1080,
@@ -16,6 +16,18 @@
       "subhead": "How to evaluate a Subspace Lattice position before you move a ship.",
       "voiceover": "Welcome to the Subspace Lattice Fleet Academy. Episode one: the tactical mindset — how to read a position before you ever touch a piece.",
       "durationHintSec": 6
+    },
+    {
+      "kind": "narration",
+      "id": "fleet-geometry",
+      "headline": "Three sliding profiles",
+      "bullets": [
+        "Beams — orthogonal lanes inside your net",
+        "Refractors — diagonal vectors past Anomaly corners",
+        "Carriers — omni slide while Hub-anchored; crawl when drifting"
+      ],
+      "voiceover": "Rated play opens with twin Beams. Lobby Heavy wings can add Refractors and Carriers. Learn all three as one geometry: Beams hold orthogonal lanes, Refractors cut diagonal seams around the Anomalous Core, and Carriers are fortress queens while tethered to the Hub — or a single-step crawl if they drift outside radius three.",
+      "durationHintSec": 18
     },
     {
       "kind": "narration",
@@ -37,8 +49,8 @@
       "ply": 0,
       "moveLabel": "Opening seat",
       "overlays": { "threeQuestions": true, "nets": "both" },
-      "voiceover": "First: Hub safety. Where is each Command Hub, and can anything reach it next ply? This question outranks every other. Most decided fleet games end by Surgical Strike — and most of those are walk-ins the loser could have seen one move earlier.",
-      "durationHintSec": 12
+      "voiceover": "First: Hub safety. Where is each Command Hub, and can anything reach it next ply? Check orthogonal files and diagonal approach lanes. This question outranks every other. Most decided fleet games end by Surgical Strike — and most of those are walk-ins the loser could have seen one move earlier.",
+      "durationHintSec": 14
     },
     {
       "kind": "board",
@@ -47,8 +59,8 @@
       "ply": 35,
       "moveLabel": "Midgame nets — Contested Space",
       "overlays": { "nets": "contested" },
-      "voiceover": "Second: the nets. Blue is White’s Sensor Net, red is Black’s. Purple overlap is Contested Space — it counts for neither side’s sector coverage. Beams may only slide inside their own glow, and an enemy standing in your net is Target Locked.",
-      "durationHintSec": 12
+      "voiceover": "Second: the nets. Blue is White’s Sensor Net, red is Black’s. Purple overlap is Contested Space — it counts for neither side’s sector coverage. Beams, Refractors, and Carriers may only execute multi-square slides inside their own glow, and an enemy standing in your net is Target Locked.",
+      "durationHintSec": 14
     },
     {
       "kind": "narration",
@@ -56,42 +68,56 @@
       "headline": "Locks and links",
       "bullets": [
         "Target Lock → one orthogonal step only",
-        "Escorts radiate only while linked to the Hub",
-        "Link distance: two squares"
+        "Locked heavies cannot slide",
+        "Escorts radiate only while linked to the Hub"
       ],
-      "voiceover": "Third: locked ships. A Target Locked ship moves one orthogonal step — nothing else. A locked Beam is a wall ornament. Fourth: link integrity. Escorts only radiate while chained to the Hub through friendly ships no more than two squares apart. One careless step can silently unplug half your net.",
-      "durationHintSec": 14
+      "voiceover": "Third: locked ships. A Target Locked ship moves one orthogonal step — nothing else. A locked Beam or Refractor is a wall ornament; a locked Carrier cannot slide. Fourth: link integrity. Escorts only radiate while chained to the Hub through friendly ships no more than two squares apart. One careless step can silently unplug half your net.",
+      "durationHintSec": 16
     },
     {
       "kind": "narration",
       "id": "currencies",
       "headline": "Three currencies",
       "bullets": [
-        "Material — captures matter, but not all Escorts are equal",
-        "Coverage — net cells are Beam mobility and Target Locks",
-        "Tempo — White’s Initiative Relay is seat compensation"
+        "Material — Refractor is specialized; Carrier is conditional",
+        "Coverage — net cells feed every heavy slide",
+        "Tempo — a drifting Carrier crawls home expensive"
       ],
-      "voiceover": "Chess players value material. Go players value territory. Lattice asks you to price three currencies: material, coverage, and tempo. Trading an active linked Escort for a passive one is usually a loss even when the count says even.",
-      "durationHintSec": 14
+      "voiceover": "Chess players value material. Go players value territory. Lattice asks you to price three currencies: material, coverage, and tempo. A Refractor trades laterally with a Beam but wins huge against an Escort. A Hub-anchored Carrier dominates defense; push it off the tether and you buy coverage with tempo you may not have.",
+      "durationHintSec": 16
     },
     {
       "kind": "narration",
-      "id": "three-q",
-      "headline": "The three-question scan",
+      "id": "look-ahead",
+      "headline": "The look-ahead scan",
       "bullets": [
-        "1 · Can I take their Hub?",
-        "2 · Can they take mine after my intended move?",
-        "3 · What does this do for the nets?"
+        "1 · Can I take their Hub — file or diagonal?",
+        "2 · Can they take mine after my move?",
+        "3 · What does this do for the nets?",
+        "4 · Are my corners open to a Refractor slice?",
+        "5 · Is their Carrier tethered or drifting?"
       ],
-      "voiceover": "Before every move: Can I take their Hub? If yes, play it. Can they take mine after my intended move? If any reply lands on your Hub, refuse that hang. What does the move do for the nets? Prefer answers that threaten and build at once.",
-      "durationHintSec": 14
+      "voiceover": "Before every move: Can I take their Hub on a Beam file or Refractor diagonal? Can they take mine after my intended move — refuse the hang. What does the move do for the nets? Then two Heavy-wing checks: are your corners exposed to a Refractor slice past the Anomaly, and is the enemy Carrier within Hub radius three or already drifting into a crawl?",
+      "durationHintSec": 20
+    },
+    {
+      "kind": "narration",
+      "id": "anomaly-slice",
+      "headline": "The Anomaly Slice",
+      "bullets": [
+        "Orthogonal Beam walls feel safe behind (5,5)",
+        "Diagonals brush the Anomaly corners",
+        "A Refractor can bypass the whole screen"
+      ],
+      "voiceover": "Remember the forty-five-ply blind spot. White builds a beautiful orthogonal blockade with Beams. Black threads a Refractor on a diagonal that kisses a corner of the Anomalous Core, slides past the wall, and forces a Target Lock — or worse — on White’s Hub. Orthogonal safety is incomplete safety.",
+      "durationHintSec": 16
     },
     {
       "kind": "outro",
       "id": "outro",
       "headline": "Next: punish a Hub mistake",
       "nextEpisode": "Episode 2 — Surgical Strike (Mission 1, 7 plies)",
-      "voiceover": "You have the mental framework. Next episode: a seven-ply highlight reel where Hub safety outranks everything — and White converts a prepared Beam shot into Surgical Strike.",
+      "voiceover": "You have the mental framework. Next episode: a seven-ply Standard Beams highlight reel where Hub safety outranks everything — and White converts a prepared Beam shot into Surgical Strike.",
       "durationHintSec": 8
     }
   ]

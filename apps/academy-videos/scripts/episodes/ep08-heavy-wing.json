@@ -1,0 +1,165 @@
+{
+  "id": "ep08-heavy-wing",
+  "compositionId": "Episode08",
+  "title": "Playing the Heavy Wing",
+  "youtubeTitle": "Subspace Lattice Academy Ep.8 — Refractors, Carriers & the Anomaly Slice",
+  "description": "Optional Advanced modules: Refractor Wing and Fleet Draft. Net law for diagonals and omni-slides, Hub-anchor tether, material hierarchy, and the Anomaly Slice blind spot. Companion to docs/advanced-manual.pdf Part I.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 8 · Advanced modules",
+      "headline": "Playing the Heavy Wing",
+      "subhead": "Refractors, Carriers, and why orthogonal walls are incomplete safety.",
+      "voiceover": "Episode eight: the Heavy wing. Rated play opens with twin Beams. Lobby Advanced modules can authorize Refractor Wing or Fleet Draft — same Sensor Net law, wider geometry.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "narration",
+      "id": "modules",
+      "headline": "Two lobby packages",
+      "bullets": [
+        "Refractor Wing — Beam + Refractor on files 3 and 7",
+        "Fleet Draft — Refractor + Hub-anchored Carrier on those files",
+        "Infiltrators shift outward so the wing does not stack"
+      ],
+      "voiceover": "In the lobby, Advanced modules offer Refractor Wing — a Beam paired with a Refractor on files three and seven — or Fleet Draft, which swaps in a Hub-anchored Carrier beside the Refractor. Infiltrators shift to keep the opening legal. Learn both as one system with Standard Beams.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "narration",
+      "id": "profile-beam",
+      "headline": "Heavy profiles: The Beam",
+      "bullets": [
+        "Beam — orthogonal slide inside your Sensor Net"
+      ],
+      "voiceover": "Beams hold orthogonal lanes.",
+      "durationHintSec": 5
+    },
+    {
+      "kind": "narration",
+      "id": "profile-refractor",
+      "headline": "Heavy profiles: The Refractor",
+      "bullets": [
+        "Refractor — diagonal slide, same net constraint"
+      ],
+      "voiceover": "Refractors cut diagonal vectors across Chebyshev radiation — including seams that brush the Anomalous Core’s corners.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "narration",
+      "id": "profile-carrier",
+      "headline": "Heavy profiles: The Carrier",
+      "bullets": [
+        "Carrier — omni slide while Hub-tethered; crawl when drifting"
+      ],
+      "voiceover": "Carriers are fortress queens while tethered to the Hub within radius three under fleet defaults; drift outside that tether and the Carrier crawls one step. Target Lock still reduces any of them to a single orthogonal crawl.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "standard-baseline",
+      "missionId": "mission-short-strike",
+      "ply": 0,
+      "moveLabel": "Standard Beams baseline",
+      "overlays": { "nets": "both" },
+      "voiceover": "Missions one through three stay on Standard Beams so the rated opening stays readable. When you flip on a Heavy wing, the back-rank corners change — heavies park on files three and seven, already inside the opening net — but Hub safety and refuse-the-hang do not change.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "opening-heavies",
+      "headline": "Opening with the wing",
+      "bullets": [
+        "Park heavies on 3 and 7 inside the opening glow",
+        "Diagonals matter from ply one under Refractor Wing",
+        "Fleet Draft: treat the Carrier as a home-rank fortress",
+        "Early Carrier aggression that snaps the tether buys a crawl"
+      ],
+      "voiceover": "Openings with the wing: park heavies on three and seven while they still sit in the starting Sensor Net. A Refractor contests the center differently than a Beam — diagonals matter immediately. Under Fleet Draft, keep the Carrier as a home-rank fortress. Pushing it up the board early trades capital mobility for a crawl when the Hub-anchor snaps.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "narration",
+      "id": "hierarchy",
+      "headline": "Heavy-piece hierarchy",
+      "bullets": [
+        "Refractor — high coverage, specialized material",
+        "Beam ↔ Refractor trades are usually lateral",
+        "Escort for Refractor is a massive tactical win",
+        "Carrier — maximum material, conditional tempo"
+      ],
+      "voiceover": "Price the wing correctly. A Refractor commands diagonal reach but cannot hold a pure orthogonal file. Trading Beam for Refractor is usually lateral; taking a Refractor with an Escort is a huge win. A tethered Carrier dominates material and coverage; an untethered one is a foot soldier until it re-enters Hub radiation.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "orthogonal-wall",
+      "missionId": "mission-standard-battle",
+      "ply": 35,
+      "moveLabel": "Orthogonal pressure feels airtight",
+      "overlays": { "nets": "both" },
+      "voiceover": "Midgame Standard Beams pressure. Orthogonal screens and Beam ranks feel safe — especially with the Gravity Well blocking through-traffic on its row and file. That comfort is exactly where the Refractor lesson lives.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "anomaly-slice",
+      "headline": "The Anomaly Slice — the 45-ply blind spot",
+      "bullets": [
+        "Setup: White’s Beams screen the Hub on ranks and files",
+        "Execution: Black’s Refractor rides a diagonal past a (5,5) corner",
+        "Lesson: orthogonal safety is incomplete safety"
+      ],
+      "voiceover": "Pedagogical highlight from the advanced manual. Setup: White builds a strong orthogonal blockade with Beams, screening the Hub. Execution: Black maneuvers a Refractor into active Sensor Net on a diagonal that brushes a corner of the Anomaly at five-five. Lesson: the diagonal slide bypasses the Beam wall and can force a Target Lock — or open a Surgical Strike lane the screen never saw.",
+      "durationHintSec": 22
+    },
+    {
+      "kind": "narration",
+      "id": "look-ahead-heavy",
+      "headline": "Add two questions to the look-ahead",
+      "bullets": [
+        "Are my corners open to a Refractor slice?",
+        "Is their Carrier tethered or drifting?",
+        "Scan Beam files and Refractor diagonals for Hub mates",
+        "Refuse hangs on both geometries"
+      ],
+      "voiceover": "When the wing is live, extend the look-ahead. Can you take their Hub on a Beam file or a Refractor diagonal? Can they take yours after your move — including diagonal answers. Are your corners exposed to an Anomaly slice? Is the enemy Carrier within Hub radius three, or already drifting into a crawl?",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "locks-still-bite",
+      "missionId": "mission-standard-battle",
+      "ply": 40,
+      "moveLabel": "Locks still erase heavy slides",
+      "overlays": { "nets": "contested", "targetLocked": true },
+      "voiceover": "Contested Space and Target Lock still rule the midgame. A locked Refractor is a wall ornament. A locked Carrier loses its slide and is reduced to a single orthogonal crawl. Do not overextend a heavy into enemy glow just because it looks expensive — locked value is zero mobility.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "wins-unchanged",
+      "headline": "Win conditions do not change",
+      "bullets": [
+        "Surgical Strike — Hub capture",
+        "Sector Integration — coverage clock after activation",
+        "Heavies change which geometries feed those wins",
+        "Not a third victory type"
+      ],
+      "voiceover": "Expanded branching from Refractors and Carriers does not add a new win condition. You still end by Surgical Strike or by Sector Integration after the clock arms. The wing only changes which lanes and diagonals feed those finishes — and which blind spots punish captains who only scan files.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Authorize the wing — keep the scan",
+      "nextEpisode": "Practice Refractor Wing & Fleet Draft vs AI · Advanced manual Part I",
+      "voiceover": "That is the Heavy wing: same net law, diagonal and omni geometry, Carrier tether discipline, and the Anomaly Slice. Open the advanced manual’s Part I, flip on a lobby module, and keep refusing the hang — on files and on diagonals.",
+      "durationHintSec": 12
+    }
+  ]
+}

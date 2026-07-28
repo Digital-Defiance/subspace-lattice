@@ -1,10 +1,16 @@
 import { relativeBox, tag, uid, escAttr } from "./utils.js";
 import { getBorderRadii } from "./utils.js";
 import { shapeElement } from "./borders.js";
+import { maybeCssDropShadowFilter } from "./box.js";
 
 /**
- * <img> → SVG <image>. Prefer inlining as data URL to avoid CORS taint
+ * <img> → SVG <image>. Prefer inlining as a data URL to avoid CORS taint
  * when the SVG is opened standalone.
+ *
+ * Rasterize into the *display* box. For SVG sources, rewrite width/height to
+ * the destination pixel size so the full viewBox maps to the cell — matching
+ * how the browser paints SVG-as-<img>. Drawing via naturalWidth alone often
+ * uses a content bbox (or default 300×150) and leaves pieces tiny in exports.
  */
 export async function renderImage(el, rootRect, defs) {
   const rect = el.getBoundingClientRect();
@@ -16,9 +22,11 @@ export async function renderImage(el, rootRect, defs) {
   const src = el.currentSrc || el.src;
   if (!src) return "";
 
+  const objectFit = style.objectFit || "fill";
+
   let href = src;
   try {
-    href = await toDataURL(src, el);
+    href = await toDataURL(src, el, box, objectFit);
   } catch {
     href = src; // fall back to remote URL
   }
@@ -32,15 +40,14 @@ export async function renderImage(el, rootRect, defs) {
   }
 
   const opacity = style.opacity !== "1" ? style.opacity : null;
-  const objectFit = style.objectFit || "fill";
-  const preserve =
-    objectFit === "cover"
-      ? "xMidYMid slice"
-      : objectFit === "contain"
-        ? "xMidYMid meet"
-        : "none";
+  // Bitmap is already fitted into the display box — do not re-letterbox.
+  const preserve = "none";
 
-  return tag("image", {
+  // Apply drop-shadow on a wrapping <g> so clip-path on the image does not
+  // eat the silhouette outline (CSS filter paints outside the border box).
+  const filterUrl = maybeCssDropShadowFilter(style, defs);
+
+  let markup = tag("image", {
     href,
     x: box.x,
     y: box.y,
@@ -50,6 +57,11 @@ export async function renderImage(el, rootRect, defs) {
     ...(anyR ? { "clip-path": `url(#${clipId})` } : {}),
     ...(opacity ? { opacity } : {}),
   });
+
+  if (filterUrl) {
+    markup = tag("g", { filter: filterUrl }, markup);
+  }
+  return markup;
 }
 
 /**
@@ -155,10 +167,131 @@ export function renderVideo(el, rootRect) {
   }
 }
 
-async function toDataURL(src, imgEl) {
+function isSvgSource(src) {
+  if (!src) return false;
+  if (/\.svg(\?|#|$)/i.test(src)) return true;
+  if (/^data:image\/svg\+xml/i.test(src)) return true;
+  return false;
+}
+
+/**
+ * Fetch SVG markup and stamp explicit width/height so the viewBox fills the
+ * destination pixel viewport (chess-set packs use a shared 45×45 viewBox).
+ */
+async function svgMarkupAtSize(src, pixelW, pixelH) {
+  let text;
+  if (src.startsWith("data:")) {
+    const comma = src.indexOf(",");
+    const meta = src.slice(0, comma);
+    const data = src.slice(comma + 1);
+    text = /;base64/i.test(meta) ? atob(data) : decodeURIComponent(data);
+  } else {
+    const res = await fetch(src, { mode: "cors", credentials: "omit" });
+    if (!res.ok) throw new Error("svg fetch failed");
+    text = await res.text();
+  }
+
+  if (!/<svg\b/i.test(text)) throw new Error("not svg");
+
+  text = text.replace(/<svg\b([^>]*)>/i, (_, attrs) => {
+    let next = attrs
+      .replace(/\swidth\s*=\s*(["']).*?\1/gi, "")
+      .replace(/\sheight\s*=\s*(["']).*?\1/gi, "");
+    if (!/\sxmlns\s*=/i.test(next)) {
+      next += ' xmlns="http://www.w3.org/2000/svg"';
+    }
+    return `<svg${next} width="${pixelW}" height="${pixelH}">`;
+  });
+
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(text)}`;
+}
+
+function loadImage(href) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("image load failed"));
+    img.src = href;
+  });
+}
+
+/**
+ * Draw `img` into a display-sized canvas using object-fit rules.
+ * SVG sources are re-serialized at the canvas pixel size first.
+ */
+async function rasterizeToBox(imgEl, src, box, objectFit) {
+  const dw = Math.max(1, Math.round(box.width));
+  const dh = Math.max(1, Math.round(box.height));
+  // 2× for crisp piece rims when figures are scaled up in manuals / video.
+  const scale = 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = dw * scale;
+  canvas.height = dh * scale;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return null;
+
+  let drawEl = imgEl;
+  if (isSvgSource(src)) {
+    try {
+      const sized = await svgMarkupAtSize(src, canvas.width, canvas.height);
+      drawEl = await loadImage(sized);
+    } catch {
+      drawEl = imgEl;
+    }
+  }
+
+  const nw = drawEl.naturalWidth || canvas.width;
+  const nh = drawEl.naturalHeight || canvas.height;
+  if (!nw || !nh) return null;
+
+  // SVG rewritten at canvas size already maps viewBox → pixels; always fill.
+  const fit = isSvgSource(src)
+    ? "fill"
+    : objectFit === "scale-down"
+      ? "contain"
+      : objectFit;
+
+  let dx = 0;
+  let dy = 0;
+  let dwDraw = canvas.width;
+  let dhDraw = canvas.height;
+  let sx = 0;
+  let sy = 0;
+  let sw = nw;
+  let sh = nh;
+
+  if (fit === "contain" || fit === "cover") {
+    const scaleX = canvas.width / nw;
+    const scaleY = canvas.height / nh;
+    const s = fit === "contain" ? Math.min(scaleX, scaleY) : Math.max(scaleX, scaleY);
+    dwDraw = nw * s;
+    dhDraw = nh * s;
+    dx = (canvas.width - dwDraw) / 2;
+    dy = (canvas.height - dhDraw) / 2;
+  } else if (fit === "none") {
+    dwDraw = nw;
+    dhDraw = nh;
+    dx = (canvas.width - dwDraw) / 2;
+    dy = (canvas.height - dhDraw) / 2;
+  }
+  // fill: stretch to canvas (default above)
+
+  ctx.drawImage(drawEl, sx, sy, sw, sh, dx, dy, dwDraw, dhDraw);
+  return canvas.toDataURL("image/png");
+}
+
+async function toDataURL(src, imgEl, box, objectFit = "fill") {
+  if (box && (imgEl?.complete || isSvgSource(src))) {
+    try {
+      const fitted = await rasterizeToBox(imgEl, src, box, objectFit);
+      if (fitted) return fitted;
+    } catch {
+      /* tainted / fetch */
+    }
+  }
+
   if (src.startsWith("data:")) return src;
 
-  // Same-origin or already-decoded image element
   if (imgEl?.complete && imgEl.naturalWidth) {
     try {
       const canvas = document.createElement("canvas");
@@ -172,7 +305,6 @@ async function toDataURL(src, imgEl) {
     }
   }
 
-  // Fetch + blob (requires CORS-friendly response when cross-origin)
   const res = await fetch(src, { mode: "cors", credentials: "omit" });
   if (!res.ok) throw new Error("fetch failed");
   const blob = await res.blob();

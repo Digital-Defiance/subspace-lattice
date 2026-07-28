@@ -25,13 +25,24 @@ import './Board.scss';
 
 interface BoardProps {
   gameState: GameState;
-  onMovePiece: (pieceId: string, to: Coordinate) => void;
+  /**
+   * Live match engine. When provided, legal-move hints use this instance so
+   * they cannot drift from submitMove / movePiece. Falls back to a fromState
+   * clone when omitted (figures harness, static previews).
+   */
+  engine?: SubspaceLatticeEngine;
+  /** Return false to keep the current selection (illegal / rejected move). */
+  onMovePiece: (pieceId: string, to: Coordinate) => boolean | void;
   onPlacePiece: (type: PieceType, to: Coordinate) => void;
   localPlayer: PlayerColor | 'OBSERVER';
   guidance?: BoardGuidance;
   onInvalidAction?: (message: string) => void;
   /** Force a contrast mode (skips persisted preference). */
   contrast?: BoardContrast;
+  /** Force a piece art style index (skips persisted preference). */
+  pieceStyle?: number;
+  /** Force Outline on/off (skips persisted preference). */
+  contrastOutline?: boolean;
   /** Show Classic / High toggle above the board. Default true. */
   showContrastToggle?: boolean;
 }
@@ -50,17 +61,21 @@ export interface BoardGuidance {
 
 export const Board: React.FC<BoardProps> = ({
   gameState,
+  engine: engineProp,
   onMovePiece,
   localPlayer,
   guidance,
   onInvalidAction,
   contrast: forcedContrast,
+  pieceStyle: forcedPieceStyle,
+  contrastOutline: forcedOutline,
   showContrastToggle = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [contrast, setContrast] = useBoardContrast(forcedContrast);
-  const [styleIndex, setStyleIndex] = usePieceStyle();
-  const [pieceOutline, setPieceOutline] = useBoardContrastOutline();
+  const [styleIndex, setStyleIndex] = usePieceStyle(forcedPieceStyle);
+  const [pieceOutline, setPieceOutline] =
+    useBoardContrastOutline(forcedOutline);
   const rimFlags = getStyleRimFlags(styleIndex);
   const bakedOutline =
     rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
@@ -77,10 +92,11 @@ export const Board: React.FC<BoardProps> = ({
   const [focusedCell, setFocusedCell] = useState<Coordinate>(initialFocus);
   const boardRef = useRef<HTMLDivElement>(null);
 
-  const engine = useMemo(
+  const derivedEngine = useMemo(
     () => SubspaceLatticeEngine.fromState(gameState),
     [gameState],
   );
+  const engine = engineProp ?? derivedEngine;
 
   const showNet = engine.isHybrid();
   const whiteNet = useMemo(
@@ -110,6 +126,40 @@ export const Board: React.FC<BoardProps> = ({
     const cell = gameState.cells.find(
       (c: Cell) => c.coordinate.x === x && c.coordinate.y === y,
     );
+    const to = { x, y };
+
+    // Prefer executing a legal move to this square over re-selecting.
+    if (selectedPieceId) {
+      const selected = engine.getPiece(selectedPieceId);
+      const legalHere =
+        !!selected &&
+        engine.canMovePiece(selected, to) &&
+        (!guidance?.allowedDestinations ||
+          guidance.allowedDestinations.some(
+            (coord) => coord.x === x && coord.y === y,
+          ));
+      if (legalHere) {
+        const accepted = onMovePiece(selectedPieceId, to);
+        if (accepted !== false) {
+          setSelectedPieceId(null);
+        } else {
+          onInvalidAction?.(
+            'That move is not legal right now. Pick another highlighted square.',
+          );
+        }
+        return;
+      }
+      if (
+        guidance?.allowedDestinations &&
+        selected &&
+        engine.canMovePiece(selected, to)
+      ) {
+        onInvalidAction?.(
+          'That destination will not complete this objective. Choose a highlighted square.',
+        );
+        return;
+      }
+    }
 
     if (cell?.pieceId) {
       const piece = gameState.pieces[cell.pieceId];
@@ -118,7 +168,9 @@ export const Board: React.FC<BoardProps> = ({
           guidance?.selectablePieceIds &&
           !guidance.selectablePieceIds.includes(piece.id)
         ) {
-          onInvalidAction?.('That ship is not part of this step. Follow the highlighted objective.');
+          onInvalidAction?.(
+            'That ship is not part of this step. Follow the highlighted objective.',
+          );
           return;
         }
         setSelectedPieceId(piece.id);
@@ -126,22 +178,16 @@ export const Board: React.FC<BoardProps> = ({
       }
     }
 
-    if (selectedPieceId && cell) {
-      if (
-        guidance?.allowedDestinations &&
-        !guidance.allowedDestinations.some(
-          (coord) => coord.x === x && coord.y === y,
-        )
-      ) {
-        onInvalidAction?.('That destination will not complete this objective. Choose a highlighted square.');
-        return;
-      }
-      onMovePiece(selectedPieceId, { x, y });
-      setSelectedPieceId(null);
+    if (selectedPieceId) {
+      onInvalidAction?.(
+        'That square is not a legal destination for the selected ship.',
+      );
       return;
     }
 
-    onInvalidAction?.('Select one of your ships first, then choose where it should move.');
+    onInvalidAction?.(
+      'Select one of your ships first, then choose where it should move.',
+    );
   };
 
   const getPieceSymbol = (type: PieceType, color: PlayerColor) => {
@@ -176,7 +222,7 @@ export const Board: React.FC<BoardProps> = ({
   };
 
   const selectedPiece = selectedPieceId
-    ? gameState.pieces[selectedPieceId]
+    ? engine.getPiece(selectedPieceId)
     : undefined;
   const isGuidedDestination = (coord: Coordinate): boolean =>
     Boolean(
@@ -400,22 +446,24 @@ export const Board: React.FC<BoardProps> = ({
                 selectedStyle={styleIndex}
                 onStyleChange={setStyleIndex}
               />
-              <label
+              <button
+                type="button"
                 className="board-piece-outline-toggle"
+                aria-pressed={bakedOutline || pieceOutline}
+                disabled={bakedOutline}
                 title={
                   bakedOutline
-                    ? 'This piece style already includes contrast rims'
-                    : 'Adds a white visibility trace around pieces that lack a light rim'
+                    ? 'This piece style already includes contrast rims on both sides'
+                    : rimFlags.lightRimOnWhite && !rimFlags.lightRimOnBlack
+                      ? 'Adds a white visibility trace on black pieces (white art is already clear)'
+                      : rimFlags.lightRimOnBlack && !rimFlags.lightRimOnWhite
+                        ? 'Adds a white visibility trace on white pieces (black art is already clear)'
+                        : 'Adds a white visibility trace around pieces that lack a light rim'
                 }
+                onClick={() => setPieceOutline(!pieceOutline)}
               >
-                <input
-                  type="checkbox"
-                  checked={bakedOutline || pieceOutline}
-                  disabled={bakedOutline}
-                  onChange={(e) => setPieceOutline(e.target.checked)}
-                />
                 Outline
-              </label>
+              </button>
             </>
           )}
         </div>

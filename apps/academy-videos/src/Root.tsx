@@ -12,6 +12,8 @@ import ep04 from '../scripts/episodes/ep04-sector-clock.json';
 // Generated from docs/advanced-manual.tex by `yarn seed:mission-episodes`.
 import ep05 from '../scripts/episodes/ep05-standard-battle-full.json';
 import ep06 from '../scripts/episodes/ep06-clock-siege-full.json';
+import ep07 from '../scripts/episodes/ep07-playing-black.json';
+import ep08 from '../scripts/episodes/ep08-heavy-wing.json';
 
 function load(raw: unknown): EpisodeScript {
   return EpisodeScriptSchema.parse(raw);
@@ -25,6 +27,8 @@ const episodes = [
   load(ep04),
   load(ep05),
   load(ep06),
+  load(ep07),
+  load(ep08),
 ];
 
 export const RemotionRoot: React.FC = () => {

@@ -227,12 +227,50 @@ Beam
     between). \emph{Every} intermediate square and the destination
     must lie in the \textbf{own} Sensor Net.
   & One orthogonal step \\
+Refractor (optional)
+  & Diagonal bishop slide along a clear path. The entire path and
+    destination must lie in the mover's own Sensor Net. Gravity Wells
+    and pieces block the path as for Beams.
+  & One orthogonal step \\
+Carrier (optional)
+  & Orthogonal or diagonal slide along a clear path, subject to the
+    same Sensor Net path rule as Beams and Refractors. Under Fleet Draft
+    Hub-anchor (below), multi-square slides also require starting within
+    the own Hub radiation radius.
+  & One orthogonal step \\
 \bottomrule
 \end{tabular}
 \end{center}
 
 A piece may not move onto a friendly piece or a Gravity Well.
 Moving onto an enemy piece captures it.
+
+\paragraph{Hub-anchor (Fleet Draft).}
+When this module is active, a Carrier may execute a multi-square slide
+only if, at the start of its move, its Chebyshev distance to its own
+Command Hub is at most the Hub sensor radius ($3$ under fleet defaults).
+Otherwise it may move only one square in any direction (king-step),
+unless Target Locked (which still restricts it to one orthogonal step).
+
+\paragraph{Default setup.}
+Two Beams on files $2$ and $8$ of each back rank (plus Initiative Relay
+as specified elsewhere).
+
+\paragraph{Refractor Wing setup.}
+Replace one Beam with a Refractor. Place the Beam and Refractor on
+files $3$ and $7$ of each back rank (instead of $2$ and $8$).
+Infiltrators shift to files $2$ and $8$ so they do not stack on the
+heavy wing. All other pieces unchanged.
+
+\paragraph{Fleet Draft setup.}
+Replace both Beams with one Refractor and one Carrier on files $3$ and
+$7$ of each back rank. Infiltrators shift to files $2$ and $8$.
+Hub-anchor is active for Carriers.
+
+\paragraph{Pedagogy.}
+Tactical framing for these optional modules --- diagonal Anomaly slices,
+Carrier tether checks, and heavy-piece value --- lives in the Advanced
+Manual (\texttt{advanced-manual.pdf}), Part~I.
 
 \rulesfig{beam-lane}{%
   Beam lane: highlighted path must stay inside White's own Sensor Net.

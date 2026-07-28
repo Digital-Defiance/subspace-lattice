@@ -353,7 +353,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 8,
         "y": 0
@@ -379,7 +379,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 8,
         "y": 1
@@ -392,7 +392,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b1",
+      "pieceId": "b-h1",
       "from": {
         "x": 2,
         "y": 10
@@ -405,7 +405,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 4,
         "y": 1
@@ -418,7 +418,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b1",
+      "pieceId": "b-h1",
       "from": {
         "x": 3,
         "y": 10
@@ -444,7 +444,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b1",
+      "pieceId": "b-h1",
       "from": {
         "x": 6,
         "y": 10
@@ -483,7 +483,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 2,
         "y": 1
@@ -522,7 +522,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b2",
+      "pieceId": "b-h2",
       "from": {
         "x": 8,
         "y": 10
@@ -574,7 +574,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b2",
+      "pieceId": "b-h2",
       "from": {
         "x": 10,
         "y": 10
@@ -600,7 +600,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b2",
+      "pieceId": "b-h2",
       "from": {
         "x": 10,
         "y": 8
@@ -613,7 +613,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 0
@@ -626,7 +626,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b2",
+      "pieceId": "b-h2",
       "from": {
         "x": 10,
         "y": 9
@@ -639,7 +639,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 3,
         "y": 1
@@ -665,7 +665,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 6,
         "y": 1
@@ -718,7 +718,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 3
@@ -731,7 +731,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b2",
+      "pieceId": "b-h2",
       "from": {
         "x": 10,
         "y": 7
@@ -744,7 +744,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 6,
         "y": 5
@@ -753,7 +753,7 @@ const replay: {
         "x": 6,
         "y": 7
       },
-      "captured": "b-b2",
+      "captured": "b-h2",
       "pieceType": "BEAM"
     },
     {
@@ -771,7 +771,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b2",
+      "pieceId": "w-h2",
       "from": {
         "x": 6,
         "y": 7
@@ -793,12 +793,12 @@ const replay: {
         "x": 6,
         "y": 6
       },
-      "captured": "w-b2",
+      "captured": "w-h2",
       "pieceType": "ESCORT"
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 7
@@ -902,7 +902,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 8
@@ -915,7 +915,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b1",
+      "pieceId": "b-h1",
       "from": {
         "x": 5,
         "y": 10
@@ -941,7 +941,7 @@ const replay: {
     },
     {
       "seat": "BLACK",
-      "pieceId": "b-b1",
+      "pieceId": "b-h1",
       "from": {
         "x": 5,
         "y": 6
@@ -963,7 +963,7 @@ const replay: {
         "x": 4,
         "y": 6
       },
-      "captured": "b-b1",
+      "captured": "b-h1",
       "pieceType": "ESCORT"
     },
     {
@@ -1007,7 +1007,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 5
@@ -1033,7 +1033,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 0,
         "y": 5
@@ -1059,7 +1059,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 0,
         "y": 3
@@ -1085,7 +1085,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 3,
         "y": 3
@@ -1111,7 +1111,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 3,
         "y": 7
@@ -1137,7 +1137,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 3,
         "y": 6
@@ -1163,7 +1163,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 6
@@ -1241,7 +1241,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 2,
         "y": 4
@@ -1475,7 +1475,7 @@ const replay: {
     },
     {
       "seat": "WHITE",
-      "pieceId": "w-b1",
+      "pieceId": "w-h1",
       "from": {
         "x": 0,
         "y": 4

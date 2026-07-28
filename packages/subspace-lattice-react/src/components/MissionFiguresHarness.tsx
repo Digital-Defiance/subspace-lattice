@@ -7,6 +7,7 @@ import {
   type ManualMission,
 } from '../tutorial/manual-missions';
 import { elementToSvg } from '../vendor/dom-to-svg/index.js';
+import { defaultPieceStyleIndex } from '../hooks/usePieceStyle';
 import './FiguresCaptureHarness.scss';
 
 interface MissionFiguresApi {
@@ -142,6 +143,8 @@ export function MissionFiguresHarness() {
                 localPlayer="OBSERVER"
                 guidance={guidance}
                 contrast="high"
+                pieceStyle={defaultPieceStyleIndex()}
+                contrastOutline={true}
                 showContrastToggle={false}
               />
             </div>

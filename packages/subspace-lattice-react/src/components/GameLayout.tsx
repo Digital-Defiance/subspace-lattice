@@ -9,6 +9,7 @@ import {
   AI_STRENGTH_PRESETS,
   AiStrengthId,
   advisorRequiresUnrateConsent,
+  formatSystemLogLine,
   isAdvisorAvailable,
   isRoomRated,
   PlayerColor,
@@ -26,6 +27,7 @@ import { useAdvisor } from '../hooks/useAdvisor';
 import { useGameSync } from '../hooks/useGameSync';
 import { useLocalAiGame } from '../hooks/useLocalAiGame';
 import { usePassAndPlayGame } from '../hooks/usePassAndPlayGame';
+import type { LobbyRulesOptions } from '../lib/lobby-rules';
 import { AdvisorPanel } from './AdvisorPanel';
 import { Board } from './Board';
 import { Chat } from './Chat';
@@ -86,9 +88,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     localPlayerColor: localAiColor,
     strengthLabel,
     logLines,
+    aiThinking: localAiThinking,
     startLocalAiGame,
     exitLocalAiGame,
     sendMove: sendLocalMove,
+    appendLog: appendLocalAiLog,
     markAssisted: markLocalAiAssisted,
     buildDebugExport: buildLocalAiDebugExport,
   } = useLocalAiGame();
@@ -110,6 +114,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     handoffPending,
     handoffSeat,
     labelFor: passPlayLabel,
+    appendLog: appendPassPlayLog,
     confirmHandoff,
     openPassAndPlaySetup,
     confirmPassAndPlaySetup,
@@ -306,21 +311,13 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     await joinRoom(roomCode, password, asObserver, name);
   };
 
-  const beginLocalAi = (rules?: {
-    infiltratorSpoolUp: boolean;
-    infiltratorActivationPly: number;
-    sectorActivationPly: number;
-  }) => {
+  const beginLocalAi = (rules?: LobbyRulesOptions) => {
     exitPassAndPlayGame();
     localAdvisor.clearSuggestion();
     startLocalAiGame(aiStrength, preferredSeat, rules);
   };
 
-  const beginPassAndPlay = (rules?: {
-    infiltratorSpoolUp: boolean;
-    infiltratorActivationPly: number;
-    sectorActivationPly: number;
-  }) => {
+  const beginPassAndPlay = (rules?: LobbyRulesOptions) => {
     exitLocalAiGame();
     openPassAndPlaySetup(preferredSeat, rules);
   };
@@ -604,9 +601,13 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         <div className="game-main-panel">
           <Board
             gameState={state}
+            engine={passPlayEngine}
             onMovePiece={(pieceId, to) => sendPassPlayMove(pieceId, to)}
             onPlacePiece={() => undefined}
             localPlayer={seat}
+            onInvalidAction={(message) =>
+              appendPassPlayLog(formatSystemLogLine(message))
+            }
           />
         </div>
         <div className="game-side-panel">
@@ -669,6 +670,15 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               Turn: <strong>{state.currentPlayer}</strong>
             </span>
           </p>
+          {localAiThinking && !state.winner && (
+            <p className="pass-hand-off" data-testid="local-ai-thinking">
+              <strong>
+                {state.currentPlayer === PlayerColor.White ? 'White' : 'Black'}{' '}
+                (AI)
+              </strong>{' '}
+              is thinking…
+            </p>
+          )}
           <ObjectiveHud engine={localEngine} />
           {state.winner && (
             <p className="winner-announcement">
@@ -682,12 +692,20 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         <div className="game-main-panel">
           <Board
             gameState={state}
+            engine={localEngine}
             onMovePiece={(pieceId, to) => {
               localAdvisor.clearSuggestion();
-              sendLocalMove(pieceId, to);
+              return sendLocalMove(pieceId, to);
             }}
             onPlacePiece={() => undefined}
-            localPlayer={state.winner ? 'OBSERVER' : localAiColor}
+            localPlayer={
+              state.winner || state.currentPlayer !== localAiColor
+                ? 'OBSERVER'
+                : localAiColor
+            }
+            onInvalidAction={(message) =>
+              appendLocalAiLog(formatSystemLogLine(message))
+            }
             guidance={localAdvisor.guidance}
           />
           {localAdvisor.suggestion && (
@@ -1038,6 +1056,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
       <div className="game-main-panel">
         <Board
           gameState={engine.getState()}
+          engine={engine}
           onMovePiece={(pieceId, to) => {
             onlineAdvisor.clearSuggestion();
             sendMove(activeRoom.id, pieceId, to);

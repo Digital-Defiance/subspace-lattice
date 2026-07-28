@@ -3,6 +3,35 @@ import { PieceType } from '../interfaces/pieceType';
 import { AgentMove } from './agent';
 import { evaluatePosition } from './evaluate';
 
+/**
+ * Read Node ablation env vars without throwing in the browser bundle
+ * (`process` is undefined under Vite).
+ */
+function nodeEnv(name: string): string | undefined {
+  if (typeof process === 'undefined' || !process.env) return undefined;
+  return process.env[name];
+}
+
+/**
+ * Ablation switches for the Jul 23 hub-safety layer (`83109c9`).
+ * - `LATTICE_HUB_SAFETY=0` disables both mate-avoid filters and hub-in-one eval
+ *   (pre-83109c9 agent behavior; needed for Track A continuity with July 21).
+ * - `LATTICE_HUB_MATE_FILTER=0` disables only moveLeavesHubHanging filters.
+ * - `LATTICE_HUB_IN_ONE=0` disables only the hub-in-one eval bonus (see evaluate.ts).
+ * Default: all on.
+ */
+export function hubSafetyEnabled(): boolean {
+  return nodeEnv('LATTICE_HUB_SAFETY') !== '0';
+}
+
+export function hubMateFilterEnabled(): boolean {
+  return hubSafetyEnabled() && nodeEnv('LATTICE_HUB_MATE_FILTER') !== '0';
+}
+
+export function hubInOneEvalEnabled(): boolean {
+  return hubSafetyEnabled() && nodeEnv('LATTICE_HUB_IN_ONE') !== '0';
+}
+
 /** Capture enemy Command Hub if any legal move does so. */
 export function findHubCaptureMove(
   engine: SubspaceLatticeEngine,
@@ -50,6 +79,7 @@ export function moveLeavesHubHanging(
   engine: SubspaceLatticeEngine,
   move: AgentMove,
 ): boolean {
+  if (!hubMateFilterEnabled()) return false;
   const me = engine.getState().currentPlayer;
   const child = engine.clone();
   if (!child.movePiece(move.pieceId, move.to)) return true;
@@ -75,6 +105,7 @@ export function filterMovesAvoidingHubMate<T extends AgentMove>(
   moves: readonly T[],
 ): T[] {
   if (moves.length === 0) return [];
+  if (!hubMateFilterEnabled()) return [...moves];
   const safe = moves.filter((m) => !moveLeavesHubHanging(engine, m));
   return safe.length > 0 ? safe : [...moves];
 }
@@ -91,6 +122,21 @@ export function pickBestAvoidingHubMate<T extends AgentMove>(
   rng: () => number,
 ): T | null {
   if (scored.length === 0) return null;
+  if (!hubMateFilterEnabled()) {
+    let bestScore = Number.NEGATIVE_INFINITY;
+    const best: T[] = [];
+    for (const { move, score } of scored) {
+      if (score > bestScore) {
+        bestScore = score;
+        best.length = 0;
+        best.push(move);
+      } else if (score === bestScore) {
+        best.push(move);
+      }
+    }
+    if (best.length === 0) return null;
+    return best[Math.min(best.length - 1, Math.floor(rng() * best.length))]!;
+  }
   const bands = new Map<number, T[]>();
   for (const { move, score } of scored) {
     const band = bands.get(score);

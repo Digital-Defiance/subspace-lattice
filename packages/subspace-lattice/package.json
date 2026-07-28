@@ -42,6 +42,13 @@
           "cwd": "packages/subspace-lattice",
           "command": "bash scripts/evolve.sh"
         }
+      },
+      "heavy-draft-geometry": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/heavy-draft-geometry.sh"
+        }
       }
     }
   },

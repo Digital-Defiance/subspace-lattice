@@ -11,9 +11,11 @@ import {
   formatSystemLogLine,
   GameState,
   getTeiDisplay,
+  HeuristicAi,
   isDefaultFleetLobby,
   LatticeDebugExport,
   PlayerColor,
+  heavyWingPresetFromRules,
   resolveFleetLobbyRules,
   shouldRecordLocalAiTei,
   SubspaceLatticeEngine,
@@ -23,6 +25,8 @@ import { createSubspaceLatticeApiClient } from '../services/api';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
 
 const AI_THINK_MS = 50;
+/** Above this branching factor, sync MCTS freezes the tab — use heuristic. */
+const WIDE_BRANCH_HEURISTIC = 64;
 
 function teiForStrength(strength: AiStrengthId) {
   const anchor =
@@ -53,6 +57,7 @@ export function useLocalAiGame() {
   );
   const [logLines, setLogLines] = useState<string[]>([]);
   const [matchId, setMatchId] = useState<string | null>(null);
+  const [aiThinking, setAiThinking] = useState(false);
   const ratedMatch = useRef<string | null>(null);
   const assistedMatch = useRef(false);
   const customModulesMatch = useRef(false);
@@ -139,6 +144,7 @@ export function useLocalAiGame() {
       debugLog.current.clear();
       setEngine(next);
       setActive(true);
+      setAiThinking(false);
       const id = `local-ai-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       setMatchId(id);
       ratedMatch.current = null;
@@ -152,6 +158,9 @@ export function useLocalAiGame() {
       if (rules.sectorActivationPly !== 100) {
         moduleBits.push(`clock@${rules.sectorActivationPly}`);
       }
+      const wing = heavyWingPresetFromRules(rules);
+      if (wing === 'refractor-wing') moduleBits.push('wing=refractor');
+      if (wing === 'fleet-draft') moduleBits.push('wing=fleet-draft');
       const modulesNote = moduleBits.length
         ? `; modules ${moduleBits.join(' ')}`
         : '';
@@ -170,6 +179,7 @@ export function useLocalAiGame() {
     clearAiTimer();
     setEngine(null);
     setActive(false);
+    setAiThinking(false);
     setLogLines([]);
     setMatchId(null);
     debugLog.current.clear();
@@ -177,7 +187,7 @@ export function useLocalAiGame() {
   }, []);
 
   const refresh = (next: SubspaceLatticeEngine) => {
-    setEngine(SubspaceLatticeEngine.fromState(next.getState()));
+    setEngine(SubspaceLatticeEngine.fromState(next.getState(), next.getRules()));
   };
 
   const noteWinner = useCallback(
@@ -219,10 +229,51 @@ export function useLocalAiGame() {
   const playAiMove = useCallback(
     (current: SubspaceLatticeEngine) => {
       const state = current.getState();
-      if (state.winner || state.currentPlayer !== aiColor) return;
+      if (state.winner || state.currentPlayer !== aiColor) {
+        setAiThinking(false);
+        return;
+      }
 
-      const choice = ai.chooseMove(current);
-      if (!choice) return;
+      let choice: { pieceId: string; to: Coordinate } | null = null;
+      try {
+        const legalCount = current.listLegalMoves().length;
+        if (legalCount === 0) {
+          appendLog(
+            formatSystemLogLine('AI has no legal moves — checking result.'),
+          );
+          setAiThinking(false);
+          refresh(current);
+          return;
+        }
+        // Opening infiltrator warps (and fleet heavies) explode the tree;
+        // sync MCTS on the UI thread freezes the tab for tens of seconds.
+        if (legalCount > WIDE_BRANCH_HEURISTIC) {
+          choice = new HeuristicAi().chooseMove(current);
+        } else {
+          choice = ai.chooseMove(current);
+        }
+        if (!choice) {
+          choice = new HeuristicAi().chooseMove(current);
+        }
+      } catch (err) {
+        appendLog(
+          formatSystemLogLine(
+            `AI search failed (${err instanceof Error ? err.message : 'error'}); trying fast reply.`,
+          ),
+        );
+        try {
+          choice = new HeuristicAi().chooseMove(current);
+        } catch {
+          choice = null;
+        }
+      }
+
+      if (!choice) {
+        appendLog(formatSystemLogLine('AI could not choose a move.'));
+        setAiThinking(false);
+        return;
+      }
+
       const piece = current.getPiece(choice.pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = current.getPieceAt(choice.to);
@@ -258,7 +309,14 @@ export function useLocalAiGame() {
           );
         }
         refresh(current);
+      } else {
+        appendLog(
+          formatSystemLogLine(
+            `AI chose an illegal move (${choice.pieceId} → ${choice.to.x},${choice.to.y}).`,
+          ),
+        );
       }
+      setAiThinking(false);
     },
     [ai, aiColor, appendLog, localPlayerColor, matchId, noteWinner, strength],
   );
@@ -266,9 +324,14 @@ export function useLocalAiGame() {
   useEffect(() => {
     if (!active || !engine) return;
     const state = engine.getState();
-    if (state.winner || state.currentPlayer !== aiColor) return;
+    if (state.winner || state.currentPlayer !== aiColor) {
+      setAiThinking(false);
+      return;
+    }
 
     clearAiTimer();
+    setAiThinking(true);
+    // Yield so React can paint "AI thinking" before the (sync) search runs.
     aiTimer.current = setTimeout(() => {
       playAiMove(engine);
     }, AI_THINK_MS);
@@ -277,10 +340,10 @@ export function useLocalAiGame() {
   }, [active, aiColor, engine, playAiMove]);
 
   const sendMove = useCallback(
-    (pieceId: string, to: Coordinate) => {
-      if (!engine) return;
+    (pieceId: string, to: Coordinate): boolean => {
+      if (!engine) return false;
       const state = engine.getState();
-      if (state.winner || state.currentPlayer !== localPlayerColor) return;
+      if (state.winner || state.currentPlayer !== localPlayerColor) return false;
       const piece = engine.getPiece(pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = engine.getPieceAt(to);
@@ -315,6 +378,7 @@ export function useLocalAiGame() {
         }
         refresh(engine);
       }
+      return ok;
     },
     [engine, appendLog, localPlayerColor, matchId, noteWinner, strength],
   );
@@ -361,9 +425,11 @@ export function useLocalAiGame() {
     setStrength,
     logLines,
     localPlayerColor,
+    aiThinking,
     startLocalAiGame,
     exitLocalAiGame,
     sendMove,
+    appendLog,
     markAssisted,
     buildDebugExport,
   };

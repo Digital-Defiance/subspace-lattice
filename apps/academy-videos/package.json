@@ -14,6 +14,8 @@
     "render:ep04": "remotion render src/index.ts Episode04 out/ep04-sector-clock.mp4",
     "render:ep05": "remotion render src/index.ts Episode05 out/ep05-standard-battle-full.mp4",
     "render:ep06": "remotion render src/index.ts Episode06 out/ep06-clock-siege-full.mp4",
+    "render:ep07": "remotion render src/index.ts Episode07 out/ep07-playing-black.mp4",
+    "render:ep08": "remotion render src/index.ts Episode08 out/ep08-heavy-wing.mp4",
     "tts": "node scripts/generate-tts.mjs",
     "seed:mission-episodes": "node scripts/seed-mission-episodes.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"

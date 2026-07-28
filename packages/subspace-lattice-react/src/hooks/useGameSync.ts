@@ -174,6 +174,7 @@ export const useGameSync = (localPlayerId: string) => {
         infiltratorSpoolUp?: boolean;
         infiltratorActivationPly?: number;
         sectorActivationPly?: number;
+        heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
       };
     },
   ) => {

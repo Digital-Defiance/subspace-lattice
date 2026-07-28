@@ -36,21 +36,22 @@
       "ply": 0,
       "moveLabel": "Opening position",
       "overlays": { "nets": "both" },
-      "voiceover": "This is the board: an 11 by 11 grid. The center cell is a Gravity Well, which acts as an Anomalous Core singularity. Gravity Wells block pieces; they may not occupy or make a path through them. Blue glow is White’s Sensor Net. Red is Black’s. That glow is not decoration — it is where your Beams can move, and where enemy ships get Target Locked.",
-      "durationHintSec": 18
+      "voiceover": "This is the board: an 11 by 11 grid. The center cell is a Gravity Well, which acts as an Anomalous Core singularity. Gravity Wells block pieces; they may not occupy or make a path through them. Blue glow is White’s Sensor Net. Red is Black’s. That glow is not decoration — it is where your heavy ships can slide, and where enemy ships get Target Locked. The Core also creates diagonal seams around its corners that orthogonal Beams cannot use — Refractors can.",
+      "durationHintSec": 20
     },
     {
       "kind": "narration",
       "id": "the-fleet",
-      "headline": "Your fleet — four kinds of ship",
+      "headline": "Your fleet — signal ships",
       "bullets": [
-        "Command Hub — your flagship and power anchor",
-        "Escorts — subspace repeaters that carry the network outward",
-        "Infiltrators — folding-drive phase runner strike craft that jump independent of any signal",
-        "Beams — dreadnoughts that can only fire while riding an active net"
+        "Command Hub — one step any direction; lose it, lose the game",
+        "Escorts — one step orthogonally; they grow your Sensor Net",
+        "Infiltrators — warp almost anywhere, jumping over everything",
+        "Beams — slide any distance, but only inside your own net",
+        "Optional Heavy wing: Refractor (diagonals), Carrier (queen-style)"
       ],
-      "voiceover": "The pieces are a signal fleet. The Command Hub is your flagship and power anchor. Escorts are subspace repeaters that carry the network outward. Infiltrators are folding-drive phase runners that jump independent of any signal. Beams are dreadnoughts that can only fire while riding an active net. The academy boards in this series leave Infiltrators out so the Hub hunt stays readable. Lose your Hub and the battle ends.",
-      "durationHintSec": 28
+      "voiceover": "Meet your fleet. Your Command Hub moves one step in any direction — lose it, and the game ends. Escorts move one step orthogonally, and they're what grows your Sensor Net outward. Infiltrators warp almost anywhere on the board, jumping over everything — except into a square the enemy's net already covers. Beams slide like a rook, any distance in a line, but only through your own net. There's also an optional Heavy wing — Refractors that slide diagonally, and Carriers that slide like a queen — for a bigger battle.",
+      "durationHintSec": 32
     },
     {
       "kind": "board",
@@ -69,7 +70,7 @@
       "bullets": [
         "A piece is Target Locked if its current coordinate lies in the opponent's Sensor Net",
         "While Target Locked, the piece loses special movement and may only move one orthogonal step",
-        "A locked Beam can’t do Beam things"
+        "A locked Beam, Refractor, or Carrier can’t slide"
       ],
       "voiceover": "Cross into the enemy's glow and their net has you now, Target Locked to a single crawling step. A piece is Target Locked if its current coordinate lies in the opponent's Sensor Net. While Target Locked, the piece loses special movement and may only move one orthogonal step. That is how the net punishes overextension.",
       "durationHintSec": 18
@@ -92,12 +93,12 @@
       "headline": "How to play — the first ten minutes",
       "bullets": [
         "Link Escorts so the net reaches midboard",
-        "Slide Beams into files that will matter later",
+        "Slide Beams — or Refractors — into lines that will matter later",
         "Refuse the hang; Hub safety always comes first",
-        "Look for their Hub sitting on an open Beam file"
+        "Watch files, diagonals, and Carrier tether status"
       ],
-      "voiceover": "How to play, simply. Early on: advance central Escorts, keep them linked, and grow the glow toward the middle. Pre-position Beams inside your net so they have lanes when the fight opens. Midgame: Target Locks and trades — but refuse the hang; Hub safety always comes first. If their Hub shares a file with your Beam and the path is clear, that is often the whole game.",
-      "durationHintSec": 20
+      "voiceover": "How to play, simply. Early on: advance central Escorts, keep them linked, and grow the glow toward the middle. Pre-position Beams inside your net so they have lanes when the fight opens — and if Heavy wings are on, park Refractors on diagonals that kiss the Anomaly corners. Midgame: Target Locks and trades — but refuse the hang; Hub safety always comes first. If their Hub shares a clear path with your Beam or Refractor, that is often the whole game.",
+      "durationHintSec": 24
     },
     {
       "kind": "board",

@@ -12,7 +12,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /* pieces are stored as public/pieces/#/{w/b}{k/q/r/b/n/p}.svg
- * with an optional public/pieces/#/pack.json file containing a title at a minimum if it is present.
+ * with an optional public/pieces/#/pack.json (`title`, and optional outline
+ * hints: needsOutlineBlack / needsOutlineWhite, or legacy hasOutline /
+ * hasLightRim / hasLightRimWhite).
  */
 const piecesPath = join(__dirname, '../../../../apps/web', 'public', 'pieces')
 

@@ -6,12 +6,14 @@ YouTube Fleet Academy series mirroring
 | Composition | Episode | Source | Authoring |
 |---|---|---|---|
 | `Episode00` | **Intro to Subspace Lattice** | Beginner overview | hand-written |
-| `Episode01` | Tactical Mindset | Advanced Manual Part I | hand-written |
+| `Episode01` | Tactical Mindset | Advanced Manual Part I (incl. Heavy wings / Anomaly Slice) | hand-written |
 | `Episode02` | Surgical Strike | Mission 1 (7 plies) | hand-written |
 | `Episode03` | Midgame Control | Mission 2 (57 plies, scrubbed) | hand-written |
 | `Episode04` | Sector Clock | Mission 3 (115 plies, scrubbed) | hand-written |
 | `Episode05` | Every Ply: Standard Battle | Mission 2, all 57 plies | **generated** |
 | `Episode06` | Every Ply: Sector-Clock Siege | Mission 3, all 115 plies | **generated** |
+| `Episode07` | Playing Black | Second seat / Initiative Relay | hand-written |
+| `Episode08` | Playing the Heavy Wing | Refractor Wing + Fleet Draft | hand-written |
 
 Board frames are the **same SVGs** as the advanced manual
 (`docs/figures/missions/…`), symlinked into `public/missions`.

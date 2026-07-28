@@ -28,8 +28,8 @@ describe('sim substrate', () => {
   it('hybrid rules enable sensor-constrained beams unlike classic', () => {
     const classic = new SubspaceLatticeEngine({ rulesVersion: 'classic' });
     const hybrid = new SubspaceLatticeEngine({ rulesVersion: 'hybrid' });
-    const classicBeam = classic.getPiece('w-b1')!;
-    const hybridBeam = hybrid.getPiece('w-b1')!;
+    const classicBeam = classic.getPiece('w-h1')!;
+    const hybridBeam = hybrid.getPiece('w-h1')!;
     // Classic beam can slide up the file; hybrid cannot leave net (hub R=3 covers y≤3 on file 2)
     expect(classic.canMovePiece(classicBeam, { x: 2, y: 5 })).toBe(true);
     expect(hybrid.canMovePiece(hybridBeam, { x: 2, y: 5 })).toBe(false);

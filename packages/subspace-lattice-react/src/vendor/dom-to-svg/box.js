@@ -6,6 +6,7 @@ import {
   shouldRasterizeText,
 } from "./fonts.js";
 import { backgroundLayers, renderBackgroundLayers } from "./gradients.js";
+import { parseMatrix } from "./transform.js";
 import {
   getBorderRadii,
   isTransparent,
@@ -82,10 +83,50 @@ function maybeBoxShadow(style, defs) {
   // SVG filters can chain; we chain up to 3 non-inset shadows)
   const shadows = splitShadows(shadow).filter((s) => !s.inset).slice(0, 3);
   if (!shadows.length) return null;
+  return pushAlphaShadowFilter(defs, shadows, "shadow");
+}
 
-  const id = uid("shadow");
+/**
+ * CSS `filter: drop-shadow(...)` (possibly stacked) → SVG filter url.
+ * Used for silhouette outlines on replaced content (e.g. piece <img>s).
+ */
+export function maybeCssDropShadowFilter(style, defs) {
+  const shadows = parseCssDropShadows(style.filter).slice(0, 4);
+  if (!shadows.length) return null;
+  return pushAlphaShadowFilter(defs, shadows, "ds");
+}
+
+/** Parse `drop-shadow(...)` functions from a computed `filter` value. */
+export function parseCssDropShadows(filterValue) {
+  if (!filterValue || filterValue === "none") return [];
+  const out = [];
+  const lower = filterValue.toLowerCase();
+  let i = 0;
+  while (i < filterValue.length) {
+    const idx = lower.indexOf("drop-shadow(", i);
+    if (idx < 0) break;
+    const start = idx + "drop-shadow(".length;
+    let depth = 1;
+    let j = start;
+    for (; j < filterValue.length; j++) {
+      const ch = filterValue[j];
+      if (ch === "(") depth++;
+      else if (ch === ")") {
+        depth--;
+        if (depth === 0) break;
+      }
+    }
+    const inner = filterValue.slice(start, j);
+    const [s] = splitShadows(inner);
+    if (s) out.push({ dx: s.dx, dy: s.dy, blur: s.blur, color: s.color });
+    i = j + 1;
+  }
+  return out;
+}
+
+function pushAlphaShadowFilter(defs, shadows, idPrefix) {
+  const id = uid(idPrefix);
   let filterBody = "";
-  let input = "SourceAlpha";
   const merges = [];
 
   shadows.forEach((s, i) => {
@@ -93,12 +134,15 @@ function maybeBoxShadow(style, defs) {
     const offset = `offset${i}`;
     const flood = `flood${i}`;
     const comp = `comp${i}`;
-    filterBody += tag("feGaussianBlur", { in: i === 0 ? "SourceAlpha" : "SourceAlpha", stdDeviation: Math.max(0, s.blur / 2), result: blur });
+    filterBody += tag("feGaussianBlur", {
+      in: "SourceAlpha",
+      stdDeviation: Math.max(0, s.blur / 2),
+      result: blur,
+    });
     filterBody += tag("feOffset", { in: blur, dx: s.dx, dy: s.dy, result: offset });
     filterBody += tag("feFlood", { "flood-color": s.color, result: flood });
     filterBody += tag("feComposite", { in: flood, in2: offset, operator: "in", result: comp });
     merges.push(comp);
-    void input;
   });
   merges.push("SourceGraphic");
   const mergeNodes = merges.map((r) => tag("feMergeNode", { in: r })).join("");
@@ -147,6 +191,9 @@ export function splitShadows(shadow) {
 
 /**
  * Render ::before / ::after as an extra box + optional text content.
+ * Honors absolute/relative insets, margins, and pure CSS translate transforms
+ * (e.g. `left/top: 50%; margin: -5px` or `transform: translate(-50%, -50%)`
+ * used for centered move-hint dots).
  * @param {{ rasterizeFonts?: boolean }} [options]
  */
 export function renderPseudo(el, which, rootRect, defs, options = {}) {
@@ -172,19 +219,50 @@ export function renderPseudo(el, which, rootRect, defs, options = {}) {
     bottom: 0,
   };
 
+  const marginLeft = parseLength(style.marginLeft, parentRect.width);
+  const marginTop = parseLength(style.marginTop, parentRect.height);
+  const marginRight = parseLength(style.marginRight, parentRect.width);
+  const marginBottom = parseLength(style.marginBottom, parentRect.height);
+
   if (style.position === "absolute" || style.position === "relative") {
     const top = style.top !== "auto" ? parseLength(style.top, parentRect.height) : 0;
     const left = style.left !== "auto" ? parseLength(style.left, parentRect.width) : 0;
     const right = style.right !== "auto" ? parseLength(style.right, parentRect.width) : null;
     const bottom = style.bottom !== "auto" ? parseLength(style.bottom, parentRect.height) : null;
-    fakeRect.left += left;
-    fakeRect.top += top;
-    if (right != null && style.left === "auto") {
-      fakeRect.left = parentRect.right - right - fakeRect.width;
+
+    // CSS absolute: `left`/`top` position the margin edge; then margin inset
+    // the border box (negative margins pull the hint dots onto cell center).
+    if (style.left !== "auto") {
+      fakeRect.left = parentRect.left + left + marginLeft;
+    } else if (right != null) {
+      fakeRect.left = parentRect.right - right - fakeRect.width - marginRight;
+    } else {
+      fakeRect.left += marginLeft;
     }
-    if (bottom != null && style.top === "auto") {
-      fakeRect.top = parentRect.bottom - bottom - fakeRect.height;
+
+    if (style.top !== "auto") {
+      fakeRect.top = parentRect.top + top + marginTop;
+    } else if (bottom != null) {
+      fakeRect.top = parentRect.bottom - bottom - fakeRect.height - marginBottom;
+    } else {
+      fakeRect.top += marginTop;
     }
+  } else {
+    fakeRect.left += marginLeft;
+    fakeRect.top += marginTop;
+  }
+
+  // Pure translate (incl. translate(-50%, -50%) centering) — apply tx/ty.
+  const matrix = parseMatrix(style.transform);
+  if (
+    matrix &&
+    Math.abs(matrix.a - 1) < 1e-6 &&
+    Math.abs(matrix.d - 1) < 1e-6 &&
+    Math.abs(matrix.b) < 1e-6 &&
+    Math.abs(matrix.c) < 1e-6
+  ) {
+    fakeRect.left += matrix.e;
+    fakeRect.top += matrix.f;
   }
 
   if (fakeRect.width <= 0 && fakeRect.height <= 0 && !text) return "";

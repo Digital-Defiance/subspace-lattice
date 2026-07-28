@@ -2,17 +2,18 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 export type BoardContrast = 'classic' | 'high';
 
-export const BOARD_CONTRAST_STORAGE_KEY = 'subspace-lattice.boardContrast';
+export const BOARD_CONTRAST_STORAGE_KEY = 'subspace-lattice.boardContrast.v2';
+export const DEFAULT_BOARD_CONTRAST: BoardContrast = 'high';
 const CHANGE_EVENT = 'subspace-lattice:board-contrast';
 
 function readStoredContrast(): BoardContrast {
-  if (typeof window === 'undefined') return 'classic';
+  if (typeof window === 'undefined') return DEFAULT_BOARD_CONTRAST;
   try {
-    return window.localStorage.getItem(BOARD_CONTRAST_STORAGE_KEY) === 'high'
-      ? 'high'
-      : 'classic';
+    const raw = window.localStorage.getItem(BOARD_CONTRAST_STORAGE_KEY);
+    if (raw === 'classic' || raw === 'high') return raw;
+    return DEFAULT_BOARD_CONTRAST;
   } catch {
-    return 'classic';
+    return DEFAULT_BOARD_CONTRAST;
   }
 }
 
@@ -44,6 +45,7 @@ function writeStoredContrast(next: BoardContrast): void {
 /**
  * Persisted board contrast (classic glyphs + muted nets, or high-contrast
  * hulls + brighter nets). Stored under {@link BOARD_CONTRAST_STORAGE_KEY}.
+ * Default: high contrast.
  *
  * Pass `forced` to lock a mode without writing (figure harnesses).
  */
@@ -53,7 +55,7 @@ export function useBoardContrast(
   const stored = useSyncExternalStore(
     subscribe,
     readStoredContrast,
-    () => 'classic' as BoardContrast,
+    () => DEFAULT_BOARD_CONTRAST,
   );
   const contrast = forced ?? stored;
 

@@ -69,10 +69,10 @@
     {
       "kind": "outro",
       "id": "outro",
-      "headline": "Academy complete",
-      "nextEpisode": "Practice vs AI · Export a debug log if something feels off",
-      "voiceover": "That’s the Fleet Academy series: mindset, Surgical Strike, midgame control, and the sector clock. Open the advanced manual for every annotated ply — then practice against the AI.",
-      "durationHintSec": 9
+      "headline": "Core missions complete",
+      "nextEpisode": "Episodes 5–6 full ply records · Episode 7 Playing Black",
+      "voiceover": "That’s the core mission arc: mindset, Surgical Strike, midgame control, and the sector clock. Episodes five and six are the unabridged ply records. Next seated lesson: playing Black against the Initiative Relay.",
+      "durationHintSec": 10
     }
   ]
 }

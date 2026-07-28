@@ -9,6 +9,7 @@ import {
 import { Board } from './Board';
 import { ObjectiveHud } from './ObjectiveHud';
 import { elementToSvg } from '../vendor/dom-to-svg/index.js';
+import { defaultPieceStyleIndex } from '../hooks/usePieceStyle';
 import './FiguresCaptureHarness.scss';
 
 interface RulesFiguresApi {
@@ -130,6 +131,8 @@ export function FiguresCaptureHarness() {
                 localPlayer="OBSERVER"
                 guidance={guidance}
                 contrast="high"
+                pieceStyle={defaultPieceStyleIndex()}
+                contrastOutline={true}
                 showContrastToggle={false}
               />
             </div>

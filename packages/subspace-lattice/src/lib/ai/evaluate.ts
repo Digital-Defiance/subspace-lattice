@@ -1,9 +1,12 @@
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
+import { hubInOneEvalEnabled } from './tactical';
 
 const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.CommandHub]: 10_000,
+  [PieceType.Carrier]: 90,
+  [PieceType.Refractor]: 55,
   [PieceType.Beam]: 50,
   [PieceType.Infiltrator]: 40,
   [PieceType.Escort]: 25,
@@ -33,7 +36,7 @@ export function evaluatePosition(
   }
 
   // Hub-in-one: side to move can capture Command Hub — treat as decided.
-  if (sideToMoveCanCaptureHub(engine)) {
+  if (hubInOneEvalEnabled() && sideToMoveCanCaptureHub(engine)) {
     return state.currentPlayer === perspective ? 99_000 : -99_000;
   }
 

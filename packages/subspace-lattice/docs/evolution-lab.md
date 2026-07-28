@@ -293,6 +293,24 @@ large ordinal gaps (~15 / ~12). Combined win rates: Strong beat Normal
 | **A** | `hub3/esc1/link2/ρ0.45/hold1/neutral/act100/relay1` | **Passes Track A** at production budget; ships as `FLEET_V1_RULES`; human playtest before shipping default |
 | Spool | `hybrid-spool` | Benched — improves fairness slightly, craters infiltrator lethality without fixing win-path |
 
+### 5.1 Agent regression note (2026-07-27)
+
+Commit `83109c9` (Jul 23) added hub-mate avoidance on the **MCTS root move
+list**. Equal-strength MCTS@30 fairness then stopped finding Surgical Strikes
+(hub ~0%, deadlock ~75%) even though rules were unchanged vs the Jul 21
+confirm. Ablation:
+
+| Setting | 24-game fleet cell |
+| --- | --- |
+| Mate filter on MCTS root (post-83109c9) | REJECT — hub 0%, deadlock 75% |
+| Mate filter off / pre-83109c9 agents | OK — hub ~83%, fair ~0.87 |
+| Hub-in-one **eval** alone (no root filter) | Still decisive hub-heavy |
+
+**Fix:** MCTS root no longer mate-filters; HeuristicAi / Fast UI still use
+`pickBestAvoidingHubMate`. Ablation env: `LATTICE_HUB_SAFETY=0`,
+`LATTICE_HUB_MATE_FILTER=0`, `LATTICE_HUB_IN_ONE=0`. Evidence:
+`sim-runs/evolve-20260727-hub-safety-{ON,OFF}.jsonl`.
+
 Clock-function verification for any future candidate:
 
 ```bash

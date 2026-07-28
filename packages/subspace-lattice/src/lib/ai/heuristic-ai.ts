@@ -13,6 +13,8 @@ export interface AiMoveChoice extends AgentMove {
 
 const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.CommandHub]: 10_000,
+  [PieceType.Carrier]: 90,
+  [PieceType.Refractor]: 55,
   [PieceType.Beam]: 50,
   [PieceType.Infiltrator]: 40,
   [PieceType.Escort]: 25,

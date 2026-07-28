@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
+import type { HeavyWingPreset } from '@subspace-lattice/core';
 import {
   DEFAULT_LOBBY_RULES,
   lobbyRulesAreDefault,
@@ -8,6 +9,13 @@ import {
 import './Lobby.scss';
 
 type LobbyTab = 'create' | 'join' | 'local';
+
+const HEAVY_WING_HINTS: Record<HeavyWingPreset, string> = {
+  standard: 'Twin Lattice Dreadnoughts on files 2 & 8 (Rated default).',
+  'refractor-wing': 'Beam + Refractor on files 3 & 7 (Unrated).',
+  'fleet-draft':
+    'Refractor + Hub-anchored Carrier on files 3 & 7 (Unrated).',
+};
 
 export type CreateRoomOptions = {
   allowObservers?: boolean;
@@ -77,6 +85,9 @@ export const Lobby: React.FC<LobbyProps> = ({
   const [sectorActivationPly, setSectorActivationPly] = useState(
     DEFAULT_LOBBY_RULES.sectorActivationPly,
   );
+  const [heavyWingPreset, setHeavyWingPreset] = useState<HeavyWingPreset>(
+    DEFAULT_LOBBY_RULES.heavyWingPreset,
+  );
 
   useEffect(() => {
     setCallSign(defaultCallSign);
@@ -86,6 +97,7 @@ export const Lobby: React.FC<LobbyProps> = ({
     infiltratorSpoolUp,
     infiltratorActivationPly,
     sectorActivationPly,
+    heavyWingPreset,
   };
   const customModules = !lobbyRulesAreDefault(lobbyRules);
 
@@ -194,6 +206,22 @@ export const Lobby: React.FC<LobbyProps> = ({
           Fleet default is {DEFAULT_LOBBY_RULES.sectorActivationPly}. 0 = armed
           from the start.
         </p>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-heavy-wing">Heavy wing</label>
+        <select
+          id="lobby-heavy-wing"
+          value={heavyWingPreset}
+          onChange={(e) =>
+            setHeavyWingPreset(e.target.value as HeavyWingPreset)
+          }
+          data-testid="lobby-heavy-wing"
+        >
+          <option value="standard">Standard Beams</option>
+          <option value="refractor-wing">Refractor Wing</option>
+          <option value="fleet-draft">Fleet Draft</option>
+        </select>
+        <p className="lobby-module-hint">{HEAVY_WING_HINTS[heavyWingPreset]}</p>
       </div>
       {customModules && (
         <p className="lobby-module-warn" data-testid="lobby-modules-unrated">

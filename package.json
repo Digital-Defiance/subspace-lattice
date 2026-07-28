@@ -11,6 +11,7 @@
     "sim": "nx run core:sim",
     "calibrate:ai": "nx run core:calibrate-ai",
     "evolve": "nx run core:evolve",
+    "heavy-draft:geometry": "nx run core:heavy-draft-geometry",
     "build:rules": "bash scripts/build-rules.sh",
     "build:advanced-manual": "bash scripts/build-advanced-manual.sh",
     "capture:mission-figures": "node scripts/capture-mission-figures.mjs",
@@ -24,6 +25,8 @@
     "videos:render:ep04": "yarn workspace @subspace-lattice/academy-videos render:ep04",
     "videos:render:ep05": "yarn workspace @subspace-lattice/academy-videos render:ep05",
     "videos:render:ep06": "yarn workspace @subspace-lattice/academy-videos render:ep06",
+    "videos:render:ep07": "yarn workspace @subspace-lattice/academy-videos render:ep07",
+    "videos:render:ep08": "yarn workspace @subspace-lattice/academy-videos render:ep08",
     "videos:seed": "yarn workspace @subspace-lattice/academy-videos seed:mission-episodes",
     "sync:docs-public": "bash scripts/sync-docs-public.sh",
     "handbook:dev": "yarn workspace @subspace-lattice/handbook dev",
@@ -70,7 +73,8 @@
     "auth:firebase": "firebase login --reauth",
     "auth:gcloud": "gcloud auth login && gcloud config set project warp-12",
     "auth:npm": "npm login --registry registry.npmjs.org",
-    "auth:all": "yarn auth:firebase && yarn auth:gcloud && yarn auth:npm"
+    "auth:all": "yarn auth:firebase && yarn auth:gcloud && yarn auth:npm",
+    "validate:pieces": "./packages/subspace-lattice/scripts/validate-public-pieces.sh"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

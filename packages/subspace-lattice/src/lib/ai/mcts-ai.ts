@@ -4,7 +4,6 @@ import { Agent, AgentMove } from './agent';
 import { evaluatePosition } from './evaluate';
 import { HeuristicAi } from './heuristic-ai';
 import {
-  filterMovesAvoidingHubMate,
   findImmediateWinningMove,
   moveLeavesHubHanging,
   shallowBestMove,
@@ -86,7 +85,6 @@ export class MctsAi implements Agent {
     }
 
     // Cap branching for hybrid infiltrator warps: keep tactical + sample.
-    // Prefer root moves that avoid an immediate Surgical Strike reply.
     const rootMoves = this.selectRootMoves(engine, legal);
     const rootPlayer = engine.getState().currentPlayer;
     const root: MctsNode = {
@@ -125,10 +123,12 @@ export class MctsAi implements Agent {
     }>,
   ): AgentMove[] {
     const MAX_ROOT = 48;
-    const candidates = filterMovesAvoidingHubMate(
-      engine,
-      legal.map((m) => ({ pieceId: m.pieceId, to: m.to })),
-    );
+    // Do not mate-filter the MCTS root. Jul 23 hub-safety filtering here
+    // collapsed Surgical Strike self-play (Track A deadlock ~75%, hub ~0%)
+    // even though opening hang-rate is 0 — midgame over-pruning left only
+    // territorial lines. Hub-in-one eval + UCT already punish hanging the hub;
+    // HeuristicAi / Fast UI still use pickBestAvoidingHubMate.
+    const candidates = legal.map((m) => ({ pieceId: m.pieceId, to: m.to }));
     if (candidates.length <= MAX_ROOT) {
       return candidates;
     }

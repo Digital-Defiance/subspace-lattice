@@ -1,0 +1,144 @@
+{
+  "id": "ep07-playing-black",
+  "compositionId": "Episode07",
+  "title": "Playing Black",
+  "youtubeTitle": "Subspace Lattice Academy Ep.7 — Playing Black (Second Seat)",
+  "description": "How to sit the Black seat under hybrid-fleet: Initiative Relay, refuse-the-hang discipline, reactive structure, Contested Space, and the clock as equalizer. Companion to docs/advanced-manual.pdf.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 7",
+      "headline": "Playing Black",
+      "subhead": "Second seat under hybrid-fleet — survive the Relay, then take the initiative back.",
+      "voiceover": "Episode seven: playing Black. White moves first and starts with an Initiative Relay Escort. Your job is not to panic — it is to refuse hangs, contest structure, and make White’s extra tempo expensive.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "narration",
+      "id": "the-deal",
+      "headline": "The deal you accepted",
+      "bullets": [
+        "White moves first",
+        "White’s Initiative Relay Escort starts forward",
+        "You answer with structure — not panic trades"
+      ],
+      "voiceover": "Under shipping fleet rules, White gets the first move and a forward Relay Escort as visible compensation. That is not a handicap on your Hub — it is a head start on midboard coverage. Black’s answer is structure: mirror useful parking, keep the chain linked, and never gift Surgical Strike for free.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "relay-start",
+      "missionId": "mission-short-strike",
+      "ply": 0,
+      "moveLabel": "Relay already forward",
+      "overlays": { "nets": "both" },
+      "voiceover": "Mission 1 start. Look at White’s forward Escort — that is the Relay. Red already covers more early glow than a pure mirror. As Black, price that every ply: White can open Beam lanes sooner. Your Hub still has to survive.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "black-scan",
+      "headline": "Black’s look-ahead (same five questions)",
+      "bullets": [
+        "1 · Can I take their Hub this ply?",
+        "2 · Can they take mine after my move?",
+        "3 · What does this do for the nets?",
+        "4 · Files — and diagonals if Heavy wings are on",
+        "5 · Am I overextending into blue?"
+      ],
+      "voiceover": "The scan does not change seats. Can you take their Hub? Can they take yours after your intended move — refuse the hang. What does the move do for the nets? Then check files, and diagonals if Heavy wings are live. Finally: are you stepping into White’s glow just to look aggressive?",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "trap-temptation",
+      "missionId": "mission-short-strike",
+      "ply": 4,
+      "moveLabel": "Black’s classic Hub bait",
+      "overlays": { "hubEnPrise": true, "nets": "both" },
+      "voiceover": "Ply four of Mission 1 — from Black’s chair. Stepping next to White’s Hub feels like a tactic. It is usually a trap you spring on yourself: if White is awake, they capture and you lose tempo while your own Hub still sits on a Beam file.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-hang",
+      "missionId": "mission-short-strike",
+      "ply": 4,
+      "revealPly": 5,
+      "prompt": "You are Black. White’s Hub is adjacent. Do you force the hang — or did you just hang yourself?",
+      "overlays": { "hubEnPrise": true, "fiveQuestions": true },
+      "voiceover": "Pause and predict from the Black seat. The five-question scan still applies to you. A one-ply Hub touch that does not survive the reply is not pressure — it is a gift.",
+      "durationHintSec": 10,
+      "revealVoiceover": "White refuses. Your bait fails, tempo is gone, and the Beam file against your Hub is still open. That is the usual Black beginner death: greed without a safe follow-up.",
+      "revealDurationHintSec": 10
+    },
+    {
+      "kind": "narration",
+      "id": "better-plan",
+      "headline": "What Black actually wants early",
+      "bullets": [
+        "Park Beams on files that will matter",
+        "Grow Escorts — do not leave them unlinked",
+        "Contest the Relay side before it becomes a highway",
+        "Save Infiltrator warps for real targets — not panic hops"
+      ],
+      "voiceover": "A better Black opening: mirror Beam parking so you are not stranded in the corners, push Escorts to grow red coverage, and contest the side where White’s Relay is building. Infiltrators are your reactive weapon — warping into a free capture or a lock — not a random teleport every time White advances.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "mirror-beams",
+      "missionId": "mission-standard-battle",
+      "ply": 8,
+      "moveLabel": "Opening placement done",
+      "overlays": { "nets": "both" },
+      "voiceover": "Mission 2 after the Beam parking phase. Black has mirrored onto useful files. This is the posture you want: long-range pieces already sitting where coverage will arrive — not still stuck in the corners while White’s Relay eats the midboard.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "midgame-pressure",
+      "missionId": "mission-standard-battle",
+      "ply": 35,
+      "moveLabel": "Contested midboard",
+      "overlays": { "nets": "contested" },
+      "voiceover": "Midgame. Purple is Contested Space — it counts for neither side’s coverage. As Black, projecting into White’s net is not only defense: it stalls their Integration Hold later and punishes overextended Escorts with Target Lock.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "clock-equalizer",
+      "headline": "When Strike will not land",
+      "bullets": [
+        "Dig-in is allowed — forever draws are not",
+        "After ply 100, coverage is the scoreboard",
+        "Contested Space breaks their Integration streak",
+        "Hub marches are territorial, not sightseeing"
+      ],
+      "voiceover": "If both fleets dig in, Black’s equalizer is the sector clock. After activation at ply one hundred, every net cell is a point. Paint Contested Space into White’s glow to break their hold. March your Hub when Strike is not landing — the flagship moves the lattice with it.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "clock-seat",
+      "missionId": "mission-clock-finish",
+      "ply": 100,
+      "moveLabel": "Clock arms — Black must score too",
+      "overlays": { "nets": "contested", "fiveQuestions": true, "clockWarning": true },
+      "voiceover": "Mission 3 at activation. From Black’s seat the lesson is the same as White’s: Surgical Strike is still legal, but if the Hub hunt failed, coverage and Contested Space decide. Sitting still after ply one hundred is how second seat loses a drawn-looking siege.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Black’s creed",
+      "nextEpisode": "Episode 8 — Playing the Heavy Wing",
+      "voiceover": "Playing Black: respect the Relay, refuse the hang, contest structure, and use Contested Space and the clock when Strike will not land. Next: optional Heavy wings — Refractors, Carriers, and the Anomaly Slice.",
+      "durationHintSec": 10
+    }
+  ]
+}

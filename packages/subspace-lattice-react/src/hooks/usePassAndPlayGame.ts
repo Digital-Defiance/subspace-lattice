@@ -8,6 +8,7 @@ import {
   GameState,
   LatticeDebugExport,
   PlayerColor,
+  heavyWingPresetFromRules,
   resolveFleetLobbyRules,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
@@ -103,6 +104,9 @@ export function usePassAndPlayGame() {
       if (rules.sectorActivationPly !== 100) {
         moduleBits.push(`clock@${rules.sectorActivationPly}`);
       }
+      const wing = heavyWingPresetFromRules(rules);
+      if (wing === 'refractor-wing') moduleBits.push('wing=refractor');
+      if (wing === 'fleet-draft') moduleBits.push('wing=fleet-draft');
       const modulesNote = moduleBits.length
         ? ` · ${moduleBits.join(' ')}`
         : '';
@@ -161,14 +165,14 @@ export function usePassAndPlayGame() {
   }, [engine, handoffSeat, appendLog, labelFor]);
 
   const refresh = (next: SubspaceLatticeEngine) => {
-    setEngine(SubspaceLatticeEngine.fromState(next.getState()));
+    setEngine(SubspaceLatticeEngine.fromState(next.getState(), next.getRules()));
   };
 
   const sendMove = useCallback(
-    (pieceId: string, to: Coordinate) => {
-      if (!engine || handoffSeat != null) return;
+    (pieceId: string, to: Coordinate): boolean => {
+      if (!engine || handoffSeat != null) return false;
       const state = engine.getState();
-      if (state.winner) return;
+      if (state.winner) return false;
       const mover = state.currentPlayer;
       const piece = engine.getPiece(pieceId);
       const from = piece ? { ...piece.position } : undefined;
@@ -183,7 +187,7 @@ export function usePassAndPlayGame() {
         source: 'human',
         ok,
       });
-      if (!ok) return;
+      if (!ok) return false;
 
       appendLog(
         formatMoveLogLine({
@@ -214,6 +218,7 @@ export function usePassAndPlayGame() {
         setHandoffSeat(after.currentPlayer);
       }
       refresh(engine);
+      return true;
     },
     [engine, handoffSeat, appendLog, labelFor],
   );
@@ -253,6 +258,7 @@ export function usePassAndPlayGame() {
     handoffPending,
     handoffSeat,
     labelFor,
+    appendLog,
     confirmHandoff,
     openPassAndPlaySetup,
     confirmPassAndPlaySetup,
