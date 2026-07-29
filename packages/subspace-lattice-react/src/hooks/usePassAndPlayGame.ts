@@ -13,6 +13,7 @@ import {
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
+import { playGameSound, playLatticeSoundsAfterPly } from '../lib/game-sounds';
 
 export type PassPlaySeatNames = {
   white: string;
@@ -94,6 +95,7 @@ export function usePassAndPlayGame() {
       debugLog.current.clear();
       setEngine(next);
       setActive(true);
+      playGameSound('game-start');
       const whiteLabel = normalizeName(names.white, 'White');
       const blackLabel = normalizeName(names.black, 'Black');
       const moduleBits: string[] = [];
@@ -177,6 +179,7 @@ export function usePassAndPlayGame() {
       const piece = engine.getPiece(pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = engine.getPieceAt(to);
+      const before = structuredClone(engine.getState());
       const ok = engine.movePiece(pieceId, to);
       debugLog.current.append({
         player: mover,
@@ -189,6 +192,7 @@ export function usePassAndPlayGame() {
       });
       if (!ok) return false;
 
+      playLatticeSoundsAfterPly(before, engine);
       appendLog(
         formatMoveLogLine({
           player: labelFor(mover),
@@ -228,6 +232,7 @@ export function usePassAndPlayGame() {
     const state = engine.getState();
     if (state.winner) return false;
     const mover = state.currentPlayer;
+    const before = structuredClone(engine.getState());
     const ok = engine.fireEmp();
     debugLog.current.append({
       player: mover,
@@ -238,6 +243,7 @@ export function usePassAndPlayGame() {
       ok,
     });
     if (!ok) return false;
+    playLatticeSoundsAfterPly(before, engine);
     appendLog(
       formatSystemLogLine(`${labelFor(mover)} fires Command Overload (EMP).`),
     );
@@ -270,8 +276,10 @@ export function usePassAndPlayGame() {
     const state = engine.getState();
     if (state.winner) return false;
     const mover = state.currentPlayer;
+    const before = structuredClone(engine.getState());
     const ok = engine.resign(mover);
     if (!ok) return false;
+    playLatticeSoundsAfterPly(before, engine);
     appendLog(formatSystemLogLine(`${labelFor(mover)} resigns.`));
     const after = engine.getState();
     if (after.winner) {

@@ -88,6 +88,12 @@ episode JSON  →  Remotion compositions  →  MP4
    Spoken lines run through `scripts/lib/speakable.mjs` so `(5,9)` becomes
    **column five, row number nine** (not "five comma nine", and not bare
    "row 5" — ElevenLabs often voices "row" as /raʊ/ and garbles the digit).
+   Academy jargon pronunciation lives in `scripts/tts/lattice-academy.pls`
+   (IPA phonemes for `orthogonal`, verb-stress `contest*`, etc.) — parsed and
+   uploaded via ElevenLabs `add-from-rules` and attached on TTS
+   (`eleven_flash_v2`). Default voice is `NtS6nEHDYMQC9QczMQuq` (override with
+   `ELEVENLABS_VOICE_ID`). Force a lexicon re-upload with
+   `yarn videos:tts -- --sync-dictionary`.
    Re-run TTS after script changes; use `--scene <id>` to regenerate one clip.
 
 4. **Render** (uses TTS clips from `public/audio/<episode-id>/` when present;

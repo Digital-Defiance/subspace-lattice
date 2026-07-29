@@ -75,13 +75,14 @@ export function speakableCoord(_match, x, y) {
 }
 
 /**
- * `lattice.iwgf.org` → `lattice dot I W G F dot O R G`
- * `iwgf.org` → `I W G F dot O R G`
+ * `lattice.iwgf.org` → `lattice dot eye W G F dot O R G`
+ * `iwgf.org` → `eye W G F dot O R G`
  *
- * ElevenLabs otherwise swallows the leading I (reads something like "wuh-giff").
+ * Spell the leading I as "eye" — bare "I" often voices as "ee". Spaced
+ * letter names also stop ElevenLabs from swallowing the brand into "wuh-giff".
  */
 export function speakableIwgfHost(_match, host) {
-  const brand = 'I W G F dot O R G';
+  const brand = 'eye W G F dot O R G';
   return host ? `${host} dot ${brand}` : brand;
 }
 

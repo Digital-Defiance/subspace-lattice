@@ -1,16 +1,20 @@
 #!/bin/bash
 
-# Validate the public pieces in the web app.
+# Validate the public pieces in the web app, then refresh the react-ui manifest.
 
-# run the validate-public-pieces.ts script
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+set -euo pipefail
 
-RESULT=$(npx tsx "${ROOT}/src/lib/validate-public-pieces.ts")
+PKG_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+REPO_ROOT="$(cd "${PKG_ROOT}/../.." && pwd)"
+
+RESULT=$(npx tsx "${PKG_ROOT}/src/lib/validate-public-pieces.ts")
 
 if [[ $RESULT == *"Missing 0 pieces"* ]]; then
     echo "All pieces are present"
 else
     echo "Some pieces are missing"
-    echo $RESULT
+    echo "$RESULT"
     exit 1
 fi
+
+(cd "${REPO_ROOT}" && yarn pieces:manifest)

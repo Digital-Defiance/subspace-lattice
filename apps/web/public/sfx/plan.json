@@ -1,0 +1,102 @@
+{
+  "generatedAt": "2026-07-29T21:01:15.557Z",
+  "model": "eleven_text_to_sound_v2",
+  "plan": [
+    {
+      "id": "game-start",
+      "fingerprint": "00b3242794606f977a139e7d780af9eeac8378c55e6402051d68c48f4f5f7bf4",
+      "chars": 230,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/game-start.mp3"
+    },
+    {
+      "id": "command-overload",
+      "fingerprint": "2c78011c6cd9723233667b1b7429d370500e1d67331c03f0f696b04f16791bd7",
+      "chars": 236,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/command-overload.mp3"
+    },
+    {
+      "id": "infiltrator-warp",
+      "fingerprint": "8c2a88a2fda439b12c84c056034b5df423ee64cbcf0b5d1cbcd999b29d8cac46",
+      "chars": 209,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/infiltrator-warp.mp3"
+    },
+    {
+      "id": "target-lock",
+      "fingerprint": "102646241f77ae4432ecf4b50fc3b54925687ad14ff273a381a56a27a5580fb1",
+      "chars": 244,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/target-lock.mp3"
+    },
+    {
+      "id": "surgical-strike",
+      "fingerprint": "4febd9f841cf194b35af573f89050aec9935d898bd7b6941fda4589c32368a35",
+      "chars": 239,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/surgical-strike.mp3"
+    },
+    {
+      "id": "clock-arm",
+      "fingerprint": "c5d2e380ebc3e02483f3ebc9449a2ece3916c78da0e8cdfdaec81a919d335ff3",
+      "chars": 261,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/clock-arm.mp3"
+    },
+    {
+      "id": "sector-integration",
+      "fingerprint": "222863d05f3f753886a988f1085758fb8f46654d8bb733db13f109f9a99170fd",
+      "chars": 324,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/sector-integration.mp3"
+    },
+    {
+      "id": "resignation",
+      "fingerprint": "147adc80dc9fc75f64b1dc26258584412c27d9603f6f0622fdadefa6d106851c",
+      "chars": 244,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/resignation.mp3"
+    },
+    {
+      "id": "emp-charged",
+      "fingerprint": "2e6e226136c649476c39ad028cd9231209c0534db7850e8ceb09dbbec8b06224",
+      "chars": 259,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/emp-charged.mp3"
+    },
+    {
+      "id": "escort-move",
+      "fingerprint": "56151d3a8680ca3c3f5fb1af9211e4122c1635aa638f44102004e723d73bd201",
+      "chars": 206,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/escort-move.mp3"
+    },
+    {
+      "id": "command-hub-move",
+      "fingerprint": "1794089c4709206e74a533b64c89578c06a8f6ca7914cc13d054ba0e4f2076c8",
+      "chars": 255,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/command-hub-move.mp3"
+    },
+    {
+      "id": "beam-move",
+      "fingerprint": "f8d0a0058a9c440576bacc278d07e67e1c65b27b4008cdeaaad4ad69ce22d9f5",
+      "chars": 253,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/beam-move.mp3"
+    },
+    {
+      "id": "refractor-move",
+      "fingerprint": "ba6ed1406a5594d858d52bc83b8b7ae38dc81e1167dd6c8e3929c89a7b8bb11f",
+      "chars": 240,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/refractor-move.mp3"
+    },
+    {
+      "id": "carrier-move",
+      "fingerprint": "17e37fb60a080dce79fe9585c4d109384c6f9cc44b8e19c87b6ae4a1cd9756c5",
+      "chars": 215,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/carrier-move.mp3"
+    },
+    {
+      "id": "capture",
+      "fingerprint": "0ab44b19cdd6264bd5a5f22bf7d7e1f24478e4f0cb5ab620bb68f869f16c1f3d",
+      "chars": 241,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/capture.mp3"
+    },
+    {
+      "id": "infiltrator-spool",
+      "fingerprint": "57a91bd67c041c3a86fb0b83a36ee3e04756d7f7822ea6286d2e133dc7162f10",
+      "chars": 253,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/infiltrator-spool.mp3"
+    }
+  ]
+}

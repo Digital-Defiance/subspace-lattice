@@ -94,6 +94,7 @@ apps/handbook/.vitepress/cache/
 # Remotion academy videos
 apps/academy-videos/out/
 apps/academy-videos/public/audio/
+apps/academy-videos/scripts/tts/.dictionary-ids.json
 
 # System Files
 .DS_Store

@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "description": "Subspace Lattice game sound effects — ElevenLabs text-to-sound prompts.",
+  "outputDir": "apps/web/public/sfx",
+  "defaults": {
+    "modelId": "eleven_text_to_sound_v2",
+    "outputFormat": "mp3_44100_128",
+    "promptInfluence": 0.45
+  },
+  "effects": [
+    {
+      "id": "game-start",
+      "title": "Match / mission spool-up",
+      "durationSeconds": 8,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sci-fi subspace signal network activating. A clean, resonant digital synth hum that swells in volume and intensity. High-tech energy field powering up, vibrating with a steady, ethereal, pulsating frequency. Crisp sci-fi power on."
+    },
+    {
+      "id": "command-overload",
+      "title": "Command Overload / EMP",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Heavy sci-fi capacitor charging for an EMP blast. Aggressive, unstable electromagnetic crackles and static. A low, violent bass drone pitching up rapidly into a deafening, piercing energy whine. Overloaded circuits, intense power surge."
+    },
+    {
+      "id": "infiltrator-warp",
+      "title": "Infiltrator Warp",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sci-fi spatial distortion. A sudden, violent reverse-vacuum suction sound that instantly snaps into a deep, resonant sub-bass thud. Warping through a dimension, tearing spacetime, heavy instantaneous movement."
+    },
+    {
+      "id": "target-lock",
+      "title": "Target Lock",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sharp sci-fi electronic warning ping. A sudden, high-pitched digital radar chirp followed instantly by a harsh, descending bass tone. Access denied error, system lockdown, hostile detection alarm. Clean and snappy. As might be heard on an F-15."
+    },
+    {
+      "id": "surgical-strike",
+      "title": "Surgical Strike",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Fast sci-fi energy swoosh slicing into a heavy, resonant bass thud. The impact instantly blooms into a triumphant, semi-musical digital chime. A clean, pristine high-tech victory tone that echoes out. Decisive checkmate, perfect precision."
+    },
+    {
+      "id": "clock-arm",
+      "title": "Clock Arm",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "A massive, deafening mechanical thunk. The loud, heavy sound of a giant steel vault locking into place, immediately followed by a deep, slow, ominous metallic ticking that echoes and fades into the dark. High tension, doomsday clock activating, heavy machinery."
+    },
+    {
+      "id": "sector-integration",
+      "title": "Sector Integration",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "A massive sci-fi energy wave sweeping outward, rapidly building in volume and width. The triumphant, expanding synthesizer swell suddenly triggers a heavy, catastrophic power-down. The deep, satisfying sound of a massive fleet grid collapsing into total blackout. System overload, territorial dominance, overwhelming signal."
+    },
+    {
+      "id": "resignation",
+      "title": "Resignation",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sci-fi system intentionally powering down. A smooth, descending electronic tone that slowly winds down into a low, quiet sub-bass hum before clicking off softly. Graceful deactivation, intentional system shutdown, quiet melancholy, empty space."
+    },
+    {
+      "id": "emp-charged",
+      "title": "EMP Charged",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "A dark, cinematic sci-fi synthesizer swell locking into a steady, rhythmic pulse. The sound of a heavy spacecraft engine overclocking, generating a stable but threatening harmonic drone. Weaponized electromagnetism, fully charged and waiting, tense room tone."
+    },
+    {
+      "id": "escort-move",
+      "title": "Escort Move",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Soft electromagnetic thud. A quiet, hollow metallic click followed by a split-second, muted energy sizzle. Sci-fi board game piece being placed on a magnetic grid. Satisfying, low velocity, heavy but quiet."
+    },
+    {
+      "id": "command-hub-move",
+      "title": "Command Hub Move",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Deep, heavy sci-fi generator shifting position. A low-frequency sub-bass thud followed immediately by a resonant, pulsing electromagnetic hum that stabilizes. Massive spacecraft engine moving slightly, establishing a new power grid, heavy physical weight."
+    },
+    {
+      "id": "beam-move",
+      "title": "Beam Move",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sci-fi magnetic rail launch. A smooth, accelerating digital whoosh that travels cleanly from left to right, ending in a solid but muffled thud. A massive heavy dreadnought sliding seamlessly down an energized corridor. Clean, aerodynamic, linear energy."
+    },
+    {
+      "id": "refractor-move",
+      "title": "Refractor Move",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Sharp, crystalline sci-fi energy slice. A high-frequency, glass-like digital sweep with a distinct phasing or flanging effect, ending in a sharp click. Tearing through dimensional fabric, sleek, aerodynamic cutting sound, high-tech evasion."
+    },
+    {
+      "id": "carrier-move",
+      "title": "Carrier Move",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Cinematic, dark sci-fi propulsion. A deep, mechanical metallic groan layered with a thick, vibrating synthesizer drone that pushes outward heavily. Imposing, slow but unstoppable momentum, massive grid displacement."
+    },
+    {
+      "id": "capture",
+      "title": "Capture",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Fast sci-fi energy weapon impacting a metallic hull. A sharp, high-velocity laser crack followed immediately by a tight, localized metallic crunch and a quick burst of static. Clean, decisive impact, tactical board game capture, zero reverb."
+    },
+    {
+      "id": "infiltrator-spool",
+      "title": "Infiltrator Spool",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Fast sci-fi targeting sequence. A rapid, accelerating series of crisp digital telemetry pings that instantly resolve into a sharp, bright confirmation chime. Triangulating a location, painting a target, high-tech navigational lock. Clean, fast UI alert."
+    }
+  ]
+}

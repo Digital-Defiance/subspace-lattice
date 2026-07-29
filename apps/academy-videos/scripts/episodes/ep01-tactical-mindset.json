@@ -26,7 +26,7 @@
         "Refractors — diagonal vectors past Anomaly corners",
         "Carriers — omni slide while Hub-anchored; crawl when drifting"
       ],
-      "voiceover": "Rated play opens with twin Beams. Lobby Heavy wings can add Refractors and Carriers. Learn all three as one geometry: Beams hold orthogonal lanes, Refractors cut diagonal seams around the Anomalous Core, and Carriers are fortress queens while tethered to the Hub — or a single-step crawl if they drift outside radius three.",
+      "voiceover": "Rated play defaults to twin Beams. In the lobby, the Heavy Wing setting offers three options: Standard Beams, Refractor Wing, or Fleet Draft, which bring Refractors and Carriers into play. Learn all three as one geometry: Beams hold orthogonal lanes, Refractors cut diagonal seams around the Anomalous Core, and Carriers are fortress queens while tethered to the Hub — or a single-step crawl if they drift outside radius three.",
       "durationHintSec": 18
     },
     {

@@ -15,6 +15,9 @@ const __dirname = dirname(__filename);
  * with an optional public/pieces/#/pack.json (`title`, and optional outline
  * hints: needsOutlineBlack / needsOutlineWhite, or legacy hasOutline /
  * hasLightRim / hasLightRimWhite).
+ *
+ * After changing packs, run `yarn pieces:manifest` (also via `yarn validate:pieces`)
+ * so react-ui titles / rim flags stay in sync without Vite importing public/.
  */
 const piecesPath = join(__dirname, '../../../../apps/web', 'public', 'pieces')
 

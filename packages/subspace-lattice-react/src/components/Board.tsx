@@ -21,6 +21,7 @@ import {
 import {
   usePieceStyle,
 } from '../hooks/usePieceStyle';
+import { useGameSoundsMuted } from '../hooks/useGameSoundsMuted';
 import './Board.scss';
 
 interface BoardProps {
@@ -76,6 +77,7 @@ export const Board: React.FC<BoardProps> = ({
   const [styleIndex, setStyleIndex] = usePieceStyle(forcedPieceStyle);
   const [pieceOutline, setPieceOutline] =
     useBoardContrastOutline(forcedOutline);
+  const [soundsMuted, , toggleSoundsMuted] = useGameSoundsMuted();
   const rimFlags = getStyleRimFlags(styleIndex);
   const bakedOutline =
     rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
@@ -427,7 +429,7 @@ export const Board: React.FC<BoardProps> = ({
       <div
         className="board-contrast-toggle"
         role="group"
-        aria-label="Board contrast"
+        aria-label="Board options"
       >
         <button
           type="button"
@@ -469,6 +471,16 @@ export const Board: React.FC<BoardProps> = ({
               </button>
             </>
           )}
+          <button
+            type="button"
+            className="board-sound-mute-toggle"
+            aria-pressed={!soundsMuted}
+            aria-label={soundsMuted ? 'Unmute game sounds' : 'Mute game sounds'}
+            title={soundsMuted ? 'Unmute game sounds' : 'Mute game sounds'}
+            onClick={toggleSoundsMuted}
+          >
+            {soundsMuted ? 'Sound off' : 'Sound'}
+          </button>
         </div>
       {board}
     </div>

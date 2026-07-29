@@ -18,6 +18,7 @@
     "capture:rules-figures": "node scripts/capture-rules-figures.mjs",
     "videos:studio": "yarn workspace @subspace-lattice/academy-videos studio",
     "videos:tts": "yarn workspace @subspace-lattice/academy-videos tts",
+    "sfx": "node scripts/generate-sfx.mjs",
     "videos:render:ep00": "yarn workspace @subspace-lattice/academy-videos render:ep00",
     "videos:render:ep01": "yarn workspace @subspace-lattice/academy-videos render:ep01",
     "videos:render:ep02": "yarn workspace @subspace-lattice/academy-videos render:ep02",
@@ -77,6 +78,7 @@
     "auth:gcloud": "gcloud auth login && gcloud config set project warp-12",
     "auth:npm": "npm login --registry registry.npmjs.org",
     "auth:all": "yarn auth:firebase && yarn auth:gcloud && yarn auth:npm",
+    "pieces:manifest": "node scripts/generate-piece-packs-manifest.mjs",
     "validate:pieces": "./packages/subspace-lattice/scripts/validate-public-pieces.sh"
   },
   "devDependencies": {

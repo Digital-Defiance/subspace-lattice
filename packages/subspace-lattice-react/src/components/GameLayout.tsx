@@ -27,6 +27,7 @@ import { useAdvisor } from '../hooks/useAdvisor';
 import { useGameSync } from '../hooks/useGameSync';
 import { useLocalAiGame } from '../hooks/useLocalAiGame';
 import { usePassAndPlayGame } from '../hooks/usePassAndPlayGame';
+import { useLatticeGameSounds } from '../hooks/useLatticeGameSounds';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
 import { AdvisorPanel } from './AdvisorPanel';
 import { Board } from './Board';
@@ -38,6 +39,7 @@ import { Lobby } from './Lobby';
 import { ObjectiveHud } from './ObjectiveHud';
 import { PassAndPlaySetup } from './PassAndPlaySetup';
 import { RulesDialog } from './RulesDialog';
+import { ArmedConfirmButton } from './ArmedConfirmButton';
 import './GameLayout.scss';
 import { SubspaceLatticeLogo } from './SubspaceLatticeLogo';
 
@@ -82,6 +84,8 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     reportOnlineMatch,
     buildDebugExport: buildOnlineDebugExport,
   } = useGameSync(localPlayerId);
+
+  useLatticeGameSounds(engine, Boolean(activeRoom && engine));
 
   const {
     active: localAiActive,
@@ -340,13 +344,6 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     const inProgress = !!engine && !engine.getState().winner;
     const shouldResign = seated && hasOpponent && inProgress;
 
-    const message = shouldResign
-      ? 'Resign and leave? Your opponent wins this match.'
-      : seated
-        ? 'Leave this match and return to the lobby?'
-        : 'Leave the spectator gallery and return to the lobby?';
-    if (!window.confirm(message)) return;
-
     const roomId = activeRoom?.id;
     if (shouldResign && roomId) {
       try {
@@ -355,7 +352,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           void reportOnlineMatch(roomId);
         }
       } catch {
-        alert('Could not resign this match. Try again.');
+        console.error('Could not resign this match.');
         return;
       }
     }
@@ -366,6 +363,19 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     leaveRoom();
     navigate('/play');
   };
+
+  const onlineExitConfirmLabel = (() => {
+    const seated =
+      !!activeRoom &&
+      (activeRoom.whitePlayerId === localPlayerId ||
+        activeRoom.blackPlayerId === localPlayerId);
+    const hasOpponent =
+      !!activeRoom?.whitePlayerId && !!activeRoom?.blackPlayerId;
+    const inProgress = !!engine && !engine.getState().winner;
+    if (seated && hasOpponent && inProgress) return 'Confirm resign & leave?';
+    if (seated) return 'Confirm leave?';
+    return 'Confirm leave gallery?';
+  })();
 
   const askLocalAdvisor = () => {
     if (localAdvisor.assisted) {
@@ -574,22 +584,15 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
                 View Rules
               </button>
               {!state.winner && !handoffPending && (
-                <button
+                <ArmedConfirmButton
                   className="rules-btn"
-                  type="button"
                   data-testid="resign-pass-and-play"
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        `${turnLabel} resign? The other seat wins.`,
-                      )
-                    ) {
-                      resignPassPlay();
-                    }
+                  label="Resign"
+                  confirmLabel={`${turnLabel} resign — confirm?`}
+                  onConfirm={() => {
+                    resignPassPlay();
                   }}
-                >
-                  Resign
-                </button>
+                />
               )}
               <button
                 className="rules-btn"
@@ -678,18 +681,15 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
                 View Rules
               </button>
               {!state.winner && (
-                <button
+                <ArmedConfirmButton
                   className="rules-btn"
-                  type="button"
                   data-testid="resign-local-ai"
-                  onClick={() => {
-                    if (window.confirm('Resign this match? The AI wins.')) {
-                      resignLocalAi();
-                    }
+                  label="Resign"
+                  confirmLabel="Confirm resign? AI wins"
+                  onConfirm={() => {
+                    resignLocalAi();
                   }}
-                >
-                  Resign
-                </button>
+                />
               )}
               <button
                 className="rules-btn"
@@ -1034,40 +1034,34 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               View Rules
             </button>
             {canResignOnline && (
-              <button
-                type="button"
+              <ArmedConfirmButton
                 className="rules-btn"
                 data-testid="resign-online-match"
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      'Resign this match? Your opponent wins.',
-                    )
-                  ) {
-                    void (async () => {
-                      try {
-                        await resignMatch(activeRoom.id);
-                        if (isRoomRated(activeRoom)) {
-                          void reportOnlineMatch(activeRoom.id);
-                        }
-                      } catch {
-                        alert('Could not resign this match. Try again.');
+                label="Resign"
+                confirmLabel="Confirm resign? Opponent wins"
+                onConfirm={() => {
+                  void (async () => {
+                    try {
+                      await resignMatch(activeRoom.id);
+                      if (isRoomRated(activeRoom)) {
+                        void reportOnlineMatch(activeRoom.id);
                       }
-                    })();
-                  }
+                    } catch {
+                      console.error('Could not resign this match.');
+                    }
+                  })();
                 }}
-              >
-                Resign
-              </button>
+              />
             )}
-            <button
-              type="button"
+            <ArmedConfirmButton
               className="rules-btn"
               data-testid="exit-online-match"
-              onClick={() => void confirmLeaveOnlineMatch()}
-            >
-              Exit
-            </button>
+              label="Exit"
+              confirmLabel={onlineExitConfirmLabel}
+              onConfirm={() => {
+                void confirmLeaveOnlineMatch();
+              }}
+            />
           </div>
         </div>
         <p className="game-meta">

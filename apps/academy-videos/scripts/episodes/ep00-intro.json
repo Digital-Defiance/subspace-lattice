@@ -72,7 +72,7 @@
         "While Target Locked, the piece loses special movement and may only move one orthogonal step",
         "A locked Beam, Refractor, or Carrier can’t slide"
       ],
-      "voiceover": "Cross into the enemy's glow and their net has you now, Target Locked to a single crawling step. A piece is Target Locked if its current coordinate lies in the opponent's Sensor Net. While Target Locked, the piece loses special movement and may only move one orthogonal step. That is how the net punishes overextension.",
+      "voiceover": "Cross into the enemy's glow and their net has you now. Target-Locked — to a single crawling step. A piece is Target Locked if its current coordinate lies in the opponent's Sensor Net. While Target Locked, the piece loses special movement and may only move one orthogonal step. That is how the net punishes overextension.",
       "durationHintSec": 18
     },
     {
@@ -97,7 +97,7 @@
         "Never leave your Hub where they can capture it next turn",
         "Watch files, diagonals, and Carrier tether status"
       ],
-      "voiceover": "How to play, simply. Early on: advance central Escorts, keep them linked, and grow the glow toward the middle. Pre-position Beams inside your net so they have lanes when the fight opens — and park Refractors on diagonals that kiss the Anomaly corners. Midgame: Target Locks and trades — but never leave your Command Hub where the opponent can capture it on their next turn. The academy calls that refuse the hang: if your Hub is one move from dying, fix that before you chase anything else. If their Hub shares a clear path with your Beam or Refractor, that is often the whole game.",
+      "voiceover": "How to play, simply. Early on: advance central Escorts, keep them linked, and grow the glow toward the middle. Pre-position Beams inside your net so they have lanes when the fight opens — and park Refractors on diagonals that kiss the Anomaly corners. Midgame: Target Locks and trades — but never leave your Command Hub where the opponent can capture it on their next turn. Refuse the hang means: if your Hub is one move from dying, fix that before you chase anything else. If their Hub shares a clear path with your Beam or Refractor, that is often the whole game.",
       "durationHintSec": 24
     },
     {

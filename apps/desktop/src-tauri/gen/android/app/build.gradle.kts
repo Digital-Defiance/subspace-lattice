@@ -14,9 +14,17 @@ val tauriProperties = Properties().apply {
     }
 }
 
+val localProperties = Properties().apply {
+    val propFile = rootProject.file("local.properties")
+    if (propFile.exists()) {
+        propFile.inputStream().use { load(it) }
+    }
+}
+
 android {
     compileSdk = 36
     namespace = "org.digitaldefiance.app.subspacelattice"
+    ndkVersion = localProperties.getProperty("ndk.version") ?: "28.0.13004108"
     defaultConfig {
         manifestPlaceholders["usesCleartextTraffic"] = "false"
         applicationId = "org.digitaldefiance.app.subspacelattice"
@@ -71,6 +79,12 @@ android {
     }
     buildFeatures {
         buildConfig = true
+    }
+    packaging {
+        jniLibs {
+            // AGP 8.5.1+ zip-aligns uncompressed native libs to 16 KB for App Bundles.
+            useLegacyPackaging = false
+        }
     }
 }
 

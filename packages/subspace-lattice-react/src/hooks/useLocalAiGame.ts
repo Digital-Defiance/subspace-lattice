@@ -26,6 +26,7 @@ import {
 } from '@subspace-lattice/core';
 import { createSubspaceLatticeApiClient } from '../services/api';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
+import { playGameSound, playLatticeSoundsAfterPly } from '../lib/game-sounds';
 
 const AI_THINK_MS = 50;
 /** Above this branching factor, sync MCTS freezes the tab — use heuristic. */
@@ -147,6 +148,7 @@ export function useLocalAiGame() {
       debugLog.current.clear();
       setEngine(next);
       setActive(true);
+      playGameSound('game-start');
       setAiThinking(false);
       const id = `local-ai-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
       setMatchId(id);
@@ -278,6 +280,7 @@ export function useLocalAiGame() {
       }
 
       if (isEmpAgentMove(choice)) {
+        const before = structuredClone(current.getState());
         const ok = applyAgentMove(current, choice);
         debugLog.current.append({
           player: aiColor,
@@ -288,6 +291,7 @@ export function useLocalAiGame() {
           ok,
         });
         if (ok) {
+          playLatticeSoundsAfterPly(before, current);
           appendLog(
             formatSystemLogLine(
               `${seatLabel(aiColor)} fires Command Overload (EMP).`,
@@ -314,6 +318,7 @@ export function useLocalAiGame() {
       const piece = current.getPiece(choice.pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = current.getPieceAt(choice.to);
+      const before = structuredClone(current.getState());
       const ok = applyAgentMove(current, choice);
       debugLog.current.append({
         player: aiColor,
@@ -325,6 +330,7 @@ export function useLocalAiGame() {
         ok,
       });
       if (ok) {
+        playLatticeSoundsAfterPly(before, current);
         const tei = teiForStrength(strength);
         appendLog(
           formatMoveLogLine({
@@ -384,6 +390,7 @@ export function useLocalAiGame() {
       const piece = engine.getPiece(pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = engine.getPieceAt(to);
+      const before = structuredClone(engine.getState());
       const ok = engine.movePiece(pieceId, to);
       debugLog.current.append({
         player: localPlayerColor,
@@ -395,6 +402,7 @@ export function useLocalAiGame() {
         ok,
       });
       if (ok) {
+        playLatticeSoundsAfterPly(before, engine);
         appendLog(
           formatMoveLogLine({
             player: seatLabel(localPlayerColor),
@@ -424,6 +432,7 @@ export function useLocalAiGame() {
     if (!engine) return false;
     const state = engine.getState();
     if (state.winner || state.currentPlayer !== localPlayerColor) return false;
+    const before = structuredClone(engine.getState());
     const ok = engine.fireEmp();
     debugLog.current.append({
       player: localPlayerColor,
@@ -434,6 +443,7 @@ export function useLocalAiGame() {
       ok,
     });
     if (ok) {
+      playLatticeSoundsAfterPly(before, engine);
       appendLog(
         formatSystemLogLine(
           `${seatLabel(localPlayerColor)} fires Command Overload (EMP).`,
@@ -458,8 +468,10 @@ export function useLocalAiGame() {
     if (!engine) return false;
     const state = engine.getState();
     if (state.winner) return false;
+    const before = structuredClone(engine.getState());
     const ok = engine.resign(localPlayerColor);
     if (!ok) return false;
+    playLatticeSoundsAfterPly(before, engine);
     appendLog(
       formatSystemLogLine(`${seatLabel(localPlayerColor)} resigns.`),
     );

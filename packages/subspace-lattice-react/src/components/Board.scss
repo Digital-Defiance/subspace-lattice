@@ -95,7 +95,8 @@
     }
   }
 
-  .board-piece-outline-toggle {
+  .board-piece-outline-toggle,
+  .board-sound-mute-toggle {
     border-left: 1px solid #3a4558;
 
     &:disabled {
