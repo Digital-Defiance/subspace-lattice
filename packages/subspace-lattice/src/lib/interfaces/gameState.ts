@@ -1,4 +1,5 @@
 import { Cell } from './cell';
+import { Coordinate } from './coordinate';
 import { Piece } from './piece';
 import { PlayerColor } from './playerColor';
 import { RulesVersion } from './rulesVersion';
@@ -15,6 +16,24 @@ export interface GameRulesOverrides {
   infiltratorActivationPly?: number;
   sectorActivationPly?: number;
   heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
+  /** EMP blast Chebyshev radius (0 = EMP disabled). */
+  empRadius?: number;
+  /** Non-Hub plies with a stationary Hub required to arm EMP (0 = disabled). */
+  empChargeTarget?: number;
+  /** Enemy reply plies the blackout lasts (default 1). */
+  empBlackoutPlies?: number;
+}
+
+/** Active Command Overload blast — engine blackout on enemy ships in radius. */
+export interface EmpActive {
+  origin: Coordinate;
+  radius: number;
+  /** Side that detonated. Its own fleet is never in the blast. */
+  firedBy: PlayerColor;
+  /** Side whose engines are seized (the opponent of `firedBy`). */
+  targetSide: PlayerColor;
+  /** Reply plies of blackout still owed to `targetSide`. */
+  pliesRemaining: number;
 }
 
 export interface GameState {
@@ -41,4 +60,14 @@ export interface GameState {
    * rules.sectorActivationPly to arm the Sector Integration clock late-game.
    */
   plyCount?: number;
+  /**
+   * Command Overload (EMP) charge. Increments when a non-Hub piece moves while
+   * the Hub stays put; resets when the Hub moves or EMP fires.
+   */
+  empCharge?: Partial<Record<PlayerColor, number>>;
+  /**
+   * Live EMP blackout: enemy pieces inside the blast cannot move or capture.
+   * Burns one `pliesRemaining` per action the frozen side commits.
+   */
+  empActive?: EmpActive;
 }

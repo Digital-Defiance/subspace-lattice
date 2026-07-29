@@ -1,9 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { PieceType, PlayerColor } from '@subspace-lattice/core';
+import {
+  PieceType,
+  PlayerColor,
+  SubspaceLatticeEngine,
+} from '@subspace-lattice/core';
 import {
   TUTORIAL_LESSONS,
   createTutorialEngine,
 } from './tutorial-model';
+import { applyTutorialMove } from './tutorial-types';
+import { buildManualMissions } from './manual-missions';
 
 describe('tutorial curriculum', () => {
   it.each(TUTORIAL_LESSONS)(
@@ -20,13 +26,13 @@ describe('tutorial curriculum', () => {
           `step ${index + 1} seat`,
         ).toBe(seat);
         expect(
-          engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+          applyTutorialMove(engine, step.playerMove),
           `step ${index + 1} player move`,
         ).toBe(true);
 
         if (step.aiMove && !engine.getState().winner) {
           expect(
-            engine.movePiece(step.aiMove.pieceId, step.aiMove.to),
+            applyTutorialMove(engine, step.aiMove),
             `step ${index + 1} ai move`,
           ).toBe(true);
         }
@@ -53,7 +59,7 @@ describe('tutorial curriculum', () => {
 
     expect(engine.getPiece('b-e1')).toBeDefined();
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
     expect(engine.getPiece('b-e1')).toBeUndefined();
     expect(engine.getPiece('w-e1')?.position).toEqual({ x: 4, y: 1 });
@@ -72,7 +78,7 @@ describe('tutorial curriculum', () => {
     expect(before.has('5,5')).toBe(false);
 
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
 
     const after = engine.getSensorNetSet(PlayerColor.White);
@@ -89,7 +95,7 @@ describe('tutorial curriculum', () => {
 
     expect(engine.getSensorNetSet(PlayerColor.White).has('8,1')).toBe(false);
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
     expect(engine.getSensorNetSet(PlayerColor.White).has('7,1')).toBe(true);
   });
@@ -108,7 +114,7 @@ describe('tutorial curriculum', () => {
 
     const step = lesson.steps[0]!;
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
     expect(engine.getPiece('w-e2')?.position).toEqual({ x: 5, y: 4 });
   });
@@ -125,7 +131,7 @@ describe('tutorial curriculum', () => {
     );
     const step = lesson.steps[0]!;
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
   });
 
@@ -140,12 +146,8 @@ describe('tutorial curriculum', () => {
     expect(before).toBe(false);
 
     const expand = lesson.steps[0]!;
-    expect(
-      engine.movePiece(expand.playerMove.pieceId, expand.playerMove.to),
-    ).toBe(true);
-    expect(engine.movePiece(expand.aiMove!.pieceId, expand.aiMove!.to)).toBe(
-      true,
-    );
+    expect(applyTutorialMove(engine, expand.playerMove)).toBe(true);
+    expect(applyTutorialMove(engine, expand.aiMove!)).toBe(true);
 
     const after = engine
       .listLegalMoves()
@@ -153,9 +155,7 @@ describe('tutorial curriculum', () => {
     expect(after).toBe(true);
 
     const fire = lesson.steps[1]!;
-    expect(engine.movePiece(fire.playerMove.pieceId, fire.playerMove.to)).toBe(
-      true,
-    );
+    expect(applyTutorialMove(engine, fire.playerMove)).toBe(true);
     expect(engine.getPiece('b-prey')).toBeUndefined();
   });
 
@@ -166,12 +166,10 @@ describe('tutorial curriculum', () => {
     const engine = createTutorialEngine(lesson);
     for (const step of lesson.steps) {
       expect(
-        engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+        applyTutorialMove(engine, step.playerMove),
       ).toBe(true);
       if (step.aiMove && !engine.getState().winner) {
-        expect(engine.movePiece(step.aiMove.pieceId, step.aiMove.to)).toBe(
-          true,
-        );
+        expect(applyTutorialMove(engine, step.aiMove)).toBe(true);
       }
     }
     expect(engine.getState().winner).toBe(PlayerColor.White);
@@ -193,7 +191,7 @@ describe('tutorial curriculum', () => {
     const step = lesson.steps[0]!;
     expect(step.seat).toBe(PlayerColor.Black);
     expect(
-      engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+      applyTutorialMove(engine, step.playerMove),
     ).toBe(true);
     expect(engine.getState().winner).toBe(PlayerColor.Black);
   });
@@ -208,7 +206,7 @@ describe('tutorial curriculum', () => {
       const seat = step.seat ?? PlayerColor.White;
       expect(engine.getState().currentPlayer).toBe(seat);
       expect(
-        engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+        applyTutorialMove(engine, step.playerMove),
       ).toBe(true);
     }
     expect(engine.getState().winner).toBe(PlayerColor.White);
@@ -224,7 +222,7 @@ describe('tutorial curriculum', () => {
     const engine = createTutorialEngine(lesson);
     for (const step of lesson.steps) {
       expect(
-        engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
+        applyTutorialMove(engine, step.playerMove),
       ).toBe(true);
     }
     expect(engine.getState().winner).toBe(PlayerColor.White);
@@ -240,11 +238,28 @@ describe('tutorial curriculum', () => {
     const engine = createTutorialEngine(lesson);
     expect(engine.getState().plyCount ?? 0).toBeGreaterThanOrEqual(90);
     for (const step of lesson.steps) {
-      expect(
-        engine.movePiece(step.playerMove.pieceId, step.playerMove.to),
-      ).toBe(true);
+      expect(applyTutorialMove(engine, step.playerMove)).toBe(true);
     }
     expect(engine.getState().winner).toBe(PlayerColor.White);
     expect(engine.getState().winnerReason).toBe('sector-integration');
+  });
+
+  it('replays the EMP Lockout highlight reel to no-moves', () => {
+    const lesson = buildManualMissions().find(
+      (m) => m.id === 'mission-emp-lockout',
+    )!;
+    expect(lesson.steps.length).toBe(3);
+    const engine = SubspaceLatticeEngine.fromState(
+      lesson.createState(),
+      lesson.rules,
+    );
+    expect(engine.canFireEmp(PlayerColor.White)).toBe(true);
+    for (const step of lesson.steps) {
+      const seat = step.seat ?? PlayerColor.White;
+      expect(engine.getState().currentPlayer).toBe(seat);
+      expect(applyTutorialMove(engine, step.playerMove)).toBe(true);
+    }
+    expect(engine.getState().winner).toBe(PlayerColor.White);
+    expect(engine.getState().winnerReason).toBe('no-moves');
   });
 });

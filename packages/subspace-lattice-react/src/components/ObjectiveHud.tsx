@@ -10,6 +10,10 @@ export interface ObjectiveHudProps {
   explain?: boolean;
   /** Show live coverage while preventing the training position from ending. */
   paused?: boolean;
+  /** When set, shows a Fire EMP control if Command Overload is enabled. */
+  onFireEmp?: () => void;
+  /** Whether the seated player may fire EMP this turn. */
+  canFireEmpAction?: boolean;
 }
 
 function percent(value: number): number {
@@ -20,6 +24,8 @@ export function ObjectiveHud({
   engine,
   explain = false,
   paused = false,
+  onFireEmp,
+  canFireEmpAction = false,
 }: ObjectiveHudProps) {
   const state = engine.getState();
   const rules = engine.getRules();
@@ -36,6 +42,16 @@ export function ObjectiveHud({
   const infilUnlock = rules.infiltratorActivationPly ?? 0;
   const infilRemaining = Math.max(0, infilUnlock - ply);
   const infilLocked = infilUnlock > 0 && infilRemaining > 0;
+  const empOn =
+    (rules.empChargeTarget ?? 0) > 0 && (rules.empRadius ?? 0) > 0;
+  const empTarget = rules.empChargeTarget ?? 0;
+  const whiteEmp = state.empCharge?.[PlayerColor.White] ?? 0;
+  const blackEmp = state.empCharge?.[PlayerColor.Black] ?? 0;
+  const empArmed =
+    empOn &&
+    ((state.currentPlayer === PlayerColor.White
+      ? whiteEmp
+      : blackEmp) >= empTarget);
 
   return (
     <section className="objective-hud" aria-label="Battle objectives">
@@ -76,6 +92,41 @@ export function ObjectiveHud({
           holdRequired={hold}
         />
       </div>
+
+      {empOn && (
+        <div className="objective-hud__emp" data-testid="emp-charge-status">
+          <p className="objective-hud__explanation">
+            EMP charge W {Math.min(whiteEmp, empTarget)}/{empTarget} · B{' '}
+            {Math.min(blackEmp, empTarget)}/{empTarget}
+            {empArmed ? ' · armed' : ''}
+            {state.empActive
+              ? ` · blackout: ${
+                  state.empActive.targetSide === PlayerColor.White
+                    ? 'White'
+                    : 'Black'
+                } engines seized in r=${state.empActive.radius} (${
+                  state.empActive.pliesRemaining
+                } ply left)`
+              : ''}
+            {` · radius ${rules.empRadius}`}
+          </p>
+          {onFireEmp && canFireEmpAction && !state.winner && (
+            <button
+              type="button"
+              className="objective-hud__emp-btn"
+              disabled={!engine.canFireEmp()}
+              onClick={onFireEmp}
+              data-testid="fire-emp"
+            >
+              Fire EMP ({Math.min(
+                state.currentPlayer === PlayerColor.White ? whiteEmp : blackEmp,
+                empTarget,
+              )}
+              /{empTarget})
+            </button>
+          )}
+        </div>
+      )}
 
       {explain && (
         <p className="objective-hud__explanation">

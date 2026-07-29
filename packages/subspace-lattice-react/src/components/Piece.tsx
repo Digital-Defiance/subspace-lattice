@@ -27,7 +27,7 @@ export function getStyleCount(): number {
 }
 
 export const Piece: FC<PieceProps> = ({
-  size = 40,
+  size,
   color,
   pieceType,
   styleIndex,
@@ -41,12 +41,12 @@ export const Piece: FC<PieceProps> = ({
   const src = `/pieces/${si}/${prefix}${pieceTypeChessSymbolMap[pieceType]}.svg`;
 
   // Decorative: the board cell’s aria-label already names seat + piece.
+  // Omit width/height when size is unset so Board CSS can fluid-scale the img.
   return (
     <span aria-hidden="true" className="piece-art">
       <img
         src={src}
-        width={size}
-        height={size}
+        {...(size != null ? { width: size, height: size } : {})}
         alt=""
         draggable={false}
       />

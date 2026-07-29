@@ -117,6 +117,22 @@ export interface RulesConfig {
    * rank. Used for setup search in the heavy-unit experiment.
    */
   heavyUnitFiles?: [number, number];
+  /**
+   * Command Overload (EMP): Chebyshev radius from the firing Hub. Enemy pieces
+   * inside cannot move or capture while the blackout lasts. 0 disables EMP
+   * together with empChargeTarget === 0.
+   */
+  empRadius: number;
+  /**
+   * Non-Hub plies with a stationary Hub required to arm EMP. Moving the Hub
+   * or firing resets charge to 0. 0 disables EMP.
+   */
+  empChargeTarget: number;
+  /**
+   * Enemy reply plies the blackout survives (recovery time). 1 = frozen for a
+   * single reply. Clamped to `EMP_BLACKOUT_PLIES_MAX`.
+   */
+  empBlackoutPlies: number;
 }
 
 /**
@@ -193,6 +209,12 @@ export type RulesLobbyOverrides = {
   sectorActivationPly: number;
   /** Optional heavy-wing storyline preset (default Standard Beams). */
   heavyWingPreset: HeavyWingPreset;
+  /** EMP blast radius (Chebyshev). 0 = off. Max 5. */
+  empRadius: number;
+  /** Plies to arm EMP with a stationary Hub. 0 = off. */
+  empChargeTarget: number;
+  /** Enemy reply plies the blackout lasts. Min 1, max 3. */
+  empBlackoutPlies: number;
 };
 
 /** Fleet defaults for the lobby knobs (hybrid-fleet preset). */
@@ -201,7 +223,17 @@ export const FLEET_LOBBY_DEFAULTS: RulesLobbyOverrides = {
   infiltratorActivationPly: 0,
   sectorActivationPly: 100,
   heavyWingPreset: 'standard',
+  // EMP balance probe 2026-07-29 (enemy-only blast): r=3 keeps Lockout ~1.7% of
+  // HvR games with Strike at ~98%; r=4 floods. Blackout length is flavour, not
+  // balance. See docs/lockout-impossibility.md §9.
+  empRadius: 3,
+  empChargeTarget: 15,
+  empBlackoutPlies: 1,
 };
+
+const EMP_RADIUS_MAX = 5;
+
+export const EMP_BLACKOUT_PLIES_MAX = 3;
 
 const LOBBY_PLY_MAX = 400;
 
@@ -214,6 +246,9 @@ export function lobbyOverridesFromRules(
     infiltratorActivationPly: rules.infiltratorActivationPly,
     sectorActivationPly: rules.sectorActivationPly,
     heavyWingPreset: heavyWingPresetFromRules(rules),
+    empRadius: rules.empRadius,
+    empChargeTarget: rules.empChargeTarget,
+    empBlackoutPlies: rules.empBlackoutPlies,
   };
 }
 
@@ -227,7 +262,10 @@ export function isDefaultFleetLobby(
     o.infiltratorActivationPly ===
       FLEET_LOBBY_DEFAULTS.infiltratorActivationPly &&
     o.sectorActivationPly === FLEET_LOBBY_DEFAULTS.sectorActivationPly &&
-    o.heavyWingPreset === FLEET_LOBBY_DEFAULTS.heavyWingPreset
+    o.heavyWingPreset === FLEET_LOBBY_DEFAULTS.heavyWingPreset &&
+    o.empRadius === FLEET_LOBBY_DEFAULTS.empRadius &&
+    o.empChargeTarget === FLEET_LOBBY_DEFAULTS.empChargeTarget &&
+    o.empBlackoutPlies === FLEET_LOBBY_DEFAULTS.empBlackoutPlies
   );
 }
 
@@ -270,6 +308,36 @@ export function sanitizeRulesLobbyOverrides(
     out.heavyWingPreset = input.heavyWingPreset;
   }
 
+  if (
+    typeof input.empRadius === 'number' &&
+    Number.isFinite(input.empRadius)
+  ) {
+    out.empRadius = Math.max(
+      0,
+      Math.min(EMP_RADIUS_MAX, Math.floor(input.empRadius)),
+    );
+  }
+
+  if (
+    typeof input.empChargeTarget === 'number' &&
+    Number.isFinite(input.empChargeTarget)
+  ) {
+    out.empChargeTarget = Math.max(
+      0,
+      Math.min(LOBBY_PLY_MAX, Math.floor(input.empChargeTarget)),
+    );
+  }
+
+  if (
+    typeof input.empBlackoutPlies === 'number' &&
+    Number.isFinite(input.empBlackoutPlies)
+  ) {
+    out.empBlackoutPlies = Math.max(
+      1,
+      Math.min(EMP_BLACKOUT_PLIES_MAX, Math.floor(input.empBlackoutPlies)),
+    );
+  }
+
   return out;
 }
 
@@ -288,6 +356,9 @@ export function lobbyOverridesToRulesPartial(
     infiltratorSpoolUp: lobby.infiltratorSpoolUp,
     infiltratorActivationPly: lobby.infiltratorActivationPly,
     sectorActivationPly: lobby.sectorActivationPly,
+    empRadius: lobby.empRadius,
+    empChargeTarget: lobby.empChargeTarget,
+    empBlackoutPlies: lobby.empBlackoutPlies,
     ...heavyWingPresetToRulesPartial(lobby.heavyWingPreset),
   };
 }
@@ -309,6 +380,9 @@ export const CLASSIC_RULES: RulesConfig = {
   heavyUnitDraft: 'standard',
   carrierRequiresHubAnchor: false,
   heavyUnitFiles: [2, 8],
+  empRadius: 0,
+  empChargeTarget: 0,
+  empBlackoutPlies: 1,
 };
 
 /**
@@ -331,6 +405,9 @@ export const HYBRID_RULES: RulesConfig = {
   heavyUnitDraft: 'standard',
   carrierRequiresHubAnchor: false,
   heavyUnitFiles: [2, 8],
+  empRadius: 0,
+  empChargeTarget: 0,
+  empBlackoutPlies: 1,
 };
 
 /** Hybrid + Infiltrator Navigational Target Lock (A/B vs hybrid). */
@@ -358,6 +435,9 @@ export const HYBRID_FLEET_RULES: RulesConfig = {
   ...HYBRID_RULES,
   ...FLEET_V1_RULES,
   version: 'hybrid-fleet',
+  empRadius: FLEET_LOBBY_DEFAULTS.empRadius,
+  empChargeTarget: FLEET_LOBBY_DEFAULTS.empChargeTarget,
+  empBlackoutPlies: FLEET_LOBBY_DEFAULTS.empBlackoutPlies,
 };
 
 const BY_VERSION: Record<RulesVersion, RulesConfig> = {

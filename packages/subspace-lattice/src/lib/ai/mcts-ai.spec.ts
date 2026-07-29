@@ -7,12 +7,13 @@ import { MctsAi, createAiForStrength } from './mcts-ai';
 import { findHubCaptureMove, findImmediateWinningMove, moveLeavesHubHanging } from './tactical';
 import { HeuristicAi } from './heuristic-ai';
 import { CLASSIC_PUZZLES, evaluatePuzzle } from '../sim/puzzles';
+import { requirePieceAgentMove } from './agent';
 
 describe('evaluate + tactical', () => {
   it('scores hub capture wins hugely for the winner', () => {
     const puzzle = CLASSIC_PUZZLES.find((p) => p.id === 'hub-mate-in-1')!;
     const live = SubspaceLatticeEngine.fromState(puzzle.state);
-    const move = findHubCaptureMove(live)!;
+    const move = requirePieceAgentMove(findHubCaptureMove(live));
     expect(live.movePiece(move.pieceId, move.to)).toBe(true);
     expect(evaluatePosition(live, PlayerColor.White)).toBeGreaterThan(50_000);
     expect(evaluatePosition(live, PlayerColor.Black)).toBeLessThan(-50_000);
@@ -35,10 +36,11 @@ describe('evaluate + tactical', () => {
     )!;
     cell.pieceId = 'b-e3';
     const live = SubspaceLatticeEngine.fromState(state);
-    const move = findHubCaptureMove(live);
-    expect(move).not.toBeNull();
-    expect(live.getPieceAt(move!.to)?.type).toBe(PieceType.CommandHub);
-    expect(findImmediateWinningMove(live)?.to).toEqual(move!.to);
+    const move = requirePieceAgentMove(findHubCaptureMove(live));
+    expect(live.getPieceAt(move.to)?.type).toBe(PieceType.CommandHub);
+    expect(requirePieceAgentMove(findImmediateWinningMove(live)).to).toEqual(
+      move.to,
+    );
   });
 });
 
@@ -65,15 +67,14 @@ describe('MctsAi', () => {
       maxRolloutPlies: 12,
       rng: createSeededRng(3),
     });
-    const choice = ai.chooseMove(engine);
-    expect(choice).not.toBeNull();
+    const choice = requirePieceAgentMove(ai.chooseMove(engine));
     const legal = engine.listLegalMoves();
     expect(
       legal.some(
         (m) =>
-          m.pieceId === choice!.pieceId &&
-          m.to.x === choice!.to.x &&
-          m.to.y === choice!.to.y,
+          m.pieceId === choice.pieceId &&
+          m.to.x === choice.to.x &&
+          m.to.y === choice.to.y,
       ),
     ).toBe(true);
   });

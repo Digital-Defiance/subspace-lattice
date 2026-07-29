@@ -74,6 +74,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     leaveRoom,
     resignMatch,
     sendMove,
+    sendEmp,
     sendChatMessage,
     sendPlacement,
     setAllowObservers,
@@ -92,6 +93,8 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     startLocalAiGame,
     exitLocalAiGame,
     sendMove: sendLocalMove,
+    fireEmp: fireLocalEmp,
+    resign: resignLocalAi,
     appendLog: appendLocalAiLog,
     markAssisted: markLocalAiAssisted,
     buildDebugExport: buildLocalAiDebugExport,
@@ -120,6 +123,8 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     confirmPassAndPlaySetup,
     exitPassAndPlayGame,
     sendMove: sendPassPlayMove,
+    fireEmp: firePassPlayEmp,
+    resign: resignPassPlay,
     buildDebugExport: buildPassPlayDebugExport,
   } = usePassAndPlayGame();
 
@@ -293,6 +298,9 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         infiltratorSpoolUp?: boolean;
         infiltratorActivationPly?: number;
         sectorActivationPly?: number;
+        heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
+        empRadius?: number;
+        empChargeTarget?: number;
       };
     },
   ) => {
@@ -565,6 +573,24 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               <button className="rules-btn" onClick={() => setShowRules(true)}>
                 View Rules
               </button>
+              {!state.winner && !handoffPending && (
+                <button
+                  className="rules-btn"
+                  type="button"
+                  data-testid="resign-pass-and-play"
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        `${turnLabel} resign? The other seat wins.`,
+                      )
+                    ) {
+                      resignPassPlay();
+                    }
+                  }}
+                >
+                  Resign
+                </button>
+              )}
               <button
                 className="rules-btn"
                 type="button"
@@ -588,7 +614,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               Turn: <strong>{turnLabel}</strong>
             </span>
           </p>
-          <ObjectiveHud engine={passPlayEngine} />
+          <ObjectiveHud
+            engine={passPlayEngine}
+            onFireEmp={() => firePassPlayEmp()}
+            canFireEmpAction={!handoffPending && !state.winner}
+          />
           {state.winner && (
             <p className="winner-announcement">
               <strong>
@@ -647,6 +677,20 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               <button className="rules-btn" onClick={() => setShowRules(true)}>
                 View Rules
               </button>
+              {!state.winner && (
+                <button
+                  className="rules-btn"
+                  type="button"
+                  data-testid="resign-local-ai"
+                  onClick={() => {
+                    if (window.confirm('Resign this match? The AI wins.')) {
+                      resignLocalAi();
+                    }
+                  }}
+                >
+                  Resign
+                </button>
+              )}
               <button
                 className="rules-btn"
                 type="button"
@@ -679,7 +723,15 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               is thinking…
             </p>
           )}
-          <ObjectiveHud engine={localEngine} />
+          <ObjectiveHud
+            engine={localEngine}
+            onFireEmp={() => fireLocalEmp()}
+            canFireEmpAction={
+              !state.winner &&
+              !localAiThinking &&
+              state.currentPlayer === localAiColor
+            }
+          />
           {state.winner && (
             <p className="winner-announcement">
               <strong>
@@ -911,6 +963,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     localPlayerColor !== 'OBSERVER' &&
     engine.getState().currentPlayer === localPlayerColor &&
     !engine.getState().winner;
+  const canResignOnline =
+    localPlayerColor !== 'OBSERVER' &&
+    !!activeRoom.whitePlayerId &&
+    !!activeRoom.blackPlayerId &&
+    !engine.getState().winner;
   const watchUrl = `${window.location.origin}${normalizedBase}/${activeRoom.roomCode}?watch=1`;
   const advisorSuppressed =
     isRoomRated(activeRoom) && !onlineAdvisor.assisted;
@@ -976,6 +1033,33 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             <button className="rules-btn" onClick={() => setShowRules(true)}>
               View Rules
             </button>
+            {canResignOnline && (
+              <button
+                type="button"
+                className="rules-btn"
+                data-testid="resign-online-match"
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      'Resign this match? Your opponent wins.',
+                    )
+                  ) {
+                    void (async () => {
+                      try {
+                        await resignMatch(activeRoom.id);
+                        if (isRoomRated(activeRoom)) {
+                          void reportOnlineMatch(activeRoom.id);
+                        }
+                      } catch {
+                        alert('Could not resign this match. Try again.');
+                      }
+                    })();
+                  }
+                }}
+              >
+                Resign
+              </button>
+            )}
             <button
               type="button"
               className="rules-btn"
@@ -1040,7 +1124,13 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             ).join(' · ')}
           </p>
         )}
-        <ObjectiveHud engine={engine} />
+        <ObjectiveHud
+          engine={engine}
+          onFireEmp={() => {
+            void sendEmp(activeRoom.id);
+          }}
+          canFireEmpAction={myTurn}
+        />
         {engine.getState().winner && (
           <p className="winner-announcement">
             <strong>

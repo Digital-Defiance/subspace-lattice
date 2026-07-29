@@ -4,7 +4,7 @@ import { SubspaceLatticeEngine } from '../game-engine';
 import { CellType } from '../interfaces/cellType';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
-import { Agent } from '../ai/agent';
+import { Agent, isEmpAgentMove } from '../ai/agent';
 
 export interface PuzzleExpectedMove {
   pieceId: string;
@@ -180,7 +180,7 @@ export function evaluatePuzzle(
 ): { passed: boolean; chosen: { pieceId: string; to: Coordinate } | null } {
   const engine = SubspaceLatticeEngine.fromState(puzzle.state);
   const chosen = agent.chooseMove(engine);
-  if (!chosen) return { passed: false, chosen: null };
+  if (!chosen || isEmpAgentMove(chosen)) return { passed: false, chosen: null };
   return {
     passed: moveMatchesExpected(
       chosen.pieceId,

@@ -209,12 +209,31 @@ export function planJoinRoom(
   return { ok: false, reason: 'full' };
 }
 
+export type AuthoritativePlayerAction =
+  | { type: 'move'; pieceId: string; to: { x: number; y: number } }
+  | { type: 'emp' };
+
 export function applyAuthoritativeMove(
   gameState: GameState,
   actorUid: string,
   room: RoomData,
   pieceId: string,
   to: { x: number; y: number },
+):
+  | { ok: true; next: GameState }
+  | { ok: false; reason: 'not-player' | 'not-turn' | 'illegal' } {
+  return applyAuthoritativeAction(gameState, actorUid, room, {
+    type: 'move',
+    pieceId,
+    to,
+  });
+}
+
+export function applyAuthoritativeAction(
+  gameState: GameState,
+  actorUid: string,
+  room: RoomData,
+  action: AuthoritativePlayerAction,
 ):
   | { ok: true; next: GameState }
   | { ok: false; reason: 'not-player' | 'not-turn' | 'illegal' } {
@@ -230,7 +249,10 @@ export function applyAuthoritativeMove(
   if (engine.getState().currentPlayer !== expectedColor) {
     return { ok: false, reason: 'not-turn' };
   }
-  const ok = engine.movePiece(pieceId, to);
+  const ok =
+    action.type === 'emp'
+      ? engine.fireEmp()
+      : engine.movePiece(action.pieceId, action.to);
   if (!ok) return { ok: false, reason: 'illegal' };
   return { ok: true, next: engine.getState() };
 }

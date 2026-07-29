@@ -143,22 +143,22 @@
     {
       "kind": "narration",
       "id": "wins-unchanged",
-      "headline": "Win conditions do not change",
+      "headline": "Win conditions stay the same set",
       "bullets": [
         "Surgical Strike — Hub capture",
         "Sector Integration — coverage clock after activation",
-        "Heavies change which geometries feed those wins",
-        "Not a third victory type"
+        "Lockout — opponent has no legal moves",
+        "Heavies change which geometries feed those wins — not the win list"
       ],
-      "voiceover": "Expanded branching from Refractors and Carriers does not add a new win condition. You still end by Surgical Strike or by Sector Integration after the clock arms. The wing only changes which lanes and diagonals feed those finishes — and which blind spots punish captains who only scan files.",
-      "durationHintSec": 14
+      "voiceover": "Expanded branching from Refractors and Carriers does not invent a fourth victory type. You still end by Surgical Strike, by Sector Integration after the clock arms, or by Lockout when the opponent has no legal replies. The wing only changes which lanes and diagonals feed those finishes — and which blind spots punish captains who only scan files.",
+      "durationHintSec": 16
     },
     {
       "kind": "outro",
       "id": "outro",
       "headline": "Authorize the wing — keep the scan",
-      "nextEpisode": "Practice Refractor Wing & Fleet Draft vs AI · Advanced manual Part I",
-      "voiceover": "That is the Heavy wing: same net law, diagonal and omni geometry, Carrier tether discipline, and the Anomaly Slice. Open the advanced manual’s Part I, flip on a lobby module, and keep refusing the hang — on files and on diagonals.",
+      "nextEpisode": "Episode 9 — Practical AI Skirmish (Fleet Draft)",
+      "voiceover": "That is the Heavy wing: same net law, diagonal and omni geometry, Carrier tether discipline, and the Anomaly Slice. Next: drop into a live Fleet Draft midgame against the AI and run the five-question scan under fire.",
       "durationHintSec": 12
     }
   ]

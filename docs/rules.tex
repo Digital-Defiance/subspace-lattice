@@ -310,8 +310,14 @@ The game ends when any of the following occurs after a move:
         You win immediately.
         Let $N$ be the number of non-well cells and $C$ the number of
         those cells in your Sensor Net; you win if $C/N \ge \rho$.
-  \item \textbf{No legal moves.}
+  \item \textbf{Lockout (no legal moves).}
         The opponent has no legal moves. You win.
+        Bodies alone almost never reach true Lockout against a live Hub;
+        \textbf{Command Overload (EMP)} is the practical path
+        (Section~\ref{sec:emp}).
+  \item \textbf{Resign.}
+        A side may resign; the opponent wins immediately
+        (\texttt{winnerReason}: \texttt{resign}).
 \end{enumerate}
 
 \rulesfig{surgical-strike}{%
@@ -324,13 +330,51 @@ Sector Integration is a \textbf{forcing clock}: it rewards sustained net
 expansion and punishes endless turtling, but it is not meant to be a
 fifty--fifty coin-flip with hub hunting. Simulation scorecards prefer
 configurations where Sector Integration accounts for roughly
-$25$--$40\%$ of decided games. The clock's health is verified by
+$25$--$40\%$ of decided games. Lockout is a rare third finish enabled by
+EMP, not a stalemate draw. The clock's health is verified by
 \emph{ablation}: with the sector path disabled under paired seeds,
 self-play must degrade measurably (more deadlocks, longer grinds) —
 see \texttt{docs/adr/005-functional-clock-gate.md}. Notably, working
 clock pressure mostly cashes out as \emph{faster hub captures}, so
 sector wins need not be the slowest win type. Defaults change only
 through the human gate (Section~\ref{sec:params}).
+
+%% ------------------------------------------------------------------
+\section{Command Overload (EMP)}
+\label{sec:emp}
+%% ------------------------------------------------------------------
+
+Under \texttt{hybrid-fleet}, each side may arm a \textbf{Command Overload}
+(EMP) on its Command Hub. Classic and legacy hybrid leave EMP off
+(\texttt{empRadius} $=$ \texttt{empChargeTarget} $= 0$).
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Charge.}
+        Whenever you move a piece that is \emph{not} your Command Hub,
+        and your Hub did not move that ply, add $1$ to your EMP charge.
+        Moving your Hub (or firing EMP) resets your charge to $0$.
+  \item \textbf{Arm.}
+        When charge $\ge$ \texttt{empChargeTarget} (default $15$), EMP is
+        armed. Firing is a \textbf{full-turn action}: you do not also move
+        a piece.
+  \item \textbf{Blast.}
+        EMP originates at your Hub. Every \emph{enemy} piece within
+        Chebyshev distance $\le$ \texttt{empRadius} (default $3$) cannot
+        move or capture while the blackout lasts. Your own fleet is never
+        in the blast --- there is no ``Hub immune'' special case.
+  \item \textbf{Recovery.}
+        The blackout lasts \texttt{empBlackoutPlies} (default $1$) of the
+        \emph{frozen} side's own replies. Each action that side commits
+        burns one remaining ply; the firer's own moves do not shorten it.
+  \item \textbf{Lockout.}
+        If the opponent then has zero legal moves, you win by Lockout
+        (\texttt{winnerReason}: \texttt{no-moves}).
+\end{enumerate}
+
+Lobby knobs (unrated when not stock fleet defaults):
+\texttt{empRadius}, \texttt{empChargeTarget}, \texttt{empBlackoutPlies}.
+See \texttt{docs/lockout-impossibility.md} for the structural argument and
+balance probes.
 
 %% ------------------------------------------------------------------
 \section{Fleet default (\texttt{hybrid-fleet})}
@@ -415,6 +459,9 @@ defaults change only after human review of scorecards
 \texttt{contestedCellsNeutral} & false & true \\
 \texttt{sectorActivationPly} & $0$ & $100$ \\
 \texttt{firstPlayerRelayCount} & $0$ & $1$ \\
+\texttt{empRadius} & $0$ (off) & $3$ \\
+\texttt{empChargeTarget} & $0$ (off) & $15$ \\
+\texttt{empBlackoutPlies} & $1$ & $1$ \\
 \bottomrule
 \end{tabular}
 \end{center}

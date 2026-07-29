@@ -1,6 +1,12 @@
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PlayerColor } from '../interfaces/playerColor';
-import { Agent, AgentMove } from './agent';
+import {
+  Agent,
+  AgentMove,
+  agentMoveKey,
+  applyAgentMove,
+  isEmpAgentMove,
+} from './agent';
 import { evaluatePosition } from './evaluate';
 import { HeuristicAi } from './heuristic-ai';
 import {
@@ -31,10 +37,6 @@ interface MctsNode {
   totalReward: number;
 }
 
-function moveKey(m: AgentMove): string {
-  return `${m.pieceId}:${m.to.x},${m.to.y}`;
-}
-
 /**
  * Perfect-information MCTS (UCT) with tactical shortcuts.
  * Strength ≈ `simulations` budget.
@@ -61,19 +63,19 @@ export class MctsAi implements Agent {
 
   chooseMove(engine: SubspaceLatticeEngine): AgentMove | null {
     const legal = engine.listLegalMoves();
-    if (legal.length === 0) return null;
-    if (legal.length === 1) {
+    const canEmp = engine.canFireEmp();
+    if (legal.length === 0 && !canEmp) return null;
+    if (legal.length === 1 && !canEmp) {
       return { pieceId: legal[0]!.pieceId, to: legal[0]!.to };
     }
 
     const instant = findImmediateWinningMove(engine);
     if (instant) return instant;
 
-    // Trust 1-ply material takes when they do not leave the hub hanging;
-    // MCTS rollouts are too noisy at low budgets to recover from mate-blind greed.
     const heuristicChoice = new HeuristicAi(this.rng).chooseMove(engine);
     if (
       heuristicChoice &&
+      !isEmpAgentMove(heuristicChoice) &&
       engine.getPieceAt(heuristicChoice.to) &&
       !moveLeavesHubHanging(engine, heuristicChoice)
     ) {
@@ -84,14 +86,13 @@ export class MctsAi implements Agent {
       return heuristicChoice ?? shallowBestMove(engine, this.rng);
     }
 
-    // Cap branching for hybrid infiltrator warps: keep tactical + sample.
     const rootMoves = this.selectRootMoves(engine, legal);
     const rootPlayer = engine.getState().currentPlayer;
     const root: MctsNode = {
       move: null,
       parent: null,
       children: [],
-      untried: rootMoves.map((m) => ({ pieceId: m.pieceId, to: m.to })),
+      untried: [...rootMoves],
       visits: 0,
       totalReward: 0,
     };
@@ -123,20 +124,22 @@ export class MctsAi implements Agent {
     }>,
   ): AgentMove[] {
     const MAX_ROOT = 48;
-    // Do not mate-filter the MCTS root. Jul 23 hub-safety filtering here
-    // collapsed Surgical Strike self-play (Track A deadlock ~75%, hub ~0%)
-    // even though opening hang-rate is 0 — midgame over-pruning left only
-    // territorial lines. Hub-in-one eval + UCT already punish hanging the hub;
-    // HeuristicAi / Fast UI still use pickBestAvoidingHubMate.
-    const candidates = legal.map((m) => ({ pieceId: m.pieceId, to: m.to }));
+    const candidates: AgentMove[] = legal.map((m) => ({
+      pieceId: m.pieceId,
+      to: m.to,
+    }));
+    if (engine.canFireEmp()) candidates.push({ type: 'emp' });
     if (candidates.length <= MAX_ROOT) {
       return candidates;
     }
 
-    // Prefer captures, then heuristic pick, then random fill (avoid scoring all).
     const captures: AgentMove[] = [];
     const rest: AgentMove[] = [];
     for (const choice of candidates) {
+      if (isEmpAgentMove(choice)) {
+        rest.push(choice);
+        continue;
+      }
       if (engine.getPieceAt(choice.to)) captures.push(choice);
       else rest.push(choice);
     }
@@ -145,13 +148,13 @@ export class MctsAi implements Agent {
     const heuristic = new HeuristicAi(this.rng).chooseMove(engine);
     if (
       heuristic &&
-      !top.some((m) => moveKey(m) === moveKey(heuristic))
+      !top.some((m) => agentMoveKey(m) === agentMoveKey(heuristic))
     ) {
       top.push(heuristic);
     }
 
     const pool = rest.filter(
-      (m) => !top.some((t) => moveKey(t) === moveKey(m)),
+      (m) => !top.some((t) => agentMoveKey(t) === agentMoveKey(m)),
     );
     while (top.length < MAX_ROOT && pool.length > 0) {
       const idx = Math.min(
@@ -174,7 +177,7 @@ export class MctsAi implements Agent {
       const maximizing =
         engine.getState().currentPlayer === rootPlayer;
       node = this.uctSelect(node, maximizing);
-      if (!node.move || !engine.movePiece(node.move.pieceId, node.move.to)) {
+      if (!node.move || !applyAgentMove(engine, node.move)) {
         return node;
       }
       if (engine.getState().winner) return node;
@@ -187,21 +190,15 @@ export class MctsAi implements Agent {
       );
       const [move] = node.untried.splice(idx, 1);
       if (!move) return node;
-      engine.movePiece(move.pieceId, move.to);
+      applyAgentMove(engine, move);
       const child: MctsNode = {
         move,
         parent: node,
         children: [],
-        untried: engine.getState().winner
-          ? []
-          : engine.listLegalMoves().map((m) => ({
-              pieceId: m.pieceId,
-              to: m.to,
-            })),
+        untried: engine.getState().winner ? [] : this.legalActions(engine),
         visits: 0,
         totalReward: 0,
       };
-      // Cap child untried similarly
       if (child.untried.length > 48) {
         child.untried = this.sampleMoves(child.untried, 48);
       }
@@ -210,6 +207,15 @@ export class MctsAi implements Agent {
     }
 
     return node;
+  }
+
+  private legalActions(engine: SubspaceLatticeEngine): AgentMove[] {
+    const moves: AgentMove[] = engine.listLegalMoves().map((m) => ({
+      pieceId: m.pieceId,
+      to: m.to,
+    }));
+    if (engine.canFireEmp()) moves.push({ type: 'emp' });
+    return moves;
   }
 
   private sampleMoves(moves: AgentMove[], n: number): AgentMove[] {
@@ -232,9 +238,6 @@ export class MctsAi implements Agent {
     for (const child of node.children) {
       const rootReward =
         child.visits === 0 ? 1 : child.totalReward / child.visits;
-      // Rewards are stored from the root player's perspective. At an
-      // opponent node, UCT must prefer replies that minimize that reward;
-      // otherwise every simulated opponent cooperates with the root.
       const exploit = maximizing ? rootReward : 1 - rootReward;
       const explore =
         this.exploration *
@@ -254,14 +257,13 @@ export class MctsAi implements Agent {
   ): number {
     let plies = 0;
     while (!engine.getState().winner && plies < this.maxRolloutPlies) {
-      const legal = engine.listLegalMoves();
-      if (legal.length === 0) break;
+      const actions = this.legalActions(engine);
+      if (actions.length === 0) break;
       const idx = Math.min(
-        legal.length - 1,
-        Math.floor(this.rng() * legal.length),
+        actions.length - 1,
+        Math.floor(this.rng() * actions.length),
       );
-      const move = legal[idx]!;
-      engine.movePiece(move.pieceId, move.to);
+      applyAgentMove(engine, actions[idx]!);
       plies += 1;
     }
 
@@ -270,7 +272,6 @@ export class MctsAi implements Agent {
     if (winner && winner !== rootPlayer) return 0;
 
     const evalScore = evaluatePosition(engine, rootPlayer);
-    // Softmap eval to (0,1)
     return 1 / (1 + Math.exp(-evalScore / 200));
   }
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import {
+  AgentMove,
   AiStrengthId,
   AI_STRENGTH_PRESETS,
   buildLatticeDebugPayload,
@@ -12,6 +13,8 @@ import {
   GameState,
   getTeiDisplay,
   HeuristicAi,
+  applyAgentMove,
+  isEmpAgentMove,
   isDefaultFleetLobby,
   LatticeDebugExport,
   PlayerColor,
@@ -234,10 +237,10 @@ export function useLocalAiGame() {
         return;
       }
 
-      let choice: { pieceId: string; to: Coordinate } | null = null;
+      let choice: AgentMove | null = null;
       try {
         const legalCount = current.listLegalMoves().length;
-        if (legalCount === 0) {
+        if (legalCount === 0 && !current.canFireEmp()) {
           appendLog(
             formatSystemLogLine('AI has no legal moves — checking result.'),
           );
@@ -274,10 +277,44 @@ export function useLocalAiGame() {
         return;
       }
 
+      if (isEmpAgentMove(choice)) {
+        const ok = applyAgentMove(current, choice);
+        debugLog.current.append({
+          player: aiColor,
+          pieceId: 'emp',
+          from: undefined,
+          to: { x: -1, y: -1 },
+          source: 'ai',
+          ok,
+        });
+        if (ok) {
+          appendLog(
+            formatSystemLogLine(
+              `${seatLabel(aiColor)} fires Command Overload (EMP).`,
+            ),
+          );
+          const after = current.getState();
+          if (after.winner) {
+            noteWinner(
+              after.winner,
+              after.winnerReason,
+              strength,
+              matchId,
+              localPlayerColor,
+            );
+          }
+          refresh(current);
+        } else {
+          appendLog(formatSystemLogLine('AI attempted an illegal EMP.'));
+        }
+        setAiThinking(false);
+        return;
+      }
+
       const piece = current.getPiece(choice.pieceId);
       const from = piece ? { ...piece.position } : undefined;
       const target = current.getPieceAt(choice.to);
-      const ok = current.movePiece(choice.pieceId, choice.to);
+      const ok = applyAgentMove(current, choice);
       debugLog.current.append({
         player: aiColor,
         pieceId: choice.pieceId,
@@ -383,6 +420,63 @@ export function useLocalAiGame() {
     [engine, appendLog, localPlayerColor, matchId, noteWinner, strength],
   );
 
+  const fireEmp = useCallback((): boolean => {
+    if (!engine) return false;
+    const state = engine.getState();
+    if (state.winner || state.currentPlayer !== localPlayerColor) return false;
+    const ok = engine.fireEmp();
+    debugLog.current.append({
+      player: localPlayerColor,
+      pieceId: 'emp',
+      from: undefined,
+      to: { x: -1, y: -1 },
+      source: 'human',
+      ok,
+    });
+    if (ok) {
+      appendLog(
+        formatSystemLogLine(
+          `${seatLabel(localPlayerColor)} fires Command Overload (EMP).`,
+        ),
+      );
+      const after = engine.getState();
+      if (after.winner) {
+        noteWinner(
+          after.winner,
+          after.winnerReason,
+          strength,
+          matchId,
+          localPlayerColor,
+        );
+      }
+      refresh(engine);
+    }
+    return ok;
+  }, [engine, appendLog, localPlayerColor, matchId, noteWinner, strength]);
+
+  const resign = useCallback((): boolean => {
+    if (!engine) return false;
+    const state = engine.getState();
+    if (state.winner) return false;
+    const ok = engine.resign(localPlayerColor);
+    if (!ok) return false;
+    appendLog(
+      formatSystemLogLine(`${seatLabel(localPlayerColor)} resigns.`),
+    );
+    const after = engine.getState();
+    if (after.winner) {
+      noteWinner(
+        after.winner,
+        after.winnerReason,
+        strength,
+        matchId,
+        localPlayerColor,
+      );
+    }
+    refresh(engine);
+    return true;
+  }, [engine, appendLog, localPlayerColor, matchId, noteWinner, strength]);
+
   const buildDebugExport = useCallback((): LatticeDebugExport | null => {
     if (!engine) return null;
     return buildLatticeDebugPayload(
@@ -429,6 +523,8 @@ export function useLocalAiGame() {
     startLocalAiGame,
     exitLocalAiGame,
     sendMove,
+    fireEmp,
+    resign,
     appendLog,
     markAssisted,
     buildDebugExport,

@@ -1,8 +1,7 @@
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType } from '../interfaces/pieceType';
-import { AgentMove } from './agent';
+import { AgentMove, applyAgentMove, isEmpAgentMove } from './agent';
 import { evaluatePosition } from './evaluate';
-
 /**
  * Read Node ablation env vars without throwing in the browser bundle
  * (`process` is undefined under Vite).
@@ -57,6 +56,12 @@ export function findImmediateWinningMove(
   if (hub) return hub;
 
   const me = engine.getState().currentPlayer;
+  if (engine.canFireEmp()) {
+    const child = engine.clone();
+    if (child.fireEmp() && child.getState().winner === me) {
+      return { type: 'emp' };
+    }
+  }
   for (const move of engine.listLegalMoves()) {
     const child = engine.clone();
     if (!child.movePiece(move.pieceId, move.to)) continue;
@@ -80,9 +85,10 @@ export function moveLeavesHubHanging(
   move: AgentMove,
 ): boolean {
   if (!hubMateFilterEnabled()) return false;
+  if (isEmpAgentMove(move)) return false;
   const me = engine.getState().currentPlayer;
   const child = engine.clone();
-  if (!child.movePiece(move.pieceId, move.to)) return true;
+  if (!applyAgentMove(child, move)) return true;
   const state = child.getState();
   if (state.winner) return false;
   const hub = Object.values(state.pieces).find(

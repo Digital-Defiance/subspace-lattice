@@ -92,12 +92,12 @@
       "headline": "The look-ahead scan",
       "bullets": [
         "1 · Can I take their Hub — file or diagonal?",
-        "2 · Can they take mine after my move?",
+        "2 · Can they take mine after my move? (refuse the hang)",
         "3 · What does this do for the nets?",
         "4 · Are my corners open to a Refractor slice?",
         "5 · Is their Carrier tethered or drifting?"
       ],
-      "voiceover": "Before every move: Can I take their Hub on a Beam file or Refractor diagonal? Can they take mine after my intended move — refuse the hang. What does the move do for the nets? Then two Heavy-wing checks: are your corners exposed to a Refractor slice past the Anomaly, and is the enemy Carrier within Hub radius three or already drifting into a crawl?",
+      "voiceover": "Before every move: Can I take their Hub on a Beam file or Refractor diagonal? Second — and this is the one beginners skip — after the move you are about to play, can anything land on your Hub? If yes, your Hub is hanging: one reply from Surgical Strike. Refuse the hang means do not play that move; pick one that keeps the flagship safe. Then ask what the move does for the nets. Then two Heavy-wing checks: are your corners exposed to a Refractor slice past the Anomaly, and is the enemy Carrier within Hub radius three or already drifting into a crawl?",
       "durationHintSec": 20
     },
     {
@@ -117,7 +117,7 @@
       "id": "outro",
       "headline": "Next: punish a Hub mistake",
       "nextEpisode": "Episode 2 — Surgical Strike (Mission 1, 7 plies)",
-      "voiceover": "You have the mental framework. Next episode: a seven-ply Standard Beams highlight reel where Hub safety outranks everything — and White converts a prepared Beam shot into Surgical Strike.",
+      "voiceover": "You have the mental framework. Next episode: a seven-ply highlight reel where Hub safety outranks everything — and White converts a prepared Beam shot into Surgical Strike.",
       "durationHintSec": 8
     }
   ]

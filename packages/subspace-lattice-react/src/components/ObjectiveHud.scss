@@ -125,6 +125,39 @@
   line-height: 1.45;
 }
 
+.objective-hud__emp {
+  margin-top: 0.75rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+
+  .objective-hud__explanation {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+}
+
+.objective-hud__emp-btn {
+  margin-top: 0.55rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid rgba($warning, 0.55);
+  border-radius: $radius-sm;
+  background: rgba($warning, 0.12);
+  color: #fbbf24;
+  font: 700 0.72rem var(--font-sol-pro-regular), ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background: rgba($warning, 0.2);
+  }
+}
+
 @media (max-width: 560px) {
   .objective-hud__sides {
     grid-template-columns: 1fr;

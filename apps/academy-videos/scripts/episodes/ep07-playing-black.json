@@ -50,7 +50,7 @@
         "4 · Files — and diagonals if Heavy wings are on",
         "5 · Am I overextending into blue?"
       ],
-      "voiceover": "The scan does not change seats. Can you take their Hub? Can they take yours after your intended move — refuse the hang. What does the move do for the nets? Then check files, and diagonals if Heavy wings are live. Finally: are you stepping into White’s glow just to look aggressive?",
+      "voiceover": "The scan does not change seats. Can you take their Hub? After your intended move, can they take yours — if yes, your Hub is hanging and you must refuse that move. What does the move do for the nets? Then check files, and diagonals if Heavy wings are live. Finally: are you stepping into White’s glow just to look aggressive?",
       "durationHintSec": 18
     },
     {
@@ -69,7 +69,7 @@
       "missionId": "mission-short-strike",
       "ply": 4,
       "revealPly": 5,
-      "prompt": "You are Black. White’s Hub is adjacent. Do you force the hang — or did you just hang yourself?",
+      "prompt": "You are Black next to White’s Hub. Are you threatening a hang — or did you just hang your own plan?",
       "overlays": { "hubEnPrise": true, "fiveQuestions": true },
       "voiceover": "Pause and predict from the Black seat. The five-question scan still applies to you. A one-ply Hub touch that does not survive the reply is not pressure — it is a gift.",
       "durationHintSec": 10,
@@ -137,7 +137,7 @@
       "id": "outro",
       "headline": "Black’s creed",
       "nextEpisode": "Episode 8 — Playing the Heavy Wing",
-      "voiceover": "Playing Black: respect the Relay, refuse the hang, contest structure, and use Contested Space and the clock when Strike will not land. Next: optional Heavy wings — Refractors, Carriers, and the Anomaly Slice.",
+      "voiceover": "Playing Black: respect the Relay, never leave your Hub where White can take it next turn, contest structure, and use Contested Space and the clock when Strike will not land. Next: optional Heavy wings — Refractors, Carriers, and the Anomaly Slice.",
       "durationHintSec": 10
     }
   ]

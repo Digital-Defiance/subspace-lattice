@@ -3,6 +3,7 @@ import { SubspaceLatticeEngine } from './game-engine';
 import { PlayerColor } from './interfaces';
 import { resolveFleetLobbyRules } from './rules/rules-config';
 import { HeuristicAi } from './ai/heuristic-ai';
+import { requirePieceAgentMove } from './ai/agent';
 
 describe('local AI after Fleet Draft Carrier move', () => {
   it('heuristic finds a Black reply after White Carrier (7,0)→(4,3)', () => {
@@ -16,9 +17,8 @@ describe('local AI after Fleet Draft Carrier move', () => {
     expect(legal.length).toBeGreaterThan(0);
 
     const ai = new HeuristicAi();
-    const choice = ai.chooseMove(engine);
-    expect(choice).toBeTruthy();
-    expect(engine.movePiece(choice!.pieceId, choice!.to)).toBe(true);
+    const choice = requirePieceAgentMove(ai.chooseMove(engine));
+    expect(engine.movePiece(choice.pieceId, choice.to)).toBe(true);
   });
 
   it('fromState refresh preserves fleet draft for AI', () => {

@@ -6,6 +6,7 @@ import {
   TUTORIAL_LESSONS,
   isWalkthroughLesson,
 } from '../tutorial/tutorial-model';
+import { isEmpTutorialMove } from '../tutorial/tutorial-types';
 import { useTutorialGame } from '../hooks/useTutorialGame';
 import './Tutorial.scss';
 
@@ -112,14 +113,22 @@ export function Tutorial() {
             guidance={{
               selectablePieceIds: walkthrough
                 ? []
-                : [step.playerMove.pieceId],
-              allowedDestinations: walkthrough ? [] : [step.playerMove.to],
-              focusCells: step.focusCells ?? [
-                ...(engine.getPiece(step.playerMove.pieceId)
-                  ? [engine.getPiece(step.playerMove.pieceId)!.position]
-                  : []),
-                step.playerMove.to,
-              ],
+                : isEmpTutorialMove(step.playerMove)
+                  ? []
+                  : [step.playerMove.pieceId],
+              allowedDestinations:
+                walkthrough || isEmpTutorialMove(step.playerMove)
+                  ? []
+                  : [step.playerMove.to],
+              focusCells: step.focusCells ??
+                (isEmpTutorialMove(step.playerMove)
+                  ? []
+                  : [
+                      ...(engine.getPiece(step.playerMove.pieceId)
+                        ? [engine.getPiece(step.playerMove.pieceId)!.position]
+                        : []),
+                      step.playerMove.to,
+                    ]),
             }}
             onInvalidAction={setFeedback}
           />

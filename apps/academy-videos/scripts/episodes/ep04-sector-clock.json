@@ -42,7 +42,7 @@
       "missionId": "mission-clock-finish",
       "ply": 100,
       "moveLabel": "Sector clock arms",
-      "overlays": { "nets": "contested", "threeQuestions": true },
+      "overlays": { "nets": "contested", "fiveQuestions": true },
       "voiceover": "Ply one hundred: Sector Integration can now win. Coverage at or above the marker must hold. Contested Space can break a streak. Surgical Strike is still legal — but the scoreboard is live.",
       "durationHintSec": 12
     },

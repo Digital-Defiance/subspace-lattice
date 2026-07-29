@@ -175,6 +175,8 @@ export const useGameSync = (localPlayerId: string) => {
         infiltratorActivationPly?: number;
         sectorActivationPly?: number;
         heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
+        empRadius?: number;
+        empChargeTarget?: number;
       };
     },
   ) => {
@@ -237,6 +239,14 @@ export const useGameSync = (localPlayerId: string) => {
       await apiClient.submitMove(activeRoomId, pieceId, to);
     } catch (error) {
       console.error('Failed to send move:', error);
+    }
+  };
+
+  const sendEmp = async (activeRoomId: string) => {
+    try {
+      await apiClient.submitEmp(activeRoomId);
+    } catch (error) {
+      console.error('Failed to fire EMP:', error);
     }
   };
 
@@ -359,6 +369,7 @@ export const useGameSync = (localPlayerId: string) => {
     leaveRoom,
     resignMatch,
     sendMove,
+    sendEmp,
     sendChatMessage,
     sendPlacement,
     setAllowObservers,

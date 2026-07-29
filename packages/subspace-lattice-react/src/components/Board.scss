@@ -1,13 +1,31 @@
 @use './variables' as *;
 
 .subspace-board {
+  --board-n: 11;
+  --board-gap: 2px;
+  --board-pad: 4px;
+  --cell-ideal: 40px;
   display: grid;
-  gap: 2px;
+  grid-template-columns: repeat(var(--board-n), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--board-n), minmax(0, 1fr));
+  gap: var(--board-gap);
   background-color: #333;
-  padding: 4px;
+  padding: var(--board-pad);
   border-radius: $radius-sm;
   margin: 20px auto;
-  width: fit-content;
+  box-sizing: border-box;
+  // Cap at the classic 40px cells on wide screens; shrink to the panel on phones
+  // so the 11×11 grid never forces horizontal pinch-zoom. Keep the outer box
+  // square so equal fr tracks stay square — cell aspect-ratio alone lets tall
+  // piece SVGs inflate row tracks and open dark vertical gaps between ranks.
+  width: min(
+    100%,
+    calc(
+      var(--board-n) * var(--cell-ideal) + (var(--board-n) - 1) * var(--board-gap) +
+        2 * var(--board-pad)
+    )
+  );
+  aspect-ratio: 1 / 1;
 }
 
 .subspace-board-shell {
@@ -16,7 +34,9 @@
   align-items: center;
   gap: 0.45rem;
   margin: 20px auto;
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 
   .subspace-board {
     margin: 0;
@@ -93,8 +113,13 @@
 }
 
 .subspace-cell {
-  width: 40px;
-  height: 40px;
+  container-type: size;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  // Kill intrinsic min-size from tall SVG art so fr tracks stay equal.
+  overflow: hidden;
   background-color: $input-bg;
   display: flex;
   justify-content: center;
@@ -107,9 +132,8 @@
   font: inherit;
   position: relative;
   // Pieces are pointer-events: none, so overflow ink does not steal clicks.
-  // Default hidden keeps large glyphs from painting into neighbors; Outline
-  // mode opts into visible below so the white silhouette rim is not clipped.
-  overflow: hidden;
+  // Hidden also clips large glyphs / Outline rims that would otherwise paint
+  // into neighbors — Outline still reads via drop-shadow inside the cell.
 
   &:focus-visible {
     z-index: 1;
@@ -149,9 +173,10 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 10px;
-    height: 10px;
-    margin: -5px 0 0 -5px;
+    width: min(10px, 28cqmin);
+    height: min(10px, 28cqmin);
+    margin: 0;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     background: rgba(52, 227, 197, 0.85);
     box-shadow: 0 0 6px rgba(52, 227, 197, 0.55);
@@ -180,9 +205,10 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 12px;
-    height: 12px;
-    margin: -6px 0 0 -6px;
+    width: min(12px, 32cqmin);
+    height: min(12px, 32cqmin);
+    margin: 0;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     background: rgba(251, 191, 36, 0.85);
     box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
@@ -216,9 +242,10 @@
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 12px;
-      height: 12px;
-      margin: -6px 0 0 -6px;
+      width: min(12px, 32cqmin);
+      height: min(12px, 32cqmin);
+      margin: 0;
+      transform: translate(-50%, -50%);
       border: 2px solid #fbbf24;
       border-radius: 50%;
       box-shadow: 0 0 8px $warning;
@@ -307,7 +334,7 @@
 }
 
 .piece {
-  font-size: 28px;
+  font-size: min(28px, 70cqmin);
   user-select: none;
   line-height: 1;
   display: inline-flex;
@@ -315,8 +342,13 @@
   justify-content: center;
   // Cell owns the click target; pieces are decorative only.
   pointer-events: none;
+  width: 85%;
+  height: 85%;
   max-width: 100%;
   max-height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 
   &.white {
     color: #fff;
@@ -342,6 +374,10 @@
     .piece-art img,
     svg {
       display: block;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       pointer-events: none;
     }
 

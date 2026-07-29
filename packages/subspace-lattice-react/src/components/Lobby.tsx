@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
-import type { HeavyWingPreset } from '@subspace-lattice/core';
+import {
+  EMP_BLACKOUT_PLIES_MAX,
+  type HeavyWingPreset,
+} from '@subspace-lattice/core';
 import {
   DEFAULT_LOBBY_RULES,
   lobbyRulesAreDefault,
@@ -88,6 +91,13 @@ export const Lobby: React.FC<LobbyProps> = ({
   const [heavyWingPreset, setHeavyWingPreset] = useState<HeavyWingPreset>(
     DEFAULT_LOBBY_RULES.heavyWingPreset,
   );
+  const [empRadius, setEmpRadius] = useState(DEFAULT_LOBBY_RULES.empRadius);
+  const [empChargeTarget, setEmpChargeTarget] = useState(
+    DEFAULT_LOBBY_RULES.empChargeTarget,
+  );
+  const [empBlackoutPlies, setEmpBlackoutPlies] = useState(
+    DEFAULT_LOBBY_RULES.empBlackoutPlies,
+  );
 
   useEffect(() => {
     setCallSign(defaultCallSign);
@@ -98,6 +108,9 @@ export const Lobby: React.FC<LobbyProps> = ({
     infiltratorActivationPly,
     sectorActivationPly,
     heavyWingPreset,
+    empRadius,
+    empChargeTarget,
+    empBlackoutPlies,
   };
   const customModules = !lobbyRulesAreDefault(lobbyRules);
 
@@ -222,6 +235,78 @@ export const Lobby: React.FC<LobbyProps> = ({
           <option value="fleet-draft">Fleet Draft</option>
         </select>
         <p className="lobby-module-hint">{HEAVY_WING_HINTS[heavyWingPreset]}</p>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-emp-radius">EMP radius (Chebyshev)</label>
+        <input
+          id="lobby-emp-radius"
+          type="number"
+          min={0}
+          max={5}
+          step={1}
+          value={empRadius}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setEmpRadius(
+              Number.isFinite(n)
+                ? Math.max(0, Math.min(5, Math.floor(n)))
+                : DEFAULT_LOBBY_RULES.empRadius,
+            );
+          }}
+          data-testid="lobby-emp-radius"
+        />
+        <p className="lobby-module-hint">
+          Fleet default {DEFAULT_LOBBY_RULES.empRadius}. 0 disables EMP (with
+          charge target 0).
+        </p>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-emp-charge">EMP charge target (plies)</label>
+        <input
+          id="lobby-emp-charge"
+          type="number"
+          min={0}
+          max={400}
+          step={1}
+          value={empChargeTarget}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setEmpChargeTarget(
+              Number.isFinite(n)
+                ? Math.max(0, Math.floor(n))
+                : DEFAULT_LOBBY_RULES.empChargeTarget,
+            );
+          }}
+          data-testid="lobby-emp-charge"
+        />
+        <p className="lobby-module-hint">
+          Non-Hub plies with a stationary Hub to arm Command Overload. Fleet
+          default {DEFAULT_LOBBY_RULES.empChargeTarget}.
+        </p>
+      </div>
+      <div className="form-group">
+        <label htmlFor="lobby-emp-blackout">EMP blackout (reply plies)</label>
+        <input
+          id="lobby-emp-blackout"
+          type="number"
+          min={1}
+          max={EMP_BLACKOUT_PLIES_MAX}
+          step={1}
+          value={empBlackoutPlies}
+          onChange={(e) => {
+            const n = Number(e.target.value);
+            setEmpBlackoutPlies(
+              Number.isFinite(n)
+                ? Math.max(1, Math.min(EMP_BLACKOUT_PLIES_MAX, Math.floor(n)))
+                : DEFAULT_LOBBY_RULES.empBlackoutPlies,
+            );
+          }}
+          data-testid="lobby-emp-blackout"
+        />
+        <p className="lobby-module-hint">
+          How many of the enemy&apos;s own turns stay frozen before engines
+          restart. Fleet default {DEFAULT_LOBBY_RULES.empBlackoutPlies}.
+        </p>
       </div>
       {customModules && (
         <p className="lobby-module-warn" data-testid="lobby-modules-unrated">

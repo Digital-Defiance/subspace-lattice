@@ -7,6 +7,7 @@ import {
   type TutorialLesson,
   type TutorialStep,
 } from '../tutorial/tutorial-model';
+import { isEmpTutorialMove } from '../tutorial/tutorial-types';
 
 const PROGRESS_KEY = 'subspace-lattice:tutorial-progress';
 
@@ -122,7 +123,11 @@ export function useTutorialGame() {
   const playWalkthroughPly = useCallback(() => {
     if (!walkthrough || phase !== 'playing') return false;
     const next = engine.clone();
-    if (!next.movePiece(step.playerMove.pieceId, step.playerMove.to)) {
+    const move = step.playerMove;
+    const ok = isEmpTutorialMove(move)
+      ? next.fireEmp()
+      : next.movePiece(move.pieceId, move.to);
+    if (!ok) {
       setFeedback(
         'This scripted ply became invalid. Restart the walkthrough.',
       );
@@ -155,7 +160,11 @@ export function useTutorialGame() {
       for (let n = 0; n < count; n++) {
         const current = lesson.steps[idx];
         if (!current) break;
-        if (!next.movePiece(current.playerMove.pieceId, current.playerMove.to)) {
+        const move = current.playerMove;
+        const ok = isEmpTutorialMove(move)
+          ? next.fireEmp()
+          : next.movePiece(move.pieceId, move.to);
+        if (!ok) {
           setEngine(next);
           setStepIndex(idx);
           setFeedback(
@@ -181,6 +190,7 @@ export function useTutorialGame() {
   const submitMove = useCallback(
     (pieceId: string, to: Coordinate): boolean => {
       if (walkthrough || phase !== 'playing') return false;
+      if (isEmpTutorialMove(step.playerMove)) return false;
       if (
         pieceId !== step.playerMove.pieceId ||
         !sameCoordinate(to, step.playerMove.to)
@@ -210,7 +220,10 @@ export function useTutorialGame() {
     const scriptedMove = step.aiMove;
     const timer = window.setTimeout(() => {
       const next = engine.clone();
-      if (!next.movePiece(scriptedMove.pieceId, scriptedMove.to)) {
+      const applied = isEmpTutorialMove(scriptedMove)
+        ? next.fireEmp()
+        : next.movePiece(scriptedMove.pieceId, scriptedMove.to);
+      if (!applied) {
         setFeedback(
           'The scripted response became invalid. Restart this lesson.',
         );

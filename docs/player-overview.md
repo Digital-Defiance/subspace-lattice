@@ -54,10 +54,13 @@ ruleset; they are optional storylines and mark the match unrated online.
    territory eventually forces the issue. It is meant to be a late pressure
    valve, not the usual way to win.
 
-3. **No legal moves** — leave the opposing fleet with nothing it can do.
+3. **No legal moves (Lockout)** — leave the opposing fleet with nothing it can
+   do. Against a live Hub this usually requires **Command Overload (EMP)**:
+   charge while the Hub stays put, then spend a full turn to seize enemy
+   engines inside the blast radius.
 
 Online play and local AI use these **hybrid-fleet** rules (Sensor Net plus the
-sector clock and Initiative Relay). A legacy chess-like **classic** mode and
+sector clock, Initiative Relay, and EMP). A legacy chess-like **classic** mode and
 the older instant-sector **hybrid** mode exist for tools and regression tests.
 
 ---

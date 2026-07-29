@@ -8,6 +8,7 @@ import {
 } from '../tutorial/manual-missions';
 import { elementToSvg } from '../vendor/dom-to-svg/index.js';
 import { defaultPieceStyleIndex } from '../hooks/usePieceStyle';
+import { isEmpTutorialMove } from '../tutorial/tutorial-types';
 import './FiguresCaptureHarness.scss';
 
 interface MissionFiguresApi {
@@ -51,7 +52,7 @@ export function MissionFiguresHarness() {
   const step = ply > 0 ? mission.steps[ply - 1]! : null;
   const guidance = step?.focusCells?.length
     ? { focusCells: step.focusCells }
-    : step
+    : step && !isEmpTutorialMove(step.playerMove)
       ? { focusCells: [step.playerMove.to] }
       : undefined;
 

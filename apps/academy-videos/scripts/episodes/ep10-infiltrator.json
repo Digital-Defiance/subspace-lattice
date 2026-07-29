@@ -1,0 +1,130 @@
+{
+  "id": "ep10-infiltrator",
+  "compositionId": "Episode10",
+  "title": "The Infiltrator Deep Dive",
+  "youtubeTitle": "Subspace Lattice Academy Ep.10 — Infiltrators: Warp & Target Lock",
+  "description": "Phase Runners with folding-drives: how an Infiltrator warps through unclaimed space, and how hostile coverage Target Locks the engines and kills the warp. Real Heuristic AI play (seed 12100).",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 10",
+      "headline": "The Infiltrator Deep Dive",
+      "subhead": "Warp through unclaimed space — until the net locks your engines.",
+      "voiceover": "Episode ten: the Infiltrator. Episode seven told you to save warps for real targets. Episode eight covered the Heavy wing. Now the Phase Runner gets its mechanical moment — generated from real Heuristic AI play.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "narration",
+      "id": "phase-runner",
+      "headline": "Phase Runners",
+      "bullets": [
+        "Infiltrators warp through un-networked space",
+        "Folding-drive jumps while you are undetected",
+        "Target Lock → one orthogonal crawl — no warp"
+      ],
+      "voiceover": "Fiction calls them Phase Runners: folding-drives that jump through space your Sensor Net does not yet claim. The engine rule is simpler. While an Infiltrator is not Target Locked, it may warp to a legal destination. The moment hostile coverage detects it, the engines lock — one orthogonal step only.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "opening-warp",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 1,
+      "moveLabel": "Ply 1 — White warps across the sector",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "long warp (undetected)" },
+      "voiceover": "Ply one of a Heuristic versus Heuristic match. White’s Infiltrator leaves three-zero and lands at nine-ten — a ten-cell warp through space neither net fully owned. That is the fold looking like aggression. Respect it; do not copy it blindly.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "answer-warp",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 6,
+      "moveLabel": "Ply 6 — Black answers with a warp",
+      "overlays": { "nets": "both" },
+      "voiceover": "Ply six. Black mirrors the idea: nine-ten to nine-zero. Long warps early are tempo weapons when the destination is safe. The lesson is not “always teleport” — it is “warp only when the landing square is not a gift.”",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "montage",
+      "id": "hunt-heavies",
+      "missionId": "mission-ai-infiltrator",
+      "fromPly": 6,
+      "toPly": 18,
+      "caption": "Warps hunting Heavy material",
+      "voiceover": "Midgame. The AI starts spending warps on real targets — Heavy pieces sitting where an Infiltrator can fold in and capture.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "warp-cap-beam",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 18,
+      "moveLabel": "Ply 18 — warp capture on a Beam",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "b-i2 takes w-h1" },
+      "voiceover": "Ply eighteen. Black’s Infiltrator warps from nine-zero to four-five and removes White’s Beam. That is the “real target” Episode seven promised — material, not a panic hop into blue glow.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "warp-cap-heavy",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 20,
+      "moveLabel": "Ply 20 — second warp capture",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "b-i2 takes w-h2" },
+      "voiceover": "Two plies later the same runner folds again and takes White’s other heavy. Warp plus capture is why you keep Infiltrators alive through the opening — they are strike craft, not Escorts with a gimmick.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "lock-kills-warp",
+      "headline": "Target Lock kills the fold",
+      "bullets": [
+        "Detected in enemy Sovereign Space → Target Locked",
+        "Locked pieces crawl one orthogonal step",
+        "No Chebyshev jump while the engines are seized"
+      ],
+      "voiceover": "Now the other half of the lesson. Push an Infiltrator into hostile coverage and Target Lock seizes the engines. The piece still exists — but the warp is gone until it exits the lock. Immobile aggression is just a gift.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "before-crawl",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 45,
+      "moveLabel": "Ply 45 — Infiltrator already locked",
+      "overlays": { "nets": "contested", "targetLocked": true },
+      "stats": { "locked": 1 },
+      "voiceover": "Ply forty-five. Black’s Infiltrator sits at six-five — already Target Locked inside White’s net. The folding-drive is dead on this square. Watch what the AI is forced to do next.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-crawl",
+      "missionId": "mission-ai-infiltrator",
+      "ply": 45,
+      "revealPly": 46,
+      "prompt": "The Infiltrator is Target Locked. Can it warp to safety — or only crawl?",
+      "overlays": { "targetLocked": true, "nets": "contested" },
+      "voiceover": "Pause and predict. Locked engines. Is a five-cell escape legal, or only a single orthogonal step?",
+      "durationHintSec": 8,
+      "revealVoiceover": "Ply forty-six: one step — six-five to six-four — capturing an Escort on the crawl. That is all a locked Phase Runner can do. Hostile coverage did not destroy the ship; it killed the warp.",
+      "revealDurationHintSec": 12
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Warp smart — fear the lock",
+      "nextEpisode": "Episode 11 — Lockout, the third win",
+      "voiceover": "Infiltrators: warp through unclaimed space for real targets, and never forget that Target Lock turns a Phase Runner into a foot soldier. Next: the third win condition — Lockout — when immobility is defeat.",
+      "durationHintSec": 10
+    }
+  ]
+}

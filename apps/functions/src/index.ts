@@ -19,6 +19,7 @@ import {
   type GameState,
 } from '@subspace-lattice/core';
 import {
+  applyAuthoritativeAction,
   applyAuthoritativeMove,
   applyResign,
   canSendChat,
@@ -165,6 +166,15 @@ export const createRoom = onCall(async (request) => {
   const wingPreset = lobbyOverrides.heavyWingPreset ?? heavyWingPresetFromRules(rules);
   if (wingPreset === 'refractor-wing') moduleBits.push('wing=refractor');
   if (wingPreset === 'fleet-draft') moduleBits.push('wing=fleet-draft');
+  if (
+    rules.empRadius !== FLEET_LOBBY_DEFAULTS.empRadius ||
+    rules.empChargeTarget !== FLEET_LOBBY_DEFAULTS.empChargeTarget ||
+    rules.empBlackoutPlies !== FLEET_LOBBY_DEFAULTS.empBlackoutPlies
+  ) {
+    moduleBits.push(
+      `emp r=${rules.empRadius}/t=${rules.empChargeTarget}/b=${rules.empBlackoutPlies}`,
+    );
+  }
   const modulesLabel = moduleBits.length ? `, modules: ${moduleBits.join(' ')}` : '';
 
   await db.runTransaction(async (tx) => {
@@ -325,11 +335,17 @@ export const joinRoom = onCall(async (request) => {
 export const submitMove = onCall(async (request) => {
   const uid = requireAuth(request.auth?.uid);
   const roomId = String(request.data?.roomId ?? '');
+  const actionRaw = String(request.data?.action ?? 'move').trim().toLowerCase();
+  const isEmp = actionRaw === 'emp';
   const pieceId = String(request.data?.pieceId ?? '');
   const to = request.data?.to as { x: number; y: number } | undefined;
 
-  if (
-    !roomId ||
+  if (!roomId) {
+    throw new HttpsError('invalid-argument', 'roomId is required.');
+  }
+  if (isEmp) {
+    // EMP consumes the turn; pieceId/to are ignored.
+  } else if (
     !pieceId ||
     !to ||
     typeof to.x !== 'number' ||
@@ -337,7 +353,7 @@ export const submitMove = onCall(async (request) => {
   ) {
     throw new HttpsError(
       'invalid-argument',
-      'roomId, pieceId, and to are required.',
+      'roomId, pieceId, and to are required (or action: emp).',
     );
   }
 
@@ -355,13 +371,17 @@ export const submitMove = onCall(async (request) => {
       throw new HttpsError('failed-precondition', 'Missing game state.');
     }
 
-    const result = applyAuthoritativeMove(
-      stateSnap.data() as GameState,
-      uid,
-      room,
-      pieceId,
-      to,
-    );
+    const result = isEmp
+      ? applyAuthoritativeAction(stateSnap.data() as GameState, uid, room, {
+          type: 'emp',
+        })
+      : applyAuthoritativeMove(
+          stateSnap.data() as GameState,
+          uid,
+          room,
+          pieceId,
+          to!,
+        );
     if (!result.ok) {
       if (result.reason === 'not-player') {
         throw new HttpsError(
@@ -372,15 +392,17 @@ export const submitMove = onCall(async (request) => {
       if (result.reason === 'not-turn') {
         throw new HttpsError('failed-precondition', 'Not your turn.');
       }
-      throw new HttpsError('invalid-argument', 'Illegal move.');
+      throw new HttpsError(
+        'invalid-argument',
+        isEmp ? 'Illegal EMP.' : 'Illegal move.',
+      );
     }
 
     tx.set(stateRef, result.next);
     tx.update(roomRef, { updatedAt: FieldValue.serverTimestamp() });
     tx.set(roomRef.collection('events').doc(), {
-      type: 'move',
-      pieceId,
-      to,
+      type: isEmp ? 'emp' : 'move',
+      ...(isEmp ? {} : { pieceId, to }),
       uid,
       timestamp: FieldValue.serverTimestamp(),
     });

@@ -1,5 +1,5 @@
 import { SubspaceLatticeEngine } from '../game-engine';
-import { Agent } from '../ai/agent';
+import { Agent, applyAgentMove, isEmpAgentMove } from '../ai/agent';
 import { Coordinate } from '../interfaces/coordinate';
 import { PieceType } from '../interfaces/pieceType';
 import { WinnerReason } from '../interfaces/gameState';
@@ -14,6 +14,7 @@ export interface ReplayPly {
   capturedType?: PieceType;
   spoolAnnounce?: boolean;
   spoolFailed?: boolean;
+  empFired?: boolean;
 }
 
 export interface MatchResult {
@@ -115,22 +116,35 @@ export function playMatch(
     }
 
     const player = state.currentPlayer;
-    const ok = engine.movePiece(choice.pieceId, choice.to);
+    const ok = applyAgentMove(engine, choice);
     if (!ok) {
       throw new Error(
-        `Agent ${agent.name} proposed illegal move ${choice.pieceId} -> (${choice.to.x},${choice.to.y})`,
+        isEmpAgentMove(choice)
+          ? `Agent ${agent.name} proposed illegal EMP`
+          : `Agent ${agent.name} proposed illegal move ${choice.pieceId} -> (${choice.to.x},${choice.to.y})`,
       );
     }
     const info = engine.getLastMoveInfo();
-    const ply: ReplayPly = {
-      pieceId: choice.pieceId,
-      to: choice.to,
-      player,
-      moverType: info?.moverType ?? PieceType.Escort,
-      capturedType: info?.capturedType,
-      spoolAnnounce: info?.spoolAnnounce,
-      spoolFailed: info?.spoolFailed,
-    };
+    const hub = Object.values(engine.getState().pieces).find(
+      (p) => p.owner === player && p.type === PieceType.CommandHub,
+    );
+    const ply: ReplayPly = isEmpAgentMove(choice)
+      ? {
+          pieceId: hub?.id ?? 'emp',
+          to: hub ? { ...hub.position } : { x: 0, y: 0 },
+          player,
+          moverType: PieceType.CommandHub,
+          empFired: true,
+        }
+      : {
+          pieceId: choice.pieceId,
+          to: choice.to,
+          player,
+          moverType: info?.moverType ?? PieceType.Escort,
+          capturedType: info?.capturedType,
+          spoolAnnounce: info?.spoolAnnounce,
+          spoolFailed: info?.spoolFailed,
+        };
     replay.push(ply);
     tallyPly(stats, ply);
   }

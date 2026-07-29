@@ -63,7 +63,7 @@
       "ply": 54,
       "revealPly": 57,
       "prompt": "Defenders are thinning. Can White force Surgical Strike?",
-      "overlays": { "threeQuestions": true },
+      "overlays": { "fiveQuestions": true },
       "voiceover": "Late game. Pause and predict: with key defenders removed, does White have a walk-in on the Hub?",
       "durationHintSec": 7,
       "revealVoiceover": "Ply fifty-seven. White delivers Surgical Strike. Same lesson as Mission One — just earned over a full game: clear the lane, refuse hangs, strike when the Hub is forced.",

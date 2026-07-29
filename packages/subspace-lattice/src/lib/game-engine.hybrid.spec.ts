@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { SubspaceLatticeEngine } from './game-engine';
 import { CellType, PieceType, PlayerColor } from './interfaces';
-import { resolveRulesConfig } from './rules/rules-config';
+import {
+  FLEET_LOBBY_DEFAULTS,
+  resolveRulesConfig,
+} from './rules/rules-config';
 
 function oneSidedSectorEngine(
   sectorHoldPlies: number,
@@ -305,6 +308,9 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
         sectorHoldPlies: 8,
         contestedCellsNeutral: true,
         sectorActivationPly: 0,
+        empRadius: 0,
+        empChargeTarget: 0,
+        empBlackoutPlies: 1,
       },
     });
     const clone = engine.clone();
@@ -444,6 +450,9 @@ describe('SubspaceLatticeEngine lobby overrides', () => {
       infiltratorActivationPly: 2,
       sectorActivationPly: 40,
       heavyWingPreset: 'standard',
+      empRadius: FLEET_LOBBY_DEFAULTS.empRadius,
+      empChargeTarget: FLEET_LOBBY_DEFAULTS.empChargeTarget,
+      empBlackoutPlies: FLEET_LOBBY_DEFAULTS.empBlackoutPlies,
     });
 
     const hydrated = SubspaceLatticeEngine.fromState(snap);

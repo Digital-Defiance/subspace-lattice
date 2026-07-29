@@ -30,6 +30,8 @@ export interface MoveInfo {
   capturedType?: PieceType;
   spoolAnnounce?: boolean;
   spoolFailed?: boolean;
+  /** True when this ply was a Command Overload (EMP) fire. */
+  empFired?: boolean;
 }
 
 function coordKey(x: number, y: number): string {
@@ -266,6 +268,11 @@ export class SubspaceLatticeEngine {
       pieces,
       currentPlayer: PlayerColor.White,
       rulesVersion,
+      plyCount: 0,
+      empCharge: {
+        [PlayerColor.White]: 0,
+        [PlayerColor.Black]: 0,
+      },
     };
   }
 
@@ -323,6 +330,111 @@ export class SubspaceLatticeEngine {
     return this.listLegalMoves(color).length > 0;
   }
 
+  /** EMP is armed when both knobs are positive. */
+  public empEnabled(): boolean {
+    return (this.rules.empChargeTarget ?? 0) > 0 && (this.rules.empRadius ?? 0) > 0;
+  }
+
+  public getEmpChargeTarget(): number {
+    return this.rules.empChargeTarget ?? 0;
+  }
+
+  public getEmpRadius(): number {
+    return this.rules.empRadius ?? 0;
+  }
+
+  public getEmpCharge(color: PlayerColor = this.state.currentPlayer): number {
+    return this.state.empCharge?.[color] ?? 0;
+  }
+
+  /** True when the current player may spend the turn firing EMP. */
+  public canFireEmp(color: PlayerColor = this.state.currentPlayer): boolean {
+    if (this.state.winner) return false;
+    if (!this.empEnabled()) return false;
+    if (color !== this.state.currentPlayer) return false;
+    const hub = Object.values(this.state.pieces).find(
+      (p) => p.owner === color && p.type === PieceType.CommandHub,
+    );
+    if (!hub) return false;
+    if (this.isEmpDisabled(hub)) return false;
+    const target = this.rules.empChargeTarget;
+    return this.getEmpCharge(color) >= target;
+  }
+
+  /**
+   * Piece engines seized by the live EMP blackout. Only the targeted side's
+   * ships are in the blast — the firing fleet is never affected.
+   */
+  public isEmpDisabled(piece: Piece): boolean {
+    const blast = this.state.empActive;
+    if (!blast) return false;
+    if (piece.owner !== blast.targetSide) return false;
+    return chebyshev(piece.position, blast.origin) <= blast.radius;
+  }
+
+  /**
+   * Fire Command Overload (EMP). Consumes the entire turn and resets charge.
+   * Seizes enemy engines within empRadius of the Hub for `empBlackoutPlies`
+   * reply plies.
+   */
+  public fireEmp(): boolean {
+    if (!this.canFireEmp()) return false;
+    const mover = this.state.currentPlayer;
+    const hub = Object.values(this.state.pieces).find(
+      (p) => p.owner === mover && p.type === PieceType.CommandHub,
+    );
+    if (!hub) return false;
+
+    this.state.empActive = {
+      origin: { ...hub.position },
+      radius: this.rules.empRadius,
+      firedBy: mover,
+      targetSide:
+        mover === PlayerColor.White ? PlayerColor.Black : PlayerColor.White,
+      pliesRemaining: Math.max(1, this.rules.empBlackoutPlies ?? 1),
+    };
+    this.state.empCharge = {
+      ...(this.state.empCharge ?? {}),
+      [mover]: 0,
+    };
+    this.lastMoveInfo = {
+      moverType: PieceType.CommandHub,
+      empFired: true,
+    };
+    this.endPly(mover);
+    return true;
+  }
+
+  /**
+   * Burn one blackout ply. Only the frozen side's own actions count toward
+   * recovery, so the firer cannot shorten its own blast by shuffling ships.
+   */
+  private tickEmpBlackout(mover: PlayerColor): void {
+    const blast = this.state.empActive;
+    if (!blast) return;
+    if (blast.targetSide !== mover) return;
+    const remaining = (blast.pliesRemaining ?? 1) - 1;
+    if (remaining <= 0) {
+      delete this.state.empActive;
+      return;
+    }
+    this.state.empActive = { ...blast, pliesRemaining: remaining };
+  }
+
+  /**
+   * Resign: opponent wins immediately (`winnerReason: resign`).
+   * Defaults to the side to move.
+   */
+  public resign(color: PlayerColor = this.state.currentPlayer): boolean {
+    if (this.state.winner) return false;
+    const hasSeat = Object.values(this.state.pieces).some((p) => p.owner === color);
+    if (!hasSeat) return false;
+    const winner =
+      color === PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+    this.setWinner(winner, 'resign');
+    return true;
+  }
+
   /** All legal moves for a side (or the current player if omitted). */
   public listLegalMoves(
     color: PlayerColor = this.state.currentPlayer,
@@ -335,6 +447,7 @@ export class SubspaceLatticeEngine {
     const nets = this.buildSensorNetContext();
 
     for (const piece of pieces) {
+      if (this.isEmpDisabled(piece)) continue;
       for (let x = 0; x < this.BOARD_SIZE; x++) {
         for (let y = 0; y < this.BOARD_SIZE; y++) {
           const to = { x, y };
@@ -361,6 +474,7 @@ export class SubspaceLatticeEngine {
     to: Coordinate,
     nets: SensorNetContext,
   ): boolean {
+    if (this.isEmpDisabled(piece)) return false;
     if (!this.isValidCoordinate(to)) return false;
     const targetCell = this.getCell(to);
     if (!targetCell || targetCell.type === CellType.GravityWell) return false;
@@ -399,6 +513,7 @@ export class SubspaceLatticeEngine {
     const mover = piece.owner;
     const nets = this.buildSensorNetContext();
     const detected = this.isPieceDetected(piece);
+    let empChargeApplied = false;
 
     // Navigational Target Lock: announce or execute
     if (
@@ -416,6 +531,10 @@ export class SubspaceLatticeEngine {
         }
         const targetOk = this.isValidWarpDestination(piece, to, nets);
         delete piece.spoolTarget;
+        // Commit ply (failed jump still consumes the turn).
+        this.tickEmpBlackout(mover);
+        this.applyEmpChargeForMove(mover, piece.type);
+        empChargeApplied = true;
         if (!targetOk) {
           this.lastMoveInfo = {
             moverType: PieceType.Infiltrator,
@@ -428,6 +547,8 @@ export class SubspaceLatticeEngine {
       } else {
         // Announce turn — lock coordinates, do not move.
         if (!this.isValidWarpDestination(piece, to, nets)) return false;
+        this.tickEmpBlackout(mover);
+        this.applyEmpChargeForMove(mover, piece.type);
         piece.spoolTarget = { x: to.x, y: to.y };
         this.lastMoveInfo = {
           moverType: PieceType.Infiltrator,
@@ -441,6 +562,11 @@ export class SubspaceLatticeEngine {
     // Detected / ortho move clears any stale spool lock.
     if (piece.spoolTarget) {
       delete piece.spoolTarget;
+    }
+
+    if (!empChargeApplied) {
+      this.tickEmpBlackout(mover);
+      this.applyEmpChargeForMove(mover, piece.type);
     }
 
     const targetCell = this.getCell(to)!;
@@ -472,6 +598,21 @@ export class SubspaceLatticeEngine {
 
     this.endPly(mover);
     return true;
+  }
+
+  /**
+   * Hub move → charge 0. Any other piece action (including spool announce)
+   * → charge +1 while EMP is enabled.
+   */
+  private applyEmpChargeForMove(mover: PlayerColor, moverType: PieceType): void {
+    if (!this.empEnabled()) return;
+    const charge = { ...(this.state.empCharge ?? {}) };
+    if (moverType === PieceType.CommandHub) {
+      charge[mover] = 0;
+    } else {
+      charge[mover] = (charge[mover] ?? 0) + 1;
+    }
+    this.state.empCharge = charge;
   }
 
   /** Sector Integration win check (instant or Integration Hold), then pass turn. */

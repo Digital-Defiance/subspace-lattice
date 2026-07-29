@@ -2,7 +2,7 @@ import { SubspaceLatticeEngine } from '../game-engine';
 import { Coordinate } from '../interfaces/coordinate';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
-import { AgentMove } from './agent';
+import { AgentMove, isEmpAgentMove } from './agent';
 import {
   AiStrengthId,
   createAiForStrength,
@@ -49,6 +49,27 @@ export function suggestAdvisorMove(
   const choice = ai.chooseMove(engine);
   if (!choice) return null;
 
+  if (isEmpAgentMove(choice)) {
+    const hub = Object.values(engine.getState().pieces).find(
+      (p) => p.owner === color && p.type === PieceType.CommandHub,
+    );
+    if (!hub) return null;
+    const from = { ...hub.position };
+    return {
+      pieceId: hub.id,
+      from,
+      to: from,
+      reasons: mergeCoachReasons([
+        'Fire Command Overload (EMP) — spend the whole turn to seize enemy engines inside the blast radius.',
+        engine.canFireEmp()
+          ? `Charge is armed (${engine.getEmpCharge(color)}/${engine.getEmpChargeTarget()}).`
+          : 'EMP charge ready.',
+      ]),
+      strength,
+      summary: 'Command Overload (EMP)',
+    };
+  }
+
   const piece = engine.getPiece(choice.pieceId);
   if (!piece) return null;
 
@@ -87,6 +108,12 @@ export function explainAdvisorMove(
   move: AgentMove,
   color: PlayerColor = engine.getState().currentPlayer,
 ): string[] {
+  if (isEmpAgentMove(move)) {
+    return mergeCoachReasons([
+      'Fire Command Overload (EMP) — spend the whole turn to seize enemy engines inside the blast radius.',
+    ]);
+  }
+
   const piece = engine.getPiece(move.pieceId);
   if (!piece) return ['No legal coaching line available.'];
 
@@ -161,6 +188,7 @@ export function explainAdvisorMove(
   const scored = new HeuristicAi(() => 0).chooseMove(engine);
   if (
     scored &&
+    !isEmpAgentMove(scored) &&
     scored.pieceId === move.pieceId &&
     scored.to.x === move.to.x &&
     scored.to.y === move.to.y

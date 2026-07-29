@@ -3,7 +3,7 @@
   "compositionId": "Episode02",
   "title": "Surgical Strike",
   "youtubeTitle": "Subspace Lattice Academy Ep.2 — Surgical Strike (7-Ply Mission)",
-  "description": "Mission 1 walkthrough: refuse the hang, then convert a Beam file into Surgical Strike. From the Fleet Academy advanced manual.",
+  "description": "Mission 1 walkthrough: when your Hub can be captured next turn it is hanging — refuse that, then convert a Beam file into Surgical Strike. From the Fleet Academy advanced manual.",
   "fps": 30,
   "width": 1920,
   "height": 1080,
@@ -13,9 +13,21 @@
       "id": "title",
       "eyebrow": "Fleet Academy · Episode 2 · Mission 1",
       "headline": "Surgical Strike",
-      "subhead": "A seven-ply highlight reel: grow the net, refuse the hang, end the game.",
-      "voiceover": "Episode two: Surgical Strike. A short, fixed highlight reel — not a full match. Watch how fast a Hub hunt ends when a mistake is punished.",
-      "durationHintSec": 6
+      "subhead": "Grow the net, keep the Hub safe, end the game.",
+      "voiceover": "Episode two: Surgical Strike. A short highlight reel. One rule to learn before the board moves: if the opponent can capture your Command Hub on their next turn, your Hub is hanging. Refuse the hang means fix that before you chase your own attack.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "narration",
+      "id": "hang-defined",
+      "headline": "What “refuse the hang” means",
+      "bullets": [
+        "Hanging = they can capture your Hub next turn",
+        "The engine allows it — you lose if they take it",
+        "Refuse the hang = keep the Hub safe first"
+      ],
+      "voiceover": "A ship is hanging when the opponent can take it on their next turn. In Subspace Lattice the only hang that ends the mission is the Command Hub. The rules do not stop you from leaving it exposed — that is legal — but if they capture it, you lose immediately by Surgical Strike. So refuse the hang means: never leave your Hub capturable next turn, and if it already is, capture or block the threat before you fire your own prepared shot.",
+      "durationHintSec": 18
     },
     {
       "kind": "board",
@@ -61,12 +73,12 @@
       "missionId": "mission-short-strike",
       "ply": 4,
       "revealPly": 5,
-      "prompt": "Black just stepped next to White’s Hub. What does the three-question scan say?",
+      "prompt": "Black just stepped next to White’s Hub. Is White’s Hub hanging?",
       "overlays": { "hubEnPrise": true },
-      "voiceover": "Ply four. Black reaches for a classic beginner trap: step next to White’s Hub. Pause and predict — if White stares at the Beam shot and ignores this, Black takes Surgical Strike next.",
-      "durationHintSec": 8,
-      "revealVoiceover": "Ply five. White refuses the hang. The prepared Beam shot can wait one ply — Hub safety always comes first. Capture the threat.",
-      "revealDurationHintSec": 7
+      "voiceover": "Ply four. Black steps next to White’s Hub. That Hub is now hanging — Black can capture it next turn and win. Pause and predict: if White ignores this and stares at the Beam shot, Black takes Surgical Strike.",
+      "durationHintSec": 10,
+      "revealVoiceover": "Ply five. White refuses the hang: the Hub was one capture from dying, so White captures the threatening Escort instead of firing the Beam. The prepared shot can wait one ply. Hub safety always comes first.",
+      "revealDurationHintSec": 9
     },
     {
       "kind": "board",
@@ -91,9 +103,9 @@
     {
       "kind": "outro",
       "id": "outro",
-      "headline": "Lesson: Hub safety outranks the shot",
+      "headline": "Lesson: if the Hub can die next, fix that first",
       "nextEpisode": "Episode 3 — Midgame control over 57 plies",
-      "voiceover": "Core lesson: Hub safety outranks material and net-building. Next: a chess-length battle — openings, trade fights, and a walk-in finish.",
+      "voiceover": "Core lesson: a hanging Hub is a Hub the opponent can capture next turn. Refuse that before material, nets, or your own Strike. Next: a chess-length battle — openings, trade fights, and a walk-in finish.",
       "durationHintSec": 7
     }
   ]

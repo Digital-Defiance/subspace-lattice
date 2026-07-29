@@ -34,14 +34,14 @@
 
 \begin{abstract}
 \noindent
-This manual replays the three guided missions from the in-game academy with
-every ply diagrammed and explained: a short Surgical Strike highlight reel, a
-full 57-ply battle, and a \texttt{hybrid-fleet} siege decided by the sector
-clock (all Standard Beams openings). Part I teaches how to think --- fleet
-geometry including optional Refractors and Carriers, reading positions,
-valuing moves, and looking ahead. Parts II--IV walk the games. Each diagram
-shows the position \emph{after} the numbered ply; the moved ship's squares
-glow.
+This manual replays the guided Fleet Academy missions with every ply
+diagrammed and explained: a short Surgical Strike highlight reel, a full
+57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock, and
+Mission 4 --- Lockout via Command Overload (EMP). Part I teaches how to think
+--- fleet geometry including optional Refractors and Carriers, reading
+positions, valuing moves, and looking ahead. Later parts walk the games. Each
+diagram shows the position \emph{after} the numbered ply; the moved ship's
+squares glow.
 \end{abstract}
 
 \tableofcontents
@@ -145,10 +145,11 @@ Before every move, in order:
         Anomaly corners).
   \item \textbf{Can they take mine after my intended move?} Simulate your
         candidate, then check every enemy reply against your Hub square.
-        If any reply lands there, the candidate is illegal in spirit ---
-        find another. This is the discipline the academy drills as
-        \emph{refuse the hang}. Orthogonal screens do not answer diagonal
-        threats.
+        If any reply lands there, your Hub is \emph{hanging} --- one ply from
+        Surgical Strike. The rules still allow that move; the discipline is
+        not to play it. Find another candidate. The academy drills this as
+        \emph{refuse the hang}: never leave the flagship where they can
+        capture it next. Orthogonal screens do not answer diagonal threats.
   \item \textbf{What does the move do for the nets?} Prefer moves that answer
         two ways at once: extend coverage \emph{and} threaten, retreat
         \emph{and} keep the chain linked.
@@ -219,22 +220,43 @@ are authorized --- call it \emph{the 45-ply blind spot}.
         Beam screen never saw. Orthogonal safety is incomplete safety.
 \end{description}
 
-\section{Endgame: strike or clock}
+\section{Endgame: strike, clock, or Lockout}
 
-Two finishes exist. If a Hub hunt is winning, convert like Mission 1 and 2:
-clear the lane (file or diagonal), refuse the hang, strike. If both fleets dig
+Three finishes exist. If a Hub hunt is winning, convert like Mission 1 and 2:
+clear the lane (file or diagonal), keep your Hub from hanging, strike. If both
+fleets dig
 in, the sector clock (armed at ply 100 under fleet rules) turns coverage into
 the win condition --- Mission 3. Late game, every net cell is a point on the
 scoreboard, Contested Space is a weapon (project into their net to stall
 their streak), and passive defense finally loses on the clock instead of
-drawing forever. Expanded branching from Refractors and Carriers does not
-change the win conditions --- it changes which geometries feed them.
+drawing forever.
+
+The third finish is \textbf{Lockout}: leave the opponent with zero legal
+replies. Bodies alone almost never force that against a live Command Hub --- a
+cornered Hub can still capture its way out. Under \texttt{hybrid-fleet},
+\textbf{Command Overload (EMP)} is the practical path:
+
+\begin{itemize}[leftmargin=*]
+  \item Charge only while your Hub stays put: each non-Hub ply of yours adds
+        one to EMP charge; moving the Hub (or firing) resets it to zero.
+  \item Default charge target is $15$ non-Hub plies; blast radius is Chebyshev
+        $3$ from the Hub (lobby-tunable).
+  \item Firing EMP \emph{is} your entire turn. Enemy ships inside the radius
+        cannot move or capture for \texttt{empBlackoutPlies} of \emph{their}
+        replies (default $1$). Your own fleet is never in the blast --- the
+        cost is the spent turn, not friendly fire.
+  \item If every remaining enemy ship is seized, \texttt{listLegalMoves} is
+        empty and you win with \texttt{winnerReason=no-moves}.
+\end{itemize}
+
+Expanded branching from Refractors and Carriers does not change the win
+conditions --- it changes which geometries feed them.
 
 \clearpage
 
 \part{The annotated games}
 \section{Mission 1 --- Surgical Strike, the highlight reel}
-Guided mission 1 of 3. A short, fixed highlight reel---not a full match. Tap Play and watch each order. White grows the net, refuses a Hub hang, then Surgical Strike. Black shows the usual counterplay and death-trap temptation.
+Guided mission 1 of 3. A short, fixed highlight reel---not a full match. Tap Play and watch each order. White grows the net, keeps the Hub from hanging (capturable next turn), then Surgical Strike. Black shows the usual counterplay and death-trap temptation.
 
 \begin{center}
 \includegraphics[width=0.55\textwidth]{figures/missions/mission-short-strike/ply-000}\\
@@ -254,7 +276,7 @@ Guided mission 1 of 3. A short, fixed highlight reel---not a full match. Tap Pla
 \vspace{0.9em}
 
 \clearpage
-\plyfig{figures/missions/mission-short-strike/ply-005}{Ply 5 --- White Escort (4,1)$\rightarrow$(5,1)}{White refuses the hang. The prepared Beam shot can wait one ply---Hub safety always comes first. Capture the threat.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 36--42 \,\textbullet\, 4 ships locked]}}%
+\plyfig{figures/missions/mission-short-strike/ply-005}{Ply 5 --- White Escort (4,1)$\rightarrow$(5,1)}{White's Hub was hanging --- Black could capture it next turn and win. Refuse the hang: take the threatening Escort now. The prepared Beam shot can wait one ply.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 36--42 \,\textbullet\, 4 ships locked]}}%
 \hfill
 \plyfig{figures/missions/mission-short-strike/ply-006}{Ply 6 --- Black Escort (8,7)$\rightarrow$(8,6)}{Black's tactical shot failed. With no immediate recapture, Black shuffles---tempo lost, Hub still sitting on White's Beam file.\; {\color{gray}\scriptsize [net 36--42 \,\textbullet\, 4 ships locked \,\textbullet\, \textbf{Hub en prise!}]}}%
 
@@ -851,6 +873,679 @@ The full 115-ply record of the academy's sector-clock mission. Plan from the fir
 
 \vspace{1em}
 \noindent\textbf{Debrief.} White wins by Sector Integration --- coverage held past the threshold, no Hub taken. Surgical Strike was legal the whole way; dig-in play simply never found it. Contested Space and Hub marches are the late weapons when Strike stalls.
+\clearpage
+\section{Mission 4 --- Lockout via Command Overload}
+A short Lockout highlight reel. White's Hub has been stationary long enough that EMP is armed (charge 15/15, blast radius 2). Black still has one Escort outside the blast --- remove that escape hatch, then spend the turn on Command Overload. Bodies alone almost never force zero replies against a live Hub; EMP is the practical path.
+
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figures/missions/mission-emp-lockout/ply-000}\\
+{\small\textbf{Starting position.}}
+\end{center}
+\clearpage
+\plyfig{figures/missions/mission-emp-lockout/ply-001}{Ply 1 --- White Escort (8,7)$\rightarrow$(8,8)}{EMP is armed, but Black still has an Escort outside the blast. Capture that escape hatch first --- keep the Hub parked so charge stays armed.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 49--49 \,\textbullet\, 3 ships locked \,\textbullet\, \textbf{Hub en prise!}]}}%
+\hfill
+\plyfig{figures/missions/mission-emp-lockout/ply-002}{Ply 2 --- Black Command Hub (4,5)$\rightarrow$(3,5)}{Black's Hub shuffles but stays inside White's blast radius. The remaining Escort is already in the blast --- nowhere left outside.\; {\color{gray}\scriptsize [net 49--49 \,\textbullet\, 3 ships locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-emp-lockout/ply-003}{Ply 3 --- White Command Overload (EMP)}{Spend the whole turn on Command Overload. Every remaining Black ship sits in the blast --- enemy engines seize, zero legal replies, Lockout. Your own fleet is never affected.\; {\color{gray}\scriptsize [Command Overload (EMP) \,\textbullet\, \textbf{White wins}]}}%
+
+\vspace{0.9em}
+
+
+\vspace{1em}
+\noindent\textbf{Debrief.} White wins by Lockout (winnerReason=no-moves). Anchor the Hub, charge on non-Hub plies, corner every enemy ship inside the radius, then fire. Only enemy engines freeze --- your fleet is never in the blast; the cost is spending the whole turn.
+\clearpage
+\section{AI Mission --- Fleet Draft skirmish (40 plies)}
+MCTS vs MCTS under Fleet Draft (Refractor + Hub-anchored Carrier). Academy Episode 9 drops into the midgame and runs the five-question scan live.
+
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figures/missions/mission-ai-fleet-skirmish/ply-000}\\
+{\small\textbf{Starting position.}}
+\end{center}
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-001}{Ply 1 --- White Infiltrator (8,0)$\rightarrow$(6,3)}{White Infiltrator to (6,3).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-002}{Ply 2 --- Black Infiltrator (2,10)$\rightarrow$(1,2)}{Black Infiltrator to (1,2).\; {\color{gray}\scriptsize [net 31--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-003}{Ply 3 --- White Infiltrator (2,0)$\rightarrow$(1,2)}{White takes an early infiltrator at (1,2) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-004}{Ply 4 --- Black Infiltrator (8,10)$\rightarrow$(1,2)}{Black takes an early infiltrator at (1,2) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-005}{Ply 5 --- White Infiltrator (6,3)$\rightarrow$(1,2)}{White takes an early infiltrator at (1,2) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-006}{Ply 6 --- Black Command Hub (5,10)$\rightarrow$(6,9)}{Black Command Hub to (6,9).\; {\color{gray}\scriptsize [net 31--35]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-007}{Ply 7 --- White Infiltrator (1,2)$\rightarrow$(2,2)}{White Infiltrator to (2,2).\; {\color{gray}\scriptsize [net 31--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-008}{Ply 8 --- Black Escort (5,9)$\rightarrow$(5,10)}{Black Escort to (5,10).\; {\color{gray}\scriptsize [net 31--35]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-009}{Ply 9 --- White Infiltrator (2,2)$\rightarrow$(1,2)}{White Infiltrator to (1,2).\; {\color{gray}\scriptsize [net 31--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-010}{Ply 10 --- Black Carrier (7,10)$\rightarrow$(9,8)}{Black Carrier to (9,8).\; {\color{gray}\scriptsize [net 31--35]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-011}{Ply 11 --- White Carrier (7,0)$\rightarrow$(5,2)}{White Carrier to (5,2).\; {\color{gray}\scriptsize [net 31--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-012}{Ply 12 --- Black Command Hub (6,9)$\rightarrow$(6,8)}{Black Command Hub to (6,8).\; {\color{gray}\scriptsize [net 31--42]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-013}{Ply 13 --- White Infiltrator (1,2)$\rightarrow$(7,0)}{White Infiltrator to (7,0).\; {\color{gray}\scriptsize [net 31--42]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-014}{Ply 14 --- Black Escort (6,10)$\rightarrow$(7,10)}{Black Escort to (7,10).\; {\color{gray}\scriptsize [net 31--42]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-015}{Ply 15 --- White Carrier (5,2)$\rightarrow$(4,1)}{White Carrier to (4,1).\; {\color{gray}\scriptsize [net 31--42]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-016}{Ply 16 --- Black Refractor (3,10)$\rightarrow$(5,8)}{Black Refractor to (5,8).\; {\color{gray}\scriptsize [net 31--42]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-017}{Ply 17 --- White Infiltrator (7,0)$\rightarrow$(10,5)}{White Infiltrator to (10,5).\; {\color{gray}\scriptsize [net 31--42]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-018}{Ply 18 --- Black Command Hub (6,8)$\rightarrow$(7,7)}{Black Command Hub to (7,7).\; {\color{gray}\scriptsize [net 31--51 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-019}{Ply 19 --- White Escort (5,3)$\rightarrow$(5,2)}{White Escort to (5,2).\; {\color{gray}\scriptsize [net 28--51 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-020}{Ply 20 --- Black Command Hub (7,7)$\rightarrow$(6,6)}{Black Command Hub to (6,6).\; {\color{gray}\scriptsize [net 28--55]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-021}{Ply 21 --- White Infiltrator (10,5)$\rightarrow$(0,0)}{White Infiltrator to (0,0).\; {\color{gray}\scriptsize [net 28--55]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-022}{Ply 22 --- Black Command Hub (6,6)$\rightarrow$(5,7)}{Black Command Hub to (5,7).\; {\color{gray}\scriptsize [net 28--49]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-023}{Ply 23 --- White Infiltrator (0,0)$\rightarrow$(9,8)}{White takes at (9,8) with an Infiltrator.\; {\color{gray}\scriptsize [captures Carrier \,\textbullet\, net 28--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-024}{Ply 24 --- Black Command Hub (5,7)$\rightarrow$(4,8)}{Black Command Hub to (4,8).\; {\color{gray}\scriptsize [net 28--44]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-025}{Ply 25 --- White Infiltrator (9,8)$\rightarrow$(7,3)}{White Infiltrator to (7,3).\; {\color{gray}\scriptsize [net 28--44]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-026}{Ply 26 --- Black Command Hub (4,8)$\rightarrow$(4,7)}{Black Command Hub to (4,7).\; {\color{gray}\scriptsize [net 28--51]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-027}{Ply 27 --- White Infiltrator (7,3)$\rightarrow$(2,0)}{White Infiltrator to (2,0).\; {\color{gray}\scriptsize [net 28--51]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-028}{Ply 28 --- Black Escort (7,10)$\rightarrow$(7,9)}{Black Escort to (7,9).\; {\color{gray}\scriptsize [net 28--52]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-029}{Ply 29 --- White Carrier (4,1)$\rightarrow$(3,1)}{White Carrier to (3,1).\; {\color{gray}\scriptsize [net 28--52]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-030}{Ply 30 --- Black Command Hub (4,7)$\rightarrow$(5,7)}{Black Command Hub to (5,7).\; {\color{gray}\scriptsize [net 28--49]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-031}{Ply 31 --- White Infiltrator (2,0)$\rightarrow$(9,0)}{White Infiltrator to (9,0).\; {\color{gray}\scriptsize [net 28--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-032}{Ply 32 --- Black Escort (4,10)$\rightarrow$(3,10)}{Black Escort to (3,10).\; {\color{gray}\scriptsize [net 28--49]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-033}{Ply 33 --- White Infiltrator (9,0)$\rightarrow$(9,5)}{White Infiltrator to (9,5).\; {\color{gray}\scriptsize [net 28--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-034}{Ply 34 --- Black Command Hub (5,7)$\rightarrow$(5,6)}{Black Command Hub to (5,6).\; {\color{gray}\scriptsize [net 28--56]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-035}{Ply 35 --- White Infiltrator (9,5)$\rightarrow$(10,3)}{White Infiltrator to (10,3).\; {\color{gray}\scriptsize [net 28--56]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-036}{Ply 36 --- Black Refractor (5,8)$\rightarrow$(6,9)}{Black Refractor to (6,9).\; {\color{gray}\scriptsize [net 28--49]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-037}{Ply 37 --- White Infiltrator (10,3)$\rightarrow$(5,10)}{White removes a defender at (5,10). Late captures usually open the Hub or collapse a relay.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 28--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-038}{Ply 38 --- Black Escort (3,10)$\rightarrow$(2,10)}{Black Escort to (2,10).\; {\color{gray}\scriptsize [net 28--49]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-039}{Ply 39 --- White Infiltrator (5,10)$\rightarrow$(2,10)}{White removes a defender at (2,10). Late captures usually open the Hub or collapse a relay.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 28--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-fleet-skirmish/ply-040}{Ply 40 --- Black Command Hub (5,6)$\rightarrow$(5,7)}{Black Command Hub to (5,7).\; {\color{gray}\scriptsize [net 28--49 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+
+\vspace{1em}
+\noindent\textbf{Debrief.} Same Sensor Net law as Standard Beams --- wider geometry from the Heavy wing. Scan files and diagonals; refuse hangs on both.
+\clearpage
+\section{AI Mission --- Infiltrator deep dive (49 plies)}
+Heuristic AI vs Heuristic AI on hybrid-fleet. Warps through unclaimed space, then a Target-Locked crawl that kills the folding-drive.
+
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figures/missions/mission-ai-infiltrator/ply-000}\\
+{\small\textbf{Starting position.}}
+\end{center}
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-001}{Ply 1 --- White Infiltrator (3,0)$\rightarrow$(9,10)}{White Infiltrator to (9,10).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-002}{Ply 2 --- Black Infiltrator (3,10)$\rightarrow$(9,10)}{Black takes an early infiltrator at (9,10) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-003}{Ply 3 --- White Infiltrator (7,0)$\rightarrow$(9,10)}{White takes an early infiltrator at (9,10) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-004}{Ply 4 --- Black Infiltrator (7,10)$\rightarrow$(9,10)}{Black takes an early infiltrator at (9,10) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 31--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-005}{Ply 5 --- White Beam (2,0)$\rightarrow$(2,3)}{White Beam to (2,3).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-006}{Ply 6 --- Black Infiltrator (9,10)$\rightarrow$(9,0)}{Black Infiltrator to (9,0).\; {\color{gray}\scriptsize [net 31--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-007}{Ply 7 --- White Beam (8,0)$\rightarrow$(8,3)}{White Beam to (8,3).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-008}{Ply 8 --- Black Beam (8,10)$\rightarrow$(8,7)}{Black Beam to (8,7).\; {\color{gray}\scriptsize [net 31--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-009}{Ply 9 --- White Beam (2,3)$\rightarrow$(4,3)}{White Beam to (4,3).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-010}{Ply 10 --- Black Beam (2,10)$\rightarrow$(2,7)}{Black Beam to (2,7).\; {\color{gray}\scriptsize [net 31--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-011}{Ply 11 --- White Beam (8,3)$\rightarrow$(6,3)}{White Beam to (6,3).\; {\color{gray}\scriptsize [net 31--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-012}{Ply 12 --- Black Beam (8,7)$\rightarrow$(5,7)}{Black Beam to (5,7).\; {\color{gray}\scriptsize [net 31--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-013}{Ply 13 --- White Escort (5,3)$\rightarrow$(5,4)}{White Escort to (5,4).\; {\color{gray}\scriptsize [net 34--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-014}{Ply 14 --- Black Beam (2,7)$\rightarrow$(4,7)}{Black Beam to (4,7).\; {\color{gray}\scriptsize [net 34--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-015}{Ply 15 --- White Beam (6,3)$\rightarrow$(6,5)}{White Beam to (6,5).\; {\color{gray}\scriptsize [net 34--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-016}{Ply 16 --- Black Escort (6,10)$\rightarrow$(6,9)}{Black Escort to (6,9).\; {\color{gray}\scriptsize [net 34--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-017}{Ply 17 --- White Beam (4,3)$\rightarrow$(4,5)}{White Beam to (4,5).\; {\color{gray}\scriptsize [net 28--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-018}{Ply 18 --- Black Infiltrator (9,0)$\rightarrow$(4,5)}{Black takes at (4,5) with an Infiltrator.\; {\color{gray}\scriptsize [captures Beam \,\textbullet\, net 28--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-019}{Ply 19 --- White Escort (4,0)$\rightarrow$(4,1)}{White Escort to (4,1).\; {\color{gray}\scriptsize [net 28--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-020}{Ply 20 --- Black Infiltrator (4,5)$\rightarrow$(6,5)}{Black takes at (6,5) with an Infiltrator.\; {\color{gray}\scriptsize [captures Beam \,\textbullet\, net 28--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-021}{Ply 21 --- White Escort (4,1)$\rightarrow$(4,2)}{White Escort to (4,2).\; {\color{gray}\scriptsize [net 34--28 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-022}{Ply 22 --- Black Escort (6,9)$\rightarrow$(6,8)}{Black Escort to (6,8).\; {\color{gray}\scriptsize [net 34--28 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-023}{Ply 23 --- White Escort (6,0)$\rightarrow$(6,1)}{White Escort to (6,1).\; {\color{gray}\scriptsize [net 34--28 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-024}{Ply 24 --- Black Escort (6,8)$\rightarrow$(6,7)}{Black Escort to (6,7).\; {\color{gray}\scriptsize [net 34--31 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-025}{Ply 25 --- White Escort (5,1)$\rightarrow$(5,2)}{White Escort to (5,2).\; {\color{gray}\scriptsize [net 34--31 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-026}{Ply 26 --- Black Escort (6,7)$\rightarrow$(6,6)}{Black Escort to (6,6).\; {\color{gray}\scriptsize [net 34--34 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-027}{Ply 27 --- White Escort (4,2)$\rightarrow$(4,3)}{White Escort to (4,3).\; {\color{gray}\scriptsize [net 35--34 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-028}{Ply 28 --- Black Beam (5,7)$\rightarrow$(5,6)}{Black Beam to (5,6).\; {\color{gray}\scriptsize [net 35--34 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-029}{Ply 29 --- White Command Hub (5,0)$\rightarrow$(5,1)}{White Command Hub to (5,1).\; {\color{gray}\scriptsize [net 38--34 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-030}{Ply 30 --- Black Escort (5,9)$\rightarrow$(5,8)}{Black Escort to (5,8).\; {\color{gray}\scriptsize [net 38--34 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-031}{Ply 31 --- White Escort (5,2)$\rightarrow$(5,3)}{White Escort to (5,3).\; {\color{gray}\scriptsize [net 38--34 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-032}{Ply 32 --- Black Escort (5,8)$\rightarrow$(5,7)}{Black Escort to (5,7).\; {\color{gray}\scriptsize [net 38--28 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-033}{Ply 33 --- White Escort (4,3)$\rightarrow$(4,4)}{White Escort to (4,4).\; {\color{gray}\scriptsize [net 39--28 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-034}{Ply 34 --- Black Escort (4,10)$\rightarrow$(4,9)}{Black Escort to (4,9).\; {\color{gray}\scriptsize [net 39--35 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-035}{Ply 35 --- White Command Hub (5,1)$\rightarrow$(5,2)}{White Command Hub to (5,2).\; {\color{gray}\scriptsize [net 42--35 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-036}{Ply 36 --- Black Escort (4,9)$\rightarrow$(4,8)}{Black Escort to (4,8).\; {\color{gray}\scriptsize [net 42--35 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-037}{Ply 37 --- White Escort (4,4)$\rightarrow$(4,5)}{White Escort to (4,5).\; {\color{gray}\scriptsize [net 45--35 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-038}{Ply 38 --- Black Beam (4,7)$\rightarrow$(4,6)}{Black Beam to (4,6).\; {\color{gray}\scriptsize [net 45--35 \,\textbullet\, 3 ships locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-039}{Ply 39 --- White Escort (4,5)$\rightarrow$(4,6)}{White takes at (4,6) with an Escort.\; {\color{gray}\scriptsize [captures Beam \,\textbullet\, net 48--35 \,\textbullet\, 4 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-040}{Ply 40 --- Black Beam (5,6)$\rightarrow$(4,6)}{Black takes at (4,6) with a Beam.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 42--35 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-041}{Ply 41 --- White Escort (6,1)$\rightarrow$(6,2)}{White Escort to (6,2).\; {\color{gray}\scriptsize [net 42--35 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-042}{Ply 42 --- Black Command Hub (5,10)$\rightarrow$(5,9)}{Black Command Hub to (5,9).\; {\color{gray}\scriptsize [net 42--38 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-043}{Ply 43 --- White Escort (6,2)$\rightarrow$(6,3)}{White Escort to (6,3).\; {\color{gray}\scriptsize [net 42--38 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-044}{Ply 44 --- Black Escort (5,7)$\rightarrow$(5,6)}{Black Escort to (5,6).\; {\color{gray}\scriptsize [net 42--39 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-045}{Ply 45 --- White Escort (6,3)$\rightarrow$(6,4)}{White Escort to (6,4).\; {\color{gray}\scriptsize [net 42--39 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-046}{Ply 46 --- Black Infiltrator (6,5)$\rightarrow$(6,4)}{Black removes a defender at (6,4). Late captures usually open the Hub or collapse a relay.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 42--39 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-infiltrator/ply-047}{Ply 47 --- White Escort (5,4)$\rightarrow$(6,4)}{White removes a defender at (6,4). Late captures usually open the Hub or collapse a relay.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 42--39]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-infiltrator/ply-048}{Ply 48 --- Black Command Hub (5,9)$\rightarrow$(5,8)}{Black Command Hub to (5,8).\; {\color{gray}\scriptsize [net 42--42]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-infiltrator/ply-049}{Ply 49 --- White Escort (6,4)$\rightarrow$(6,5)}{White Escort to (6,5).\; {\color{gray}\scriptsize [net 45--42 \,\textbullet\, 3 ships locked]}}%
+
+\vspace{0.9em}
+
+
+\vspace{1em}
+\noindent\textbf{Debrief.} Phase Runners only warp while undetected. Push into hostile coverage and the engines lock --- one orthogonal step, no jump.
+\clearpage
+\section{AI Mission --- Lockout squeeze (100 plies)}
+Mobility-pressure AI vs Random with the sector clock deferred. Historical near-Lockout teaching window (pre-EMP); immobility is defeat.
+
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figures/missions/mission-ai-lockout/ply-000}\\
+{\small\textbf{Starting position.}}
+\end{center}
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-001}{Ply 1 --- White Command Hub (5,0)$\rightarrow$(6,1)}{White Command Hub to (6,1).\; {\color{gray}\scriptsize [net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-002}{Ply 2 --- Black Infiltrator (3,10)$\rightarrow$(0,9)}{Black Infiltrator to (0,9).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-003}{Ply 3 --- White Infiltrator (3,0)$\rightarrow$(0,9)}{White takes an early infiltrator at (0,9) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-004}{Ply 4 --- Black Infiltrator (7,10)$\rightarrow$(7,5)}{Black Infiltrator to (7,5).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-005}{Ply 5 --- White Infiltrator (0,9)$\rightarrow$(7,5)}{White takes an early infiltrator at (7,5) to loosen the screen.\; {\color{gray}\scriptsize [captures Infiltrator \,\textbullet\, net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-006}{Ply 6 --- Black Beam (8,10)$\rightarrow$(8,7)}{Black Beam to (8,7).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-007}{Ply 7 --- White Infiltrator (7,5)$\rightarrow$(0,0)}{White Infiltrator to (0,0).\; {\color{gray}\scriptsize [net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-008}{Ply 8 --- Black Beam (8,7)$\rightarrow$(8,10)}{Black Beam to (8,10).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-009}{Ply 9 --- White Escort (4,0)$\rightarrow$(3,0)}{White Escort to (3,0).\; {\color{gray}\scriptsize [net 37--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-010}{Ply 10 --- Black Escort (6,10)$\rightarrow$(7,10)}{Black Escort to (7,10).\; {\color{gray}\scriptsize [net 37--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-011}{Ply 11 --- White Escort (3,0)$\rightarrow$(4,0)}{White Escort to (4,0).\; {\color{gray}\scriptsize [net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-012}{Ply 12 --- Black Beam (8,10)$\rightarrow$(8,7)}{Black Beam to (8,7).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-013}{Ply 13 --- White Escort (5,1)$\rightarrow$(4,1)}{White Escort to (4,1).\; {\color{gray}\scriptsize [net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-014}{Ply 14 --- Black Command Hub (5,10)$\rightarrow$(4,9)}{Black Command Hub to (4,9).\; {\color{gray}\scriptsize [net 35--37]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-015}{Ply 15 --- White Infiltrator (0,0)$\rightarrow$(8,7)}{White takes at (8,7) with an Infiltrator.\; {\color{gray}\scriptsize [captures Beam \,\textbullet\, net 35--37]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-016}{Ply 16 --- Black Escort (7,10)$\rightarrow$(6,10)}{Black Escort to (6,10).\; {\color{gray}\scriptsize [net 35--35]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-017}{Ply 17 --- White Infiltrator (8,7)$\rightarrow$(0,0)}{White Infiltrator to (0,0).\; {\color{gray}\scriptsize [net 35--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-018}{Ply 18 --- Black Escort (4,10)$\rightarrow$(3,10)}{Black Escort to (3,10).\; {\color{gray}\scriptsize [net 35--35]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-019}{Ply 19 --- White Infiltrator (0,0)$\rightarrow$(0,2)}{White Infiltrator to (0,2).\; {\color{gray}\scriptsize [net 35--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-020}{Ply 20 --- Black Escort (5,9)$\rightarrow$(6,9)}{Black Escort to (6,9).\; {\color{gray}\scriptsize [net 35--35]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-021}{Ply 21 --- White Infiltrator (0,2)$\rightarrow$(0,0)}{White Infiltrator to (0,0).\; {\color{gray}\scriptsize [net 35--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-022}{Ply 22 --- Black Command Hub (4,9)$\rightarrow$(4,10)}{Black Command Hub to (4,10).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-023}{Ply 23 --- White Command Hub (6,1)$\rightarrow$(5,2)}{White Command Hub to (5,2).\; {\color{gray}\scriptsize [net 42--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-024}{Ply 24 --- Black Escort (3,10)$\rightarrow$(3,9)}{Black Escort to (3,9).\; {\color{gray}\scriptsize [net 42--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-025}{Ply 25 --- White Command Hub (5,2)$\rightarrow$(6,1)}{White Command Hub to (6,1).\; {\color{gray}\scriptsize [net 35--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-026}{Ply 26 --- Black Beam (2,10)$\rightarrow$(2,9)}{Black Beam to (2,9).\; {\color{gray}\scriptsize [net 35--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-027}{Ply 27 --- White Command Hub (6,1)$\rightarrow$(7,2)}{White Command Hub to (7,2).\; {\color{gray}\scriptsize [net 45--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-028}{Ply 28 --- Black Escort (6,10)$\rightarrow$(5,10)}{Black Escort to (5,10).\; {\color{gray}\scriptsize [net 45--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-029}{Ply 29 --- White Escort (4,1)$\rightarrow$(4,2)}{White Escort to (4,2).\; {\color{gray}\scriptsize [net 46--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-030}{Ply 30 --- Black Escort (3,9)$\rightarrow$(4,9)}{Black Escort to (4,9).\; {\color{gray}\scriptsize [net 46--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-031}{Ply 31 --- White Escort (4,2)$\rightarrow$(3,2)}{White Escort to (3,2).\; {\color{gray}\scriptsize [net 49--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-032}{Ply 32 --- Black Escort (5,10)$\rightarrow$(5,9)}{Black Escort to (5,9).\; {\color{gray}\scriptsize [net 49--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-033}{Ply 33 --- White Escort (4,0)$\rightarrow$(4,1)}{White Escort to (4,1).\; {\color{gray}\scriptsize [net 49--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-034}{Ply 34 --- Black Escort (4,9)$\rightarrow$(4,8)}{Black Escort to (4,8).\; {\color{gray}\scriptsize [net 49--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-035}{Ply 35 --- White Escort (6,0)$\rightarrow$(5,0)}{White Escort to (5,0).\; {\color{gray}\scriptsize [net 49--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-036}{Ply 36 --- Black Escort (6,9)$\rightarrow$(7,9)}{Black Escort to (7,9).\; {\color{gray}\scriptsize [net 49--31]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-037}{Ply 37 --- White Escort (5,0)$\rightarrow$(4,0)}{White Escort to (4,0).\; {\color{gray}\scriptsize [net 49--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-038}{Ply 38 --- Black Escort (4,8)$\rightarrow$(4,9)}{Black Escort to (4,9).\; {\color{gray}\scriptsize [net 49--31]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-039}{Ply 39 --- White Command Hub (7,2)$\rightarrow$(6,2)}{White Command Hub to (6,2).\; {\color{gray}\scriptsize [net 45--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-040}{Ply 40 --- Black Escort (5,9)$\rightarrow$(5,10)}{Black Escort to (5,10).\; {\color{gray}\scriptsize [net 45--31]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-041}{Ply 41 --- White Command Hub (6,2)$\rightarrow$(7,3)}{White Command Hub to (7,3).\; {\color{gray}\scriptsize [net 56--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-042}{Ply 42 --- Black Escort (4,9)$\rightarrow$(5,9)}{Black Escort to (5,9).\; {\color{gray}\scriptsize [net 56--31]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-043}{Ply 43 --- White Escort (4,0)$\rightarrow$(5,0)}{White Escort to (5,0).\; {\color{gray}\scriptsize [net 56--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-044}{Ply 44 --- Black Beam (2,9)$\rightarrow$(2,8)}{Black Beam to (2,8).\; {\color{gray}\scriptsize [net 56--31]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-045}{Ply 45 --- White Command Hub (7,3)$\rightarrow$(6,3)}{White Command Hub to (6,3).\; {\color{gray}\scriptsize [net 52--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-046}{Ply 46 --- Black Beam (2,8)$\rightarrow$(2,9)}{Black Beam to (2,9).\; {\color{gray}\scriptsize [net 52--31]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-047}{Ply 47 --- White Escort (4,1)$\rightarrow$(4,0)}{White Escort to (4,0).\; {\color{gray}\scriptsize [net 52--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-048}{Ply 48 --- Black Beam (2,9)$\rightarrow$(3,9)}{Black Beam to (3,9).\; {\color{gray}\scriptsize [net 52--31]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-049}{Ply 49 --- White Escort (5,0)$\rightarrow$(5,1)}{White Escort to (5,1).\; {\color{gray}\scriptsize [net 52--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-050}{Ply 50 --- Black Beam (3,9)$\rightarrow$(3,10)}{Black Beam to (3,10).\; {\color{gray}\scriptsize [net 52--31]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-051}{Ply 51 --- White Command Hub (6,3)$\rightarrow$(7,3)}{White Command Hub to (7,3).\; {\color{gray}\scriptsize [net 56--31]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-052}{Ply 52 --- Black Command Hub (4,10)$\rightarrow$(3,9)}{Black Command Hub to (3,9).\; {\color{gray}\scriptsize [net 56--41]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-053}{Ply 53 --- White Escort (4,0)$\rightarrow$(3,0)}{White Escort to (3,0).\; {\color{gray}\scriptsize [net 57--41]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-054}{Ply 54 --- Black Command Hub (3,9)$\rightarrow$(2,8)}{Black Command Hub to (2,8).\; {\color{gray}\scriptsize [net 57--45]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-055}{Ply 55 --- White Escort (3,0)$\rightarrow$(4,0)}{White Escort to (4,0).\; {\color{gray}\scriptsize [net 56--45]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-056}{Ply 56 --- Black Escort (7,9)$\rightarrow$(7,10)}{Black Escort to (7,10).\; {\color{gray}\scriptsize [net 56--43]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-057}{Ply 57 --- White Command Hub (7,3)$\rightarrow$(6,2)}{White Command Hub to (6,2).\; {\color{gray}\scriptsize [net 45--43]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-058}{Ply 58 --- Black Beam (3,10)$\rightarrow$(2,10)}{Black Beam to (2,10).\; {\color{gray}\scriptsize [net 45--36]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-059}{Ply 59 --- White Infiltrator (7,0)$\rightarrow$(7,10)}{White takes at (7,10) with an Infiltrator.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 45--36]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-060}{Ply 60 --- Black Command Hub (2,8)$\rightarrow$(3,7)}{Black Command Hub to (3,7).\; {\color{gray}\scriptsize [net 45--49]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-061}{Ply 61 --- White Escort (4,0)$\rightarrow$(4,1)}{White Escort to (4,1).\; {\color{gray}\scriptsize [net 45--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-062}{Ply 62 --- Black Command Hub (3,7)$\rightarrow$(4,8)}{Black Command Hub to (4,8).\; {\color{gray}\scriptsize [net 45--42 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-063}{Ply 63 --- White Command Hub (6,2)$\rightarrow$(7,2)}{White Command Hub to (7,2).\; {\color{gray}\scriptsize [net 49--42 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-064}{Ply 64 --- Black Command Hub (4,8)$\rightarrow$(3,8)}{Black Command Hub to (3,8).\; {\color{gray}\scriptsize [net 49--42]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-065}{Ply 65 --- White Command Hub (7,2)$\rightarrow$(6,2)}{White Command Hub to (6,2).\; {\color{gray}\scriptsize [net 45--42]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-066}{Ply 66 --- Black Beam (2,10)$\rightarrow$(2,8)}{Black Beam to (2,8).\; {\color{gray}\scriptsize [net 45--42]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-067}{Ply 67 --- White Command Hub (6,2)$\rightarrow$(5,2)}{White Command Hub to (5,2).\; {\color{gray}\scriptsize [net 42--42]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-068}{Ply 68 --- Black Command Hub (3,8)$\rightarrow$(3,7)}{Black Command Hub to (3,7).\; {\color{gray}\scriptsize [net 42--49]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-069}{Ply 69 --- White Command Hub (5,2)$\rightarrow$(6,2)}{White Command Hub to (6,2).\; {\color{gray}\scriptsize [net 45--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-070}{Ply 70 --- Black Beam (2,8)$\rightarrow$(2,10)}{Black Beam to (2,10).\; {\color{gray}\scriptsize [net 45--49]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-071}{Ply 71 --- White Escort (4,1)$\rightarrow$(4,2)}{White Escort to (4,2).\; {\color{gray}\scriptsize [net 45--49]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-072}{Ply 72 --- Black Escort (5,10)$\rightarrow$(6,10)}{Black Escort to (6,10).\; {\color{gray}\scriptsize [net 45--51 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-073}{Ply 73 --- White Infiltrator (7,10)$\rightarrow$(6,10)}{White takes at (6,10) with an Infiltrator.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 45--49 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-074}{Ply 74 --- Black Command Hub (3,7)$\rightarrow$(3,6)}{Black Command Hub to (3,6).\; {\color{gray}\scriptsize [net 45--49 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-075}{Ply 75 --- White Infiltrator (0,0)$\rightarrow$(2,10)}{White takes at (2,10) with an Infiltrator.\; {\color{gray}\scriptsize [captures Beam \,\textbullet\, net 45--49 \,\textbullet\, 1 ship locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-076}{Ply 76 --- Black Escort (5,9)$\rightarrow$(5,8)}{Black Escort to (5,8).\; {\color{gray}\scriptsize [net 45--49 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-077}{Ply 77 --- White Command Hub (6,2)$\rightarrow$(6,3)}{White Command Hub to (6,3).\; {\color{gray}\scriptsize [net 52--49 \,\textbullet\, 3 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-078}{Ply 78 --- Black Command Hub (3,6)$\rightarrow$(2,6)}{Black Command Hub to (2,6).\; {\color{gray}\scriptsize [net 52--42 \,\textbullet\, 1 ship locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-079}{Ply 79 --- White Command Hub (6,3)$\rightarrow$(5,4)}{White Command Hub to (5,4).\; {\color{gray}\scriptsize [net 52--42 \,\textbullet\, 3 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-080}{Ply 80 --- Black Command Hub (2,6)$\rightarrow$(1,6)}{Black Command Hub to (1,6).\; {\color{gray}\scriptsize [net 52--35]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-081}{Ply 81 --- White Infiltrator (2,10)$\rightarrow$(5,8)}{White takes at (5,8) with an Infiltrator.\; {\color{gray}\scriptsize [captures Escort \,\textbullet\, net 52--35]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-082}{Ply 82 --- Black Command Hub (1,6)$\rightarrow$(0,7)}{Black Command Hub to (0,7).\; {\color{gray}\scriptsize [net 52--28]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-083}{Ply 83 --- White Escort (3,2)$\rightarrow$(2,2)}{White Escort to (2,2).\; {\color{gray}\scriptsize [net 55--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-084}{Ply 84 --- Black Command Hub (0,7)$\rightarrow$(0,6)}{Black Command Hub to (0,6).\; {\color{gray}\scriptsize [net 55--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-085}{Ply 85 --- White Command Hub (5,4)$\rightarrow$(6,4)}{White Command Hub to (6,4).\; {\color{gray}\scriptsize [net 58--28]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-086}{Ply 86 --- Black Command Hub (0,6)$\rightarrow$(1,5)}{Black Command Hub to (1,5).\; {\color{gray}\scriptsize [net 58--35 \,\textbullet\, 2 ships locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-087}{Ply 87 --- White Command Hub (6,4)$\rightarrow$(5,4)}{White Command Hub to (5,4).\; {\color{gray}\scriptsize [net 55--35 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-088}{Ply 88 --- Black Command Hub (1,5)$\rightarrow$(1,6)}{Black Command Hub to (1,6).\; {\color{gray}\scriptsize [net 55--35]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-089}{Ply 89 --- White Command Hub (5,4)$\rightarrow$(4,3)}{White Command Hub to (4,3).\; {\color{gray}\scriptsize [net 49--35 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-090}{Ply 90 --- Black Command Hub (1,6)$\rightarrow$(1,7)}{Black Command Hub to (1,7).\; {\color{gray}\scriptsize [net 49--35]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-091}{Ply 91 --- White Command Hub (4,3)$\rightarrow$(4,4)}{White Command Hub to (4,4).\; {\color{gray}\scriptsize [net 52--35 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-092}{Ply 92 --- Black Command Hub (1,7)$\rightarrow$(0,7)}{Black Command Hub to (0,7).\; {\color{gray}\scriptsize [net 52--28]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-093}{Ply 93 --- White Command Hub (4,4)$\rightarrow$(3,4)}{White Command Hub to (3,4).\; {\color{gray}\scriptsize [net 52--28 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-094}{Ply 94 --- Black Command Hub (0,7)$\rightarrow$(0,8)}{Black Command Hub to (0,8).\; {\color{gray}\scriptsize [net 52--24]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-095}{Ply 95 --- White Command Hub (3,4)$\rightarrow$(2,5)}{White Command Hub to (2,5).\; {\color{gray}\scriptsize [net 42--24 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-096}{Ply 96 --- Black Command Hub (0,8)$\rightarrow$(0,7)}{Black Command Hub to (0,7).\; {\color{gray}\scriptsize [net 42--28 \,\textbullet\, 2 ships locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-ai-lockout/ply-097}{Ply 97 --- White Escort (5,1)$\rightarrow$(5,0)}{White Escort to (5,0).\; {\color{gray}\scriptsize [net 42--28 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-098}{Ply 98 --- Black Command Hub (0,7)$\rightarrow$(1,7)}{Black Command Hub to (1,7).\; {\color{gray}\scriptsize [net 42--35 \,\textbullet\, 2 ships locked]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-ai-lockout/ply-099}{Ply 99 --- White Command Hub (2,5)$\rightarrow$(3,5)}{White Command Hub to (3,5).\; {\color{gray}\scriptsize [net 58--35 \,\textbullet\, 2 ships locked]}}%
+\hfill
+\plyfig{figures/missions/mission-ai-lockout/ply-100}{Ply 100 --- Black Command Hub (1,7)$\rightarrow$(2,7)}{Black Command Hub to (2,7).\; {\color{gray}\scriptsize [net 58--42 \,\textbullet\, 3 ships locked]}}%
+
+\vspace{0.9em}
+
+\clearpage
+
+\vspace{1em}
+\noindent\textbf{Debrief.} Bodies alone rarely reach true zero replies while a Hub lives. See Mission 4 for Command Overload finishing Lockout.
 \clearpage
 
 \end{document}

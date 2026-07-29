@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { SubspaceLatticeEngine, PlayerColor } from '@subspace-lattice/core';
 import {
+  PlayerColor,
+  resolveRulesConfig,
+  SubspaceLatticeEngine,
+} from '@subspace-lattice/core';
+import {
+  applyAuthoritativeAction,
   applyAuthoritativeMove,
   applyResign,
   canSendChat,
@@ -186,6 +191,36 @@ describe('room-logic', () => {
     expect(
       applyAuthoritativeMove(state, 'white-1', room, 'w-e3', { x: 0, y: 0 }).ok,
     ).toBe(false);
+  });
+
+  it('applyAuthoritativeAction fires EMP when charged', () => {
+    const room = baseRoom({
+      blackPlayerId: 'black-1',
+      memberIds: ['white-1', 'black-1'],
+    });
+    const rules = resolveRulesConfig('hybrid-fleet', {
+      empRadius: 1,
+      empChargeTarget: 1,
+      sectorActivationPly: 10_000,
+      firstPlayerRelayCount: 0,
+    });
+    const engine = new SubspaceLatticeEngine({ rules });
+    const state = engine.getStateCopy();
+    state.empCharge = {
+      [PlayerColor.White]: 1,
+      [PlayerColor.Black]: 0,
+    };
+    state.currentPlayer = PlayerColor.White;
+
+    const fired = applyAuthoritativeAction(state, 'white-1', room, {
+      type: 'emp',
+    });
+    expect(fired.ok).toBe(true);
+    if (fired.ok) {
+      expect(fired.next.empActive?.firedBy).toBe(PlayerColor.White);
+      expect(fired.next.empActive?.targetSide).toBe(PlayerColor.Black);
+      expect(fired.next.empCharge?.[PlayerColor.White]).toBe(0);
+    }
   });
 
   it('applyResign awards the opponent and rejects invalid cases', () => {

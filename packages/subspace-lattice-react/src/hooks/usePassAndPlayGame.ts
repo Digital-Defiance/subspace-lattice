@@ -223,6 +223,72 @@ export function usePassAndPlayGame() {
     [engine, handoffSeat, appendLog, labelFor],
   );
 
+  const fireEmp = useCallback((): boolean => {
+    if (!engine || handoffSeat != null) return false;
+    const state = engine.getState();
+    if (state.winner) return false;
+    const mover = state.currentPlayer;
+    const ok = engine.fireEmp();
+    debugLog.current.append({
+      player: mover,
+      pieceId: 'emp',
+      from: undefined,
+      to: { x: -1, y: -1 },
+      source: 'human',
+      ok,
+    });
+    if (!ok) return false;
+    appendLog(
+      formatSystemLogLine(`${labelFor(mover)} fires Command Overload (EMP).`),
+    );
+    const after = engine.getState();
+    if (after.winner) {
+      appendLog(
+        formatSystemLogLine(
+          `Winner: ${labelFor(after.winner)}${
+            after.winnerReason ? ` (${after.winnerReason})` : ''
+          }`,
+        ),
+      );
+      setHandoffSeat(null);
+      readySeatRef.current = null;
+    } else {
+      appendLog(
+        formatSystemLogLine(
+          `Pass the device — ${labelFor(after.currentPlayer)} at helm.`,
+        ),
+      );
+      readySeatRef.current = null;
+      setHandoffSeat(after.currentPlayer);
+    }
+    refresh(engine);
+    return true;
+  }, [engine, handoffSeat, appendLog, labelFor]);
+
+  const resign = useCallback((): boolean => {
+    if (!engine || handoffSeat != null) return false;
+    const state = engine.getState();
+    if (state.winner) return false;
+    const mover = state.currentPlayer;
+    const ok = engine.resign(mover);
+    if (!ok) return false;
+    appendLog(formatSystemLogLine(`${labelFor(mover)} resigns.`));
+    const after = engine.getState();
+    if (after.winner) {
+      appendLog(
+        formatSystemLogLine(
+          `Winner: ${labelFor(after.winner)}${
+            after.winnerReason ? ` (${after.winnerReason})` : ''
+          }`,
+        ),
+      );
+    }
+    setHandoffSeat(null);
+    readySeatRef.current = null;
+    refresh(engine);
+    return true;
+  }, [engine, handoffSeat, appendLog, labelFor]);
+
   const buildDebugExport = useCallback((): LatticeDebugExport | null => {
     if (!engine) return null;
     const names = namesRef.current;
@@ -265,6 +331,8 @@ export function usePassAndPlayGame() {
     startPassAndPlayGame,
     exitPassAndPlayGame,
     sendMove,
+    fireEmp,
+    resign,
     buildDebugExport,
   };
 }

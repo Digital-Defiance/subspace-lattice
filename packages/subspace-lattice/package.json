@@ -49,6 +49,13 @@
           "cwd": "packages/subspace-lattice",
           "command": "bash scripts/heavy-draft-geometry.sh"
         }
+      },
+      "emp-balance": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/emp-balance-probe.sh"
+        }
       }
     }
   },

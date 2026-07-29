@@ -138,6 +138,21 @@
   padding: 0;
   background: #0a1018;
 
+  // Fluid board uses width:min(100%, ideal). Inside this shrink-to-fit frame,
+  // percentage width collapses (~50px) and cells become 2×2 — unusable for
+  // manuals/videos. Pin the classic 40px-cell footprint for capture only.
+  .subspace-board-shell {
+    width: auto;
+    max-width: none;
+  }
+
+  .subspace-board {
+    width: calc(
+      var(--board-n) * var(--cell-ideal) + (var(--board-n) - 1) * var(--board-gap) +
+        2 * var(--board-pad)
+    );
+  }
+
   // Capture reads getComputedStyle, which samples a transition at its current
   // value. The board fades cell backgrounds over 200ms, so a capture taken
   // right after a ply change would serialise the *previous* Sensor Net colours.

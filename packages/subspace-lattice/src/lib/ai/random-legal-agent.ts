@@ -8,14 +8,16 @@ export class RandomLegalAgent implements Agent {
   constructor(private readonly rng: () => number = Math.random) {}
 
   chooseMove(engine: SubspaceLatticeEngine): AgentMove | null {
-    const legal = engine.listLegalMoves();
+    const legal: AgentMove[] = engine.listLegalMoves().map((m) => ({
+      pieceId: m.pieceId,
+      to: m.to,
+    }));
+    if (engine.canFireEmp()) legal.push({ type: 'emp' });
     if (legal.length === 0) return null;
     const index = Math.min(
       legal.length - 1,
       Math.floor(this.rng() * legal.length),
     );
-    const move = legal[index];
-    if (!move) return null;
-    return { pieceId: move.pieceId, to: move.to };
+    return legal[index] ?? null;
   }
 }

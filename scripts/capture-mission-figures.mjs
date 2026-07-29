@@ -99,6 +99,16 @@ async function main() {
         const svg = await page.evaluate(() =>
           window.__missionFigures.capture(),
         );
+        const sizeMatch = svg.match(/\bwidth="(\d+(?:\.\d+)?)"/);
+        const width = sizeMatch ? Number(sizeMatch[1]) : 0;
+        // Fluid board + shrink-to-fit capture once produced ~50px boards;
+        // refuse to write those so manuals/videos stay readable.
+        if (width < 200) {
+          throw new Error(
+            `${id} ply ${ply}: capture width ${width}px is too small ` +
+              '(expected ~468). Check .figures-capture-frame board sizing.',
+          );
+        }
         await writeFile(file, svg, 'utf8');
         written++;
         if (ply % 20 === 0) {

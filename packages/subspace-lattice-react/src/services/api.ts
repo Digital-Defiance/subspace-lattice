@@ -27,8 +27,10 @@ export interface JoinRoomRequest {
 
 export interface SubmitMoveRequest {
   roomId: string;
-  pieceId: string;
-  to: { x: number; y: number };
+  /** Default move. Use `emp` for Command Overload. */
+  action?: 'move' | 'emp';
+  pieceId?: string;
+  to?: { x: number; y: number };
 }
 
 export interface SendChatRequest {
@@ -118,6 +120,10 @@ export function createSubspaceLatticeApiClient() {
           infiltratorSpoolUp?: boolean;
           infiltratorActivationPly?: number;
           sectorActivationPly?: number;
+          heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
+          empRadius?: number;
+          empChargeTarget?: number;
+          empBlackoutPlies?: number;
         };
       },
     ) => {
@@ -153,8 +159,15 @@ export function createSubspaceLatticeApiClient() {
       });
       return result.data;
     },
-    submitMove: async (roomId: string, pieceId: string, to: { x: number; y: number }) => {
-      await submitMoveFn({ roomId, pieceId, to });
+    submitMove: async (
+      roomId: string,
+      pieceId: string,
+      to: { x: number; y: number },
+    ) => {
+      await submitMoveFn({ roomId, action: 'move', pieceId, to });
+    },
+    submitEmp: async (roomId: string) => {
+      await submitMoveFn({ roomId, action: 'emp' });
     },
     sendChat: async (roomId: string, text: string) => {
       await sendChatFn({ roomId, text });

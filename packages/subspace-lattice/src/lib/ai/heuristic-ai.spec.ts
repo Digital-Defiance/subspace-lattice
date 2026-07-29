@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createSequenceRng, HeuristicAi } from './heuristic-ai';
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType, PlayerColor } from '../interfaces';
+import { requirePieceAgentMove } from './agent';
 
 describe('HeuristicAi', () => {
   it('returns a legal move on the opening position for black', () => {
@@ -10,18 +11,17 @@ describe('HeuristicAi', () => {
     expect(engine.movePiece(whiteMove.pieceId, whiteMove.to)).toBe(true);
 
     const ai = new HeuristicAi(createSequenceRng([0]));
-    const choice = ai.chooseMove(engine);
-    expect(choice).not.toBeNull();
+    const choice = requirePieceAgentMove(ai.chooseMove(engine));
     const legal = engine.listLegalMoves(PlayerColor.Black);
     expect(
       legal.some(
         (m) =>
-          m.pieceId === choice!.pieceId &&
-          m.to.x === choice!.to.x &&
-          m.to.y === choice!.to.y,
+          m.pieceId === choice.pieceId &&
+          m.to.x === choice.to.x &&
+          m.to.y === choice.to.y,
       ),
     ).toBe(true);
-    expect(engine.movePiece(choice!.pieceId, choice!.to)).toBe(true);
+    expect(engine.movePiece(choice.pieceId, choice.to)).toBe(true);
   });
 
   it('prefers capturing the command hub when available', () => {
@@ -43,10 +43,9 @@ describe('HeuristicAi', () => {
 
     const live = SubspaceLatticeEngine.fromState(state);
     const ai = new HeuristicAi(createSequenceRng([0]));
-    const choice = ai.chooseMove(live);
-    expect(choice).not.toBeNull();
-    expect(choice!.to).toEqual({ x: 5, y: 0 });
-    expect(live.getPieceAt(choice!.to)?.type).toBe(PieceType.CommandHub);
+    const choice = requirePieceAgentMove(ai.chooseMove(live));
+    expect(choice.to).toEqual({ x: 5, y: 0 });
+    expect(live.getPieceAt(choice.to)?.type).toBe(PieceType.CommandHub);
   });
 
   it('returns null when the side has no moves', () => {

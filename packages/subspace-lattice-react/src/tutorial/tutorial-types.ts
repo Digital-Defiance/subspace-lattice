@@ -1,9 +1,28 @@
 import type { Coordinate, GameState, RulesConfig } from '@subspace-lattice/core';
-import type { PlayerColor } from '@subspace-lattice/core';
+import type {
+  PlayerColor,
+  SubspaceLatticeEngine,
+} from '@subspace-lattice/core';
 
-export interface TutorialMove {
-  pieceId: string;
-  to: Coordinate;
+/** Piece relocation, or Command Overload (EMP). */
+export type TutorialMove =
+  | { type?: 'move'; pieceId: string; to: Coordinate }
+  | { type: 'emp' };
+
+export function isEmpTutorialMove(
+  move: TutorialMove,
+): move is { type: 'emp' } {
+  return move.type === 'emp';
+}
+
+/** Apply a scripted lesson action (relocation or Command Overload). */
+export function applyTutorialMove(
+  engine: SubspaceLatticeEngine,
+  move: TutorialMove,
+): boolean {
+  return isEmpTutorialMove(move)
+    ? engine.fireEmp()
+    : engine.movePiece(move.pieceId, move.to);
 }
 
 /** One graded ply inside a lesson (single-move drills use exactly one). */

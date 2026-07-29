@@ -19,6 +19,7 @@ import {
   findHubCaptureMove,
 } from '@subspace-lattice/core';
 import { buildManualMissions, type ManualMission } from './manual-missions';
+import { isEmpTutorialMove } from './tutorial-types';
 
 const PIECE_LABEL: Record<string, string> = {
   [PieceType.CommandHub]: 'Command Hub',
@@ -63,16 +64,40 @@ function annotateMission(mission: ManualMission): PlyAnnotation[] {
 
   for (let i = 0; i < mission.steps.length; i++) {
     const step = mission.steps[i]!;
-    const mover = engine.getPiece(step.playerMove.pieceId);
+    const move = step.playerMove;
+
+    if (isEmpTutorialMove(move)) {
+      const seatName =
+        engine.getState().currentPlayer === PlayerColor.Black
+          ? 'Black'
+          : 'White';
+      if (!engine.fireEmp()) {
+        throw new Error(`${mission.id}: illegal EMP at ply ${i + 1}`);
+      }
+      const state = engine.getState();
+      const facts: string[] = ['Command Overload (EMP)'];
+      if (state.winner) {
+        facts.push(
+          `\\textbf{${state.winner === 'WHITE' ? 'White' : 'Black'} wins}`,
+        );
+      }
+      notes.push({
+        heading: `Ply ${i + 1} --- ${seatName} Command Overload (EMP)`,
+        body: `${tex(step.why)}\\; {\\color{gray}\\scriptsize [${facts.join(' \\,\\textbullet\\, ')}]}`,
+      });
+      continue;
+    }
+
+    const mover = engine.getPiece(move.pieceId);
     if (!mover) throw new Error(`${mission.id}: missing piece at ply ${i + 1}`);
     const seatName = mover.owner === PlayerColor.Black ? 'Black' : 'White';
     const label = PIECE_LABEL[mover.type] ?? 'ship';
     const from = `(${mover.position.x},${mover.position.y})`;
-    const to = `(${step.playerMove.to.x},${step.playerMove.to.y})`;
-    const target = engine.getPieceAt(step.playerMove.to);
+    const to = `(${move.to.x},${move.to.y})`;
+    const target = engine.getPieceAt(move.to);
     const capture = target ? PIECE_LABEL[target.type] ?? 'ship' : null;
 
-    if (!engine.movePiece(step.playerMove.pieceId, step.playerMove.to)) {
+    if (!engine.movePiece(move.pieceId, move.to)) {
       throw new Error(`${mission.id}: illegal replay move at ply ${i + 1}`);
     }
 
@@ -234,10 +259,11 @@ Before every move, in order:
         Anomaly corners).
   \item \textbf{Can they take mine after my intended move?} Simulate your
         candidate, then check every enemy reply against your Hub square.
-        If any reply lands there, the candidate is illegal in spirit ---
-        find another. This is the discipline the academy drills as
-        \emph{refuse the hang}. Orthogonal screens do not answer diagonal
-        threats.
+        If any reply lands there, your Hub is \emph{hanging} --- one ply from
+        Surgical Strike. The rules still allow that move; the discipline is
+        not to play it. Find another candidate. The academy drills this as
+        \emph{refuse the hang}: never leave the flagship where they can
+        capture it next. Orthogonal screens do not answer diagonal threats.
   \item \textbf{What does the move do for the nets?} Prefer moves that answer
         two ways at once: extend coverage \emph{and} threaten, retreat
         \emph{and} keep the chain linked.
@@ -308,16 +334,37 @@ are authorized --- call it \emph{the 45-ply blind spot}.
         Beam screen never saw. Orthogonal safety is incomplete safety.
 \end{description}
 
-\section{Endgame: strike or clock}
+\section{Endgame: strike, clock, or Lockout}
 
-Two finishes exist. If a Hub hunt is winning, convert like Mission 1 and 2:
-clear the lane (file or diagonal), refuse the hang, strike. If both fleets dig
+Three finishes exist. If a Hub hunt is winning, convert like Mission 1 and 2:
+clear the lane (file or diagonal), keep your Hub from hanging, strike. If both
+fleets dig
 in, the sector clock (armed at ply 100 under fleet rules) turns coverage into
 the win condition --- Mission 3. Late game, every net cell is a point on the
 scoreboard, Contested Space is a weapon (project into their net to stall
 their streak), and passive defense finally loses on the clock instead of
-drawing forever. Expanded branching from Refractors and Carriers does not
-change the win conditions --- it changes which geometries feed them.
+drawing forever.
+
+The third finish is \textbf{Lockout}: leave the opponent with zero legal
+replies. Bodies alone almost never force that against a live Command Hub --- a
+cornered Hub can still capture its way out. Under \texttt{hybrid-fleet},
+\textbf{Command Overload (EMP)} is the practical path:
+
+\begin{itemize}[leftmargin=*]
+  \item Charge only while your Hub stays put: each non-Hub ply of yours adds
+        one to EMP charge; moving the Hub (or firing) resets it to zero.
+  \item Default charge target is $15$ non-Hub plies; blast radius is Chebyshev
+        $3$ from the Hub (lobby-tunable).
+  \item Firing EMP \emph{is} your entire turn. Enemy ships inside the radius
+        cannot move or capture for \texttt{empBlackoutPlies} of \emph{their}
+        replies (default $1$). Your own fleet is never in the blast --- the
+        cost is the spent turn, not friendly fire.
+  \item If every remaining enemy ship is seized, \texttt{listLegalMoves} is
+        empty and you win with \texttt{winnerReason=no-moves}.
+\end{itemize}
+
+Expanded branching from Refractors and Carriers does not change the win
+conditions --- it changes which geometries feed them.
 `;
 
 function main() {
@@ -360,14 +407,14 @@ function main() {
 
 \begin{abstract}
 \noindent
-This manual replays the three guided missions from the in-game academy with
-every ply diagrammed and explained: a short Surgical Strike highlight reel, a
-full 57-ply battle, and a \texttt{hybrid-fleet} siege decided by the sector
-clock (all Standard Beams openings). Part I teaches how to think --- fleet
-geometry including optional Refractors and Carriers, reading positions,
-valuing moves, and looking ahead. Parts II--IV walk the games. Each diagram
-shows the position \emph{after} the numbered ply; the moved ship's squares
-glow.
+This manual replays the guided Fleet Academy missions with every ply
+diagrammed and explained: a short Surgical Strike highlight reel, a full
+57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock, and
+Mission 4 --- Lockout via Command Overload (EMP). Part I teaches how to think
+--- fleet geometry including optional Refractors and Carriers, reading
+positions, valuing moves, and looking ahead. Later parts walk the games. Each
+diagram shows the position \emph{after} the numbered ply; the moved ship's
+squares glow.
 \end{abstract}
 
 \tableofcontents

@@ -46,7 +46,7 @@ const objectives = [
     number: '03',
     title: 'Lockout',
     subtitle: 'Frozen',
-    copy: 'Leave the opposing fleet with no legal maneuver anywhere on the grid. In Sector 11, immobility is defeat—not stalemate.',
+    copy: 'Leave the opposing fleet with no legal maneuver. Bodies alone almost never force that against a live Hub — charge Command Overload (EMP) while your Hub stays put, then spend the turn to seize enemy engines in blast radius.',
   },
 ];
 

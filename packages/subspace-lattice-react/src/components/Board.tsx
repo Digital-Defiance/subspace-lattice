@@ -329,7 +329,11 @@ export const Board: React.FC<BoardProps> = ({
       className={`subspace-board${contrast === 'high' ? ' subspace-board--high-contrast' : ''}${
         outlineBlack ? ' subspace-board--outline-black' : ''
       }${outlineWhite ? ' subspace-board--outline-white' : ''}`}
-      style={{ gridTemplateColumns: `repeat(${gameState.boardSize}, 40px)` }}
+      style={
+        {
+          '--board-n': gameState.boardSize,
+        } as React.CSSProperties
+      }
       role="grid"
       aria-label="Game board. Use arrow keys to move between squares, Enter or Space to select and move, and Escape to cancel selection."
       aria-rowcount={gameState.boardSize}
@@ -395,7 +399,6 @@ export const Board: React.FC<BoardProps> = ({
                   aria-hidden="true"
                 >
                   <PieceArt
-                    size={34}
                     color={
                       piece.owner === PlayerColor.White ? 'white' : 'black'
                     }

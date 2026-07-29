@@ -40,7 +40,9 @@ Your goal is absolute mission completion: eliminate the opposing commander in a
 ruthless **Surgical Strike**, or saturate the sector in **Sovereign Space**
 until their fleet's grid collapses into total blackout. Dig in and commit to
 neither, and the standoff can drag on indefinitely — which is exactly what the
-**sector clock** exists to end.
+**sector clock** exists to end. A third, rarer finish — **Lockout** — freezes
+an opponent with no legal replies; under fleet rules that usually means arming
+and firing a **Command Overload (EMP)** from a stationary Hub.
 
 ---
 
@@ -125,7 +127,11 @@ mission even when neither commander is chasing it.
 
 3. **Lockout — frozen.**
    *Leave an opponent with no legal move anywhere on the grid and their fleet
-   freezes solid — a loss for them, not a stalemate.*
+   freezes solid — a loss for them, not a stalemate. Bodies alone almost never
+   finish this against a live Hub. Commanders who anchor the flagship and keep
+   charging **Command Overload** can dump an EMP into the enemy formation,
+   seize their engines for a reply, and force Lockout when every remaining ship
+   sits in the blast.*
 
 ---
 
@@ -142,7 +148,10 @@ Every flavor term above is one game mechanic:
 | Target Lock | Enemy ship inside your net — reduced to one orthogonal step |
 | Surgical Strike | Capture the enemy **Command Hub** |
 | Sector Integration | Cover ≥ 45% of the sector after the clock arms |
-| Lockout | Opponent has no legal move |
+| Lockout | Opponent has no legal move (`winnerReason: no-moves`) |
+| Command Overload / EMP | Full-turn Hub action: seize **enemy** engines in blast radius |
+| Hang / hanging / en prise | Your Hub (or ship) can be **captured next turn** |
+| Refuse the hang | Don't leave your Hub capturable; if it is, fix that before other plans |
 | Vanguard Node / going first | **Initiative Relay** — the first mover's extra forward Escort |
 | Slipstream Cutter / Refractor | Optional diagonal Sensor-Net slider (bishop-like) |
 | Aegis Vanguard / Carrier | Optional queen-like Sensor-Net slider; Hub-anchor when Fleet Draft is on |

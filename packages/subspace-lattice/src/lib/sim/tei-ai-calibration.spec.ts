@@ -6,6 +6,7 @@ import {
 } from '../ai/mcts-ai';
 import { HeuristicAi } from '../ai/heuristic-ai';
 import { RandomLegalAgent } from '../ai/random-legal-agent';
+import { requirePieceAgentMove } from '../ai/agent';
 import { createSeededRng } from '../ai/rng';
 import { SubspaceLatticeEngine } from '../game-engine';
 import { resolveRulesConfig } from '../rules/rules-config';
@@ -141,15 +142,14 @@ describe('createAiForStrength under fleet opening', () => {
       const engine = new SubspaceLatticeEngine({
         rulesVersion: 'hybrid-fleet',
       });
-      const choice = ai.chooseMove(engine);
-      expect(choice).not.toBeNull();
+      const choice = requirePieceAgentMove(ai.chooseMove(engine));
       const legal = engine.listLegalMoves();
       expect(
         legal.some(
           (m) =>
-            m.pieceId === choice!.pieceId &&
-            m.to.x === choice!.to.x &&
-            m.to.y === choice!.to.y,
+            m.pieceId === choice.pieceId &&
+            m.to.x === choice.to.x &&
+            m.to.y === choice.to.y,
         ),
       ).toBe(true);
     }

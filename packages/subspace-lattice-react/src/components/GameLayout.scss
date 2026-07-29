@@ -198,6 +198,9 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .game-info {
@@ -491,6 +494,8 @@
   border: 1px solid $border;
   padding: 20px;
   min-height: 600px;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .game-side-panel {
@@ -501,6 +506,8 @@
 @media (max-width: 800px) {
   .game-layout {
     grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 10px;
   }
 
   .game-header {
@@ -510,5 +517,16 @@
 
   .header-actions {
     justify-content: flex-end;
+  }
+
+  .game-main-panel {
+    padding: 8px;
+    min-height: 0;
+  }
+
+  .subspace-board-shell,
+  .subspace-board {
+    margin-top: 8px;
+    margin-bottom: 8px;
   }
 }

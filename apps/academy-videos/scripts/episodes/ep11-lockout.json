@@ -1,0 +1,98 @@
+{
+  "id": "ep11-lockout",
+  "compositionId": "Episode11",
+  "title": "Lockout & The EMP",
+  "youtubeTitle": "Subspace Lattice Academy Ep.11 — Lockout & EMP Overload",
+  "description": "Surgical Strike and Sector Integration are not the only finishes. Lockout (winnerReason=no-moves) awards the win when the opponent has zero legal replies. Learn how to corner the escape hatch and detonate Command Overload (EMP) to freeze a Hub.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 11 · Win conditions",
+      "headline": "Lockout & The EMP",
+      "subhead": "Immobility is defeat. Disable their engines to secure the third win.",
+      "voiceover": "Episode eleven: Lockout. Surgical Strike takes the Hub, and Sector Integration runs the clock. But there is a third engine win: leave the opponent with no legal moves, and the match ends immediately. Fiction calls it Frozen.",
+      "durationHintSec": 11
+    },
+    {
+      "kind": "narration",
+      "id": "lockout-math",
+      "headline": "The Lattice Escape Hatch",
+      "bullets": [
+        "Lattice has no \"check\" filter",
+        "Cornered Hubs can capture to escape",
+        "Bodies alone cannot force zero moves"
+      ],
+      "voiceover": "Because the lattice has no chess-style 'check' rule, you cannot freeze a Hub just by surrounding it with ships. A cornered Command Hub will simply capture the piece blocking it to escape. To force zero moves, you have to kill their engines.",
+      "durationHintSec": 15
+    },
+    {
+      "kind": "narration",
+      "id": "emp-mechanic",
+      "headline": "Command Overload (EMP)",
+      "bullets": [
+        "Charges only when your Hub is strictly stationary",
+        "Moving the Hub resets the charge to zero",
+        "Consumes your entire turn to fire",
+        "Seizes enemy engines in radius — your fleet is never in the blast"
+      ],
+      "voiceover": "Enter the EMP. Every turn you move a piece that is not your Command Hub, your EMP charges. Hold your ground. If your Hub moves even one square—or waffles back and forth—the charge resets to zero. When you fire, you spend the whole turn. Only enemy ships inside the blast freeze; your own fleet is never affected.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "charged-board",
+      "missionId": "mission-emp-lockout",
+      "ply": 0,
+      "moveLabel": "White EMP armed — one Escort still outside the blast",
+      "overlays": { "nets": "both" },
+      "voiceover": "Late game. White has anchored the Hub and charged EMP to fifteen. Black's Hub and one Escort sit inside the blast radius — but a second Black Escort still sits outside. Fire now and that escape hatch keeps Black alive.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "cut-escape",
+      "missionId": "mission-emp-lockout",
+      "ply": 1,
+      "moveLabel": "White captures the Escort outside the blast",
+      "overlays": { "nets": "both" },
+      "voiceover": "White captures the outside Escort first. The Hub never moves, so the EMP stays armed. Now every remaining Black ship is inside the radius.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-fire",
+      "missionId": "mission-emp-lockout",
+      "ply": 2,
+      "revealPly": 3,
+      "prompt": "Black shuffled in vain. White spends the turn firing EMP. What happens to Black's legal replies?",
+      "overlays": { "nets": "contested", "fiveQuestions": true },
+      "voiceover": "Pause and predict. Black's Hub shuffled but stayed inside the blast. White fires Command Overload — a full-turn action. What happens to Black's legal replies?",
+      "durationHintSec": 10,
+      "revealVoiceover": "Black's engines die. For one reply ply, every enemy piece in the radius cannot move and cannot capture. White's own ships keep their engines — the cost was spending the turn.",
+      "revealDurationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "blackout-zero",
+      "missionId": "mission-emp-lockout",
+      "ply": 3,
+      "moveLabel": "Black has 0 legal moves",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "0 legal replies -> Lockout" },
+      "voiceover": "Because every remaining Black ship is inside the blast, the legal-move list is empty. The engine ends the game. Lockout.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Three wins. No stalemate.",
+      "nextEpisode": "Practice vs AI · Advanced manual",
+      "voiceover": "That is Lockout. Anchor your Hub, charge the EMP, cut the escape hatch, and shut down their engines. Surgical Strike, Sector Integration, Lockout. You now have the complete manual.",
+      "durationHintSec": 10
+    }
+  ]
+}

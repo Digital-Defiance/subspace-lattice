@@ -52,10 +52,34 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
               hold for 1 ply.
             </li>
             <li>
-              <strong>No moves:</strong> Opponent has no legal moves after your
-              turn.
+              <strong>Lockout:</strong> Opponent has no legal moves after your
+              turn. Bodies alone almost never freeze a live Hub — use Command
+              Overload (EMP) below.
+            </li>
+            <li>
+              <strong>Resign:</strong> Concede; the opponent wins immediately.
             </li>
           </ul>
+
+          <h3>Command Overload (EMP)</h3>
+          <p>
+            Fleet default: charge on non-Hub plies while your Hub stays put
+            (target 15). Moving the Hub resets charge. Firing spends your whole
+            turn and seizes <em>enemy</em> engines within Chebyshev radius 3 of
+            your Hub for one of their replies (lobby-tunable). Your own fleet is
+            never in the blast. If they then have zero legal moves, you win by
+            Lockout.
+          </p>
+
+          <h3>Hub safety (“refuse the hang”)</h3>
+          <p>
+            Your Command Hub is <strong>hanging</strong> when the opponent can
+            capture it on their next turn. The rules allow you to leave it
+            exposed — but if they take it, you lose immediately by Surgical
+            Strike. <strong>Refuse the hang</strong> means: never leave the Hub
+            capturable, and if it already is, capture or block the threat before
+            you chase material, nets, or your own prepared shot.
+          </p>
 
           <h3>The Board</h3>
           <p>

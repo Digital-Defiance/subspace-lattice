@@ -804,7 +804,7 @@ export const TUTORIAL_DRILLS: readonly TutorialLesson[] = [
     title: 'Command exercise',
     concept: 'A short guided battle',
     explanation:
-      'White moves first. Under fleet rules White also opens with an Initiative Relay Escort already advanced—tempo compensation for going first. You will expand the net, free a Beam, refuse a Hub hang, and finish with Surgical Strike. Each order explains why.',
+      'White moves first. Under fleet rules White also opens with an Initiative Relay Escort already advanced—tempo compensation for going first. You will expand the net, free a Beam, keep the Hub from hanging (capturable next turn), and finish with Surgical Strike. Each order explains why.',
     success:
       'Command exercise complete. You expanded coverage, liberated a Beam, protected the Hub, and struck theirs. That loop—net, safety, strike—is how real matches feel.',
     rules: fleetTeachingRules,
@@ -984,7 +984,7 @@ export const TUTORIAL_DRILLS: readonly TutorialLesson[] = [
     concept: 'Guided mission · highlight reel',
     presentation: 'walkthrough',
     explanation:
-      'Guided mission 1 of 3. A short, fixed highlight reel—not a full match. Tap Play and watch each order. White grows the net, refuses a Hub hang, then Surgical Strike. Black shows the usual counterplay and death-trap temptation.',
+      'Guided mission 1 of 3. A short, fixed highlight reel—not a full match. Tap Play and watch each order. White grows the net, keeps the Hub from hanging (capturable next turn), then Surgical Strike. Black shows the usual counterplay and death-trap temptation.',
     success:
       'Mission complete. White wins by Surgical Strike. Next: a chess-length battle (~50 plies), then a clock finish when Hubs survive.',
     rules: fleetTeachingRules,
@@ -1097,7 +1097,7 @@ export const TUTORIAL_DRILLS: readonly TutorialLesson[] = [
         ],
       },
       {
-        why: 'White refuses the hang. The prepared Beam shot can wait one ply—Hub safety always comes first. Capture the threat.',
+        why: 'White’s Hub was hanging — Black could capture it next turn and win. Refuse the hang: take the threatening Escort now. The prepared Beam shot can wait one ply.',
         objective: 'White captures the Hub threat.',
         seat: PlayerColor.White,
         playerMove: { pieceId: 'w-e1', to: { x: 5, y: 1 } },

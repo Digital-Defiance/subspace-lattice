@@ -16,6 +16,9 @@
     "render:ep06": "remotion render src/index.ts Episode06 out/ep06-clock-siege-full.mp4",
     "render:ep07": "remotion render src/index.ts Episode07 out/ep07-playing-black.mp4",
     "render:ep08": "remotion render src/index.ts Episode08 out/ep08-heavy-wing.mp4",
+    "render:ep09": "remotion render src/index.ts Episode09 out/ep09-ai-skirmish.mp4",
+    "render:ep10": "remotion render src/index.ts Episode10 out/ep10-infiltrator.mp4",
+    "render:ep11": "remotion render src/index.ts Episode11 out/ep11-lockout.mp4",
     "tts": "node scripts/generate-tts.mjs",
     "seed:mission-episodes": "node scripts/seed-mission-episodes.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"

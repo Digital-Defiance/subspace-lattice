@@ -6,10 +6,10 @@ import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
 import { pickBestAvoidingHubMate } from './tactical';
 
-export interface AiMoveChoice extends AgentMove {
-  from: Coordinate;
+export type AiMoveChoice = AgentMove & {
+  from?: Coordinate;
   score: number;
-}
+};
 
 const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.CommandHub]: 10_000,
@@ -24,6 +24,7 @@ const PIECE_VALUE: Record<PieceType, number> = {
  * Deterministic-friendly heuristic AI for local testing and ladder baseline.
  * Prefers capturing the command hub, then material, then closing distance
  * on the enemy hub. Never walks into an avoidable Surgical Strike reply.
+ * Fires EMP when it forces Lockout (or as a strong freeze).
  * Tie-breaks via injected RNG (default Math.random).
  */
 export class HeuristicAi implements Agent {
@@ -33,8 +34,30 @@ export class HeuristicAi implements Agent {
 
   public chooseMove(engine: SubspaceLatticeEngine): AiMoveChoice | null {
     const color = engine.getState().currentPlayer;
+
+    if (engine.canFireEmp()) {
+      const probe = engine.clone();
+      if (probe.fireEmp()) {
+        if (probe.getState().winnerReason === 'no-moves') {
+          return { type: 'emp', score: 50_000 };
+        }
+        // Soft preference: freeze when many enemy pieces are hit.
+        const blast = probe.getState().empActive;
+        if (blast) {
+          const frozen = Object.values(probe.getState().pieces).filter((p) =>
+            probe.isEmpDisabled(p),
+          ).length;
+          if (frozen >= 3 && this.rng() < 0.35) {
+            return { type: 'emp', score: 200 + frozen * 40 };
+          }
+        }
+      }
+    }
+
     const legal = engine.listLegalMoves(color);
-    if (legal.length === 0) return null;
+    if (legal.length === 0) {
+      return engine.canFireEmp() ? { type: 'emp', score: 0 } : null;
+    }
 
     const enemyHub = Object.values(engine.getState().pieces).find(
       (p) => p.owner !== color && p.type === PieceType.CommandHub,
@@ -42,7 +65,16 @@ export class HeuristicAi implements Agent {
 
     const scored = legal.map((move) => {
       const score = this.scoreMove(engine, move.pieceId, move.to, enemyHub);
-      return { move: { ...move, score } as AiMoveChoice, score };
+      return {
+        move: {
+          type: 'move' as const,
+          pieceId: move.pieceId,
+          to: move.to,
+          from: move.from,
+          score,
+        },
+        score,
+      };
     });
 
     return pickBestAvoidingHubMate(engine, scored, this.rng);
@@ -64,11 +96,22 @@ export class HeuristicAi implements Agent {
       !piece.spoolTarget &&
       !engine.isPieceDetected(piece);
 
+    // Prefer non-Hub moves while charging EMP (hold Hub ground).
+    if (
+      engine.empEnabled() &&
+      piece.type !== PieceType.CommandHub &&
+      engine.getEmpCharge(piece.owner) < engine.getEmpChargeTarget()
+    ) {
+      score += 8;
+    }
+    if (piece.type === PieceType.CommandHub && engine.empEnabled()) {
+      score -= 15;
+    }
+
     const target = engine.getPieceAt(to);
     if (target && !spoolAnnounce) {
       score += PIECE_VALUE[target.type] * 10;
     } else if (target && spoolAnnounce) {
-      // Locking a capture lane is valuable but not an immediate capture.
       score += PIECE_VALUE[target.type] * 3;
     }
 

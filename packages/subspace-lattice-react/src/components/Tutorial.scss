@@ -318,6 +318,7 @@
   }
 
   .tutorial-board-panel {
-    overflow-x: auto;
+    overflow-x: hidden;
+    padding-inline: 0.35rem;
   }
 }
