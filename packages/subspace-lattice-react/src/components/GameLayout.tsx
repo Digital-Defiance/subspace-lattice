@@ -116,6 +116,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
   const {
     active: passPlayActive,
     setupOpen: passPlaySetupOpen,
+    setupInitialRules: passPlaySetupRules,
     engine: passPlayEngine,
     logLines: passPlayLog,
     handoffPending,
@@ -519,9 +520,13 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           />
         </Link>
         <PassAndPlaySetup
-          onConfirm={confirmPassAndPlaySetup}
+          onConfirm={(names, rules) =>
+            confirmPassAndPlaySetup(names, rules, preferredSeat)
+          }
           onCancel={exitPassAndPlayGame}
           preferredSeat={preferredSeat}
+          onPreferredSeatChange={setPreferredSeat}
+          initialRules={passPlaySetupRules}
           defaultCallSign={callSign}
           federationProfileUrl={federationProfileHref}
         />

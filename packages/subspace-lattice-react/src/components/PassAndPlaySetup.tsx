@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
 import type { PassPlaySeatNames } from '../hooks/usePassAndPlayGame';
+import {
+  DEFAULT_LOBBY_RULES,
+  type LobbyRulesOptions,
+} from '../lib/lobby-rules';
+import { LobbyRulesModules } from './LobbyRulesModules';
 import './PassAndPlaySetup.scss';
+import './Lobby.scss';
 
 export interface PassAndPlaySetupProps {
-  onConfirm: (names: PassPlaySeatNames) => void;
+  onConfirm: (names: PassPlaySeatNames, rules: LobbyRulesOptions) => void;
   onCancel: () => void;
   /** Seat the local player claimed in the lobby — prefilled from profile. */
   preferredSeat?: PlayerColor;
+  onPreferredSeatChange?: (seat: PlayerColor) => void;
+  /** Prefill modules when launched from Lobby Local. */
+  initialRules?: LobbyRulesOptions;
   /** Federation Profile call sign for the preferred seat. */
   defaultCallSign?: string;
   federationProfileUrl?: string;
@@ -17,11 +26,20 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
   onConfirm,
   onCancel,
   preferredSeat = PlayerColor.White,
+  onPreferredSeatChange,
+  initialRules,
   defaultCallSign = '',
   federationProfileUrl,
 }) => {
   const [white, setWhite] = useState('');
   const [black, setBlack] = useState('');
+  const [rules, setRules] = useState<LobbyRulesOptions>(
+    () => initialRules ?? DEFAULT_LOBBY_RULES,
+  );
+
+  useEffect(() => {
+    setRules(initialRules ?? DEFAULT_LOBBY_RULES);
+  }, [initialRules]);
 
   useEffect(() => {
     if (!defaultCallSign) return;
@@ -34,7 +52,7 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onConfirm({ white, black });
+    onConfirm({ white, black }, rules);
   };
 
   return (
@@ -44,7 +62,7 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
       data-testid="pass-and-play-setup-form"
     >
       <p className="pass-setup-eyebrow">Pass &amp; Play</p>
-      <h2 className="pass-setup-title">Name the commanders</h2>
+      <h2 className="pass-setup-title">Set up the match</h2>
       <p className="pass-setup-copy">
         Your seat defaults from{' '}
         {federationProfileUrl ? (
@@ -54,9 +72,24 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
         ) : (
           'Federation Profile'
         )}
-        . Override either name for this match only.
+        . Name both commanders and optionally tune Advanced modules for this
+        hotseat game.
       </p>
+
       <div className="pass-setup-fields">
+        <label className="pass-setup-field">
+          <span>Your seat</span>
+          <select
+            value={preferredSeat}
+            onChange={(e) =>
+              onPreferredSeatChange?.(e.target.value as PlayerColor)
+            }
+            data-testid="pass-preferred-seat"
+          >
+            <option value={PlayerColor.White}>White (moves first)</option>
+            <option value={PlayerColor.Black}>Black</option>
+          </select>
+        </label>
         <label className="pass-setup-field">
           <span>White</span>
           <input
@@ -82,6 +115,15 @@ export const PassAndPlaySetup: React.FC<PassAndPlaySetupProps> = ({
           />
         </label>
       </div>
+
+      <LobbyRulesModules
+        className="lobby-modules pass-setup-modules"
+        value={rules}
+        onChange={setRules}
+        idPrefix="pass"
+        showUnratedWarn={false}
+      />
+
       <div className="pass-setup-actions">
         <button
           type="button"

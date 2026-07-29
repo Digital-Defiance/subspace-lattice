@@ -1,7 +1,7 @@
 @use './variables' as *;
 
 .pass-setup {
-  width: min(100%, 26rem);
+  width: min(100%, 28rem);
   padding: 1.5rem 1.35rem;
   border: 1px solid $border;
   border-radius: $radius-lg;
@@ -62,10 +62,25 @@
     font: inherit;
   }
 
-  input:focus {
+  select {
+    padding: 0.65rem 0.75rem;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    background: $input-bg;
+    color: $text;
+    font: inherit;
+  }
+
+  input:focus,
+  select:focus {
     outline: none;
     border-color: $accent;
   }
+}
+
+.pass-setup-modules {
+  margin: 0 0 1.25rem;
+  text-align: left;
 }
 
 .pass-setup-actions {

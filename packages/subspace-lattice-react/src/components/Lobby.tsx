@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { PlayerColor } from '@subspace-lattice/core';
 import {
-  EMP_BLACKOUT_PLIES_MAX,
-  type HeavyWingPreset,
-} from '@subspace-lattice/core';
-import {
   DEFAULT_LOBBY_RULES,
   lobbyRulesAreDefault,
   type LobbyRulesOptions,
 } from '../lib/lobby-rules';
+import { LobbyRulesModules } from './LobbyRulesModules';
 import './Lobby.scss';
 
 type LobbyTab = 'create' | 'join' | 'local';
-
-const HEAVY_WING_HINTS: Record<HeavyWingPreset, string> = {
-  standard: 'Twin Lattice Dreadnoughts on files 2 & 8 (Rated default).',
-  'refractor-wing': 'Beam + Refractor on files 3 & 7 (Unrated).',
-  'fleet-draft':
-    'Refractor + Hub-anchored Carrier on files 3 & 7 (Unrated).',
-};
 
 export type CreateRoomOptions = {
   allowObservers?: boolean;
@@ -79,39 +69,13 @@ export const Lobby: React.FC<LobbyProps> = ({
   const [allowObservers, setAllowObservers] = useState(true);
   const [rated, setRated] = useState(false);
   const [callSign, setCallSign] = useState(defaultCallSign);
-  const [infiltratorSpoolUp, setInfiltratorSpoolUp] = useState(
-    DEFAULT_LOBBY_RULES.infiltratorSpoolUp,
-  );
-  const [infiltratorActivationPly, setInfiltratorActivationPly] = useState(
-    DEFAULT_LOBBY_RULES.infiltratorActivationPly,
-  );
-  const [sectorActivationPly, setSectorActivationPly] = useState(
-    DEFAULT_LOBBY_RULES.sectorActivationPly,
-  );
-  const [heavyWingPreset, setHeavyWingPreset] = useState<HeavyWingPreset>(
-    DEFAULT_LOBBY_RULES.heavyWingPreset,
-  );
-  const [empRadius, setEmpRadius] = useState(DEFAULT_LOBBY_RULES.empRadius);
-  const [empChargeTarget, setEmpChargeTarget] = useState(
-    DEFAULT_LOBBY_RULES.empChargeTarget,
-  );
-  const [empBlackoutPlies, setEmpBlackoutPlies] = useState(
-    DEFAULT_LOBBY_RULES.empBlackoutPlies,
-  );
+  const [lobbyRules, setLobbyRules] =
+    useState<LobbyRulesOptions>(DEFAULT_LOBBY_RULES);
 
   useEffect(() => {
     setCallSign(defaultCallSign);
   }, [defaultCallSign]);
 
-  const lobbyRules: LobbyRulesOptions = {
-    infiltratorSpoolUp,
-    infiltratorActivationPly,
-    sectorActivationPly,
-    heavyWingPreset,
-    empRadius,
-    empChargeTarget,
-    empBlackoutPlies,
-  };
   const customModules = !lobbyRulesAreDefault(lobbyRules);
 
   const setSeat = (color: 'WHITE' | 'BLACK') => {
@@ -162,158 +126,7 @@ export const Lobby: React.FC<LobbyProps> = ({
   ) : null;
 
   const rulesModulesField = (
-    <fieldset className="lobby-modules" data-testid="lobby-rules-modules">
-      <legend>Advanced modules</legend>
-      <div className="form-group checkbox">
-        <label>
-          <input
-            type="checkbox"
-            checked={infiltratorSpoolUp}
-            onChange={(e) => setInfiltratorSpoolUp(e.target.checked)}
-            data-testid="lobby-infiltrator-spool"
-          />
-          Infiltrator spool (announce warp, execute next turn)
-        </label>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-infil-unlock">
-          Infiltrators unlock after (plies)
-        </label>
-        <input
-          id="lobby-infil-unlock"
-          type="number"
-          min={0}
-          max={400}
-          step={1}
-          value={infiltratorActivationPly}
-          onChange={(e) => {
-            const n = Number(e.target.value);
-            setInfiltratorActivationPly(
-              Number.isFinite(n) ? Math.max(0, Math.floor(n)) : 0,
-            );
-          }}
-          data-testid="lobby-infiltrator-activation"
-        />
-        <p className="lobby-module-hint">0 = available from the opening.</p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-clock-arm">Sector clock arms at ply</label>
-        <input
-          id="lobby-clock-arm"
-          type="number"
-          min={0}
-          max={400}
-          step={1}
-          value={sectorActivationPly}
-          onChange={(e) => {
-            const n = Number(e.target.value);
-            setSectorActivationPly(
-              Number.isFinite(n)
-                ? Math.max(0, Math.floor(n))
-                : DEFAULT_LOBBY_RULES.sectorActivationPly,
-            );
-          }}
-          data-testid="lobby-sector-activation"
-        />
-        <p className="lobby-module-hint">
-          Fleet default is {DEFAULT_LOBBY_RULES.sectorActivationPly}. 0 = armed
-          from the start.
-        </p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-heavy-wing">Heavy wing</label>
-        <select
-          id="lobby-heavy-wing"
-          value={heavyWingPreset}
-          onChange={(e) =>
-            setHeavyWingPreset(e.target.value as HeavyWingPreset)
-          }
-          data-testid="lobby-heavy-wing"
-        >
-          <option value="standard">Standard Beams</option>
-          <option value="refractor-wing">Refractor Wing</option>
-          <option value="fleet-draft">Fleet Draft</option>
-        </select>
-        <p className="lobby-module-hint">{HEAVY_WING_HINTS[heavyWingPreset]}</p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-emp-radius">EMP radius (Chebyshev)</label>
-        <input
-          id="lobby-emp-radius"
-          type="number"
-          min={0}
-          max={5}
-          step={1}
-          value={empRadius}
-          onChange={(e) => {
-            const n = Number(e.target.value);
-            setEmpRadius(
-              Number.isFinite(n)
-                ? Math.max(0, Math.min(5, Math.floor(n)))
-                : DEFAULT_LOBBY_RULES.empRadius,
-            );
-          }}
-          data-testid="lobby-emp-radius"
-        />
-        <p className="lobby-module-hint">
-          Fleet default {DEFAULT_LOBBY_RULES.empRadius}. 0 disables EMP (with
-          charge target 0).
-        </p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-emp-charge">EMP charge target (plies)</label>
-        <input
-          id="lobby-emp-charge"
-          type="number"
-          min={0}
-          max={400}
-          step={1}
-          value={empChargeTarget}
-          onChange={(e) => {
-            const n = Number(e.target.value);
-            setEmpChargeTarget(
-              Number.isFinite(n)
-                ? Math.max(0, Math.floor(n))
-                : DEFAULT_LOBBY_RULES.empChargeTarget,
-            );
-          }}
-          data-testid="lobby-emp-charge"
-        />
-        <p className="lobby-module-hint">
-          Non-Hub plies with a stationary Hub to arm Command Overload. Fleet
-          default {DEFAULT_LOBBY_RULES.empChargeTarget}.
-        </p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="lobby-emp-blackout">EMP blackout (reply plies)</label>
-        <input
-          id="lobby-emp-blackout"
-          type="number"
-          min={1}
-          max={EMP_BLACKOUT_PLIES_MAX}
-          step={1}
-          value={empBlackoutPlies}
-          onChange={(e) => {
-            const n = Number(e.target.value);
-            setEmpBlackoutPlies(
-              Number.isFinite(n)
-                ? Math.max(1, Math.min(EMP_BLACKOUT_PLIES_MAX, Math.floor(n)))
-                : DEFAULT_LOBBY_RULES.empBlackoutPlies,
-            );
-          }}
-          data-testid="lobby-emp-blackout"
-        />
-        <p className="lobby-module-hint">
-          How many of the enemy&apos;s own turns stay frozen before engines
-          restart. Fleet default {DEFAULT_LOBBY_RULES.empBlackoutPlies}.
-        </p>
-      </div>
-      {customModules && (
-        <p className="lobby-module-warn" data-testid="lobby-modules-unrated">
-          Custom modules play casual — rated TEI stays on stock fleet rules.
-        </p>
-      )}
-    </fieldset>
+    <LobbyRulesModules value={lobbyRules} onChange={setLobbyRules} />
   );
 
   const handleSubmit = (e: React.FormEvent) => {

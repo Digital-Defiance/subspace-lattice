@@ -44,6 +44,9 @@ export function usePassAndPlayGame() {
   const readySeatRef = useRef<PlayerColor | null>(null);
   const preferredSeatRef = useRef<PlayerColor>(PlayerColor.White);
   const rulesOverridesRef = useRef<LobbyRulesOptions | undefined>(undefined);
+  const [setupInitialRules, setSetupInitialRules] = useState<
+    LobbyRulesOptions | undefined
+  >(undefined);
   const namesRef = useRef<PassPlaySeatNames>({ white: '', black: '' });
   const debugLog = useRef(createMatchDebugLog());
   const initialStateRef = useRef<GameState | null>(null);
@@ -66,6 +69,7 @@ export function usePassAndPlayGame() {
     ) => {
       preferredSeatRef.current = preferredSeat;
       rulesOverridesRef.current = rulesOverrides;
+      setSetupInitialRules(rulesOverrides);
       setSetupOpen(true);
       setActive(false);
       setEngine(null);
@@ -134,11 +138,16 @@ export function usePassAndPlayGame() {
   );
 
   const confirmPassAndPlaySetup = useCallback(
-    (names: PassPlaySeatNames) => {
+    (
+      names: PassPlaySeatNames,
+      rules?: LobbyRulesOptions,
+      preferredSeat?: PlayerColor,
+    ) => {
+      if (preferredSeat) preferredSeatRef.current = preferredSeat;
       startPassAndPlayGame(
         preferredSeatRef.current,
         names,
-        rulesOverridesRef.current,
+        rules ?? rulesOverridesRef.current,
       );
     },
     [startPassAndPlayGame],
@@ -146,6 +155,7 @@ export function usePassAndPlayGame() {
 
   const exitPassAndPlayGame = useCallback(() => {
     setSetupOpen(false);
+    setSetupInitialRules(undefined);
     setEngine(null);
     setActive(false);
     setLogLines([]);
@@ -326,6 +336,7 @@ export function usePassAndPlayGame() {
   return {
     active,
     setupOpen,
+    setupInitialRules,
     engine,
     logLines,
     seatNames,
