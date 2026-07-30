@@ -588,7 +588,7 @@ export class SubspaceLatticeEngine {
 
     // Update old cell
     const oldCell = this.getCell(piece.position);
-    if (oldCell) oldCell.pieceId = undefined;
+    if (oldCell) delete oldCell.pieceId;
 
     // Update new position
     piece.position = to;

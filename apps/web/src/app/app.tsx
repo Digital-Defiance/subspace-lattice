@@ -7,6 +7,7 @@ import {
   Tutorial,
 } from '@subspace-lattice/react';
 import { Landing } from './landing';
+import { PrivacyPage } from './privacy';
 import { Story } from './story';
 
 /** Old /leaderboard bookmarks → Lattice TEI on the federation standings site. */
@@ -26,6 +27,7 @@ export function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/story" element={<Story />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/play" element={<GameLayout />} />
       <Route path="/tutorial" element={<Tutorial />} />
       <Route path="/leaderboard" element={<FederationStandingsRedirect />} />

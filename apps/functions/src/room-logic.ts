@@ -221,7 +221,10 @@ export function applyAuthoritativeMove(
   to: { x: number; y: number },
 ):
   | { ok: true; next: GameState }
-  | { ok: false; reason: 'not-player' | 'not-turn' | 'illegal' } {
+  | {
+      ok: false;
+      reason: 'not-player' | 'not-turn' | 'illegal' | 'no-opponent';
+    } {
   return applyAuthoritativeAction(gameState, actorUid, room, {
     type: 'move',
     pieceId,
@@ -236,7 +239,10 @@ export function applyAuthoritativeAction(
   action: AuthoritativePlayerAction,
 ):
   | { ok: true; next: GameState }
-  | { ok: false; reason: 'not-player' | 'not-turn' | 'illegal' } {
+  | {
+      ok: false;
+      reason: 'not-player' | 'not-turn' | 'illegal' | 'no-opponent';
+    } {
   const expectedColor =
     room.whitePlayerId === actorUid
       ? PlayerColor.White
@@ -244,6 +250,9 @@ export function applyAuthoritativeAction(
         ? PlayerColor.Black
         : null;
   if (!expectedColor) return { ok: false, reason: 'not-player' };
+  if (!room.whitePlayerId || !room.blackPlayerId) {
+    return { ok: false, reason: 'no-opponent' };
+  }
 
   const engine = SubspaceLatticeEngine.fromState(gameState);
   if (engine.getState().currentPlayer !== expectedColor) {

@@ -10,6 +10,9 @@ import { isEmpTutorialMove } from '../tutorial/tutorial-types';
 import { useTutorialGame } from '../hooks/useTutorialGame';
 import './Tutorial.scss';
 
+const ACADEMY_YOUTUBE_PLAYLIST =
+  'https://www.youtube.com/playlist?list=PLSHzhG5rQ1B8';
+
 const ACADEMY_LESSONS = TUTORIAL_LESSONS.map((item, index) => ({
   item,
   index,
@@ -19,6 +22,20 @@ const MISSION_LESSONS = TUTORIAL_LESSONS.map((item, index) => ({
   item,
   index,
 })).filter(({ item }) => isWalkthroughLesson(item));
+
+function AcademyVideoFooter() {
+  return (
+    <footer className="tutorial-footer">
+      <a
+        href={ACADEMY_YOUTUBE_PLAYLIST}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Watch Academy videos on YouTube
+      </a>
+    </footer>
+  );
+}
 
 export function Tutorial() {
   const {
@@ -65,6 +82,7 @@ export function Tutorial() {
               Repeat the academy
             </button>
           </div>
+          <AcademyVideoFooter />
         </section>
       </main>
     );
@@ -259,6 +277,8 @@ export function Tutorial() {
           </nav>
         </aside>
       </div>
+
+      <AcademyVideoFooter />
     </main>
   );
 }

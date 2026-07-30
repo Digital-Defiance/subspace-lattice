@@ -72,6 +72,8 @@ export const useGameSync = (localPlayerId: string) => {
   const debugLog = useRef(createMatchDebugLog());
   const prevOnlineStateRef = useRef<GameState | null>(null);
   const initialOnlineStateRef = useRef<GameState | null>(null);
+  const engineRef = useRef<SubspaceLatticeEngine | null>(null);
+  engineRef.current = engine;
 
   // Derive LPGN/debug plies from authoritative state deltas (works for both seats).
   useEffect(() => {
@@ -121,10 +123,8 @@ export const useGameSync = (localPlayerId: string) => {
     let gameState: GameState | null = null;
     let chatMessages: IChatMessage<string>[] = [];
 
-    const rebuild = () => {
+    const publishRoom = () => {
       if (!roomData || !gameState) return;
-      const nextEngine = SubspaceLatticeEngine.fromState(gameState);
-      setEngine(nextEngine);
       setActiveRoom({
         id: roomId,
         roomCode: roomData.roomCode,
@@ -146,16 +146,22 @@ export const useGameSync = (localPlayerId: string) => {
       });
     };
 
+    const publishGameState = () => {
+      if (!gameState) return;
+      setEngine(SubspaceLatticeEngine.fromState(gameState));
+      publishRoom();
+    };
+
     const unsubRoom = onSnapshot(roomRef, (snap) => {
       if (!snap.exists()) return;
       roomData = snap.data() as RoomDoc;
-      rebuild();
+      publishRoom();
     });
 
     const unsubState = onSnapshot(gameStateRef, (snap) => {
       if (!snap.exists()) return;
       gameState = snap.data() as GameState;
-      rebuild();
+      publishGameState();
     });
 
     const unsubChat = onSnapshot(chatQuery, (snap) => {
@@ -169,7 +175,8 @@ export const useGameSync = (localPlayerId: string) => {
           isSystemMessage: Boolean(data.isSystemMessage),
         } as IChatMessage<string>;
       });
-      rebuild();
+      // Chat must not rebuild the engine from a possibly pre-move snapshot.
+      publishRoom();
     });
 
     const unsubEvents = onSnapshot(eventsQuery, (snap) => {
@@ -266,19 +273,43 @@ export const useGameSync = (localPlayerId: string) => {
     [apiClient, localPlayerId],
   );
 
-  const sendMove = async (activeRoomId: string, pieceId: string, to: Coordinate) => {
+  const sendMove = async (
+    activeRoomId: string,
+    pieceId: string,
+    to: Coordinate,
+  ): Promise<boolean> => {
+    const current = engineRef.current;
+    if (!current) return false;
+    const before = current.clone();
+    const optimistic = current.clone();
+    if (!optimistic.movePiece(pieceId, to)) return false;
+    setEngine(optimistic);
+
     try {
       await apiClient.submitMove(activeRoomId, pieceId, to);
+      return true;
     } catch (error) {
       console.error('Failed to send move:', error);
+      setEngine(before);
+      return false;
     }
   };
 
-  const sendEmp = async (activeRoomId: string) => {
+  const sendEmp = async (activeRoomId: string): Promise<boolean> => {
+    const current = engineRef.current;
+    if (!current) return false;
+    const before = current.clone();
+    const optimistic = current.clone();
+    if (!optimistic.fireEmp()) return false;
+    setEngine(optimistic);
+
     try {
       await apiClient.submitEmp(activeRoomId);
+      return true;
     } catch (error) {
       console.error('Failed to fire EMP:', error);
+      setEngine(before);
+      return false;
     }
   };
 

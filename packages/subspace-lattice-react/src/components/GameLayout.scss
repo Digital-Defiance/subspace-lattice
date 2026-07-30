@@ -516,6 +516,43 @@
   overflow-x: hidden;
 }
 
+.online-waiting-room {
+  align-self: center;
+  max-width: 28rem;
+  margin: auto;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: $text;
+
+  h2 {
+    margin: 0 0 0.65rem;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: $accent;
+  }
+
+  p {
+    margin: 0 0 0.85rem;
+    line-height: 1.45;
+    font-size: 0.95rem;
+    color: rgba($text, 0.85);
+  }
+
+  &__code {
+    font-size: 1.05rem;
+    color: $text;
+
+    strong {
+      letter-spacing: 0.08em;
+    }
+  }
+
+  .copy-code-btn {
+    margin-top: 0.25rem;
+  }
+}
+
 .game-side-panel {
   display: flex;
   flex-direction: column;

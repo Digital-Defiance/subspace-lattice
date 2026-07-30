@@ -99,7 +99,16 @@ export function Landing() {
       {!isTauriRuntime() && appsSection}
 
       <footer className="landing-footer">
-        <div className="landing-footer-links">Subspace Lattice · <Link to="https://iwgf.org" className="landing-iwgf-link">Interstellar Warp Gaming Federation</Link> · lattice.iwgf.org</div>
+        <div className="landing-footer-links">
+          Subspace Lattice ·{' '}
+          <Link to="https://iwgf.org" className="landing-iwgf-link">
+            Interstellar Warp Gaming Federation
+          </Link>{' '}
+          · lattice.iwgf.org ·{' '}
+          <Link to="/privacy" className="landing-iwgf-link">
+            Privacy
+          </Link>
+        </div>
         <div className="landing-footer-copyright">© 2026 Digital Defiance. All rights reserved.</div>
         <div className="landing-footer-iwgf"><Link to="https://iwgf.org" className="landing-iwgf-link"><span className="landing-footer-iwgf-text-logo">IWGF</span></Link></div>
       </footer>

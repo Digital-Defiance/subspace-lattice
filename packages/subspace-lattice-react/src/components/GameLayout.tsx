@@ -88,7 +88,12 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     buildDebugExport: buildOnlineDebugExport,
   } = useGameSync(localPlayerId);
 
-  useLatticeGameSounds(engine, Boolean(activeRoom && engine));
+  useLatticeGameSounds(engine, Boolean(activeRoom && engine), {
+    matchReady: Boolean(
+      activeRoom?.whitePlayerId && activeRoom?.blackPlayerId,
+    ),
+    roomId: activeRoom?.id ?? null,
+  });
 
   const {
     active: localAiActive,
@@ -671,6 +676,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             onMovePiece={(pieceId, to) => sendPassPlayMove(pieceId, to)}
             onPlacePiece={() => undefined}
             localPlayer={seat}
+            interactive={!state.winner}
             onInvalidAction={(message) =>
               appendPassPlayLog(formatSystemLogLine(message))
             }
@@ -1017,15 +1023,18 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         ? PlayerColor.Black
         : 'OBSERVER';
   const spectatorCount = activeRoom.observerIds.length;
+  const matchReady =
+    !!activeRoom.whitePlayerId && !!activeRoom.blackPlayerId;
   const myTurn =
+    matchReady &&
     localPlayerColor !== 'OBSERVER' &&
     engine.getState().currentPlayer === localPlayerColor &&
     !engine.getState().winner;
   const canResignOnline =
     localPlayerColor !== 'OBSERVER' &&
-    !!activeRoom.whitePlayerId &&
-    !!activeRoom.blackPlayerId &&
+    matchReady &&
     !engine.getState().winner;
+  const joinUrl = `${window.location.origin}${normalizedBase}/${activeRoom.roomCode}`;
   const watchUrl = `${window.location.origin}${normalizedBase}/${activeRoom.roomCode}?watch=1`;
   const advisorSuppressed =
     isRoomRated(activeRoom) && !onlineAdvisor.assisted;
@@ -1060,9 +1069,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
                   className="copy-code-btn"
                   title="Copy player join link"
                   onClick={() =>
-                    void navigator.clipboard.writeText(
-                      `${window.location.origin}${normalizedBase}/${activeRoom.roomCode}`,
-                    )
+                    void navigator.clipboard.writeText(joinUrl)
                   }
                 >
                   Copy Link
@@ -1145,20 +1152,28 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           <span>
             White:{' '}
             <strong>
-              {activeRoom.whiteDisplayName?.trim() || 'White'}
+              {activeRoom.whiteDisplayName?.trim() ||
+                (activeRoom.whitePlayerId ? 'White' : 'Waiting…')}
             </strong>
           </span>
           <span>
             Black:{' '}
             <strong>
-              {activeRoom.blackDisplayName?.trim() || 'Black'}
+              {activeRoom.blackDisplayName?.trim() ||
+                (activeRoom.blackPlayerId ? 'Black' : 'Waiting…')}
             </strong>
           </span>
-          <span>
-            Turn: <strong>{engine.getState().currentPlayer}</strong>
-          </span>
+          {matchReady ? (
+            <span>
+              Turn: <strong>{engine.getState().currentPlayer}</strong>
+            </span>
+          ) : (
+            <span data-testid="awaiting-opponent-status">
+              Status: <strong>Awaiting competitor</strong>
+            </span>
+          )}
         </p>
-        {opponentCoachFlash.length > 0 && (
+        {matchReady && opponentCoachFlash.length > 0 && (
           <p
             className="coach-presence-banner"
             data-testid="coach-presence-banner"
@@ -1171,36 +1186,38 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             ).join(' · ')}
           </p>
         )}
-        <ObjectiveHud
-          engine={engine}
-          onFireEmp={() => {
-            void sendEmp(activeRoom.id);
-          }}
-          canFireEmpAction={myTurn}
-          resignControl={
-            canResignOnline ? (
-              <ArmedConfirmButton
-                className="objective-hud__resign-btn"
-                data-testid="resign-online-match"
-                label="Resign"
-                confirmLabel="Confirm resign? Opponent wins"
-                onConfirm={() => {
-                  void (async () => {
-                    try {
-                      await resignMatch(activeRoom.id);
-                      if (isRoomRated(activeRoom)) {
-                        void reportOnlineMatch(activeRoom.id);
+        {matchReady && (
+          <ObjectiveHud
+            engine={engine}
+            onFireEmp={() => {
+              void sendEmp(activeRoom.id);
+            }}
+            canFireEmpAction={myTurn}
+            resignControl={
+              canResignOnline ? (
+                <ArmedConfirmButton
+                  className="objective-hud__resign-btn"
+                  data-testid="resign-online-match"
+                  label="Resign"
+                  confirmLabel="Confirm resign? Opponent wins"
+                  onConfirm={() => {
+                    void (async () => {
+                      try {
+                        await resignMatch(activeRoom.id);
+                        if (isRoomRated(activeRoom)) {
+                          void reportOnlineMatch(activeRoom.id);
+                        }
+                      } catch {
+                        console.error('Could not resign this match.');
                       }
-                    } catch {
-                      console.error('Could not resign this match.');
-                    }
-                  })();
-                }}
-              />
-            ) : null
-          }
-        />
-        {engine.getState().winner && (
+                    })();
+                  }}
+                />
+              ) : null
+            }
+          />
+        )}
+        {matchReady && engine.getState().winner && (
           <div className="match-over-actions">
             <p className="winner-announcement">
               <strong>
@@ -1219,30 +1236,59 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         )}
       </div>
       <div className="game-main-panel">
-        <Board
-          gameState={engine.getState()}
-          engine={engine}
-          onMovePiece={(pieceId, to) => {
-            onlineAdvisor.clearSuggestion();
-            sendMove(activeRoom.id, pieceId, to);
-          }}
-          onPlacePiece={(type, to) => sendPlacement(activeRoom.id, type, to)}
-          localPlayer={localPlayerColor}
-          guidance={
-            localPlayerColor !== 'OBSERVER' && !advisorSuppressed
-              ? onlineAdvisor.guidance
-              : undefined
-          }
-        />
-        {localPlayerColor !== 'OBSERVER' &&
-          onlineAdvisor.suggestion &&
-          !advisorSuppressed && (
-            <FloatingCoachChip
-              suggestion={onlineAdvisor.suggestion}
-              teachingMode={onlineAdvisor.teachingMode}
-              onDismiss={onlineAdvisor.clearSuggestion}
+        {matchReady ? (
+          <>
+            <Board
+              gameState={engine.getState()}
+              engine={engine}
+              onMovePiece={(pieceId, to) => {
+                onlineAdvisor.clearSuggestion();
+                return sendMove(activeRoom.id, pieceId, to);
+              }}
+              onPlacePiece={(type, to) =>
+                sendPlacement(activeRoom.id, type, to)
+              }
+              localPlayer={localPlayerColor}
+              interactive={matchReady && !engine.getState().winner}
+              guidance={
+                localPlayerColor !== 'OBSERVER' && !advisorSuppressed
+                  ? onlineAdvisor.guidance
+                  : undefined
+              }
             />
-          )}
+            {localPlayerColor !== 'OBSERVER' &&
+              onlineAdvisor.suggestion &&
+              !advisorSuppressed && (
+                <FloatingCoachChip
+                  suggestion={onlineAdvisor.suggestion}
+                  teachingMode={onlineAdvisor.teachingMode}
+                  onDismiss={onlineAdvisor.clearSuggestion}
+                />
+              )}
+          </>
+        ) : (
+          <div
+            className="online-waiting-room"
+            data-testid="online-waiting-room"
+            role="status"
+          >
+            <h2>Awaiting competitor</h2>
+            <p>
+              The sector stays sealed until both captains are seated. Share the
+              room code so an opponent can join.
+            </p>
+            <p className="online-waiting-room__code">
+              Room code: <strong>{activeRoom.roomCode}</strong>
+            </p>
+            <button
+              type="button"
+              className="copy-code-btn"
+              onClick={() => void navigator.clipboard.writeText(joinUrl)}
+            >
+              Copy join link
+            </button>
+          </div>
+        )}
       </div>
       <div className="game-side-panel">
         <Chat
@@ -1250,7 +1296,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
           onSendMessage={(text) => sendChatMessage(activeRoom.id, text)}
           readOnly={isSpectator}
         />
-        {localPlayerColor !== 'OBSERVER' && (
+        {matchReady && localPlayerColor !== 'OBSERVER' && (
           <AdvisorPanel
             suggestion={onlineAdvisor.suggestion}
             teachingMode={onlineAdvisor.teachingMode}

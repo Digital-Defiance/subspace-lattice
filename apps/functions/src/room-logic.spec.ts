@@ -193,6 +193,21 @@ describe('room-logic', () => {
     ).toBe(false);
   });
 
+  it('applyAuthoritativeAction rejects moves before an opponent seats', () => {
+    const room = baseRoom();
+    const state = new SubspaceLatticeEngine().getState();
+    const piece = state.pieces.find(
+      (p) => p.player === PlayerColor.White && p.type !== 'COMMAND_HUB',
+    );
+    expect(piece).toBeDefined();
+    const result = applyAuthoritativeAction(state, 'white-1', room, {
+      type: 'move',
+      pieceId: piece!.id,
+      to: { x: piece!.position.x, y: piece!.position.y + 1 },
+    });
+    expect(result).toEqual({ ok: false, reason: 'no-opponent' });
+  });
+
   it('applyAuthoritativeAction fires EMP when charged', () => {
     const room = baseRoom({
       blackPlayerId: 'black-1',

@@ -40,6 +40,9 @@ setGlobalOptions({ region: 'us-central1', invoker: 'private' });
 initializeApp();
 
 const db: Firestore = getFirestore();
+// Engine snapshots leave `pieceId: undefined` on vacated cells; Firestore
+// rejects undefined unless ignored (otherwise submitMove → INTERNAL).
+db.settings({ ignoreUndefinedProperties: true });
 const ROOMS = LATTICE_COLLECTIONS.rooms;
 const ROOM_CODES = LATTICE_COLLECTIONS.roomCodes;
 const TEI = LATTICE_COLLECTIONS.tei;
@@ -387,6 +390,12 @@ export const submitMove = onCall(async (request) => {
         throw new HttpsError(
           'permission-denied',
           'Only seated players may move.',
+        );
+      }
+      if (result.reason === 'no-opponent') {
+        throw new HttpsError(
+          'failed-precondition',
+          'Waiting for an opponent to join.',
         );
       }
       if (result.reason === 'not-turn') {

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   GameState,
   PieceType,
@@ -28,7 +28,10 @@ interface BoardProps {
    */
   engine?: SubspaceLatticeEngine;
   /** Return false to keep the current selection (illegal / rejected move). */
-  onMovePiece: (pieceId: string, to: Coordinate) => boolean | void;
+  onMovePiece: (
+    pieceId: string,
+    to: Coordinate,
+  ) => boolean | void | Promise<boolean>;
   onPlacePiece: (type: PieceType, to: Coordinate) => void;
   localPlayer: PlayerColor | 'OBSERVER';
   guidance?: BoardGuidance;
@@ -37,6 +40,12 @@ interface BoardProps {
   pieceStyle?: number;
   /** Force Outline on/off (skips persisted preference). */
   contrastOutline?: boolean;
+  /**
+   * When false (e.g. online waiting room), suppress selection and legal-move
+   * highlights even if a seat color is set. Off-turn and game-over also
+   * disable play.
+   */
+  interactive?: boolean;
 }
 
 export interface BoardGuidance {
@@ -60,6 +69,7 @@ export const Board: React.FC<BoardProps> = ({
   onInvalidAction,
   pieceStyle: forcedPieceStyle,
   contrastOutline: forcedOutline,
+  interactive = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [styleIndex] = usePieceStyle(forcedPieceStyle);
@@ -81,6 +91,22 @@ export const Board: React.FC<BoardProps> = ({
     [gameState],
   );
   const engine = engineProp ?? derivedEngine;
+
+  const playable =
+    interactive &&
+    localPlayer !== 'OBSERVER' &&
+    !gameState.winner &&
+    gameState.currentPlayer === localPlayer;
+
+  const turnKey = `${gameState.currentPlayer}:${gameState.plyCount ?? 0}`;
+
+  useEffect(() => {
+    setSelectedPieceId(null);
+  }, [turnKey]);
+
+  useEffect(() => {
+    if (!playable) setSelectedPieceId(null);
+  }, [playable]);
 
   const showNet = engine.isHybrid();
   const whiteNet = useMemo(
@@ -105,7 +131,7 @@ export const Board: React.FC<BoardProps> = ({
   );
 
   const handleCellClick = (x: number, y: number) => {
-    if (localPlayer === 'OBSERVER') return;
+    if (!playable) return;
 
     const cell = gameState.cells.find(
       (c: Cell) => c.coordinate.x === x && c.coordinate.y === y,
@@ -124,12 +150,14 @@ export const Board: React.FC<BoardProps> = ({
           ));
       if (legalHere) {
         const accepted = onMovePiece(selectedPieceId, to);
-        if (accepted !== false) {
-          setSelectedPieceId(null);
-        } else {
+        // Promises are treated as accepted for UI (online optimistic apply);
+        // only an immediate `false` keeps the selection.
+        if (accepted === false) {
           onInvalidAction?.(
             'That move is not legal right now. Pick another highlighted square.',
           );
+        } else {
+          setSelectedPieceId(null);
         }
         return;
       }
@@ -216,7 +244,8 @@ export const Board: React.FC<BoardProps> = ({
     );
   const isLegalDestination = (coord: Coordinate): boolean =>
     Boolean(
-      selectedPiece &&
+      playable &&
+        selectedPiece &&
         engine.canMovePiece(selectedPiece, coord) &&
         (!guidance?.allowedDestinations || isGuidedDestination(coord)),
     );
@@ -305,10 +334,11 @@ export const Board: React.FC<BoardProps> = ({
       data-piece-outline={
         outlineBlack || outlineWhite ? 'true' : undefined
       }
+      data-playable={playable ? 'true' : 'false'}
     >
       {displayCells.map((cell: Cell) => {
         const piece = cell.pieceId ? gameState.pieces[cell.pieceId] : null;
-        const isSelected = piece?.id === selectedPieceId;
+        const isSelected = playable && piece?.id === selectedPieceId;
         const isGravityWell = cell.type === CellType.GravityWell;
         const isSpoolTarget = spoolTargets.has(
           `${cell.coordinate.x},${cell.coordinate.y}`,
@@ -316,6 +346,7 @@ export const Board: React.FC<BoardProps> = ({
         const detected =
           showNet && piece ? engine.isPieceDetected(piece) : false;
         const isSelectable =
+          playable &&
           piece?.owner === localPlayer &&
           (!guidance?.selectablePieceIds ||
             guidance.selectablePieceIds.includes(piece.id));
@@ -325,7 +356,7 @@ export const Board: React.FC<BoardProps> = ({
         return (
           <div
             key={`${cell.coordinate.x}-${cell.coordinate.y}`}
-            className={`subspace-cell ${isGravityWell ? 'gravity-well' : ''} ${isSelected ? 'selected' : ''} ${isSpoolTarget ? 'spool-target' : ''} ${isSelectable && guidance ? 'tutorial-selectable' : ''} ${isDestination ? 'legal-destination' : ''} ${isGuidedDestination(cell.coordinate) ? 'tutorial-destination' : ''} ${isFocused ? 'tutorial-focus' : ''} ${isAdvisorFrom(cell.coordinate) ? 'advisor-from' : ''} ${isAdvisorTo(cell.coordinate) ? 'advisor-to' : ''} ${netClass(cell.coordinate.x, cell.coordinate.y)}`}
+            className={`subspace-cell ${isGravityWell ? 'gravity-well' : ''} ${isSelected ? 'selected' : ''} ${isSpoolTarget ? 'spool-target' : ''} ${isSelectable && guidance ? 'tutorial-selectable' : ''} ${isDestination ? 'legal-destination' : ''} ${playable && isGuidedDestination(cell.coordinate) ? 'tutorial-destination' : ''} ${isFocused ? 'tutorial-focus' : ''} ${isAdvisorFrom(cell.coordinate) ? 'advisor-from' : ''} ${isAdvisorTo(cell.coordinate) ? 'advisor-to' : ''} ${netClass(cell.coordinate.x, cell.coordinate.y)}`}
             data-testid={`cell-${cell.coordinate.x}-${cell.coordinate.y}`}
             data-cell-x={cell.coordinate.x}
             data-cell-y={cell.coordinate.y}
@@ -334,6 +365,7 @@ export const Board: React.FC<BoardProps> = ({
             aria-colindex={cell.coordinate.x + 1}
             aria-label={cellLabel(cell, piece, detected)}
             aria-selected={isSelected}
+            aria-disabled={!playable || undefined}
             tabIndex={
               focusedCell.x === cell.coordinate.x &&
               focusedCell.y === cell.coordinate.y
