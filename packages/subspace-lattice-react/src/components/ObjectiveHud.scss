@@ -137,8 +137,50 @@
   }
 }
 
-.objective-hud__emp-btn {
+.objective-hud__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-top: 0.55rem;
+}
+
+.objective-hud__actions-spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.objective-hud__resign {
+  flex: none;
+  margin-left: auto;
+
+  .rules-btn,
+  .objective-hud__resign-btn {
+    padding: 0.4rem 0.7rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: $radius-sm;
+    background: transparent;
+    color: #94a3b8;
+    font: 700 0.72rem var(--font-sol-pro-regular), ui-monospace, monospace;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba(225, 29, 46, 0.45);
+      color: #fca5a5;
+      background: rgba(225, 29, 46, 0.08);
+    }
+
+    &[data-armed='true'] {
+      border-color: rgba(225, 29, 46, 0.65);
+      color: #fecaca;
+      background: rgba(225, 29, 46, 0.14);
+    }
+  }
+}
+
+.objective-hud__emp-btn {
+  margin-top: 0;
   padding: 0.4rem 0.7rem;
   border: 1px solid rgba($warning, 0.55);
   border-radius: $radius-sm;

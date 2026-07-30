@@ -143,10 +143,8 @@ export function MissionFiguresHarness() {
                 onPlacePiece={() => undefined}
                 localPlayer="OBSERVER"
                 guidance={guidance}
-                contrast="high"
                 pieceStyle={defaultPieceStyleIndex()}
                 contrastOutline={true}
-                showContrastToggle={false}
               />
             </div>
           </div>

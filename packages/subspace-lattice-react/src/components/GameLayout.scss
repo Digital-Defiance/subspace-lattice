@@ -490,6 +490,18 @@
   text-transform: uppercase;
 }
 
+.match-over-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 1rem;
+  margin-top: 10px;
+
+  .winner-announcement {
+    margin: 0;
+  }
+}
+
 .game-main-panel {
   position: relative;
   display: flex;

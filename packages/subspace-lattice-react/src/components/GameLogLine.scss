@@ -121,3 +121,10 @@ $log-slate: #94a3b8;
   color: $log-slate;
   border-bottom: 1px solid #334155;
 }
+
+.sll-game-log--lpgn .sll-log-line--lpgn {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  color: #e2e8f0;
+}

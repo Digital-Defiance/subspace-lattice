@@ -48,10 +48,10 @@ function writeStoredContrastOutline(next: BoardContrastOutline): void {
 }
 
 /**
- * Persisted board contrast outline (white visibility trace). Stored under
+ * Persisted piece Outline (white visibility trace). Stored under
  * {@link BOARD_CONTRAST_OUTLINE_STORAGE_KEY}. Default: on.
  *
- * Pass `forced` to lock a mode without writing (figure harnesses).
+ * Pass `forced` to lock without writing (figure harnesses).
  */
 export function useBoardContrastOutline(
   forced?: BoardContrastOutline,

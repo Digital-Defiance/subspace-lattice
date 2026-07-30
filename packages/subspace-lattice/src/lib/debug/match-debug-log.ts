@@ -1,11 +1,18 @@
 import type { Coordinate } from '../interfaces/coordinate';
 import type { GameState } from '../interfaces/gameState';
+import type { PieceType } from '../interfaces/pieceType';
 import type { PlayerColor } from '../interfaces/playerColor';
 import type { AiStrengthId } from '../ai/mcts-ai';
 
 export const LATTICE_DEBUG_FORMAT = 'subspace-lattice-debug-v1' as const;
 
 export type MatchDebugMoveSource = 'human' | 'ai' | 'system';
+
+export type MatchDebugPlyKind =
+  | 'move'
+  | 'emp'
+  | 'spool-announce'
+  | 'spool-failed';
 
 export interface MatchDebugMoveEntry {
   at: string;
@@ -16,6 +23,10 @@ export interface MatchDebugMoveEntry {
   captured?: string;
   source: MatchDebugMoveSource;
   ok: boolean;
+  /** Defaults to move when omitted (legacy logs). */
+  kind?: MatchDebugPlyKind;
+  moverType?: PieceType;
+  capturedType?: PieceType;
 }
 
 export interface MatchDebugLog {

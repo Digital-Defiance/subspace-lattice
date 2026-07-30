@@ -72,7 +72,8 @@ async function shareBlobAsFile(
     blob.type.startsWith('text/') ||
     blob.type === 'application/json' ||
     filename.endsWith('.txt') ||
-    filename.endsWith('.json');
+    filename.endsWith('.json') ||
+    filename.endsWith('.lpgn');
 
   if (looksLikeText && text != null) {
     const textPayload: ShareData = {
@@ -148,7 +149,8 @@ export async function deliverBlob(options: {
     blob.type.startsWith('text/') ||
     blob.type === 'application/json' ||
     filename.endsWith('.txt') ||
-    filename.endsWith('.json');
+    filename.endsWith('.json') ||
+    filename.endsWith('.lpgn');
 
   if (looksLikeText && text != null) {
     await copyTextToClipboard(text);

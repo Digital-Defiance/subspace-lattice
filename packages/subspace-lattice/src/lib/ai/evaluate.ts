@@ -3,7 +3,7 @@ import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
 import { hubInOneEvalEnabled } from './tactical';
 
-const PIECE_VALUE: Record<PieceType, number> = {
+export const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.CommandHub]: 10_000,
   [PieceType.Carrier]: 90,
   [PieceType.Refractor]: 55,
@@ -11,6 +11,10 @@ const PIECE_VALUE: Record<PieceType, number> = {
   [PieceType.Infiltrator]: 40,
   [PieceType.Escort]: 25,
 };
+
+export function pieceMaterialValue(type: PieceType): number {
+  return PIECE_VALUE[type];
+}
 
 function sideToMoveCanCaptureHub(engine: SubspaceLatticeEngine): boolean {
   for (const move of engine.listLegalMoves()) {
@@ -81,12 +85,17 @@ export function evaluatePosition(
   const enemyMobility = engine.listLegalMoves(enemy).length;
   score += (myMobility - enemyMobility) * 0.35;
 
+  // Soft en-prise pressure: pieces the opponent can take right now.
+  score -= hangingPressure(engine, perspective) * 0.55;
+  score += hangingPressure(engine, enemy) * 0.55;
+
   if (engine.isHybrid()) {
     const mySector = engine.sectorControlRatio(perspective);
     const enemySector = engine.sectorControlRatio(enemy);
     score += (mySector - enemySector) * 400;
-    score += (engine.getSensorNetSet(perspective).size -
-      engine.getSensorNetSet(enemy).size) *
+    score +=
+      (engine.getSensorNetSet(perspective).size -
+        engine.getSensorNetSet(enemy).size) *
       0.15;
 
     let detectedMine = 0;
@@ -101,4 +110,25 @@ export function evaluatePosition(
   }
 
   return score;
+}
+
+/** Sum of material values currently capturable by the opponent of `owner`. */
+function hangingPressure(
+  engine: SubspaceLatticeEngine,
+  owner: PlayerColor,
+): number {
+  const state = engine.getState();
+  let total = 0;
+  for (const piece of Object.values(state.pieces)) {
+    if (piece.owner !== owner) continue;
+    if (piece.type === PieceType.CommandHub) continue;
+    for (const enemy of Object.values(state.pieces)) {
+      if (enemy.owner === owner) continue;
+      if (engine.canMovePiece(enemy, piece.position)) {
+        total += PIECE_VALUE[piece.type];
+        break;
+      }
+    }
+  }
+  return total;
 }

@@ -67,16 +67,22 @@ export interface ExportDebugButtonProps {
   buildPayload: () => LatticeDebugExport | null;
   disabled?: boolean;
   className?: string;
+  /** Button label. Default suits post-match review. */
+  label?: string;
+  busyLabel?: string;
+  title?: string;
 }
 
 /**
- * Visible diagnostics control (kept for tests / explicit surfaces).
- * In-match UI prefers {@link MatchTitleDebugExport}.
+ * Download / share a match JSON snapshot (moves + state) for review or bug reports.
  */
 export function ExportDebugButton({
   buildPayload,
   disabled = false,
   className = 'rules-btn',
+  label = 'Export debug log',
+  busyLabel = 'Exporting…',
+  title = 'Download a JSON snapshot of this match for bug reports',
 }: ExportDebugButtonProps) {
   const { busy, status, exportDebug } = useDebugExport(buildPayload);
 
@@ -88,9 +94,9 @@ export function ExportDebugButton({
         disabled={disabled || busy}
         onClick={() => void exportDebug()}
         data-testid="export-debug-log"
-        title="Download a JSON snapshot of this match for bug reports"
+        title={title}
       >
-        {busy ? 'Exporting…' : 'Export debug log'}
+        {busy ? busyLabel : label}
       </button>
       {status && (
         <span className="export-debug-status" role="status">

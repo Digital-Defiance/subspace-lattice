@@ -2,6 +2,7 @@ import {
   PlayerColor,
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
+import type { ReactNode } from 'react';
 import './ObjectiveHud.scss';
 
 export interface ObjectiveHudProps {
@@ -14,6 +15,11 @@ export interface ObjectiveHudProps {
   onFireEmp?: () => void;
   /** Whether the seated player may fire EMP this turn. */
   canFireEmpAction?: boolean;
+  /**
+   * Match concede control (armed confirm). Renders bottom-right on the EMP
+   * action row — quiet opposite of Fire EMP.
+   */
+  resignControl?: ReactNode;
 }
 
 function percent(value: number): number {
@@ -26,6 +32,7 @@ export function ObjectiveHud({
   paused = false,
   onFireEmp,
   canFireEmpAction = false,
+  resignControl,
 }: ObjectiveHudProps) {
   const state = engine.getState();
   const rules = engine.getRules();
@@ -93,38 +100,51 @@ export function ObjectiveHud({
         />
       </div>
 
-      {empOn && (
+      {(empOn || resignControl) && (
         <div className="objective-hud__emp" data-testid="emp-charge-status">
-          <p className="objective-hud__explanation">
-            EMP charge W {Math.min(whiteEmp, empTarget)}/{empTarget} · B{' '}
-            {Math.min(blackEmp, empTarget)}/{empTarget}
-            {empArmed ? ' · armed' : ''}
-            {state.empActive
-              ? ` · blackout: ${
-                  state.empActive.targetSide === PlayerColor.White
-                    ? 'White'
-                    : 'Black'
-                } engines seized in r=${state.empActive.radius} (${
-                  state.empActive.pliesRemaining
-                } ply left)`
-              : ''}
-            {` · radius ${rules.empRadius}`}
-          </p>
-          {onFireEmp && canFireEmpAction && !state.winner && (
-            <button
-              type="button"
-              className="objective-hud__emp-btn"
-              disabled={!engine.canFireEmp()}
-              onClick={onFireEmp}
-              data-testid="fire-emp"
-            >
-              Fire EMP ({Math.min(
-                state.currentPlayer === PlayerColor.White ? whiteEmp : blackEmp,
-                empTarget,
-              )}
-              /{empTarget})
-            </button>
+          {empOn && (
+            <p className="objective-hud__explanation">
+              EMP charge W {Math.min(whiteEmp, empTarget)}/{empTarget} · B{' '}
+              {Math.min(blackEmp, empTarget)}/{empTarget}
+              {empArmed ? ' · armed' : ''}
+              {state.empActive
+                ? ` · blackout: ${
+                    state.empActive.targetSide === PlayerColor.White
+                      ? 'White'
+                      : 'Black'
+                  } engines seized in r=${state.empActive.radius} (${
+                    state.empActive.pliesRemaining
+                  } ply left)`
+                : ''}
+              {` · radius ${rules.empRadius}`}
+            </p>
           )}
+          {(onFireEmp && canFireEmpAction && !state.winner) || resignControl ? (
+            <div className="objective-hud__actions">
+              {onFireEmp && canFireEmpAction && !state.winner ? (
+                <button
+                  type="button"
+                  className="objective-hud__emp-btn"
+                  disabled={!engine.canFireEmp()}
+                  onClick={onFireEmp}
+                  data-testid="fire-emp"
+                >
+                  Fire EMP ({Math.min(
+                    state.currentPlayer === PlayerColor.White
+                      ? whiteEmp
+                      : blackEmp,
+                    empTarget,
+                  )}
+                  /{empTarget})
+                </button>
+              ) : (
+                <span className="objective-hud__actions-spacer" />
+              )}
+              {resignControl ? (
+                <div className="objective-hud__resign">{resignControl}</div>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       )}
 

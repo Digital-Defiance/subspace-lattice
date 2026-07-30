@@ -11,7 +11,7 @@ import { evaluatePosition } from './evaluate';
 import { HeuristicAi } from './heuristic-ai';
 import {
   findImmediateWinningMove,
-  moveLeavesHubHanging,
+  moveIsTacticallyUnsafe,
   shallowBestMove,
 } from './tactical';
 
@@ -72,18 +72,11 @@ export class MctsAi implements Agent {
     const instant = findImmediateWinningMove(engine);
     if (instant) return instant;
 
-    const heuristicChoice = new HeuristicAi(this.rng).chooseMove(engine);
-    if (
-      heuristicChoice &&
-      !isEmpAgentMove(heuristicChoice) &&
-      engine.getPieceAt(heuristicChoice.to) &&
-      !moveLeavesHubHanging(engine, heuristicChoice)
-    ) {
-      return heuristicChoice;
-    }
-
+    // Do not short-circuit on greedy captures — Heuristic often hangs pieces.
+    // Only skip search when the heuristic is a safe quiet move and sims are 0.
     if (this.simulations <= 0 || this.preferShallow) {
-      return heuristicChoice ?? shallowBestMove(engine, this.rng);
+      return new HeuristicAi(this.rng).chooseMove(engine) ??
+        shallowBestMove(engine, this.rng);
     }
 
     const rootMoves = this.selectRootMoves(engine, legal);
@@ -108,11 +101,15 @@ export class MctsAi implements Agent {
       return shallowBestMove(engine, this.rng);
     }
 
-    let best = root.children[0]!;
-    for (const child of root.children) {
-      if (child.visits > best.visits) best = child;
+    // Prefer the most-visited child that isn't a clear tactical blunder.
+    const ranked = [...root.children].sort((a, b) => b.visits - a.visits);
+    for (const child of ranked) {
+      if (!child.move) continue;
+      if (!moveIsTacticallyUnsafe(engine, child.move)) {
+        return child.move;
+      }
     }
-    return best.move;
+    return ranked[0]!.move;
   }
 
   private selectRootMoves(

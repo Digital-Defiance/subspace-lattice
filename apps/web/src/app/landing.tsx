@@ -3,6 +3,7 @@ import './landing.scss';
 import {
   DocLink,
   SubspaceLatticeLogo,
+  isTauriRuntime,
 } from '@subspace-lattice/react';
 
 // <li><img className={styles.platformIcon} height="16" src="/google-play-brands-solid-full.svg" alt="Google Play" /> <a className={styles.platformLink} target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=org.digitaldefiance.app.warp12">Google Play</a></li>
@@ -95,7 +96,7 @@ export function Landing() {
           </p>
         </div>
       </section>
-      {appsSection}
+      {!isTauriRuntime() && appsSection}
 
       <footer className="landing-footer">
         <div className="landing-footer-links">Subspace Lattice · <Link to="https://iwgf.org" className="landing-iwgf-link">Interstellar Warp Gaming Federation</Link> · lattice.iwgf.org</div>

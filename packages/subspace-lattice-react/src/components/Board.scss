@@ -9,15 +9,15 @@
   grid-template-columns: repeat(var(--board-n), minmax(0, 1fr));
   grid-template-rows: repeat(var(--board-n), minmax(0, 1fr));
   gap: var(--board-gap);
-  background-color: #333;
+  background-color: #06080c;
   padding: var(--board-pad);
   border-radius: $radius-sm;
   margin: 20px auto;
   box-sizing: border-box;
-  // Cap at the classic 40px cells on wide screens; shrink to the panel on phones
-  // so the 11×11 grid never forces horizontal pinch-zoom. Keep the outer box
-  // square so equal fr tracks stay square — cell aspect-ratio alone lets tall
-  // piece SVGs inflate row tracks and open dark vertical gaps between ranks.
+  // Cap at 40px cells on wide screens; shrink to the panel on phones so the
+  // 11×11 grid never forces horizontal pinch-zoom. Keep the outer box square
+  // so equal fr tracks stay square — cell aspect-ratio alone lets tall piece
+  // SVGs inflate row tracks and open dark vertical gaps between ranks.
   width: min(
     100%,
     calc(
@@ -26,91 +26,17 @@
     )
   );
   aspect-ratio: 1 / 1;
-}
 
-.subspace-board-shell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.45rem;
-  margin: 20px auto;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-
-  .subspace-board {
-    margin: 0;
+  // External <img> SVGs can't take CSS stroke; stacked drop-shadows follow
+  // the alpha silhouette. Always a *white* visibility trace (black rims on
+  // white art still need this so they read on dark / net cells).
+  &.subspace-board--outline-black .piece.piece-svg.black .piece-art img,
+  &.subspace-board--outline-white .piece.piece-svg.white .piece-art img {
+    filter:
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 1.1px rgba(244, 236, 232, 0.9));
   }
-}
-
-.board-contrast-toggle {
-  display: inline-flex;
-  align-items: stretch;
-  gap: 0;
-  border: 1px solid #3a4558;
-  border-radius: $radius-sm;
-  overflow: hidden;
-  background: #0c1018;
-
-  button {
-    appearance: none;
-    border: 0;
-    margin: 0;
-    padding: 0.28rem 0.65rem;
-    font: inherit;
-    font-size: 12px;
-    letter-spacing: 0.02em;
-    color: #9aa8bc;
-    background: transparent;
-    cursor: pointer;
-
-    &[aria-pressed='true'] {
-      color: #e8f0fa;
-      background: #1a2838;
-    }
-
-    &:focus-visible {
-      outline: 2px solid #f8fafc;
-      outline-offset: -2px;
-      z-index: 1;
-    }
-  }
-
-  select {
-    appearance: none;
-    border: 0;
-    border-left: 1px solid #3a4558;
-    margin: 0;
-    padding: 0.28rem 0.55rem;
-    font: inherit;
-    font-size: 12px;
-    color: #e8f0fa;
-    background: #1a2838;
-    cursor: pointer;
-
-    &:focus-visible {
-      outline: 2px solid #f8fafc;
-      outline-offset: -2px;
-      z-index: 1;
-    }
-  }
-
-  .board-piece-outline-toggle,
-  .board-sound-mute-toggle {
-    border-left: 1px solid #3a4558;
-
-    &:disabled {
-      opacity: 0.72;
-      cursor: default;
-    }
-  }
-}
-
-.board-contrast-hint {
-  margin: 0;
-  font-size: 11px;
-  color: #7a8799;
-  letter-spacing: 0.01em;
 }
 
 .subspace-cell {
@@ -121,20 +47,20 @@
   min-height: 0;
   // Kill intrinsic min-size from tall SVG art so fr tracks stay equal.
   overflow: hidden;
-  background-color: $input-bg;
+  background-color: #0c1018;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   transition: background-color 0.2s;
-  border: 1px solid $border;
+  border: 1px solid #1a2230;
   padding: 0;
   color: inherit;
   font: inherit;
   position: relative;
   // Pieces are pointer-events: none, so overflow ink does not steal clicks.
-  // Hidden also clips large glyphs / Outline rims that would otherwise paint
-  // into neighbors — Outline still reads via drop-shadow inside the cell.
+  // Hidden also clips Outline rims that would otherwise paint into neighbors
+  // — Outline still reads via drop-shadow inside the cell.
 
   &:focus-visible {
     z-index: 1;
@@ -143,7 +69,7 @@
   }
 
   &:hover {
-    background-color: $border;
+    background-color: #182030;
   }
 
   &.gravity-well {
@@ -164,8 +90,8 @@
   &.legal-destination,
   &.tutorial-destination {
     z-index: 2;
-    background-color: color-mix(in srgb, $input-bg 72%, #34e3c5 28%);
-    box-shadow: inset 0 0 0 1px rgba(52, 227, 197, 0.55);
+    background-color: color-mix(in srgb, #1f5f9a 55%, #34e3c5 45%);
+    box-shadow: inset 0 0 0 2px rgba(52, 227, 197, 0.85);
   }
 
   &.legal-destination::before,
@@ -216,20 +142,19 @@
     pointer-events: none;
   }
 
-  // Classic (default): muted net washes on charcoal cells.
   &.sovereign-white {
-    background-color: #1e3348;
-    box-shadow: inset 0 0 0 1px rgba(120, 180, 255, 0.42);
+    background-color: #1f5f9a;
+    box-shadow: inset 0 0 0 1px rgba(150, 210, 255, 0.7);
   }
 
   &.sovereign-black {
-    background-color: #4a2c34;
-    box-shadow: inset 0 0 0 1px rgba(255, 150, 120, 0.5);
+    background-color: #8f3d4a;
+    box-shadow: inset 0 0 0 1px rgba(255, 175, 155, 0.75);
   }
 
   &.sovereign-contested {
-    background-color: #3a3048;
-    box-shadow: inset 0 0 0 1px rgba(200, 160, 255, 0.48);
+    background-color: #6a4a82;
+    box-shadow: inset 0 0 0 1px rgba(220, 190, 255, 0.65);
   }
 
   &.spool-target {
@@ -252,52 +177,6 @@
       box-shadow: 0 0 8px $warning;
       pointer-events: none;
     }
-  }
-}
-
-// High contrast: deeper void + brighter blue / rose / purple nets.
-.subspace-board--high-contrast {
-  background-color: #06080c;
-
-  .subspace-cell {
-    background-color: #0c1018;
-    border-color: #1a2230;
-
-    &:hover {
-      background-color: #182030;
-    }
-
-    &.sovereign-white {
-      background-color: #1f5f9a;
-      box-shadow: inset 0 0 0 1px rgba(150, 210, 255, 0.7);
-    }
-
-    &.sovereign-black {
-      background-color: #8f3d4a;
-      box-shadow: inset 0 0 0 1px rgba(255, 175, 155, 0.75);
-    }
-
-    &.sovereign-contested {
-      background-color: #6a4a82;
-      box-shadow: inset 0 0 0 1px rgba(220, 190, 255, 0.65);
-    }
-
-    &.legal-destination,
-    &.tutorial-destination {
-      background-color: color-mix(in srgb, #1f5f9a 55%, #34e3c5 45%);
-      box-shadow: inset 0 0 0 2px rgba(52, 227, 197, 0.85);
-    }
-  }
-
-  // External <img> SVGs can't take CSS stroke; stacked drop-shadows follow
-  // the alpha silhouette. Always a *white* visibility trace (black rims on
-  // white art still need this so they read on dark / net cells).
-  &.subspace-board--outline-black .piece.piece-svg.black .piece-art img,
-  &.subspace-board--outline-white .piece.piece-svg.white .piece-art img {
-    filter:
-      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
-      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
-      drop-shadow(0 0 1.1px rgba(244, 236, 232, 0.9));
   }
 }
 
@@ -334,8 +213,7 @@
   }
 }
 
-.piece {
-  font-size: min(28px, 70cqmin);
+.piece.piece-svg {
   user-select: none;
   line-height: 1;
   display: inline-flex;
@@ -350,45 +228,25 @@
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  color: inherit;
 
-  &.white {
-    color: #fff;
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+  .piece-art,
+  .piece-art img,
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    pointer-events: none;
   }
 
-  &.black {
-    // Classic unicode glyphs: near-black with a light rim so they silhouette
-    // on dark / Black-net cells. High-contrast SVG pieces skip this stroke.
-    color: #0e1118;
-    -webkit-text-stroke: 2px rgba(244, 236, 232, 0.98);
-    paint-order: stroke fill;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-  }
-
-  &.piece-svg {
-    color: inherit;
-    -webkit-text-stroke: 0;
-    text-shadow: none;
-    paint-order: normal;
-
-    .piece-art,
-    .piece-art img,
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      pointer-events: none;
-    }
-
-    // Pack art is often taller than wide (e.g. 100×150). Keep ship proportions
-    // inside the square cell — also makes DOM→SVG capture match live (SVG-as-
-    // <img> letterboxes; a stretched bitmap did not).
-    .piece-art img {
-      object-fit: contain;
-      object-position: center;
-    }
+  // Pack art is often taller than wide (e.g. 100×150). Keep ship proportions
+  // inside the square cell — also makes DOM→SVG capture match live (SVG-as-
+  // <img> letterboxes; a stretched bitmap did not).
+  .piece-art img {
+    object-fit: contain;
+    object-position: center;
   }
 
   &.detected {

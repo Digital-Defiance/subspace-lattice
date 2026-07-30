@@ -10,18 +10,13 @@ import {
   SubspaceLatticeEngine,
 } from '@subspace-lattice/core';
 import { Piece as PieceArt } from './Piece';
-import { PieceStyles, getStyleRimFlags } from './PieceStyles';
-import {
-  useBoardContrast,
-  type BoardContrast,
-} from '../hooks/useBoardContrast';
+import { getStyleRimFlags } from './PieceStyles';
 import {
   useBoardContrastOutline,
 } from '../hooks/useBoardContrastOutline';
 import {
   usePieceStyle,
 } from '../hooks/usePieceStyle';
-import { useGameSoundsMuted } from '../hooks/useGameSoundsMuted';
 import './Board.scss';
 
 interface BoardProps {
@@ -38,14 +33,10 @@ interface BoardProps {
   localPlayer: PlayerColor | 'OBSERVER';
   guidance?: BoardGuidance;
   onInvalidAction?: (message: string) => void;
-  /** Force a contrast mode (skips persisted preference). */
-  contrast?: BoardContrast;
   /** Force a piece art style index (skips persisted preference). */
   pieceStyle?: number;
   /** Force Outline on/off (skips persisted preference). */
   contrastOutline?: boolean;
-  /** Show Classic / High toggle above the board. Default true. */
-  showContrastToggle?: boolean;
 }
 
 export interface BoardGuidance {
@@ -67,26 +58,17 @@ export const Board: React.FC<BoardProps> = ({
   localPlayer,
   guidance,
   onInvalidAction,
-  contrast: forcedContrast,
   pieceStyle: forcedPieceStyle,
   contrastOutline: forcedOutline,
-  showContrastToggle = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
-  const [contrast, setContrast] = useBoardContrast(forcedContrast);
-  const [styleIndex, setStyleIndex] = usePieceStyle(forcedPieceStyle);
-  const [pieceOutline, setPieceOutline] =
-    useBoardContrastOutline(forcedOutline);
-  const [soundsMuted, , toggleSoundsMuted] = useGameSoundsMuted();
+  const [styleIndex] = usePieceStyle(forcedPieceStyle);
+  const [pieceOutline] = useBoardContrastOutline(forcedOutline);
   const rimFlags = getStyleRimFlags(styleIndex);
-  const bakedOutline =
-    rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
   // Outline always adds a *white* visibility trace — never a dark one.
   // Skip sides that already ship a light rim (avoids double-white).
-  const outlineBlack =
-    contrast === 'high' && pieceOutline && !rimFlags.lightRimOnBlack;
-  const outlineWhite =
-    contrast === 'high' && pieceOutline && !rimFlags.lightRimOnWhite;
+  const outlineBlack = pieceOutline && !rimFlags.lightRimOnBlack;
+  const outlineWhite = pieceOutline && !rimFlags.lightRimOnWhite;
   const initialFocus =
     Object.values(gameState.pieces).find(
       (piece) => piece.owner === localPlayer,
@@ -190,26 +172,6 @@ export const Board: React.FC<BoardProps> = ({
     onInvalidAction?.(
       'Select one of your ships first, then choose where it should move.',
     );
-  };
-
-  const getPieceSymbol = (type: PieceType, color: PlayerColor) => {
-    const isWhite = color === PlayerColor.White;
-    switch (type) {
-      case PieceType.CommandHub:
-        return isWhite ? '♔' : '♚';
-      case PieceType.Escort:
-        return isWhite ? '♙' : '♟';
-      case PieceType.Infiltrator:
-        return isWhite ? '♘' : '♞';
-      case PieceType.Beam:
-        return isWhite ? '♖' : '♜';
-      case PieceType.Refractor:
-        return isWhite ? '♗' : '♝';
-      case PieceType.Carrier:
-        return isWhite ? '♕' : '♛';
-      default:
-        return '?';
-    }
   };
 
   const netClass = (x: number, y: number): string => {
@@ -325,10 +287,10 @@ export const Board: React.FC<BoardProps> = ({
     return `${coordinate}, ${piece.owner} ${pieceName}${detected ? ', Target Locked' : ''}`;
   };
 
-  const board = (
+  return (
     <div
       ref={boardRef}
-      className={`subspace-board${contrast === 'high' ? ' subspace-board--high-contrast' : ''}${
+      className={`subspace-board${
         outlineBlack ? ' subspace-board--outline-black' : ''
       }${outlineWhite ? ' subspace-board--outline-white' : ''}`}
       style={
@@ -340,7 +302,6 @@ export const Board: React.FC<BoardProps> = ({
       aria-label="Game board. Use arrow keys to move between squares, Enter or Space to select and move, and Escape to cancel selection."
       aria-rowcount={gameState.boardSize}
       aria-colcount={gameState.boardSize}
-      data-contrast={contrast}
       data-piece-outline={
         outlineBlack || outlineWhite ? 'true' : undefined
       }
@@ -394,95 +355,23 @@ export const Board: React.FC<BoardProps> = ({
               handleCellKeyDown(event, cell.coordinate)
             }
           >
-            {piece &&
-              (contrast === 'high' ? (
-                <span
-                  className={`piece piece-svg ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
-                  aria-hidden="true"
-                >
-                  <PieceArt
-                    color={
-                      piece.owner === PlayerColor.White ? 'white' : 'black'
-                    }
-                    styleIndex={styleIndex}
-                    pieceType={piece.type}
-                  />
-                </span>
-              ) : (
-                <span
-                  className={`piece ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
-                  aria-hidden="true"
-                >
-                  {getPieceSymbol(piece.type, piece.owner)}
-                </span>
-              ))}
+            {piece && (
+              <span
+                className={`piece piece-svg ${piece.owner.toLowerCase()} ${detected ? 'detected' : ''}`}
+                aria-hidden="true"
+              >
+                <PieceArt
+                  color={
+                    piece.owner === PlayerColor.White ? 'white' : 'black'
+                  }
+                  styleIndex={styleIndex}
+                  pieceType={piece.type}
+                />
+              </span>
+            )}
           </div>
         );
       })}
-    </div>
-  );
-
-  if (!showContrastToggle) return board;
-
-  return (
-    <div className="subspace-board-shell">
-      <div
-        className="board-contrast-toggle"
-        role="group"
-        aria-label="Board options"
-      >
-        <button
-          type="button"
-          aria-pressed={contrast === 'classic'}
-          onClick={() => setContrast('classic')}
-        >
-          Classic
-        </button>
-        <button
-          type="button"
-          aria-pressed={contrast === 'high'}
-          onClick={() => setContrast('high')}
-        >
-            High contrast
-          </button>
-          {contrast === 'high' && (
-            <>
-              <PieceStyles
-                selectedStyle={styleIndex}
-                onStyleChange={setStyleIndex}
-              />
-              <button
-                type="button"
-                className="board-piece-outline-toggle"
-                aria-pressed={bakedOutline || pieceOutline}
-                disabled={bakedOutline}
-                title={
-                  bakedOutline
-                    ? 'This piece style already includes contrast rims on both sides'
-                    : rimFlags.lightRimOnWhite && !rimFlags.lightRimOnBlack
-                      ? 'Adds a white visibility trace on black pieces (white art is already clear)'
-                      : rimFlags.lightRimOnBlack && !rimFlags.lightRimOnWhite
-                        ? 'Adds a white visibility trace on white pieces (black art is already clear)'
-                        : 'Adds a white visibility trace around pieces that lack a light rim'
-                }
-                onClick={() => setPieceOutline(!pieceOutline)}
-              >
-                Outline
-              </button>
-            </>
-          )}
-          <button
-            type="button"
-            className="board-sound-mute-toggle"
-            aria-pressed={!soundsMuted}
-            aria-label={soundsMuted ? 'Unmute game sounds' : 'Mute game sounds'}
-            title={soundsMuted ? 'Unmute game sounds' : 'Mute game sounds'}
-            onClick={toggleSoundsMuted}
-          >
-            {soundsMuted ? 'Sound off' : 'Sound'}
-          </button>
-        </div>
-      {board}
     </div>
   );
 };

@@ -1,0 +1,18 @@
+.sound-mute-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  padding-left: 0.55rem;
+  padding-right: 0.55rem;
+  line-height: 0;
+
+  .sound-mute-icon {
+    display: block;
+  }
+
+  /* Keep the red mute mark visible on hover (rules-btn inverts colors). */
+  &[data-muted='true']:hover .sound-mute-icon__mute path {
+    stroke: #7f0410;
+  }
+}

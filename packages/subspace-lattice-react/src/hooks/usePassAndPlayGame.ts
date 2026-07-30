@@ -7,6 +7,9 @@ import {
   formatSystemLogLine,
   GameState,
   LatticeDebugExport,
+  matchDebugEntryFromMoveInfo,
+  MatchDebugMoveEntry,
+  PieceType,
   PlayerColor,
   heavyWingPresetFromRules,
   resolveFleetLobbyRules,
@@ -35,6 +38,7 @@ export function usePassAndPlayGame() {
   const [setupOpen, setSetupOpen] = useState(false);
   const [active, setActive] = useState(false);
   const [logLines, setLogLines] = useState<string[]>([]);
+  const [moveLog, setMoveLog] = useState<readonly MatchDebugMoveEntry[]>([]);
   const [seatNames, setSeatNames] = useState<PassPlaySeatNames>({
     white: '',
     black: '',
@@ -53,6 +57,19 @@ export function usePassAndPlayGame() {
 
   const appendLog = useCallback((line: string) => {
     setLogLines((prev) => [...prev, line]);
+  }, []);
+
+  const recordMove = useCallback(
+    (entry: Parameters<ReturnType<typeof createMatchDebugLog>['append']>[0]) => {
+      debugLog.current.append(entry);
+      setMoveLog(debugLog.current.snapshot());
+    },
+    [],
+  );
+
+  const clearMoveLog = useCallback(() => {
+    debugLog.current.clear();
+    setMoveLog([]);
   }, []);
 
   const labelFor = useCallback((seat: PlayerColor): string => {
@@ -76,10 +93,10 @@ export function usePassAndPlayGame() {
       setHandoffSeat(null);
       readySeatRef.current = null;
       setLogLines([]);
-      debugLog.current.clear();
+      clearMoveLog();
       initialStateRef.current = null;
     },
-    [],
+    [clearMoveLog],
   );
 
   const startPassAndPlayGame = useCallback(
@@ -96,7 +113,7 @@ export function usePassAndPlayGame() {
       );
       const next = new SubspaceLatticeEngine({ rules });
       initialStateRef.current = structuredClone(next.getState());
-      debugLog.current.clear();
+      clearMoveLog();
       setEngine(next);
       setActive(true);
       playGameSound('game-start');
@@ -134,7 +151,7 @@ export function usePassAndPlayGame() {
         ]);
       }
     },
-    [],
+    [clearMoveLog],
   );
 
   const confirmPassAndPlaySetup = useCallback(
@@ -163,9 +180,9 @@ export function usePassAndPlayGame() {
     readySeatRef.current = null;
     namesRef.current = { white: '', black: '' };
     setSeatNames({ white: '', black: '' });
-    debugLog.current.clear();
+    clearMoveLog();
     initialStateRef.current = null;
-  }, []);
+  }, [clearMoveLog]);
 
   const confirmHandoff = useCallback(() => {
     if (!engine || handoffSeat == null) return;
@@ -191,15 +208,20 @@ export function usePassAndPlayGame() {
       const target = engine.getPieceAt(to);
       const before = structuredClone(engine.getState());
       const ok = engine.movePiece(pieceId, to);
-      debugLog.current.append({
-        player: mover,
-        pieceId,
-        from,
-        to: { ...to },
-        captured: target?.id,
-        source: 'human',
-        ok,
-      });
+      const info = engine.getLastMoveInfo();
+      recordMove(
+        matchDebugEntryFromMoveInfo({
+          player: mover,
+          pieceId,
+          from,
+          to: { ...to },
+          capturedId: target?.id,
+          capturedType: target?.type,
+          source: 'human',
+          ok,
+          info,
+        }),
+      );
       if (!ok) return false;
 
       playLatticeSoundsAfterPly(before, engine);
@@ -234,7 +256,7 @@ export function usePassAndPlayGame() {
       refresh(engine);
       return true;
     },
-    [engine, handoffSeat, appendLog, labelFor],
+    [engine, handoffSeat, appendLog, labelFor, recordMove],
   );
 
   const fireEmp = useCallback((): boolean => {
@@ -242,16 +264,22 @@ export function usePassAndPlayGame() {
     const state = engine.getState();
     if (state.winner) return false;
     const mover = state.currentPlayer;
+    const hub = Object.values(state.pieces).find(
+      (p) => p.type === PieceType.CommandHub && p.owner === mover,
+    );
     const before = structuredClone(engine.getState());
     const ok = engine.fireEmp();
-    debugLog.current.append({
-      player: mover,
-      pieceId: 'emp',
-      from: undefined,
-      to: { x: -1, y: -1 },
-      source: 'human',
-      ok,
-    });
+    recordMove(
+      matchDebugEntryFromMoveInfo({
+        player: mover,
+        pieceId: 'emp',
+        to: hub?.position ?? { x: -1, y: -1 },
+        source: 'human',
+        ok,
+        info: engine.getLastMoveInfo(),
+        empOrigin: hub?.position,
+      }),
+    );
     if (!ok) return false;
     playLatticeSoundsAfterPly(before, engine);
     appendLog(
@@ -279,7 +307,7 @@ export function usePassAndPlayGame() {
     }
     refresh(engine);
     return true;
-  }, [engine, handoffSeat, appendLog, labelFor]);
+  }, [engine, handoffSeat, appendLog, labelFor, recordMove]);
 
   const resign = useCallback((): boolean => {
     if (!engine || handoffSeat != null) return false;
@@ -339,6 +367,7 @@ export function usePassAndPlayGame() {
     setupInitialRules,
     engine,
     logLines,
+    moveLog,
     seatNames,
     handoffPending,
     handoffSeat,

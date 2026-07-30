@@ -1,7 +1,7 @@
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType } from '../interfaces/pieceType';
 import { AgentMove, applyAgentMove, isEmpAgentMove } from './agent';
-import { evaluatePosition } from './evaluate';
+import { evaluatePosition, pieceMaterialValue } from './evaluate';
 /**
  * Read Node ablation env vars without throwing in the browser bundle
  * (`process` is undefined under Vite).
@@ -17,6 +17,7 @@ function nodeEnv(name: string): string | undefined {
  *   (pre-83109c9 agent behavior; needed for Track A continuity with July 21).
  * - `LATTICE_HUB_MATE_FILTER=0` disables only moveLeavesHubHanging filters.
  * - `LATTICE_HUB_IN_ONE=0` disables only the hub-in-one eval bonus (see evaluate.ts).
+ * - `LATTICE_TRADE_FILTER=0` disables bad-trade / hanging-mover filters.
  * Default: all on.
  */
 export function hubSafetyEnabled(): boolean {
@@ -29,6 +30,10 @@ export function hubMateFilterEnabled(): boolean {
 
 export function hubInOneEvalEnabled(): boolean {
   return hubSafetyEnabled() && nodeEnv('LATTICE_HUB_IN_ONE') !== '0';
+}
+
+export function tradeFilterEnabled(): boolean {
+  return nodeEnv('LATTICE_TRADE_FILTER') !== '0';
 }
 
 /** Capture enemy Command Hub if any legal move does so. */
@@ -103,6 +108,50 @@ export function moveLeavesHubHanging(
 }
 
 /**
+ * True when the moved piece can be recaptured for a net material loss —
+ * classic "suicide" trades and hanging free pieces on empty squares.
+ * Hub captures and game-ending plies are never flagged.
+ */
+export function moveLosesMaterialOnReply(
+  engine: SubspaceLatticeEngine,
+  move: AgentMove,
+): boolean {
+  if (!tradeFilterEnabled()) return false;
+  if (isEmpAgentMove(move)) return false;
+  const me = engine.getState().currentPlayer;
+  const mover = engine.getPiece(move.pieceId);
+  if (!mover) return true;
+  const target = engine.getPieceAt(move.to);
+  if (target?.type === PieceType.CommandHub) return false;
+
+  const gained = target ? pieceMaterialValue(target.type) : 0;
+  const child = engine.clone();
+  if (!applyAgentMove(child, move)) return true;
+  if (child.getState().winner) return false;
+
+  const landed = child.getPiece(move.pieceId);
+  if (!landed) return false;
+
+  for (const piece of Object.values(child.getState().pieces)) {
+    if (piece.owner === me) continue;
+    if (child.canMovePiece(piece, landed.position)) {
+      return pieceMaterialValue(landed.type) > gained;
+    }
+  }
+  return false;
+}
+
+/** Hub mate or a clearly losing trade on the reply. */
+export function moveIsTacticallyUnsafe(
+  engine: SubspaceLatticeEngine,
+  move: AgentMove,
+): boolean {
+  return (
+    moveLeavesHubHanging(engine, move) || moveLosesMaterialOnReply(engine, move)
+  );
+}
+
+/**
  * Prefer moves that do not walk into an immediate Surgical Strike.
  * If every legal move hangs the hub (forced loss), return the full list.
  */
@@ -117,10 +166,9 @@ export function filterMovesAvoidingHubMate<T extends AgentMove>(
 }
 
 /**
- * Pick the best-scoring move that does not hang the Hub, checking hub safety
- * lazily from the top score band down (cheap for the common case where the
- * best move is already safe). Falls back to the best hanging move when every
- * option loses. Ties within a band break via `rng`.
+ * Pick the best-scoring move that does not hang the Hub or throw material,
+ * checking safety lazily from the top score band down. Falls back to the best
+ * hanging/unsafe move when every option is bad. Ties break via `rng`.
  */
 export function pickBestAvoidingHubMate<T extends AgentMove>(
   engine: SubspaceLatticeEngine,
@@ -128,7 +176,7 @@ export function pickBestAvoidingHubMate<T extends AgentMove>(
   rng: () => number,
 ): T | null {
   if (scored.length === 0) return null;
-  if (!hubMateFilterEnabled()) {
+  if (!hubMateFilterEnabled() && !tradeFilterEnabled()) {
     let bestScore = Number.NEGATIVE_INFINITY;
     const best: T[] = [];
     for (const { move, score } of scored) {
@@ -150,15 +198,26 @@ export function pickBestAvoidingHubMate<T extends AgentMove>(
     else bands.set(score, [move]);
   }
   const scores = [...bands.keys()].sort((a, b) => b - a);
-  for (const score of scores) {
-    const safe = bands
-      .get(score)!
-      .filter((m) => !moveLeavesHubHanging(engine, m));
-    if (safe.length > 0) {
-      return safe[Math.min(safe.length - 1, Math.floor(rng() * safe.length))]!;
+
+  const pickSafe = (pred: (m: T) => boolean): T | null => {
+    for (const score of scores) {
+      const safe = bands.get(score)!.filter(pred);
+      if (safe.length > 0) {
+        return safe[
+          Math.min(safe.length - 1, Math.floor(rng() * safe.length))
+        ]!;
+      }
     }
-  }
-  // Everything hangs — forced loss; keep the strongest attempt.
+    return null;
+  };
+
+  // Prefer: not hub-mate AND not a losing trade.
+  const best =
+    pickSafe((m) => !moveIsTacticallyUnsafe(engine, m)) ??
+    pickSafe((m) => !moveLeavesHubHanging(engine, m));
+  if (best) return best;
+
+  // Everything hangs the hub — forced loss; keep the strongest attempt.
   const top = bands.get(scores[0]!)!;
   return top[Math.min(top.length - 1, Math.floor(rng() * top.length))]!;
 }
@@ -180,6 +239,16 @@ export function shallowBestMove(
     const child = engine.clone();
     if (!child.movePiece(move.pieceId, move.to)) continue;
     scored.push({ move, score: evaluatePosition(child, me) });
+  }
+
+  if (engine.canFireEmp()) {
+    const child = engine.clone();
+    if (child.fireEmp()) {
+      scored.push({
+        move: { type: 'emp' },
+        score: evaluatePosition(child, me),
+      });
+    }
   }
 
   return pickBestAvoidingHubMate(engine, scored, rng);

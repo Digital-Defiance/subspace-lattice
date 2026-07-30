@@ -17,6 +17,9 @@ import {
   isEmpAgentMove,
   isDefaultFleetLobby,
   LatticeDebugExport,
+  matchDebugEntryFromMoveInfo,
+  MatchDebugMoveEntry,
+  PieceType,
   PlayerColor,
   heavyWingPresetFromRules,
   resolveFleetLobbyRules,
@@ -29,8 +32,6 @@ import type { LobbyRulesOptions } from '../lib/lobby-rules';
 import { playGameSound, playLatticeSoundsAfterPly } from '../lib/game-sounds';
 
 const AI_THINK_MS = 50;
-/** Above this branching factor, sync MCTS freezes the tab — use heuristic. */
-const WIDE_BRANCH_HEURISTIC = 64;
 
 function teiForStrength(strength: AiStrengthId) {
   const anchor =
@@ -60,6 +61,7 @@ export function useLocalAiGame() {
     PlayerColor.White,
   );
   const [logLines, setLogLines] = useState<string[]>([]);
+  const [moveLog, setMoveLog] = useState<readonly MatchDebugMoveEntry[]>([]);
   const [matchId, setMatchId] = useState<string | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
   const ratedMatch = useRef<string | null>(null);
@@ -82,6 +84,19 @@ export function useLocalAiGame() {
 
   const appendLog = useCallback((line: string) => {
     setLogLines((prev) => [...prev, line]);
+  }, []);
+
+  const recordMove = useCallback(
+    (entry: Parameters<ReturnType<typeof createMatchDebugLog>['append']>[0]) => {
+      debugLog.current.append(entry);
+      setMoveLog(debugLog.current.snapshot());
+    },
+    [],
+  );
+
+  const clearMoveLog = useCallback(() => {
+    debugLog.current.clear();
+    setMoveLog([]);
   }, []);
 
   const clearAiTimer = () => {
@@ -146,6 +161,7 @@ export function useLocalAiGame() {
       const next = new SubspaceLatticeEngine({ rules });
       initialStateRef.current = structuredClone(next.getState());
       debugLog.current.clear();
+      setMoveLog([]);
       setEngine(next);
       setActive(true);
       playGameSound('game-start');
@@ -187,9 +203,9 @@ export function useLocalAiGame() {
     setAiThinking(false);
     setLogLines([]);
     setMatchId(null);
-    debugLog.current.clear();
+    clearMoveLog();
     initialStateRef.current = null;
-  }, []);
+  }, [clearMoveLog]);
 
   const refresh = (next: SubspaceLatticeEngine) => {
     setEngine(SubspaceLatticeEngine.fromState(next.getState(), next.getRules()));
@@ -250,13 +266,8 @@ export function useLocalAiGame() {
           refresh(current);
           return;
         }
-        // Opening infiltrator warps (and fleet heavies) explode the tree;
-        // sync MCTS on the UI thread freezes the tab for tens of seconds.
-        if (legalCount > WIDE_BRANCH_HEURISTIC) {
-          choice = new HeuristicAi().chooseMove(current);
-        } else {
-          choice = ai.chooseMove(current);
-        }
+        // MctsAi already caps the root fan-out; always use the strength agent.
+        choice = ai.chooseMove(current);
         if (!choice) {
           choice = new HeuristicAi().chooseMove(current);
         }
@@ -280,16 +291,22 @@ export function useLocalAiGame() {
       }
 
       if (isEmpAgentMove(choice)) {
+        const hub = Object.values(current.getState().pieces).find(
+          (p) => p.type === PieceType.CommandHub && p.owner === aiColor,
+        );
         const before = structuredClone(current.getState());
         const ok = applyAgentMove(current, choice);
-        debugLog.current.append({
-          player: aiColor,
-          pieceId: 'emp',
-          from: undefined,
-          to: { x: -1, y: -1 },
-          source: 'ai',
-          ok,
-        });
+        recordMove(
+          matchDebugEntryFromMoveInfo({
+            player: aiColor,
+            pieceId: 'emp',
+            to: hub?.position ?? { x: -1, y: -1 },
+            source: 'ai',
+            ok,
+            info: current.getLastMoveInfo(),
+            empOrigin: hub?.position,
+          }),
+        );
         if (ok) {
           playLatticeSoundsAfterPly(before, current);
           appendLog(
@@ -320,15 +337,19 @@ export function useLocalAiGame() {
       const target = current.getPieceAt(choice.to);
       const before = structuredClone(current.getState());
       const ok = applyAgentMove(current, choice);
-      debugLog.current.append({
-        player: aiColor,
-        pieceId: choice.pieceId,
-        from,
-        to: { ...choice.to },
-        captured: target?.id,
-        source: 'ai',
-        ok,
-      });
+      recordMove(
+        matchDebugEntryFromMoveInfo({
+          player: aiColor,
+          pieceId: choice.pieceId,
+          from,
+          to: { ...choice.to },
+          capturedId: target?.id,
+          capturedType: target?.type,
+          source: 'ai',
+          ok,
+          info: current.getLastMoveInfo(),
+        }),
+      );
       if (ok) {
         playLatticeSoundsAfterPly(before, current);
         const tei = teiForStrength(strength);
@@ -361,7 +382,7 @@ export function useLocalAiGame() {
       }
       setAiThinking(false);
     },
-    [ai, aiColor, appendLog, localPlayerColor, matchId, noteWinner, strength],
+    [ai, aiColor, appendLog, localPlayerColor, matchId, noteWinner, recordMove, strength],
   );
 
   useEffect(() => {
@@ -392,15 +413,19 @@ export function useLocalAiGame() {
       const target = engine.getPieceAt(to);
       const before = structuredClone(engine.getState());
       const ok = engine.movePiece(pieceId, to);
-      debugLog.current.append({
-        player: localPlayerColor,
-        pieceId,
-        from,
-        to: { ...to },
-        captured: target?.id,
-        source: 'human',
-        ok,
-      });
+      recordMove(
+        matchDebugEntryFromMoveInfo({
+          player: localPlayerColor,
+          pieceId,
+          from,
+          to: { ...to },
+          capturedId: target?.id,
+          capturedType: target?.type,
+          source: 'human',
+          ok,
+          info: engine.getLastMoveInfo(),
+        }),
+      );
       if (ok) {
         playLatticeSoundsAfterPly(before, engine);
         appendLog(
@@ -425,23 +450,29 @@ export function useLocalAiGame() {
       }
       return ok;
     },
-    [engine, appendLog, localPlayerColor, matchId, noteWinner, strength],
+    [engine, appendLog, localPlayerColor, matchId, noteWinner, recordMove, strength],
   );
 
   const fireEmp = useCallback((): boolean => {
     if (!engine) return false;
     const state = engine.getState();
     if (state.winner || state.currentPlayer !== localPlayerColor) return false;
+    const hub = Object.values(state.pieces).find(
+      (p) => p.type === PieceType.CommandHub && p.owner === localPlayerColor,
+    );
     const before = structuredClone(engine.getState());
     const ok = engine.fireEmp();
-    debugLog.current.append({
-      player: localPlayerColor,
-      pieceId: 'emp',
-      from: undefined,
-      to: { x: -1, y: -1 },
-      source: 'human',
-      ok,
-    });
+    recordMove(
+      matchDebugEntryFromMoveInfo({
+        player: localPlayerColor,
+        pieceId: 'emp',
+        to: hub?.position ?? { x: -1, y: -1 },
+        source: 'human',
+        ok,
+        info: engine.getLastMoveInfo(),
+        empOrigin: hub?.position,
+      }),
+    );
     if (ok) {
       playLatticeSoundsAfterPly(before, engine);
       appendLog(
@@ -462,7 +493,7 @@ export function useLocalAiGame() {
       refresh(engine);
     }
     return ok;
-  }, [engine, appendLog, localPlayerColor, matchId, noteWinner, strength]);
+  }, [engine, appendLog, localPlayerColor, matchId, noteWinner, recordMove, strength]);
 
   const resign = useCallback((): boolean => {
     if (!engine) return false;
@@ -530,6 +561,7 @@ export function useLocalAiGame() {
     strengthLabel,
     setStrength,
     logLines,
+    moveLog,
     localPlayerColor,
     aiThinking,
     startLocalAiGame,

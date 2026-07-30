@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   collection,
   doc,
@@ -10,6 +10,8 @@ import {
 import {
   buildLatticeDebugPayload,
   Coordinate,
+  createMatchDebugLog,
+  diffStatesToLpgnEntry,
   GameState,
   IChatMessage,
   IGameRoom,
@@ -67,6 +69,36 @@ export const useGameSync = (localPlayerId: string) => {
   const [activeRoom, setActiveRoom] = useState<IGameRoom<string> | null>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
   const [roomEvents, setRoomEvents] = useState<RoomEventDoc[]>([]);
+  const debugLog = useRef(createMatchDebugLog());
+  const prevOnlineStateRef = useRef<GameState | null>(null);
+  const initialOnlineStateRef = useRef<GameState | null>(null);
+
+  // Derive LPGN/debug plies from authoritative state deltas (works for both seats).
+  useEffect(() => {
+    if (!engine) {
+      prevOnlineStateRef.current = null;
+      return;
+    }
+    const after = engine.getState();
+    const before = prevOnlineStateRef.current;
+    if (!before) {
+      prevOnlineStateRef.current = structuredClone(after);
+      if (!initialOnlineStateRef.current) {
+        initialOnlineStateRef.current = structuredClone(after);
+      }
+      return;
+    }
+    const entry = diffStatesToLpgnEntry(before, after);
+    prevOnlineStateRef.current = structuredClone(after);
+    if (entry) debugLog.current.append(entry);
+  }, [engine]);
+
+  useEffect(() => {
+    if (roomId) return;
+    debugLog.current.clear();
+    prevOnlineStateRef.current = null;
+    initialOnlineStateRef.current = null;
+  }, [roomId]);
 
   // Subscribe to room + gameState + chat + events when we have a roomId
   useEffect(() => {
@@ -316,16 +348,6 @@ export const useGameSync = (localPlayerId: string) => {
 
   const buildDebugExport = useCallback((): LatticeDebugExport | null => {
     if (!engine || !activeRoom) return null;
-    const moveLog = roomEvents
-      .filter((e) => e.type === 'move' && e.pieceId && e.to)
-      .map((e) => ({
-        at: e.timestamp ?? new Date().toISOString(),
-        player: e.uid ?? 'unknown',
-        pieceId: String(e.pieceId),
-        to: e.to as { x: number; y: number },
-        source: 'human' as const,
-        ok: true,
-      }));
 
     return buildLatticeDebugPayload(
       {
@@ -334,12 +356,15 @@ export const useGameSync = (localPlayerId: string) => {
         viewerId: localPlayerId || undefined,
         notes: [
           'Online sector — current gameState + Firestore events.',
-          'Events may lack `from` coordinates (server move records).',
+          'Move list inferred from live state deltas for LPGN.',
         ],
       },
       {
         gameState: structuredClone(engine.getState()),
-        moveLog,
+        initialState: initialOnlineStateRef.current
+          ? structuredClone(initialOnlineStateRef.current)
+          : undefined,
+        moveLog: debugLog.current.snapshot(),
         online: {
           roomId: activeRoom.id,
           roomCode: activeRoom.roomCode,
