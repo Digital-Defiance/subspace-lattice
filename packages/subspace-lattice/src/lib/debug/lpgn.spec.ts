@@ -42,8 +42,23 @@ describe('LPGN', () => {
         to: { x: 5, y: 0 },
         source: 'human',
         ok: true,
+        empRadius: 3,
       }),
-    ).toBe('EMP@f1');
+    ).toBe('EMP@f1/r3');
+
+    expect(
+      formatLpgnPlyToken({
+        at: '',
+        player: PlayerColor.White,
+        pieceId: 'emp',
+        kind: 'terminal-emp',
+        from: { x: 2, y: 1 },
+        to: { x: 2, y: 1 },
+        source: 'human',
+        ok: true,
+        empRadius: 4,
+      }),
+    ).toBe('TEMP@c2/r4');
 
     expect(
       formatLpgnPlyToken({
@@ -58,6 +73,35 @@ describe('LPGN', () => {
         ok: true,
       }),
     ).toBe('N@c2->f5');
+  });
+
+  it('emits Terminal Overclock headers on hybrid-fleet', () => {
+    const rules = resolveRulesConfig('hybrid-fleet');
+    const text = formatLpgn({
+      event: 'Pass & Play',
+      site: 'offline',
+      date: '2026.07.30',
+      white: 'Alex',
+      black: 'Blake',
+      mode: 'pass-and-play',
+      rules,
+      gameState: {
+        boardSize: 11,
+        cells: [],
+        pieces: {},
+        currentPlayer: PlayerColor.White,
+        rulesVersion: 'hybrid-fleet',
+        plyCount: 0,
+      },
+      moves: [],
+    });
+    expect(text).toContain('[LPGN "0.2"]');
+    expect(text).toContain('[TerminalOverclock "1"]');
+    expect(text).toContain('[TerminalBothLone "1"]');
+    expect(text).toContain('[TerminalSharedClock "1"]');
+    expect(text).toContain('[TerminalEmpCharge "10"]');
+    expect(text).toContain('[TerminalGrowth "5"]');
+    expect(text).toContain('[TerminalRadiusMax "10"]');
   });
 
   it('emits headers and numbered body', () => {
@@ -105,7 +149,7 @@ describe('LPGN', () => {
         },
       ],
     });
-    expect(text).toContain('[LPGN "0.1"]');
+    expect(text).toContain('[LPGN "0.2"]');
     expect(text).toContain('[Result "1-0"]');
     expect(text).toContain('[Termination "hub-capture"]');
     expect(text).toContain('1. Pe5e6 Pe10e9 1-0');
@@ -133,7 +177,54 @@ describe('LPGN', () => {
     };
     const entry = diffStatesToLpgnEntry(before, after);
     expect(entry?.kind).toBe('emp');
-    expect(formatLpgnPlyToken(entry!)).toBe('EMP@f1');
+    expect(entry?.empRadius).toBe(3);
+    expect(formatLpgnPlyToken(entry!)).toBe('EMP@f1/r3');
+  });
+
+  it('diffs Terminal EMP when firer Hub is fused', () => {
+    const before = {
+      boardSize: 11,
+      cells: [],
+      pieces: {
+        'w-ch': {
+          id: 'w-ch',
+          type: PieceType.CommandHub,
+          owner: PlayerColor.White,
+          position: { x: 2, y: 1 },
+        },
+        'b-ch': {
+          id: 'b-ch',
+          type: PieceType.CommandHub,
+          owner: PlayerColor.Black,
+          position: { x: 2, y: 7 },
+        },
+      },
+      currentPlayer: PlayerColor.White,
+      plyCount: 10,
+      terminalPhaseArmed: true,
+    };
+    const after = {
+      ...before,
+      plyCount: 11,
+      currentPlayer: PlayerColor.Black,
+      pieces: {
+        'w-ch': {
+          ...before.pieces['w-ch'],
+          enginesFused: true,
+        },
+        'b-ch': before.pieces['b-ch'],
+      },
+      empActive: {
+        origin: { x: 2, y: 1 },
+        radius: 4,
+        firedBy: PlayerColor.White,
+        targetSide: PlayerColor.Black,
+        pliesRemaining: 1,
+      },
+    };
+    const entry = diffStatesToLpgnEntry(before, after);
+    expect(entry?.kind).toBe('terminal-emp');
+    expect(formatLpgnPlyToken(entry!)).toBe('TEMP@c2/r4');
   });
 
   it('formats scrollable game-log LPGN lines', () => {

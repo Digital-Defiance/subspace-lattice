@@ -11,6 +11,7 @@ export type MatchDebugMoveSource = 'human' | 'ai' | 'system';
 export type MatchDebugPlyKind =
   | 'move'
   | 'emp'
+  | 'terminal-emp'
   | 'spool-announce'
   | 'spool-failed';
 
@@ -27,6 +28,8 @@ export interface MatchDebugMoveEntry {
   kind?: MatchDebugPlyKind;
   moverType?: PieceType;
   capturedType?: PieceType;
+  /** EMP / Terminal blast Chebyshev radius when kind is emp or terminal-emp. */
+  empRadius?: number;
 }
 
 export interface MatchDebugLog {

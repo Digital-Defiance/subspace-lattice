@@ -32,6 +32,10 @@ export interface MoveInfo {
   spoolFailed?: boolean;
   /** True when this ply was a Command Overload (EMP) fire. */
   empFired?: boolean;
+  /** Blast radius used for this EMP (midgame or Terminal). */
+  empRadius?: number;
+  /** True when the fire was Terminal Overclock (firer drives fused). */
+  terminalEmp?: boolean;
 }
 
 function coordKey(x: number, y: number): string {
@@ -513,6 +517,8 @@ export class SubspaceLatticeEngine {
     this.lastMoveInfo = {
       moverType: PieceType.CommandHub,
       empFired: true,
+      empRadius: radius,
+      terminalEmp: terminal || undefined,
     };
     this.endPly(mover);
     return true;

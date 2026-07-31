@@ -1,8 +1,7 @@
 import type { MoveInfo } from '../game-engine';
 import type { Coordinate } from '../interfaces/coordinate';
 import type { GameState, WinnerReason } from '../interfaces/gameState';
-import type { PieceType } from '../interfaces/pieceType';
-import { pieceTypeChessSymbolMap } from '../interfaces/pieceType';
+import { PieceType, pieceTypeChessSymbolMap } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
 import type { RulesConfig } from '../rules/rules-config';
 import { heavyWingPresetFromRules } from '../rules/rules-config';
@@ -15,7 +14,7 @@ import type {
 } from './match-debug-log';
 import { sanitizeFilenamePart } from './match-debug-log';
 
-export const LPGN_VERSION = '0.1' as const;
+export const LPGN_VERSION = '0.2' as const;
 
 export type { MatchDebugPlyKind };
 
@@ -44,12 +43,13 @@ export function matchDebugEntryFromMoveInfo(options: {
 }): MatchDebugMoveEntry {
   const info = options.info;
   let kind: MatchDebugPlyKind = 'move';
-  if (info?.empFired || options.pieceId === 'emp') kind = 'emp';
-  else if (info?.spoolAnnounce) kind = 'spool-announce';
+  if (info?.empFired || options.pieceId === 'emp') {
+    kind = info?.terminalEmp ? 'terminal-emp' : 'emp';
+  } else if (info?.spoolAnnounce) kind = 'spool-announce';
   else if (info?.spoolFailed) kind = 'spool-failed';
 
   const from =
-    kind === 'emp'
+    kind === 'emp' || kind === 'terminal-emp'
       ? (options.empOrigin ?? options.from ?? options.to)
       : options.from;
 
@@ -58,13 +58,17 @@ export function matchDebugEntryFromMoveInfo(options: {
     player: options.player,
     pieceId: options.pieceId,
     from,
-    to: kind === 'emp' ? (from ?? options.to) : options.to,
+    to:
+      kind === 'emp' || kind === 'terminal-emp'
+        ? (from ?? options.to)
+        : options.to,
     captured: options.capturedId,
     capturedType: options.capturedType ?? info?.capturedType,
     source: options.source,
     ok: options.ok,
     kind,
     moverType: info?.moverType,
+    empRadius: info?.empRadius,
   };
 }
 
@@ -83,9 +87,15 @@ export function formatLpgnPlyToken(entry: LpgnMoveEntry): string | null {
   if (!entry.ok) return null;
   const kind = entry.kind ?? 'move';
 
-  if (kind === 'emp') {
+  if (kind === 'emp' || kind === 'terminal-emp') {
     const origin = entry.from ?? entry.to;
-    return `EMP@${coordToLpgnSquare(origin)}`;
+    const prefix = kind === 'terminal-emp' ? 'TEMP' : 'EMP';
+    const square = coordToLpgnSquare(origin);
+    const r =
+      entry.empRadius != null && entry.empRadius > 0
+        ? `/r${entry.empRadius}`
+        : '';
+    return `${prefix}@${square}${r}`;
   }
 
   const letter = entry.moverType ? pieceLetter(entry.moverType) : 'X';
@@ -200,13 +210,36 @@ export function formatLpgn(options: FormatLpgnOptions): string {
     tag('EmpRadius', String(rules.empRadius ?? 0)),
     tag('EmpCharge', String(rules.empChargeTarget ?? 0)),
     tag('EmpBlackout', String(rules.empBlackoutPlies ?? 1)),
+    tag('TerminalOverclock', rules.terminalOverclock ? '1' : '0'),
+    tag(
+      'TerminalBothLone',
+      rules.terminalRequiresBothLone ? '1' : '0',
+    ),
+    tag(
+      'TerminalSharedClock',
+      rules.terminalSharedPhaseClock ? '1' : '0',
+    ),
+    tag(
+      'TerminalEmpCharge',
+      String(
+        rules.terminalEmpChargeTarget ?? rules.empChargeTarget ?? 0,
+      ),
+    ),
     tag(
       'TerminalGrowth',
       String(rules.terminalEmpRadiusGrowthInterval ?? 0),
     ),
+    tag('TerminalRadiusMax', String(rules.terminalEmpRadiusMax ?? 0)),
     tag('InfiltratorSpool', rules.infiltratorSpoolUp ? '1' : '0'),
     tag('InfiltratorUnlock', String(rules.infiltratorActivationPly ?? 0)),
   ];
+  if (
+    rules.terminalEmpRadius != null &&
+    rules.terminalEmpRadius > 0 &&
+    rules.terminalEmpRadius !== rules.empRadius
+  ) {
+    headers.push(tag('TerminalEmpRadius', String(rules.terminalEmpRadius)));
+  }
   if (termination) headers.push(tag('Termination', termination));
   if (options.sectorCode) headers.push(tag('Sector', options.sectorCode));
   if (options.tei) headers.push(tag('TEI', options.tei));
@@ -296,15 +329,23 @@ export function diffStatesToLpgnEntry(
 
   if (!before.empActive && after.empActive) {
     const origin = after.empActive.origin;
+    const firer = after.empActive.firedBy;
+    const isTerminal = Object.values(after.pieces ?? {}).some(
+      (p) =>
+        p.owner === firer &&
+        p.type === PieceType.CommandHub &&
+        Boolean(p.enginesFused),
+    );
     return {
       at: new Date().toISOString(),
       player,
       pieceId: 'emp',
-      kind: 'emp',
+      kind: isTerminal ? 'terminal-emp' : 'emp',
       from: { ...origin },
       to: { ...origin },
       source: 'human',
       ok: true,
+      empRadius: after.empActive.radius,
     };
   }
 

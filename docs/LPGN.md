@@ -1,6 +1,6 @@
 # LPGN — Lattice Portable Game Notation
 
-**Status:** draft specification (v0.1)  
+**Status:** draft specification (v0.2)  
 **Purpose:** First-class, human-readable match export for Subspace Lattice — review by hand or paste into an AI. Inspired by chess **PGN**, not a drop-in for Lichess/Chess.com.
 
 Machine/debug dumps remain JSON (`subspace-lattice-debug-v1`). LPGN is the **player-facing** format.
@@ -12,11 +12,11 @@ Machine/debug dumps remain JSON (`subspace-lattice-debug-v1`). LPGN is the **pla
 1. **Look like PGN** — tagged headers, then numbered plies, then a result token.
 2. **Chess piece letters** — Lattice units already map to chess glyphs (see §3).
 3. **11×11 coordinates** — files `a`–`k`, ranks `1`–`11` (see §4).
-4. **Oddballs are explicit plies** — **EMP** and **spool** are not piece moves; they get dedicated tokens (§6).
+4. **Oddballs are explicit plies** — **EMP**, **Terminal Overclock (TEMP)**, and **spool** are not piece moves; they get dedicated tokens (§6).
 5. **Gravity Well is silent** — center `(5,5)` / `f6` is impassable terrain. It never appears as a destination; no special token.
 6. **Resign is chess-normal** — result tags + optional comment; no special move glyph required.
 
-LPGN is **not** guaranteed loadable by fairy-chess tools. Piece letters match chess; board size, Sensor Net law, EMP, and spool do not.
+LPGN is **not** guaranteed loadable by fairy-chess tools. Piece letters match chess; board size, Sensor Net law, EMP, Terminal Overclock, and spool do not.
 
 ---
 
@@ -36,10 +36,16 @@ LPGN is **not** guaranteed loadable by fairy-chess tools. Piece letters match ch
 [EmpRadius "3"]
 [EmpCharge "15"]
 [EmpBlackout "1"]
+[TerminalOverclock "1"]
+[TerminalBothLone "1"]
+[TerminalSharedClock "1"]
+[TerminalEmpCharge "10"]
+[TerminalGrowth "5"]
+[TerminalRadiusMax "10"]
 [InfiltratorSpool "0"]
 [InfiltratorUnlock "0"]
 
-1. pe5e6 ne7d5 2. EMP@f1 Nd5f6 3. rf2f8 1-0
+1. pe5e6 ne7d5 2. EMP@f1/r3 Nd5f6 3. rf2f8 1-0
 ```
 
 - Headers: one `[Tag "value"]` per line (PGN style).
@@ -113,6 +119,13 @@ White’s home rank is `y = 0` → rank **1**. Black’s home rank is `y = 10` �
 | `EmpRadius` | Chebyshev radius (`0` = EMP off) |
 | `EmpCharge` | charge target plies (`0` = off) |
 | `EmpBlackout` | enemy reply plies frozen |
+| `TerminalOverclock` | `0` / `1` — Phase 3 module on |
+| `TerminalBothLone` | `0` / `1` — both fleets must be lone Hubs |
+| `TerminalSharedClock` | `0` / `1` — charges reset when Phase 3 arms |
+| `TerminalEmpCharge` | plies to arm while Overclocking |
+| `TerminalGrowth` | plies per +1 blast radius (`0` = static) |
+| `TerminalRadiusMax` | Chebyshev cap on growing Terminal blast |
+| `TerminalEmpRadius` | optional Terminal **base** radius when ≠ `EmpRadius` |
 | `InfiltratorSpool` | `0` / `1` (navigational announce on) |
 | `InfiltratorUnlock` | plies before infiltrators activate |
 
@@ -124,7 +137,7 @@ White’s home rank is `y = 0` → rank **1**. Black’s home rank is `y = 10` �
 | `Sector` | online room code |
 | `TEI` | `rated` · `casual` · `assisted` |
 | `PlyCount` | final `plyCount` |
-| `LPGN` | format version, e.g. `0.1` |
+| `LPGN` | format version, e.g. `0.2` |
 
 Unknown tags must be preserved by exporters/importers that round-trip.
 
@@ -184,17 +197,34 @@ Example: `N@c2--` (`spoolFailed`).
 
 ### 6.5 EMP / Command Overload
 
-Not a piece move. Fire from the Hub’s square (blast origin):
+Not a piece move. Fire from the Hub’s square (blast origin). Emit the live
+Chebyshev radius after `/r`:
 
 ```text
-EMP@<hubSquare>
+EMP@<hubSquare>/r<radius>
 ```
 
-Example: `EMP@f1` — White Hub on `f1` detonates (`empFired`).
+Example: `EMP@f1/r3` — White Hub on `f1` detonates midgame EMP (`empFired`).
 
-Optional comment may record radius: `{r=3}`.
+Legacy v0.1 tokens without `/rN` (`EMP@f1`) remain readable; exporters should
+always include radius when known.
 
-### 6.6 Pass / null
+### 6.6 Terminal Overclock (TEMP)
+
+Lone-Hub Phase 3 fire. Same geometry as EMP, but the firer’s Hub drives fuse
+(`enginesFused`) and the radius may have grown with shared Terminal age:
+
+```text
+TEMP@<hubSquare>/r<radius>
+```
+
+Example: `TEMP@c2/r4` — Terminal Overclock from `c2` with blast radius 4.
+
+Importers: treat `TEMP@` like `EMP@` for board replay, then mark the firer’s
+Hub fused. Lockout still only tests the **opponent’s** replies after the ply
+(mutual immobility awards the firer).
+
+### 6.7 Pass / null
 
 Unused in shipping rules. Reserved: `--`.
 
@@ -236,23 +266,24 @@ Map `winnerReason` into `Termination` when known:
 | -------------- | -------------- | ----- |
 | `hub-capture` | winner’s `1-0` / `0-1` | Surgical Strike |
 | `sector-integration` | winner’s | Sector clock |
-| `no-moves` | winner’s | Lockout (often after EMP) |
+| `no-moves` | winner’s | Lockout (often after `EMP@` / `TEMP@`) |
 | `resign` | opponent’s | Chess-normal |
 
 Brace comments are allowed anywhere a PGN comment would be:
 
 ```text
-1. pe5e6 {relay} EMP@f1 {overload} 1-0
+1. pe5e6 {relay} EMP@f1/r3 {overload} 1-0
 ```
 
 ---
 
-## 9. What LPGN deliberately omits (v0.1)
+## 9. What LPGN deliberately omits (v0.2)
 
 These matter in play but are **reconstructible** from a legal move list + starting setup + rules headers, or belong in JSON debug exports:
 
 - Live Sensor Net masks / Target Lock highlights every ply
 - EMP charge counters tick-by-tick (final headers optional)
+- Terminal phase age ply-by-ply (radius is on each `TEMP@` / grown `EMP@` token)
 - Clock coverage percentages
 - Advisor / assisted flags beyond `TEI`
 - Absolute timestamps (optional future tag)
@@ -263,7 +294,7 @@ Exporters **may** add `{lock}` comments when a piece becomes Target Locked; read
 
 ## 10. Starting position
 
-Default shipping setup is implied by `Rules` + `HeavyWing` (Initiative Relay, wing files, etc.). v0.1 does **not** require an embedded FEN.
+Default shipping setup is implied by `Rules` + `HeavyWing` (Initiative Relay, wing files, etc.). LPGN does **not** require an embedded FEN.
 
 Optional future tag:
 
@@ -286,13 +317,19 @@ Lattice-FEN (sketch only; not normative yet): 11 ranks `/`-separated, chess lett
 [Result "1-0"]
 [Rules "hybrid-fleet"]
 [Mode "pass-and-play"]
-[LPGN "0.1"]
+[LPGN "0.2"]
 [Termination "hub-capture"]
 [HeavyWing "standard"]
 [SectorClock "100"]
 [EmpRadius "3"]
 [EmpCharge "15"]
 [EmpBlackout "1"]
+[TerminalOverclock "1"]
+[TerminalBothLone "1"]
+[TerminalSharedClock "1"]
+[TerminalEmpCharge "10"]
+[TerminalGrowth "5"]
+[TerminalRadiusMax "10"]
 [InfiltratorSpool "0"]
 [InfiltratorUnlock "0"]
 
@@ -305,8 +342,22 @@ Spool + EMP flavored fragment:
 
 ```text
 …
-12. N@c2->f5 Rd8d5 13. N@c2-- pe7e6 14. EMP@f1 Nd5f4 15. Ke1f1 0-1
+12. N@c2->f5 Rd8d5 13. N@c2-- pe7e6 14. EMP@f1/r3 Nd5f4 15. Ke1f1 0-1
 ```
+
+Terminal Overclock finish:
+
+```text
+…
+40. Kc3c2 kd8d7 41. TEMP@c2/r4 1-0
+```
+
+with `[Termination "no-moves"]` (Lockout; firer fused, opponent had zero replies).
+
+Exporters live in `@subspace-lattice/core` (`formatLpgn`, `formatLpgnPlyToken`,
+`diffStatesToLpgnEntry`). Local AI / pass-and-play attach `MoveInfo.empRadius`
+and `MoveInfo.terminalEmp` when `fireEmp` succeeds; online sync infers
+`terminal-emp` when the firer’s Hub is `enginesFused` after `empActive` appears.
 
 ---
 
@@ -326,7 +377,9 @@ and may still offer JSON for bugs (triple-click the match title).
 
 ## 13. Versioning
 
-- This document defines **LPGN 0.1**.
+- **LPGN 0.2** (this document): Terminal Overclock headers; `EMP@sq/rN` and
+  `TEMP@sq/rN` ply tokens; `terminal-emp` in debug move logs.
+- **LPGN 0.1**: midgame EMP as `EMP@sq` without `/rN`; no Terminal tags.
 - Breaking token/header changes bump the minor or major version in `[LPGN "…"]`.
 - Implementations should accept unknown headers and unknown `{comments}`.
 
@@ -335,6 +388,7 @@ and may still offer JSON for bugs (triple-click the match title).
 ## See also
 
 - [`docs/player-overview.md`](./player-overview.md) — wins and fantasy
-- [`docs/rules.tex`](./rules.tex) — normative rules (Gravity Well, spool, EMP)
+- [`docs/rules.tex`](./rules.tex) — normative rules (Gravity Well, spool, EMP, Terminal)
+- [`docs/terminal-overclock.md`](./terminal-overclock.md) — Terminal design pointer
 - [`docs/adr/004-infiltrator-spool.md`](./adr/004-infiltrator-spool.md) — spool design
 - Core: `pieceTypeChessSymbolMap`, `MoveInfo`, `WinnerReason`
