@@ -1,7 +1,7 @@
 {
   "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Subspace Lattice",
-  "version": "0.1.31",
+  "version": "0.1.32",
   "identifier": "org.digitaldefiance.app.subspacelattice",
   "mainBinaryName": "SubspaceLattice",
   "build": {
@@ -47,10 +47,10 @@
       "icons/icon.ico"
     ],
     "android": {
-      "versionCode": 31
+      "versionCode": 32
     },
     "iOS": {
-      "bundleVersion": "31"
+      "bundleVersion": "32"
     }
   },
   "plugins": {
