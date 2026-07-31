@@ -113,16 +113,21 @@ export class HeuristicAi implements Agent {
       !piece.spoolTarget &&
       !engine.isPieceDetected(piece);
 
-    // Prefer non-Hub moves while charging EMP (hold Hub ground).
+    // Prefer non-Hub moves while charging EMP (hold Hub ground) — except
+    // Terminal Overclock, where the Hub itself is the charger.
     if (
       engine.empEnabled() &&
       piece.type !== PieceType.CommandHub &&
-      engine.getEmpCharge(piece.owner) < engine.getEmpChargeTarget()
+      engine.getEmpCharge(piece.owner) < engine.getEmpChargeTarget(piece.owner)
     ) {
       score += 8;
     }
     if (piece.type === PieceType.CommandHub && engine.empEnabled()) {
-      score -= 15;
+      if (engine.isTerminalOverclock(piece.owner)) {
+        score += 10;
+      } else {
+        score -= 15;
+      }
     }
 
     const target = engine.getPieceAt(to);

@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import {
   EMP_BLACKOUT_PLIES_MAX,
+  TERMINAL_EMP_RADIUS_GROWTH_INTERVALS,
   type HeavyWingPreset,
+  type TerminalEmpRadiusGrowthInterval,
 } from '@subspace-lattice/core';
 import {
   DEFAULT_LOBBY_RULES,
@@ -221,6 +223,36 @@ export function LobbyRulesModules({
             <p className="lobby-module-hint">
               How many of the enemy&apos;s own turns stay frozen before engines
               restart. Fleet default {DEFAULT_LOBBY_RULES.empBlackoutPlies}.
+            </p>
+          </div>
+          <div className="form-group">
+            <label htmlFor={`${idPrefix}-terminal-growth`}>
+              Terminal Overclock radiation (plies per +1 blast)
+            </label>
+            <select
+              id={`${idPrefix}-terminal-growth`}
+              value={value.terminalEmpRadiusGrowthInterval}
+              onChange={(e) =>
+                patch({
+                  terminalEmpRadiusGrowthInterval: Number(
+                    e.target.value,
+                  ) as TerminalEmpRadiusGrowthInterval,
+                })
+              }
+              data-testid="lobby-terminal-growth"
+            >
+              {TERMINAL_EMP_RADIUS_GROWTH_INTERVALS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                  {n === DEFAULT_LOBBY_RULES.terminalEmpRadiusGrowthInterval
+                    ? ' (fleet default)'
+                    : ''}
+                </option>
+              ))}
+            </select>
+            <p className="lobby-module-hint">
+              When both Hubs are alone, EMP blast grows +1 every N plies (cap
+              10). Lower = faster thermal runaway; higher = longer hunt.
             </p>
           </div>
         </div>

@@ -7,6 +7,7 @@ export * from './components/ExportLpgnButton';
 export * from './components/FloatingCoachChip';
 export * from './components/Board';
 export * from './components/Piece';
+export * from './components/PieceStyles';
 export * from './components/Lobby';
 export * from './components/LobbyRulesModules';
 export * from './components/Chat';

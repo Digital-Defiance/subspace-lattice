@@ -35,6 +35,11 @@ export interface PlayMatchOptions {
   rules?: RulesConfig;
   /** Stop after this many plies and mark truncated. Default 400. */
   maxPlies?: number;
+  /**
+   * Start from a prepared engine (e.g. hubs-only Terminal probes).
+   * When set, `rules` defaults to `engine.getRules()`.
+   */
+  engine?: SubspaceLatticeEngine;
 }
 
 function emptyCaptureStats(): Pick<
@@ -76,9 +81,13 @@ export function playMatch(
   black: Agent,
   options: PlayMatchOptions = {},
 ): MatchResult {
-  const rules = options.rules ?? resolveRulesConfig('classic');
+  const engine =
+    options.engine ??
+    new SubspaceLatticeEngine({
+      rules: options.rules ?? resolveRulesConfig('classic'),
+    });
+  const rules = options.rules ?? engine.getRules();
   const maxPlies = options.maxPlies ?? 400;
-  const engine = new SubspaceLatticeEngine({ rules });
   const replay: ReplayPly[] = [];
   const stats = emptyCaptureStats();
 

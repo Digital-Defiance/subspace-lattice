@@ -178,6 +178,12 @@ export const createRoom = onCall(async (request) => {
       `emp r=${rules.empRadius}/t=${rules.empChargeTarget}/b=${rules.empBlackoutPlies}`,
     );
   }
+  if (
+    rules.terminalEmpRadiusGrowthInterval !==
+    FLEET_LOBBY_DEFAULTS.terminalEmpRadiusGrowthInterval
+  ) {
+    moduleBits.push(`terminal+1/${rules.terminalEmpRadiusGrowthInterval}`);
+  }
   const modulesLabel = moduleBits.length ? `, modules: ${moduleBits.join(' ')}` : '';
 
   await db.runTransaction(async (tx) => {

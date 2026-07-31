@@ -213,10 +213,15 @@ $muted: #9eacc8;
   grid-template-columns: repeat(2, 1fr);
 
   article {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem 1.25rem;
+    align-items: start;
     min-height: 12rem;
-    padding: 1.6rem;
-    border-left: 2px solid rgba(52, 227, 197, 0.45);
-    background: linear-gradient(90deg, rgba(26, 46, 65, 0.42), transparent);
+    padding: 1.5rem 1.4rem 1.55rem 1.55rem;
+    border: 1px solid rgba(226, 232, 240, 0.55);
+    border-radius: 0.35rem;
+    background: rgba(0, 0, 0, 0.35);
   }
 
   p {
@@ -231,27 +236,134 @@ $muted: #9eacc8;
     margin: 0 0 0.8rem;
     font-family: var(--font-all-round-gothic);
     font-size: 1.4rem;
+    font-weight: 400;
+    color: #fff;
   }
 
   span {
-    color: $muted;
+    display: block;
+    color: rgba(237, 245, 255, 0.88);
+    font-size: 0.92rem;
     line-height: 1.65;
+  }
+}
+
+.story-asset-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1.5rem 1.4rem 1.55rem 1.55rem;
+  border: 1px solid rgba(226, 232, 240, 0.55);
+  border-radius: 0.35rem;
+  background: rgba(0, 0, 0, 0.35);
+
+  p {
+    margin: 0 0 0.35rem;
+    color: $teal;
+    font: 700 0.68rem/1.3 var(--font-sol-pro-regular);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    margin: 0 0 0.55rem;
+    font-family: var(--font-all-round-gothic);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #fff;
+  }
+
+  span {
+    display: block;
+    color: rgba(237, 245, 255, 0.88);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+}
+
+.story-asset-preview__control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: min(16rem, 100%);
+
+  select {
+    appearance: none;
+    width: 100%;
+    padding: 0.7rem 2.4rem 0.7rem 0.85rem;
+    border: 1px solid rgba(226, 232, 240, 0.55);
+    border-radius: 0.35rem;
+    background:
+      linear-gradient(45deg, transparent 50%, rgba(237, 245, 255, 0.9) 50%)
+        calc(100% - 1.15rem) calc(50% - 0.18rem) / 0.45rem 0.45rem no-repeat,
+      linear-gradient(135deg, rgba(237, 245, 255, 0.9) 50%, transparent 50%)
+        calc(100% - 0.85rem) calc(50% - 0.18rem) / 0.45rem 0.45rem no-repeat,
+      rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font: 400 0.95rem/1.3 var(--font-sol-pro-regular);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid $teal;
+      outline-offset: 2px;
+    }
+
+    option {
+      color: #0b1220;
+      background: #edf5ff;
+    }
+  }
+}
+
+.story-asset-preview__control-label {
+  color: $teal !important;
+  font: 700 0.68rem/1.3 var(--font-sol-pro-regular) !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.story-asset-glyph {
+  flex: 0 0 auto;
+  width: 4.5rem;
+  height: 4.5rem;
+  display: grid;
+  place-items: center;
+  margin-top: 0.15rem;
+
+  .piece-art,
+  .piece-art img {
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  // Same white visibility trace as Board Outline (Options → Piece art).
+  &--outline .piece-art img {
+    filter:
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
+      drop-shadow(0 0 1.1px rgba(244, 236, 232, 0.9));
   }
 }
 
 .story-relay {
   display: flex;
   gap: 1rem 2rem;
+  align-items: baseline;
+  justify-content: space-between;
   margin-top: 1rem;
   padding: 1.25rem 1.5rem;
-  border: 1px solid rgba(59, 130, 246, 0.32);
-  border-radius: 0.75rem;
-  color: $muted;
+  border: 1px solid rgba(226, 232, 240, 0.55);
+  border-radius: 0.35rem;
+  color: rgba(237, 245, 255, 0.88);
   line-height: 1.55;
 
   strong {
     flex: 0 0 auto;
-    color: #c7dcff;
+    color: #fff;
+    font-weight: 700;
   }
 }
 
@@ -344,7 +456,8 @@ $muted: #9eacc8;
 @media (max-width: 700px) {
   .story-prose-columns,
   .story-network,
-  .story-assets {
+  .story-assets,
+  .story-asset-preview {
     grid-template-columns: 1fr;
   }
 

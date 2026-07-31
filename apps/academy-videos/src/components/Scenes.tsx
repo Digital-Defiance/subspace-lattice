@@ -9,9 +9,11 @@ import {
 } from 'remotion';
 import {
   missionPlyStaticPath,
+  storyBackgroundStaticPath,
   type OverlayFlags,
   type PlyStats,
 } from '../lib/schema';
+import { SyncedCaptions } from './SyncedCaptions';
 
 const COLORS = {
   bg: '#030812',
@@ -25,33 +27,73 @@ const COLORS = {
   muted: '#94a3b8',
 };
 
-export const AcademyChrome: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
-  <AbsoluteFill
-    style={{
-      background:
-        'radial-gradient(circle at 20% 0%, rgba(37,99,235,0.22), transparent 40%), #030812',
-      color: COLORS.text,
-      fontFamily:
-        'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif',
-    }}
-  >
-    {children}
-  </AbsoluteFill>
-);
+const FONT =
+  'ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif';
+
+export const AcademyChrome: React.FC<{
+  children: React.ReactNode;
+  episodeId?: string;
+  backgroundAsset?: string;
+}> = ({ children, episodeId, backgroundAsset }) => {
+  const artSrc =
+    episodeId && backgroundAsset
+      ? staticFile(storyBackgroundStaticPath(episodeId, backgroundAsset))
+      : null;
+
+  return (
+    <AbsoluteFill
+      style={{
+        background: COLORS.bg,
+        color: COLORS.text,
+        fontFamily: FONT,
+      }}
+    >
+      {artSrc ? (
+        <>
+          <Img
+            src={artSrc}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+          <AbsoluteFill
+            style={{
+              background:
+                'linear-gradient(180deg, rgba(3,8,18,0.58) 0%, rgba(3,8,18,0.22) 42%, rgba(3,8,18,0.78) 100%)',
+            }}
+          />
+        </>
+      ) : (
+        <AbsoluteFill
+          style={{
+            background:
+              'radial-gradient(circle at 20% 0%, rgba(37,99,235,0.22), transparent 40%), #030812',
+          }}
+        />
+      )}
+      {children}
+    </AbsoluteFill>
+  );
+};
 
 export const TitleCard: React.FC<{
   eyebrow?: string;
   headline: string;
   subhead?: string;
-}> = ({ eyebrow, headline, subhead }) => {
+  caption?: string;
+  episodeId?: string;
+  backgroundAsset?: string;
+}> = ({ eyebrow, headline, subhead, caption, episodeId, backgroundAsset }) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 12], [0, 1], {
     extrapolateRight: 'clamp',
   });
   return (
-    <AcademyChrome>
+    <AcademyChrome episodeId={episodeId} backgroundAsset={backgroundAsset}>
       <AbsoluteFill
         style={{
           justifyContent: 'center',
@@ -68,12 +110,20 @@ export const TitleCard: React.FC<{
               fontSize: 28,
               fontWeight: 700,
               marginBottom: 24,
+              textShadow: '0 2px 18px rgba(0,0,0,0.65)',
             }}
           >
             {eyebrow}
           </div>
         )}
-        <div style={{ fontSize: 84, fontWeight: 800, lineHeight: 1.05 }}>
+        <div
+          style={{
+            fontSize: 84,
+            fontWeight: 800,
+            lineHeight: 1.05,
+            textShadow: '0 4px 28px rgba(0,0,0,0.75)',
+          }}
+        >
           {headline}
         </div>
         {subhead && (
@@ -84,11 +134,13 @@ export const TitleCard: React.FC<{
               color: COLORS.muted,
               maxWidth: 1400,
               lineHeight: 1.35,
+              textShadow: '0 2px 16px rgba(0,0,0,0.65)',
             }}
           >
             {subhead}
           </div>
         )}
+        {caption && <CaptionBar text={caption} />}
       </AbsoluteFill>
     </AcademyChrome>
   );
@@ -98,16 +150,33 @@ export const NarrationCard: React.FC<{
   headline?: string;
   bullets?: string[];
   caption: string;
-}> = ({ headline, bullets, caption }) => (
-  <AcademyChrome>
+  episodeId?: string;
+  backgroundAsset?: string;
+}> = ({ headline, bullets, caption, episodeId, backgroundAsset }) => (
+  <AcademyChrome episodeId={episodeId} backgroundAsset={backgroundAsset}>
     <AbsoluteFill style={{ padding: '100px 120px' }}>
       {headline && (
-        <div style={{ fontSize: 56, fontWeight: 750, marginBottom: 36 }}>
+        <div
+          style={{
+            fontSize: 56,
+            fontWeight: 750,
+            marginBottom: 36,
+            textShadow: '0 3px 22px rgba(0,0,0,0.6)',
+          }}
+        >
           {headline}
         </div>
       )}
       {bullets && (
-        <ul style={{ fontSize: 34, lineHeight: 1.55, margin: 0, paddingLeft: 40 }}>
+        <ul
+          style={{
+            fontSize: 34,
+            lineHeight: 1.55,
+            margin: 0,
+            paddingLeft: 40,
+            textShadow: '0 2px 14px rgba(0,0,0,0.55)',
+          }}
+        >
           {bullets.map((b) => (
             <li key={b} style={{ marginBottom: 16 }}>
               {b}
@@ -120,6 +189,70 @@ export const NarrationCard: React.FC<{
   </AcademyChrome>
 );
 
+/** Lore beat: art-forward title + subhead; VO captions time-synced (no box). */
+export const StoryCard: React.FC<{
+  headline: string;
+  subhead?: string;
+  caption: string;
+  episodeId: string;
+  sceneId: string;
+  backgroundAsset?: string;
+}> = ({
+  headline,
+  subhead,
+  caption,
+  episodeId,
+  sceneId,
+  backgroundAsset,
+}) => {
+  const frame = useCurrentFrame();
+  const opacity = interpolate(frame, [0, 12], [0, 1], {
+    extrapolateRight: 'clamp',
+  });
+  return (
+    <AcademyChrome episodeId={episodeId} backgroundAsset={backgroundAsset}>
+      <AbsoluteFill
+        style={{
+          justifyContent: 'flex-start',
+          padding: '120px 100px 0',
+          opacity,
+        }}
+      >
+        <div
+          style={{
+            fontSize: 64,
+            fontWeight: 800,
+            lineHeight: 1.08,
+            maxWidth: 1400,
+            textShadow: '0 4px 28px rgba(0,0,0,0.8)',
+          }}
+        >
+          {headline}
+        </div>
+        {subhead && (
+          <div
+            style={{
+              marginTop: 22,
+              fontSize: 34,
+              color: COLORS.muted,
+              maxWidth: 1200,
+              lineHeight: 1.4,
+              textShadow: '0 2px 16px rgba(0,0,0,0.7)',
+            }}
+          >
+            {subhead}
+          </div>
+        )}
+      </AbsoluteFill>
+      <SyncedCaptions
+        episodeId={episodeId}
+        sceneId={sceneId}
+        fallbackText={caption}
+      />
+    </AcademyChrome>
+  );
+};
+
 export const CaptionBar: React.FC<{ text: string }> = ({ text }) => (
   <div
     style={{
@@ -128,12 +261,13 @@ export const CaptionBar: React.FC<{ text: string }> = ({ text }) => (
       right: 80,
       bottom: 56,
       padding: '22px 28px',
-      background: 'rgba(2, 8, 20, 0.82)',
+      background: 'rgba(2, 8, 20, 0.85)',
       border: '1px solid rgba(148,163,184,0.25)',
       borderRadius: 12,
       fontSize: 28,
       lineHeight: 1.4,
       color: COLORS.text,
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
     }}
   >
     {text}
@@ -263,7 +397,6 @@ export const StatsPanel: React.FC<{ stats?: PlyStats }> = ({ stats }) => {
   const { netWhite, netBlack, locked, capture, result } = stats;
   const hasNet = netWhite != null && netBlack != null;
   if (!hasNet && locked == null && !capture && !result) return null;
-  // 121 cells is the theoretical max, but scale to the pair so the bars read.
   const peak = Math.max(24, netWhite ?? 0, netBlack ?? 0);
 
   return (
@@ -362,31 +495,77 @@ export const BoardScene: React.FC<{
   moveLabel?: string;
   caption: string;
   overlays?: OverlayFlags;
-  /** Total plies in the game, for the progress track on long walkthroughs. */
   totalPlies?: number;
   stats?: PlyStats;
-}> = ({ missionId, ply, moveLabel, caption, overlays, totalPlies, stats }) => {
+  episodeId?: string;
+  backgroundAsset?: string;
+}> = ({
+  missionId,
+  ply,
+  moveLabel,
+  caption,
+  overlays,
+  totalPlies,
+  stats,
+  episodeId,
+  backgroundAsset,
+}) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 8], [0, 1], {
     extrapolateRight: 'clamp',
   });
-  const src = staticFile(missionPlyStaticPath(missionId, ply));
+  const useArt = Boolean(episodeId && backgroundAsset);
+  const src = useArt
+    ? staticFile(storyBackgroundStaticPath(episodeId!, backgroundAsset!))
+    : staticFile(missionPlyStaticPath(missionId, ply));
 
   return (
-    <AcademyChrome>
-      <AbsoluteFill style={{ opacity, padding: '48px 72px 160px' }}>
+    <AcademyChrome
+      episodeId={useArt ? undefined : episodeId}
+      backgroundAsset={useArt ? undefined : backgroundAsset}
+    >
+      <AbsoluteFill
+        style={{
+          opacity,
+          padding: useArt ? '48px 72px 160px' : '48px 72px 160px',
+        }}
+      >
+        {useArt ? (
+          <>
+            <Img
+              src={src}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+            <AbsoluteFill
+              style={{
+                background:
+                  'linear-gradient(180deg, rgba(3,8,18,0.5) 0%, rgba(3,8,18,0.15) 45%, rgba(3,8,18,0.72) 100%)',
+              }}
+            />
+          </>
+        ) : null}
         <div
           style={{
+            position: 'relative',
             display: 'flex',
             flexDirection: 'column',
             gap: 8,
             marginBottom: 20,
             maxWidth: '62%',
+            textShadow: useArt ? '0 2px 16px rgba(0,0,0,0.65)' : undefined,
           }}
         >
-          <div style={{ fontSize: 28, color: COLORS.muted }}>
-            {missionId.replace(/-/g, ' ')}
-          </div>
+          {!useArt && (
+            <div style={{ fontSize: 28, color: COLORS.muted }}>
+              {missionId.replace(/-/g, ' ')}
+            </div>
+          )}
           <div
             style={{
               fontSize: 36,
@@ -395,35 +574,37 @@ export const BoardScene: React.FC<{
               fontVariantNumeric: 'tabular-nums',
             }}
           >
-            Ply {String(ply).padStart(3, '0')}
-            {totalPlies ? ` / ${totalPlies}` : ''}
-            {moveLabel ? ` · ${moveLabel}` : ''}
+            {useArt
+              ? moveLabel ?? `Ply ${String(ply).padStart(3, '0')}`
+              : `Ply ${String(ply).padStart(3, '0')}${
+                  totalPlies ? ` / ${totalPlies}` : ''
+                }${moveLabel ? ` · ${moveLabel}` : ''}`}
           </div>
-          {totalPlies ? <ProgressTrack ply={ply} total={totalPlies} /> : null}
+          {!useArt && totalPlies ? (
+            <ProgressTrack ply={ply} total={totalPlies} />
+          ) : null}
         </div>
-        <div
-          style={{
-            flex: 1,
-            // Without min-height:0 the flex item grows to the image's intrinsic
-            // aspect height and pushes the board off-frame.
-            minHeight: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Img
-            src={src}
+        {!useArt && (
+          <div
             style={{
-              // The captured SVGs have a small intrinsic size, so scale to fit
-              // rather than capping with max-* (which would leave them tiny).
-              height: '100%',
-              width: '100%',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.45))',
+              flex: 1,
+              minHeight: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-          />
-        </div>
+          >
+            <Img
+              src={src}
+              style={{
+                height: '100%',
+                width: '100%',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 20px 60px rgba(0,0,0,0.45))',
+              }}
+            />
+          </div>
+        )}
         <StatsPanel stats={stats} />
         <OverlayHud overlays={overlays} />
         <CaptionBar text={caption} />
@@ -537,19 +718,62 @@ export const MontageScene: React.FC<{
 
 export const OutroCard: React.FC<{
   headline: string;
+  subhead?: string;
   nextEpisode?: string;
   caption: string;
-}> = ({ headline, nextEpisode, caption }) => (
-  <AcademyChrome>
+  episodeId?: string;
+  backgroundAsset?: string;
+}> = ({
+  headline,
+  subhead,
+  nextEpisode,
+  caption,
+  episodeId,
+  backgroundAsset,
+}) => (
+  <AcademyChrome episodeId={episodeId} backgroundAsset={backgroundAsset}>
     <AbsoluteFill
       style={{
         justifyContent: 'center',
         padding: '0 120px',
       }}
     >
-      <div style={{ fontSize: 64, fontWeight: 800 }}>{headline}</div>
+      <div
+        style={{
+          fontSize: 64,
+          fontWeight: 800,
+          textShadow: backgroundAsset
+            ? '0 4px 28px rgba(0,0,0,0.65)'
+            : undefined,
+        }}
+      >
+        {headline}
+      </div>
+      {subhead && (
+        <div
+          style={{
+            marginTop: 22,
+            fontSize: 34,
+            color: COLORS.muted,
+            textShadow: backgroundAsset
+              ? '0 2px 16px rgba(0,0,0,0.55)'
+              : undefined,
+          }}
+        >
+          {subhead}
+        </div>
+      )}
       {nextEpisode && (
-        <div style={{ marginTop: 28, fontSize: 34, color: COLORS.accent }}>
+        <div
+          style={{
+            marginTop: 28,
+            fontSize: 34,
+            color: COLORS.accent,
+            textShadow: backgroundAsset
+              ? '0 2px 16px rgba(0,0,0,0.55)'
+              : undefined,
+          }}
+        >
           Next: {nextEpisode}
         </div>
       )}

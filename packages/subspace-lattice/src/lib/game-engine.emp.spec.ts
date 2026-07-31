@@ -45,6 +45,7 @@ describe('Command Overload (EMP)', () => {
     const rules = resolveRulesConfig('hybrid-fleet', {
       empRadius: 1,
       empChargeTarget: 1,
+      terminalEmpChargeTarget: 1,
       sectorActivationPly: 10_000,
       firstPlayerRelayCount: 0,
     });

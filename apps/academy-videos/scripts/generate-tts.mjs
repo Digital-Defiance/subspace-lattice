@@ -3,7 +3,8 @@
  * Optional ElevenLabs TTS pass.
  *
  * Reads episode JSON, writes public/audio/<episode-id>/<scene-id>.mp3
- * and a timings sidecar for future caption sync.
+ * plus <scene-id>.alignment.json (sentence cues from ElevenLabs timestamps)
+ * for caption sync.
  *
  * Spoken text is run through speakable() so coordinates like (5,9) become
  * "column 5, row 9" instead of "five comma nine".
@@ -23,13 +24,16 @@
  *   yarn tts -- --episode ep00-intro --scene outro
  *   yarn tts -- --stale      # only clips whose spoken text changed
  *   yarn tts -- --sync-dictionary  # force re-upload PLS lexicon
+ *   yarn tts -- --normalize --episode ep11-lockout  # EBU loudnorm existing mp3s
  */
 import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
+import { mkdir, readFile, rename, writeFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawn } from 'node:child_process';
 import { speakable } from './lib/speakable.mjs';
+import { sentencesFromAlignment } from './lib/alignment.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const EP_DIR = path.join(ROOT, 'scripts', 'episodes');
@@ -55,6 +59,47 @@ const sceneFilter = process.argv.includes('--scene')
  */
 const staleOnly = process.argv.includes('--stale');
 const syncDictionary = process.argv.includes('--sync-dictionary');
+/** Re-loudnorm existing mp3s without calling ElevenLabs. */
+const normalizeOnly = process.argv.includes('--normalize');
+
+/**
+ * EBU R128 loudness normalize (speech target −16 LUFS). Evens out ElevenLabs
+ * clip-to-clip gain so one quiet/loud line doesn't jump in the edit.
+ */
+async function loudnormMp3(filePath) {
+  const tmp = `${filePath}.loudnorm-tmp.mp3`;
+  await new Promise((resolve, reject) => {
+    const child = spawn(
+      'ffmpeg',
+      [
+        '-y',
+        '-hide_banner',
+        '-loglevel',
+        'error',
+        '-i',
+        filePath,
+        '-af',
+        'loudnorm=I=-16:TP=-1.5:LRA=11',
+        '-ar',
+        '44100',
+        '-ac',
+        '1',
+        tmp,
+      ],
+      { stdio: ['ignore', 'ignore', 'pipe'] },
+    );
+    let err = '';
+    child.stderr?.on('data', (chunk) => {
+      err += String(chunk);
+    });
+    child.on('error', reject);
+    child.on('close', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`ffmpeg loudnorm failed (${code}): ${err}`));
+    });
+  });
+  await rename(tmp, filePath);
+}
 
 /** @typedef {{ id: string, versionId: string, plsSha256: string }} DictLocator */
 
@@ -225,14 +270,15 @@ async function synthesize(text, outPath, dictionary) {
     ];
   }
 
+  // with-timestamps returns base64 audio + character alignment for captions.
   const res = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
+    `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/with-timestamps?output_format=mp3_44100_128`,
     {
       method: 'POST',
       headers: {
         'xi-api-key': apiKey,
         'Content-Type': 'application/json',
-        Accept: 'audio/mpeg',
+        Accept: 'application/json',
       },
       body: JSON.stringify(payload),
     },
@@ -240,12 +286,59 @@ async function synthesize(text, outPath, dictionary) {
   if (!res.ok) {
     throw new Error(`ElevenLabs ${res.status}: ${await res.text()}`);
   }
-  const buf = Buffer.from(await res.arrayBuffer());
+  const body = await res.json();
+  if (!body?.audio_base64) {
+    throw new Error('ElevenLabs response missing audio_base64');
+  }
+  const buf = Buffer.from(body.audio_base64, 'base64');
   await writeFile(outPath, buf);
+  await loudnormMp3(outPath);
+
+  const alignment = body.alignment ?? body.normalized_alignment ?? null;
+  const sentences = sentencesFromAlignment(text, alignment);
+  const alignPath = outPath.replace(/\.mp3$/i, '.alignment.json');
+  await writeFile(
+    alignPath,
+    JSON.stringify(
+      {
+        spoken: text,
+        sentences,
+        // Keep raw alignment for debugging / future word-level captions.
+        alignment,
+      },
+      null,
+      2,
+    ) + '\n',
+  );
   return modelId;
 }
 
 async function main() {
+  if (normalizeOnly) {
+    const files = (await readdir(EP_DIR)).filter((f) => f.endsWith('.json'));
+    let n = 0;
+    for (const file of files) {
+      const raw = JSON.parse(await readFile(path.join(EP_DIR, file), 'utf8'));
+      if (episodeFilter && raw.id !== episodeFilter) continue;
+      const dir = path.join(OUT_DIR, raw.id);
+      if (!existsSync(dir)) continue;
+      for (const scene of raw.scenes) {
+        if (sceneFilter && scene.id !== sceneFilter) continue;
+        const suffixes =
+          scene.kind === 'pause-predict' ? ['', '-reveal'] : [''];
+        for (const suffix of suffixes) {
+          const out = path.join(dir, `${scene.id}${suffix}.mp3`);
+          if (!existsSync(out)) continue;
+          console.log(`loudnorm ${raw.id}/${scene.id}${suffix}…`);
+          await loudnormMp3(out);
+          n++;
+        }
+      }
+    }
+    console.log(`normalized ${n} clip${n === 1 ? '' : 's'} → −16 LUFS`);
+    return;
+  }
+
   const dictionary = apiKey ? await ensurePronunciationDictionary() : null;
   const resolvedModel =
     modelIdDefault ??
@@ -258,6 +351,8 @@ async function main() {
       `#voice:${voiceId}`,
       `#model:${resolvedModel}`,
       `#dict:${dictionary?.versionId ?? 'none'}`,
+      // Bump when caption sidecars become required so --stale regenerates.
+      '#align:v1',
     ].join('\n');
 
   const files = (await readdir(EP_DIR)).filter((f) => f.endsWith('.json'));
@@ -288,12 +383,14 @@ async function main() {
       for (let i = 0; i < texts.length; i++) {
         const suffix = i === 0 ? '' : '-reveal';
         const out = path.join(dir, `${scene.id}${suffix}.mp3`);
+        const alignOut = out.replace(/\.mp3$/i, '.alignment.json');
         const spoken = speakable(texts[i]);
         const planSpoken = spokenKey(spoken);
         const fresh =
           staleOnly &&
           prevSpoken.get(scene.id + suffix) === planSpoken &&
-          existsSync(out);
+          existsSync(out) &&
+          existsSync(alignOut);
         plan.push({
           scene: scene.id + suffix,
           chars: spoken.length,

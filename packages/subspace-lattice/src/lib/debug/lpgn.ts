@@ -200,6 +200,10 @@ export function formatLpgn(options: FormatLpgnOptions): string {
     tag('EmpRadius', String(rules.empRadius ?? 0)),
     tag('EmpCharge', String(rules.empChargeTarget ?? 0)),
     tag('EmpBlackout', String(rules.empBlackoutPlies ?? 1)),
+    tag(
+      'TerminalGrowth',
+      String(rules.terminalEmpRadiusGrowthInterval ?? 0),
+    ),
     tag('InfiltratorSpool', rules.infiltratorSpoolUp ? '1' : '0'),
     tag('InfiltratorUnlock', String(rules.infiltratorActivationPly ?? 0)),
   ];

@@ -216,6 +216,8 @@ export const useGameSync = (localPlayerId: string) => {
         heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
         empRadius?: number;
         empChargeTarget?: number;
+        empBlackoutPlies?: number;
+        terminalEmpRadiusGrowthInterval?: number;
       };
     },
   ) => {

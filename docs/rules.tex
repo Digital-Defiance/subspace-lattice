@@ -377,6 +377,49 @@ See \texttt{docs/lockout-impossibility.md} for the structural argument and
 balance probes.
 
 %% ------------------------------------------------------------------
+\section{Terminal Overclock}
+\label{sec:terminal-overclock}
+%% ------------------------------------------------------------------
+
+When \textbf{both} fleets are reduced to a lone Command Hub and
+\texttt{terminalOverclock} is enabled (fleet default), Phase~3 begins.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Shared phase.}
+        The first ply on which both sides are lone Hubs arms a shared Terminal
+        phase: both EMP charges reset to $0$
+        (\texttt{terminalSharedPhaseClock}). A side that is lone while the
+        opponent still has ships does \emph{not} Overclock
+        (\texttt{terminalRequiresBothLone}).
+  \item \textbf{Charge.}
+        Hub moves add $+1$ EMP charge instead of resetting. Arming uses
+        \texttt{terminalEmpChargeTarget} (default $10$) rather than the
+        multi-ship target of $15$.
+  \item \textbf{Thermal runaway.}
+        Blast radius starts at the Terminal base (default Chebyshev $3$) and
+        grows $+1$ every \texttt{terminalEmpRadiusGrowthInterval} completed
+        plies since the phase armed (fleet default $X = 5$), capped at
+        \texttt{terminalEmpRadiusMax} (default $10$). Both commanders can read
+        the live radius. Endlessly kiting a static blast eventually fails:
+        when containment drops, the shockwave can blanket the sector.
+  \item \textbf{Fire / fuse.}
+        Firing is still a full-turn action. The firer's Hub sets
+        \texttt{enginesFused} --- no legal moves, but life support remains
+        (not an instant loss for the firer).
+  \item \textbf{Hit or miss.}
+        If every remaining enemy piece is in the blast, the opponent has zero
+        replies and the firer wins Lockout even though both Hubs are fused.
+        If any enemy piece is outside the blast, the opponent may still move;
+        after their reply the fused firer has zero moves and \emph{they} win
+        Lockout.
+\end{enumerate}
+
+Lobby knob (unrated when not stock): \texttt{terminalEmpRadiusGrowthInterval}
+$\in \{3,\ldots,10\}$. Fiction and probe notes:
+\texttt{docs/terminal-overclock.md} /
+\texttt{packages/subspace-lattice/docs/terminal-overclock.md}.
+
+%% ------------------------------------------------------------------
 \section{Fleet default (\texttt{hybrid-fleet})}
 \label{sec:clock}
 \label{sec:fleet-preset}

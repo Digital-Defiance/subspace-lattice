@@ -42,7 +42,8 @@ until their fleet's grid collapses into total blackout. Dig in and commit to
 neither, and the standoff can drag on indefinitely — which is exactly what the
 **sector clock** exists to end. A third, rarer finish — **Lockout** — freezes
 an opponent with no legal replies; under fleet rules that usually means arming
-and firing a **Command Overload (EMP)** from a stationary Hub.
+and firing a **Command Overload (EMP)** from a stationary Hub. When only two
+Hubs remain, **Terminal Overclock** takes over so soft kite draws cannot last.
 
 ---
 
@@ -131,7 +132,9 @@ mission even when neither commander is chasing it.
    finish this against a live Hub. Commanders who anchor the flagship and keep
    charging **Command Overload** can dump an EMP into the enemy formation,
    seize their engines for a reply, and force Lockout when every remaining ship
-   sits in the blast.*
+   sits in the blast. When only two Hubs remain, **Terminal Overclock** seals
+   the vents: Hub moves charge the weapon, the blast grows over time, and there
+   is nowhere left to hide.*
 
 ---
 
@@ -150,6 +153,7 @@ Every flavor term above is one game mechanic:
 | Sector Integration | Cover ≥ 45% of the sector after the clock arms |
 | Lockout | Opponent has no legal move (`winnerReason: no-moves`) |
 | Command Overload / EMP | Full-turn Hub action: seize **enemy** engines in blast radius |
+| Terminal Overclock | Both-lone Phase 3: Hub moves charge EMP; fire fuses drives; blast radius grows (thermal runaway) |
 | Hang / hanging / en prise | Your Hub (or ship) can be **captured next turn** |
 | Refuse the hang | Don't leave your Hub capturable; if it is, fix that before other plans |
 | Vanguard Node / going first | **Initiative Relay** — the first mover's extra forward Escort |

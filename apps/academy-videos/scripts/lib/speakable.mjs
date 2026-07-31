@@ -121,5 +121,17 @@ export function speakable(text) {
   out = out.replace(/^Ply (\d+)\./, (_, n) => `Move ${speakableNumber(n)}.`);
   out = out.replace(/\bply (\d+)\b/gi, (_, n) => `ply ${speakableNumber(n)}`);
 
+  // Homograph: crying /tɪɹ/ vs rip /tɛɹ/. Force the rip reading for TTS.
+  // On-screen captions use the original voiceover ("tear"), not this spelling.
+  out = out.replace(/\btear\b/g, 'tare');
+  out = out.replace(/\bTear\b/g, 'Tare');
+  out = out.replace(/\btears\b/g, 'tares');
+  out = out.replace(/\bTears\b/g, 'Tares');
+
+  // Title-case "Terminal Overclock" often gets a dead pause between the words.
+  // Hyphen keeps it one compound for ElevenLabs; captions keep the spaced form.
+  out = out.replace(/\bTerminal Overclock\b/g, 'Terminal-Overclock');
+  out = out.replace(/\bterminal overclock\b/g, 'terminal-overclock');
+
   return out;
 }

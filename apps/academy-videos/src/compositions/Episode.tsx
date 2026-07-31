@@ -15,6 +15,7 @@ import {
   NarrationCard,
   OutroCard,
   PausePredictScene,
+  StoryCard,
   TitleCard,
 } from '../components/Scenes';
 
@@ -61,6 +62,8 @@ export const Episode: React.FC<EpisodeProps> = ({ script, audioSeconds }) => {
           >
             {scene.kind === 'title' && (
               <TitleCard
+                episodeId={script.id}
+                backgroundAsset={scene.backgroundAsset}
                 eyebrow={scene.eyebrow}
                 headline={scene.headline}
                 subhead={scene.subhead}
@@ -68,13 +71,27 @@ export const Episode: React.FC<EpisodeProps> = ({ script, audioSeconds }) => {
             )}
             {scene.kind === 'narration' && (
               <NarrationCard
+                episodeId={script.id}
+                backgroundAsset={scene.backgroundAsset}
                 headline={scene.headline}
                 bullets={scene.bullets}
                 caption={scene.voiceover}
               />
             )}
+            {scene.kind === 'story' && (
+              <StoryCard
+                episodeId={script.id}
+                sceneId={scene.id}
+                backgroundAsset={scene.backgroundAsset}
+                headline={scene.headline}
+                subhead={scene.subhead}
+                caption={scene.voiceover}
+              />
+            )}
             {scene.kind === 'board' && (
               <BoardScene
+                episodeId={script.id}
+                backgroundAsset={scene.backgroundAsset}
                 missionId={scene.missionId}
                 ply={scene.ply}
                 moveLabel={scene.moveLabel}
@@ -107,7 +124,10 @@ export const Episode: React.FC<EpisodeProps> = ({ script, audioSeconds }) => {
             )}
             {scene.kind === 'outro' && (
               <OutroCard
+                episodeId={script.id}
+                backgroundAsset={scene.backgroundAsset}
                 headline={scene.headline}
+                subhead={scene.subhead}
                 nextEpisode={scene.nextEpisode}
                 caption={scene.voiceover}
               />

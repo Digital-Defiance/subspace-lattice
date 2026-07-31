@@ -453,6 +453,8 @@ describe('SubspaceLatticeEngine lobby overrides', () => {
       empRadius: FLEET_LOBBY_DEFAULTS.empRadius,
       empChargeTarget: FLEET_LOBBY_DEFAULTS.empChargeTarget,
       empBlackoutPlies: FLEET_LOBBY_DEFAULTS.empBlackoutPlies,
+      terminalEmpRadiusGrowthInterval:
+        FLEET_LOBBY_DEFAULTS.terminalEmpRadiusGrowthInterval,
     });
 
     const hydrated = SubspaceLatticeEngine.fromState(snap);

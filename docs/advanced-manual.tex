@@ -36,8 +36,9 @@
 \noindent
 This manual replays the guided Fleet Academy missions with every ply
 diagrammed and explained: a short Surgical Strike highlight reel, a full
-57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock, and
-Mission 4 --- Lockout via Command Overload (EMP). Part I teaches how to think
+57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock,
+Mission 4 --- Lockout via Command Overload (EMP), and Mission 5 --- Terminal
+Overclock (thermal runaway vs a cowardly kite). Part I teaches how to think
 --- fleet geometry including optional Refractors and Carriers, reading
 positions, valuing moves, and looking ahead. Later parts walk the games. Each
 diagram shows the position \emph{after} the numbered ply; the moved ship's
@@ -248,6 +249,15 @@ cornered Hub can still capture its way out. Under \texttt{hybrid-fleet},
   \item If every remaining enemy ship is seized, \texttt{listLegalMoves} is
         empty and you win with \texttt{winnerReason=no-moves}.
 \end{itemize}
+
+\paragraph{Terminal Overclock.}
+When \emph{both} fleets are reduced to a lone Command Hub, Phase~3 begins.
+Hub moves now \emph{charge} EMP (they no longer reset). Firing fuses the
+firer's drives --- life support intact, but the Hub cannot move again. The
+shared blast radius grows $+1$ every $5$ plies by default (lobby $3$--$10$),
+capped at $10$, so endlessly kiting a fixed radius eventually fails. Hit and
+the firer wins Lockout despite being fused; miss and the opponent finishes you
+after their reply. See Official Rules \S Terminal Overclock.
 
 Expanded branching from Refractors and Carriers does not change the win
 conditions --- it changes which geometries feed them.
@@ -894,7 +904,42 @@ A short Lockout highlight reel. White's Hub has been stationary long enough that
 
 
 \vspace{1em}
-\noindent\textbf{Debrief.} White wins by Lockout (winnerReason=no-moves). Anchor the Hub, charge on non-Hub plies, corner every enemy ship inside the radius, then fire. Only enemy engines freeze --- your fleet is never in the blast; the cost is spending the whole turn.
+\noindent\textbf{Debrief.} White wins by Lockout (winnerReason=no-moves). Anchor the Hub, charge on non-Hub plies, corner every enemy ship inside the radius, then fire. Only enemy engines freeze --- your fleet is never in the blast; the cost is spending the whole turn. When only two Hubs remain, see Mission 5.
+\clearpage
+\section{Mission 5 --- Lockout via Terminal Overclock}
+Both fleets are stripped to lone Command Hubs. Black cowardly kites outside White's base blast (r=3 at distance 4). Hub moves charge EMP; every 3 plies the shared shockwave grows +1 (teaching interval; fleet default is 5). When radiation blooms to r=4, the kite dies --- fire Terminal Overclock for Lockout even as your own drives fuse.
+
+\begin{center}
+\includegraphics[width=0.55\textwidth]{figures/missions/mission-terminal-overclock/ply-000}\\
+{\small\textbf{Starting position.}}
+\end{center}
+\clearpage
+\plyfig{figures/missions/mission-terminal-overclock/ply-001}{Ply 1 --- White Command Hub (2,2)$\rightarrow$(1,2)}{Both fleets are lone Hubs --- Terminal Overclock is live. Blast starts at r=3; Black sits at Chebyshev 4, safely outside. White's Hub moves to charge EMP (no escorts left to charge for you).\; {\color{gray}\scriptsize [net 30--42]}}%
+\hfill
+\plyfig{figures/missions/mission-terminal-overclock/ply-002}{Ply 2 --- Black Command Hub (2,6)$\rightarrow$(1,6)}{Black refuses contact --- the coward slides sideways, still outside the r=3 blast. Radiation age ticks; sensors already read the spike.\; {\color{gray}\scriptsize [net 30--35]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-terminal-overclock/ply-003}{Ply 3 --- White Command Hub (1,2)$\rightarrow$(0,2)}{Another Hub step banks charge. After this ply shared age reaches 3: thermal runaway expands the blast from r=3 to r=4. Black is now at the edge of the shockwave --- the static kite is dying.\; {\color{gray}\scriptsize [net 24--35]}}%
+\hfill
+\plyfig{figures/missions/mission-terminal-overclock/ply-004}{Ply 4 --- Black Command Hub (1,6)$\rightarrow$(2,6)}{Black still plays the old geometry --- shuffles but stays at distance 4, as if r=3 were forever. The ambient field has already outgrown that lie.\; {\color{gray}\scriptsize [net 24--42]}}%
+
+\vspace{0.9em}
+
+\clearpage
+\plyfig{figures/missions/mission-terminal-overclock/ply-005}{Ply 5 --- White Command Hub (0,2)$\rightarrow$(1,2)}{Third Hub move arms Terminal EMP (3/3). Blast is r=4; Black remains at distance 4 --- inside the grown radius. Firing earlier at r=3 would have missed.\; {\color{gray}\scriptsize [net 30--42]}}%
+\hfill
+\plyfig{figures/missions/mission-terminal-overclock/ply-006}{Ply 6 --- Black Command Hub (2,6)$\rightarrow$(3,6)}{One last coward step. Nowhere left that r=4 does not reach from White's Hub.\; {\color{gray}\scriptsize [net 30--49]}}%
+
+\vspace{0.9em}
+
+\plyfig{figures/missions/mission-terminal-overclock/ply-007}{Ply 7 --- White Command Overload (EMP)}{Fire Terminal Overclock. Enemy Hub sits in the expanded blast; engines seize for zero replies. White's own drives fuse --- Lockout still awards the firer. There was nowhere left to hide.\; {\color{gray}\scriptsize [Command Overload (EMP) \,\textbullet\, \textbf{White wins}]}}%
+
+\vspace{0.9em}
+
+
+\vspace{1em}
+\noindent\textbf{Debrief.} White wins by Lockout. Terminal fire fused White's Hub; Black had zero replies inside the grown blast. Endless kiting only buys time until thermal runaway blankets the sector --- there is nowhere left to hide.
 \clearpage
 \section{AI Mission --- Fleet Draft skirmish (40 plies)}
 MCTS vs MCTS under Fleet Draft (Refractor + Hub-anchored Carrier). Academy Episode 9 drops into the midgame and runs the five-question scan live.
@@ -1545,7 +1590,7 @@ Mobility-pressure AI vs Random with the sector clock deferred. Historical near-L
 \clearpage
 
 \vspace{1em}
-\noindent\textbf{Debrief.} Bodies alone rarely reach true zero replies while a Hub lives. See Mission 4 for Command Overload finishing Lockout.
+\noindent\textbf{Debrief.} Bodies alone rarely reach true zero replies while a Hub lives. See Mission 4 for Command Overload and Mission 5 for Terminal Overclock.
 \clearpage
 
 \end{document}

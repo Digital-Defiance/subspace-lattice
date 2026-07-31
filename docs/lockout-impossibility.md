@@ -251,7 +251,28 @@ chess-like check) are **not** required once EMP ships.
 
 ---
 
-## 10. Repro probes
+## 11. Terminal Overclock (lone Hub)
+
+When a fleet is reduced to a single Command Hub, Hub moves charge EMP and a
+Terminal detonation fuses the firer's drives. Full design, knobs, and the
+automated answer grid live in
+[`packages/subspace-lattice/docs/terminal-overclock.md`](../packages/subspace-lattice/docs/terminal-overclock.md)
+(and the short pointer [`terminal-overclock.md`](./terminal-overclock.md)). Re-run:
+
+```bash
+yarn nx run core:terminal-overclock-probe -- --games=40 --max-plies=120
+```
+
+Headline from the 2026-07-31 dial ladder: hubs-only truncate stays **0%** with
+Terminal; **both-lone** stops lone-Hub rewards vs remaining escorts; **shared
+phase clock** wipes banked charge; **entry komi=1** over-corrects seat bias and
+is **not** shipped. **Thermal runaway** (shared-age +1 EMP radius every 5 plies,
+cap 10) closes soft kite draws. See
+`packages/subspace-lattice/docs/terminal-overclock-dial-ladder-20260731.md`.
+
+---
+
+## 12. Repro probes
 
 Ad hoc probes used for this note (not checked in):
 

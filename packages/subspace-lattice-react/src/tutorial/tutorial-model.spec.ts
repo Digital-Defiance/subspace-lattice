@@ -262,4 +262,32 @@ describe('tutorial curriculum', () => {
     expect(engine.getState().winner).toBe(PlayerColor.White);
     expect(engine.getState().winnerReason).toBe('no-moves');
   });
+
+  it('replays Terminal Overclock reel: radius grows then Lockout', () => {
+    const lesson = buildManualMissions().find(
+      (m) => m.id === 'mission-terminal-overclock',
+    )!;
+    expect(lesson.steps.length).toBe(7);
+    const engine = SubspaceLatticeEngine.fromState(
+      lesson.createState(),
+      lesson.rules,
+    );
+    expect(engine.isTerminalOverclock(PlayerColor.White)).toBe(true);
+    expect(engine.getEmpRadius(PlayerColor.White)).toBe(3);
+
+    for (let i = 0; i < lesson.steps.length; i++) {
+      const step = lesson.steps[i]!;
+      const seat = step.seat ?? PlayerColor.White;
+      expect(engine.getState().currentPlayer).toBe(seat);
+      expect(applyTutorialMove(engine, step.playerMove)).toBe(true);
+      // After White's second Hub move (ply index 2), age=3 → r=4.
+      if (i === 2) {
+        expect(engine.getTerminalPhaseAge()).toBe(3);
+        expect(engine.getEmpRadius(PlayerColor.White)).toBe(4);
+      }
+    }
+    expect(engine.getState().winner).toBe(PlayerColor.White);
+    expect(engine.getState().winnerReason).toBe('no-moves');
+    expect(engine.getPiece('w-ch')?.enginesFused).toBe(true);
+  });
 });

@@ -1,31 +1,66 @@
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DocLink, SubspaceLatticeLogo } from '@subspace-lattice/react';
+import { PieceType } from '@subspace-lattice/core';
+import {
+  DocLink,
+  getStyleCount,
+  getStyleLabel,
+  getStyleRimFlags,
+  Piece,
+  SubspaceLatticeLogo,
+} from '@subspace-lattice/react';
 import './story.scss';
 
-const assets = [
+/** Shipping default piece pack (`Subspace Lattice` / public/pieces/27). */
+const DEFAULT_BRIEFING_PIECE_STYLE = 27;
+
+const assets: {
+  name: string;
+  callSign: string;
+  description: string;
+  pieceType: PieceType;
+}[] = [
   {
     name: 'Command Hub',
     callSign: 'Flagship · Power anchor',
+    pieceType: PieceType.CommandHub,
     description:
-      'The brain of the fleet and source of its first signal halo. If it falls, the network collapses and the mission ends.',
+      'The Command Hub is the beating heart and sovereign brain of the fleet. Deep within the unmapped dark, it acts as the primary power anchor, projecting the vital 3-square halo of Sovereign Space that keeps the armada alive. Every strategic calculation, firing solution, and subspace telemetry feed flows through its heavily armored hull. It is the ultimate prize and the single point of failure—if the flagship’s hull is breached, the surrounding network instantly collapses into the void, and the mission is lost.',
   },
   {
     name: 'Escorts',
     callSign: 'Subspace repeaters',
+    pieceType: PieceType.Escort,
     description:
       'Hardy ships that push into unmapped dark and carry the Lattice outward. Break their chain to the Hub and forward coverage goes dark.',
   },
   {
     name: 'Beams',
     callSign: 'Lattice dreadnoughts',
+    pieceType: PieceType.Beam,
     description:
       'Long-range particle lances that ride energized channels. Outside their own Sensor Net, they have no lane to fire through.',
   },
   {
     name: 'Infiltrators',
     callSign: 'Phase runners',
+    pieceType: PieceType.Infiltrator,
     description:
       'Folding-drive strike craft that jump through unclaimed space. Hostile coverage Target Locks their engines and kills the warp.',
+  },
+  {
+    name: 'Carriers',
+    callSign: 'Aegis vanguard',
+    pieceType: PieceType.Carrier,
+    description:
+      "Optional capital hull that combines orthogonal and diagonal routing into absolute omni-directional grid control. However, this massive dreadnought is bound to a strict Hub-anchor. To execute a full subspace slide, it must draw power directly from the Command Hub's natural radiation halo at the start of its maneuver. Drift beyond that tether, and its capacitors starve, reducing it to a crawl until it re-enters the flagship's power grid.",
+  },
+  {
+    name: 'Refractor',
+    callSign: 'Slipstream cutter',
+    pieceType: PieceType.Refractor,
+    description:
+      "Optional wing dreadnought. Where a Beam relies on the orthogonal channels of your network, the Refractor exploits the diagonal subspace seams of Sovereign Space. It can slice past the Anomaly's blocked axes, opening firing vectors a Beam could never reach. Like all heavy artillery, it requires an active telemetry link; strand it outside your glow, and its engines go dead.",
   },
 ];
 
@@ -46,11 +81,32 @@ const objectives = [
     number: '03',
     title: 'Lockout',
     subtitle: 'Frozen',
-    copy: 'Leave the opposing fleet with no legal maneuver. Bodies alone almost never force that against a live Hub — charge Command Overload (EMP) while your Hub stays put, then spend the turn to seize enemy engines in blast radius.',
+    copy: 'Leave an opponent with no legal move anywhere on the grid and their fleet freezes solid — a loss for them, not a stalemate. Bodies alone almost never finish this against a live Hub. Commanders who anchor the flagship and keep charging Command Overload can dump an EMP into the enemy formation, seize their engines for a reply, and force Lockout when every remaining ship sits in the blast. When only two Hubs remain, Terminal Overclock seals the vents: Hub moves charge the weapon, the blast grows over time, and there is nowhere left to hide.',
   },
 ];
 
+function clampPieceStyle(value: number): number {
+  const max = Math.max(getStyleCount() - 1, 0);
+  if (value < 0) return 0;
+  if (value > max) return max;
+  return value;
+}
+
 export function Story() {
+  const [pieceStyle, setPieceStyle] = useState(() =>
+    clampPieceStyle(DEFAULT_BRIEFING_PIECE_STYLE),
+  );
+  const styleOptions = useMemo(
+    () =>
+      Array.from({ length: getStyleCount() }, (_, index) => ({
+        index,
+        label: getStyleLabel(index),
+      })),
+    [],
+  );
+  // Match board Outline: CSS white trace only when the pack lacks a baked rim.
+  const outlineWhite = !getStyleRimFlags(pieceStyle).lightRimOnWhite;
+
   return (
     <div className="story-page">
       <nav className="story-nav" aria-label="Story navigation">
@@ -146,12 +202,53 @@ export function Story() {
         <section aria-labelledby="story-assets-title">
           <p className="story-section-label">Fleet assets</p>
           <h2 id="story-assets-title">Every hull serves the signal.</h2>
+          <div className="story-asset-preview">
+            <div className="story-asset-preview__copy">
+              <p>Hull silhouettes</p>
+              <h3>Preview piece art</h3>
+              <span>
+                Compare shapes while learning.
+              </span>
+            </div>
+            <label className="story-asset-preview__control">
+              <span className="story-asset-preview__control-label">Art set</span>
+              <select
+                value={pieceStyle}
+                onChange={(event) =>
+                  setPieceStyle(clampPieceStyle(parseInt(event.target.value, 10)))
+                }
+                aria-label="Preview piece art set for this briefing"
+                data-testid="story-piece-style"
+              >
+                {styleOptions.map((style) => (
+                  <option key={style.index} value={style.index}>
+                    {style.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
           <div className="story-assets">
             {assets.map((asset) => (
               <article key={asset.name}>
-                <p>{asset.callSign}</p>
-                <h3>{asset.name}</h3>
-                <span>{asset.description}</span>
+                <div className="story-asset-copy">
+                  <p>{asset.callSign}</p>
+                  <h3>{asset.name}</h3>
+                  <span>{asset.description}</span>
+                </div>
+                <div
+                  className={`story-asset-glyph${
+                    outlineWhite ? ' story-asset-glyph--outline' : ''
+                  }`}
+                  aria-hidden="true"
+                >
+                  <Piece
+                    color="white"
+                    pieceType={asset.pieceType}
+                    styleIndex={pieceStyle}
+                    size={72}
+                  />
+                </div>
               </article>
             ))}
           </div>

@@ -31,6 +31,7 @@
     "videos:render:ep09": "yarn workspace @subspace-lattice/academy-videos render:ep09",
     "videos:render:ep10": "yarn workspace @subspace-lattice/academy-videos render:ep10",
     "videos:render:ep11": "yarn workspace @subspace-lattice/academy-videos render:ep11",
+    "videos:render:ep-story-01": "yarn workspace @subspace-lattice/academy-videos render:ep-story-01",
     "videos:seed": "yarn workspace @subspace-lattice/academy-videos seed:mission-episodes",
     "sync:docs-public": "bash scripts/sync-docs-public.sh",
     "handbook:dev": "yarn workspace @subspace-lattice/handbook dev",

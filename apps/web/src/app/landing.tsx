@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './landing.scss';
 import {
@@ -5,6 +6,11 @@ import {
   SubspaceLatticeLogo,
   isTauriRuntime,
 } from '@subspace-lattice/react';
+import { OriginWelcomeGate } from './origin-welcome-gate';
+import {
+  ORIGIN_STORY_YOUTUBE_URL,
+  hasSeenOriginWelcome,
+} from './origin-welcome';
 
 // <li><img className={styles.platformIcon} height="16" src="/google-play-brands-solid-full.svg" alt="Google Play" /> <a className={styles.platformLink} target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=org.digitaldefiance.app.warp12">Google Play</a></li>
 const appsSection = (<section className="appAvailability">
@@ -17,8 +23,17 @@ const appsSection = (<section className="appAvailability">
 </section>);
 
 export function Landing() {
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    if (!hasSeenOriginWelcome()) setShowWelcome(true);
+  }, []);
+
   return (
     <div className="landing">
+      {showWelcome && (
+        <OriginWelcomeGate onDismiss={() => setShowWelcome(false)} />
+      )}
       <main className="landing-hero">
         <SubspaceLatticeLogo className="landing-logo" width={544} ariaLabel="Subspace Lattice — Command the Fleet. Control the Lattice."  />
         <p className="landing-kicker">Fleet tactics · Signal warfare · Sovereign space</p>
@@ -48,6 +63,14 @@ export function Landing() {
           </a>
         </div>
         <p className="landing-docs">
+          <a
+            href={ORIGIN_STORY_YOUTUBE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Origin story
+          </a>
+          <span aria-hidden="true"> · </span>
           <Link to="/story">Sector 11 briefing</Link>
           <span aria-hidden="true"> · </span>
           <DocLink doc="manual">Introductory manual</DocLink>

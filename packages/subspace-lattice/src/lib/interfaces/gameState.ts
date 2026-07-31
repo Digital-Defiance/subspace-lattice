@@ -22,6 +22,11 @@ export interface GameRulesOverrides {
   empChargeTarget?: number;
   /** Enemy reply plies the blackout lasts (default 1). */
   empBlackoutPlies?: number;
+  /**
+   * Terminal Overclock: plies between +1 EMP radius growth (thermal runaway).
+   * Lobby options 3–10; fleet default 5.
+   */
+  terminalEmpRadiusGrowthInterval?: number;
 }
 
 /** Active Command Overload blast — engine blackout on enemy ships in radius. */
@@ -70,4 +75,14 @@ export interface GameState {
    * Burns one `pliesRemaining` per action the frozen side commits.
    */
   empActive?: EmpActive;
+  /**
+   * Terminal Overclock shared phase: set when both sides first become lone
+   * Hubs (if `terminalSharedPhaseClock`). Charges were reset on arming.
+   */
+  terminalPhaseArmed?: boolean;
+  /**
+   * `plyCount` when the Terminal phase armed. Used for shared-age EMP radius
+   * growth (ambient radiation). Absent on legacy snapshots → treat as current ply.
+   */
+  terminalPhaseArmedAtPly?: number;
 }

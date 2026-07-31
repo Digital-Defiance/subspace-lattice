@@ -20,6 +20,11 @@ import {
   empLockoutRules,
   empLockoutSteps,
 } from './data/mission-emp-lockout';
+import {
+  createTerminalOverclockState,
+  terminalOverclockRules,
+  terminalOverclockSteps,
+} from './data/mission-terminal-overclock';
 
 /**
  * Advanced-manual view of the guided missions.
@@ -114,10 +119,27 @@ export function buildManualMissions(): ManualMission[] {
         'White wins by Lockout (winnerReason=no-moves). Anchor the Hub, charge ' +
         'on non-Hub plies, corner every enemy ship inside the radius, then fire. ' +
         'Only enemy engines freeze — your fleet is never in the blast; the cost ' +
-        'is spending the whole turn.',
+        'is spending the whole turn. When only two Hubs remain, see Mission 5.',
       rules: empLockoutRules,
       createState: createEmpLockoutState,
       steps: empLockoutSteps,
+    },
+    {
+      id: 'mission-terminal-overclock',
+      title: 'Mission 5 — Lockout via Terminal Overclock',
+      intro:
+        'Both fleets are stripped to lone Command Hubs. Black cowardly kites ' +
+        'outside White’s base blast (r=3 at distance 4). Hub moves charge EMP; ' +
+        'every 3 plies the shared shockwave grows +1 (teaching interval; fleet ' +
+        'default is 5). When radiation blooms to r=4, the kite dies — fire ' +
+        'Terminal Overclock for Lockout even as your own drives fuse.',
+      outro:
+        'White wins by Lockout. Terminal fire fused White’s Hub; Black had zero ' +
+        'replies inside the grown blast. Endless kiting only buys time until ' +
+        'thermal runaway blankets the sector — there is nowhere left to hide.',
+      rules: terminalOverclockRules,
+      createState: createTerminalOverclockState,
+      steps: terminalOverclockSteps,
     },
     {
       id: 'mission-ai-fleet-skirmish',
@@ -153,7 +175,7 @@ export function buildManualMissions(): ManualMission[] {
         'Historical near-Lockout teaching window (pre-EMP); immobility is defeat.',
       outro:
         'Bodies alone rarely reach true zero replies while a Hub lives. ' +
-        'See Mission 4 for Command Overload finishing Lockout.',
+        'See Mission 4 for Command Overload and Mission 5 for Terminal Overclock.',
       rules: lockoutRules,
       createState: () => new SubspaceLatticeEngine({ rules: lockoutRules }).getStateCopy(),
       steps: stepsFromReplay(lockoutReplay.moves),

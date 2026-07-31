@@ -12,4 +12,9 @@ export interface Piece {
    * Cleared on execute, failed execute, ortho move while detected, or capture.
    */
   spoolTarget?: Coordinate;
+  /**
+   * Terminal Overclock: Hub drives fused after a safeties-off EMP.
+   * Piece generates no legal moves; life support intact (not an instant loss).
+   */
+  enginesFused?: boolean;
 }

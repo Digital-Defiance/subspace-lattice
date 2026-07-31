@@ -151,6 +151,15 @@ export class SubspaceLatticeEngine {
       engine.state.rulesVersion = version;
     }
     engine.state.rulesOverrides = lobbyOverridesFromRules(engine.rules);
+    engine.maybeArmTerminalPhase();
+    // Legacy snapshots may have the phase flag without an arm ply — start the
+    // growth clock from "now" so radius does not jump or freeze forever.
+    if (
+      engine.state.terminalPhaseArmed &&
+      engine.state.terminalPhaseArmedAtPly == null
+    ) {
+      engine.state.terminalPhaseArmedAtPly = engine.state.plyCount ?? 0;
+    }
     return engine;
   }
 
@@ -335,12 +344,108 @@ export class SubspaceLatticeEngine {
     return (this.rules.empChargeTarget ?? 0) > 0 && (this.rules.empRadius ?? 0) > 0;
   }
 
-  public getEmpChargeTarget(): number {
+  /**
+   * True when `owner` has exactly one piece and it is their Command Hub.
+   */
+  public isLoneCommandHub(owner: PlayerColor): boolean {
+    const friendly = Object.values(this.state.pieces).filter(
+      (p) => p.owner === owner,
+    );
+    return (
+      friendly.length === 1 && friendly[0]!.type === PieceType.CommandHub
+    );
+  }
+
+  /**
+   * Terminal Overclock: Hub moves charge EMP; firing fuses the firer's drives.
+   * With `terminalRequiresBothLone`, both fleets must be lone Hubs.
+   * With `terminalSharedPhaseClock`, the shared phase must have armed.
+   */
+  public isTerminalOverclock(
+    color: PlayerColor = this.state.currentPlayer,
+  ): boolean {
+    if (!this.empEnabled() || !this.rules.terminalOverclock) return false;
+    if (!this.isLoneCommandHub(color)) return false;
+    if (this.rules.terminalRequiresBothLone) {
+      const enemy =
+        color === PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+      if (!this.isLoneCommandHub(enemy)) return false;
+    }
+    if (this.rules.terminalSharedPhaseClock && !this.state.terminalPhaseArmed) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Arm shared Terminal phase the first time both sides are lone Hubs.
+   * Resets both EMP charges; optional entry komi for the side not to move.
+   */
+  maybeArmTerminalPhase(): void {
+    if (!this.empEnabled() || !this.rules.terminalOverclock) return;
+    if (!this.rules.terminalSharedPhaseClock) return;
+    if (this.state.terminalPhaseArmed) return;
+    if (
+      !this.isLoneCommandHub(PlayerColor.White) ||
+      !this.isLoneCommandHub(PlayerColor.Black)
+    ) {
+      return;
+    }
+    this.state.terminalPhaseArmed = true;
+    this.state.terminalPhaseArmedAtPly = this.state.plyCount ?? 0;
+    const komi = Math.max(0, this.rules.terminalPhaseEntryKomi ?? 0);
+    const toMove = this.state.currentPlayer;
+    const waiting =
+      toMove === PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
+    this.state.empCharge = {
+      [PlayerColor.White]: 0,
+      [PlayerColor.Black]: 0,
+      [waiting]: komi,
+    };
+  }
+
+  /**
+   * Completed plies since the shared Terminal phase armed (ambient radiation age).
+   * 0 when the phase is not armed.
+   */
+  public getTerminalPhaseAge(): number {
+    if (!this.state.terminalPhaseArmed) return 0;
+    const armedAt = this.state.terminalPhaseArmedAtPly;
+    const now = this.state.plyCount ?? 0;
+    if (armedAt == null) return 0;
+    return Math.max(0, now - armedAt);
+  }
+
+  public getEmpChargeTarget(
+    color: PlayerColor = this.state.currentPlayer,
+  ): number {
+    if (
+      this.isTerminalOverclock(color) &&
+      this.rules.terminalEmpChargeTarget != null &&
+      this.rules.terminalEmpChargeTarget > 0
+    ) {
+      return this.rules.terminalEmpChargeTarget;
+    }
     return this.rules.empChargeTarget ?? 0;
   }
 
-  public getEmpRadius(): number {
-    return this.rules.empRadius ?? 0;
+  public getEmpRadius(color: PlayerColor = this.state.currentPlayer): number {
+    const midgame = this.rules.empRadius ?? 0;
+    if (!this.isTerminalOverclock(color)) return midgame;
+
+    const base =
+      this.rules.terminalEmpRadius != null && this.rules.terminalEmpRadius > 0
+        ? this.rules.terminalEmpRadius
+        : midgame;
+    const interval = this.rules.terminalEmpRadiusGrowthInterval ?? 0;
+    if (interval <= 0) return base;
+
+    const steps = Math.floor(this.getTerminalPhaseAge() / interval);
+    const cap = Math.max(
+      base,
+      this.rules.terminalEmpRadiusMax ?? this.BOARD_SIZE - 1,
+    );
+    return Math.min(cap, base + steps);
   }
 
   public getEmpCharge(color: PlayerColor = this.state.currentPlayer): number {
@@ -355,17 +460,18 @@ export class SubspaceLatticeEngine {
     const hub = Object.values(this.state.pieces).find(
       (p) => p.owner === color && p.type === PieceType.CommandHub,
     );
-    if (!hub) return false;
+    if (!hub || hub.enginesFused) return false;
     if (this.isEmpDisabled(hub)) return false;
-    const target = this.rules.empChargeTarget;
-    return this.getEmpCharge(color) >= target;
+    return this.getEmpCharge(color) >= this.getEmpChargeTarget(color);
   }
 
   /**
-   * Piece engines seized by the live EMP blackout. Only the targeted side's
-   * ships are in the blast — the firing fleet is never affected.
+   * Piece engines seized by the live EMP blackout, or permanently fused after
+   * Terminal Overclock. empActive never includes the firing fleet; fusion is
+   * separate (`enginesFused` on the firer's Hub).
    */
   public isEmpDisabled(piece: Piece): boolean {
+    if (piece.enginesFused) return true;
     const blast = this.state.empActive;
     if (!blast) return false;
     if (piece.owner !== blast.targetSide) return false;
@@ -374,8 +480,9 @@ export class SubspaceLatticeEngine {
 
   /**
    * Fire Command Overload (EMP). Consumes the entire turn and resets charge.
-   * Seizes enemy engines within empRadius of the Hub for `empBlackoutPlies`
-   * reply plies.
+   * Seizes enemy engines within radius for `empBlackoutPlies` reply plies.
+   * In Terminal Overclock, also fuses the firer's Hub drives (life support
+   * intact — not an instant loss for the firer).
    */
   public fireEmp(): boolean {
     if (!this.canFireEmp()) return false;
@@ -385,9 +492,12 @@ export class SubspaceLatticeEngine {
     );
     if (!hub) return false;
 
+    const terminal = this.isTerminalOverclock(mover);
+    const radius = this.getEmpRadius(mover);
+
     this.state.empActive = {
       origin: { ...hub.position },
-      radius: this.rules.empRadius,
+      radius,
       firedBy: mover,
       targetSide:
         mover === PlayerColor.White ? PlayerColor.Black : PlayerColor.White,
@@ -397,6 +507,9 @@ export class SubspaceLatticeEngine {
       ...(this.state.empCharge ?? {}),
       [mover]: 0,
     };
+    if (terminal) {
+      hub.enginesFused = true;
+    }
     this.lastMoveInfo = {
       moverType: PieceType.CommandHub,
       empFired: true,
@@ -448,6 +561,7 @@ export class SubspaceLatticeEngine {
 
     for (const piece of pieces) {
       if (this.isEmpDisabled(piece)) continue;
+      if (piece.enginesFused) continue;
       for (let x = 0; x < this.BOARD_SIZE; x++) {
         for (let y = 0; y < this.BOARD_SIZE; y++) {
           const to = { x, y };
@@ -596,19 +710,25 @@ export class SubspaceLatticeEngine {
 
     if (this.state.winner) return true;
 
+    this.maybeArmTerminalPhase();
     this.endPly(mover);
     return true;
   }
 
   /**
-   * Hub move → charge 0. Any other piece action (including spool announce)
-   * → charge +1 while EMP is enabled.
+   * Hub move → charge 0, unless Terminal Overclock (lone Hub) → charge +1.
+   * Any other piece action (including spool announce) → charge +1 while EMP
+   * is enabled.
    */
   private applyEmpChargeForMove(mover: PlayerColor, moverType: PieceType): void {
     if (!this.empEnabled()) return;
     const charge = { ...(this.state.empCharge ?? {}) };
     if (moverType === PieceType.CommandHub) {
-      charge[mover] = 0;
+      if (this.isTerminalOverclock(mover)) {
+        charge[mover] = (charge[mover] ?? 0) + 1;
+      } else {
+        charge[mover] = 0;
+      }
     } else {
       charge[mover] = (charge[mover] ?? 0) + 1;
     }

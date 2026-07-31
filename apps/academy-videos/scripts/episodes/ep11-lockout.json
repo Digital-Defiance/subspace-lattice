@@ -1,9 +1,9 @@
 {
   "id": "ep11-lockout",
   "compositionId": "Episode11",
-  "title": "Lockout & The EMP",
-  "youtubeTitle": "Subspace Lattice Academy Ep.11 — Lockout & EMP Overload",
-  "description": "Surgical Strike and Sector Integration are not the only finishes. Lockout (winnerReason=no-moves) awards the win when the opponent has zero legal replies. Learn how to corner the escape hatch and detonate Command Overload (EMP) to freeze a Hub.",
+  "title": "Lockout, EMP & Terminal Overclock",
+  "youtubeTitle": "Subspace Lattice Academy Ep.11 — Lockout, EMP & Terminal Overclock",
+  "description": "Surgical Strike and Sector Integration are not the only finishes. Lockout awards the win when the opponent has zero legal replies — usually via Command Overload (EMP). When both fleets are lone Hubs, Terminal Overclock begins: Hub moves charge, drives fuse on fire, and the blast grows until a cowardly kite fails.",
   "fps": 30,
   "width": 1920,
   "height": 1080,
@@ -12,10 +12,10 @@
       "kind": "title",
       "id": "title",
       "eyebrow": "Fleet Academy · Episode 11 · Win conditions",
-      "headline": "Lockout & The EMP",
-      "subhead": "Immobility is defeat. Disable their engines to secure the third win.",
-      "voiceover": "Episode eleven: Lockout. Surgical Strike takes the Hub, and Sector Integration runs the clock. But there is a third engine win: leave the opponent with no legal moves, and the match ends immediately. Fiction calls it Frozen.",
-      "durationHintSec": 11
+      "headline": "Lockout, EMP & Terminal Overclock",
+      "subhead": "Immobility is defeat — midgame EMP, then the lone-Hub runaway.",
+      "voiceover": "Episode eleven: Lockout. Surgical Strike takes the Hub, and Sector Integration runs the clock. But there is a third engine win: leave the opponent with no legal moves. First the midgame EMP. Then Terminal Overclock, when only two flagships remain.",
+      "durationHintSec": 12
     },
     {
       "kind": "narration",
@@ -87,12 +87,122 @@
       "durationHintSec": 12
     },
     {
+      "kind": "narration",
+      "id": "terminal-rules",
+      "headline": "Terminal Overclock",
+      "bullets": [
+        "Arms only when both fleets are lone Hubs",
+        "Hub moves charge EMP instead of resetting",
+        "Firing fuses your own drives — life support stays",
+        "Blast grows over time — kiting eventually fails"
+      ],
+      "voiceover": "Now the late endgame. When both fleets are stripped to lone Command Hubs, Terminal Overclock begins. Escort vents seal. Hub moves charge the EMP. Fire, and your own drives fuse — you cannot move again. That is not instant suicide: Lockout only checks whether the opponent still has a reply after your turn. If the blast empties their list, you win before your fused Hub would have to move. The terror is visible: the shared blast radius grows as the reactor runs away. Fleet default is plus one every five plies. This reel uses every three so you can see the bloom.",
+      "durationHintSec": 20
+    },
+    {
+      "kind": "board",
+      "id": "terminal-start",
+      "missionId": "mission-terminal-overclock",
+      "ply": 0,
+      "moveLabel": "Both lone Hubs — Black outside r=3 at distance 4",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "blast r=3 · Black safe" },
+      "voiceover": "Mission five. Two naked flagships. Blast starts at radius three. Black sits at distance four — safely outside — and intends to stay there forever.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "terminal-charge-1",
+      "missionId": "mission-terminal-overclock",
+      "ply": 1,
+      "moveLabel": "White Hub moves — Terminal charge 1/3",
+      "overlays": { "nets": "both" },
+      "voiceover": "No escorts left to charge for you. White’s Hub itself steps — that is how Terminal EMP charges.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "terminal-kite-1",
+      "missionId": "mission-terminal-overclock",
+      "ply": 2,
+      "moveLabel": "Black kites — still outside r=3",
+      "overlays": { "nets": "both" },
+      "voiceover": "Black refuses contact. The coward slides sideways, still outside the old blast. Sensors already read the radiation climbing.",
+      "durationHintSec": 9
+    },
+    {
+      "kind": "board",
+      "id": "terminal-bloom",
+      "missionId": "mission-terminal-overclock",
+      "ply": 3,
+      "moveLabel": "Thermal runaway — blast blooms to r=4",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "age 3 → blast r=4" },
+      "voiceover": "White charges again. Shared age hits three. The shockwave blooms from three to four. Black is now on the edge of the field — the static kite is dying.",
+      "durationHintSec": 11
+    },
+    {
+      "kind": "board",
+      "id": "terminal-kite-2",
+      "missionId": "mission-terminal-overclock",
+      "ply": 4,
+      "moveLabel": "Black still plays the old geometry",
+      "overlays": { "nets": "both" },
+      "voiceover": "Black shuffles as if radius three were forever. The ambient field has already outgrown that lie.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "terminal-armed",
+      "missionId": "mission-terminal-overclock",
+      "ply": 5,
+      "moveLabel": "White arms Terminal EMP 3/3 — Black inside r=4",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "armed · dist 4 ≤ r=4" },
+      "voiceover": "Third Hub move. EMP armed. Black remains at distance four — inside the grown radius. Firing earlier at three would have missed and fused White for nothing.",
+      "durationHintSec": 11
+    },
+    {
+      "kind": "board",
+      "id": "terminal-kite-3",
+      "missionId": "mission-terminal-overclock",
+      "ply": 6,
+      "moveLabel": "Black’s last empty kite",
+      "overlays": { "nets": "both" },
+      "voiceover": "One last coward step. Nowhere left that radius four does not reach.",
+      "durationHintSec": 7
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-terminal-fire",
+      "missionId": "mission-terminal-overclock",
+      "ply": 6,
+      "revealPly": 7,
+      "prompt": "White fires Terminal Overclock. Own drives will fuse. Does Black still have a reply?",
+      "overlays": { "nets": "both" },
+      "voiceover": "Pause and predict. White fires Terminal Overclock — a full turn, own drives fuse. After that blast, does Black still have any legal reply?",
+      "durationHintSec": 11,
+      "revealVoiceover": "No. Lockout only asks whether the opponent still has a move. Black's Hub is seized — zero replies — so White wins immediately. White's fused drives would matter on White's next turn, but that turn never comes: the game already ended when Black's list hit empty.",
+      "revealDurationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "terminal-lockout",
+      "missionId": "mission-terminal-overclock",
+      "ply": 7,
+      "moveLabel": "Terminal EMP — Lockout",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "Lockout · White fused · Black 0 moves" },
+      "voiceover": "Lockout. The firer is fused, but the engine never asked White for a reply — only Black. Endless kiting only bought time until thermal runaway blanketed the sector.",
+      "durationHintSec": 11
+    },
+    {
       "kind": "outro",
       "id": "outro",
-      "headline": "Three wins. No stalemate.",
+      "headline": "Three wins. No soft draws.",
       "nextEpisode": "Practice vs AI · Advanced manual",
-      "voiceover": "That is Lockout. Anchor your Hub, charge the EMP, cut the escape hatch, and shut down their engines. Surgical Strike, Sector Integration, Lockout. You now have the complete manual.",
-      "durationHintSec": 10
+      "voiceover": "That is Lockout — midgame EMP when the fleet still stands, and Terminal Overclock when only Hubs remain. Anchor, charge, cut the escape hatch, or survive the runaway. Surgical Strike, Sector Integration, Lockout. You now have the complete manual.",
+      "durationHintSec": 12
     }
   ]
 }

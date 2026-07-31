@@ -56,6 +56,13 @@
           "cwd": "packages/subspace-lattice",
           "command": "bash scripts/emp-balance-probe.sh"
         }
+      },
+      "terminal-overclock-probe": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "packages/subspace-lattice",
+          "command": "bash scripts/terminal-overclock-probe.sh"
+        }
       }
     }
   },

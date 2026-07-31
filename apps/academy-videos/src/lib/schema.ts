@@ -18,6 +18,11 @@ export const PlyStatsSchema = z.object({
   result: z.string().optional(),
 });
 
+/** Optional full-bleed still under the scene chrome (filename under public/story/<episode-id>/). */
+const backgroundAssetField = {
+  backgroundAsset: z.string().min(1).optional(),
+};
+
 export const SceneSchema = z.discriminatedUnion('kind', [
   z.object({
     kind: z.literal('title'),
@@ -27,6 +32,7 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     eyebrow: z.string().optional(),
     headline: z.string(),
     subhead: z.string().optional(),
+    ...backgroundAssetField,
   }),
   z.object({
     kind: z.literal('narration'),
@@ -35,6 +41,17 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     durationHintSec: z.number().positive().default(6),
     headline: z.string().optional(),
     bullets: z.array(z.string()).optional(),
+    ...backgroundAssetField,
+  }),
+  /** Lore beat — full-bleed art with headline / subhead (no board). */
+  z.object({
+    kind: z.literal('story'),
+    id: z.string(),
+    voiceover: z.string(),
+    durationHintSec: z.number().positive().default(8),
+    headline: z.string(),
+    subhead: z.string().optional(),
+    ...backgroundAssetField,
   }),
   z.object({
     kind: z.literal('board'),
@@ -47,6 +64,7 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     moveLabel: z.string().optional(),
     overlays: OverlayFlagsSchema.optional(),
     stats: PlyStatsSchema.optional(),
+    ...backgroundAssetField,
   }),
   z.object({
     kind: z.literal('pause-predict'),
@@ -60,6 +78,7 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     revealDurationHintSec: z.number().positive().default(6),
     revealPly: z.number().int().nonnegative(),
     overlays: OverlayFlagsSchema.optional(),
+    ...backgroundAssetField,
   }),
   z.object({
     kind: z.literal('montage'),
@@ -71,6 +90,7 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     fromPly: z.number().int().nonnegative(),
     toPly: z.number().int().nonnegative(),
     caption: z.string().optional(),
+    ...backgroundAssetField,
   }),
   z.object({
     kind: z.literal('outro'),
@@ -78,7 +98,9 @@ export const SceneSchema = z.discriminatedUnion('kind', [
     voiceover: z.string(),
     durationHintSec: z.number().positive().default(5),
     headline: z.string(),
+    subhead: z.string().optional(),
     nextEpisode: z.string().optional(),
+    ...backgroundAssetField,
   }),
 ]);
 
@@ -103,4 +125,19 @@ export type EpisodeScript = z.infer<typeof EpisodeScriptSchema>;
 export function missionPlyStaticPath(missionId: string, ply: number): string {
   const pad = String(ply).padStart(3, '0');
   return `missions/${missionId}/ply-${pad}.svg`;
+}
+
+/**
+ * Resolve Remotion staticFile path for story / lore stills.
+ * `backgroundAsset` is a filename (e.g. `title.png`) under
+ * `public/story/<episodeId>/`, or an explicit `story/...` path.
+ */
+export function storyBackgroundStaticPath(
+  episodeId: string,
+  backgroundAsset: string,
+): string {
+  const trimmed = backgroundAsset.trim().replace(/^\/+/, '');
+  if (trimmed.startsWith('story/')) return trimmed;
+  if (trimmed.includes('/')) return `story/${trimmed}`;
+  return `story/${episodeId}/${trimmed}`;
 }

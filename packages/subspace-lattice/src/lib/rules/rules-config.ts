@@ -133,6 +133,51 @@ export interface RulesConfig {
    * single reply. Clamped to `EMP_BLACKOUT_PLIES_MAX`.
    */
   empBlackoutPlies: number;
+  /**
+   * Terminal Overclock: when a side is reduced to a lone Command Hub, Hub moves
+   * charge EMP (+1) instead of resetting, and firing fuses the firer's drives.
+   * Off when EMP is disabled. Default true on hybrid-fleet.
+   */
+  terminalOverclock: boolean;
+  /**
+   * If true, Terminal only arms when **both** sides are lone Hubs.
+   * Prevents a depleted fleet from Overclocking while the opponent still has ships.
+   * (Probe dial 1 — KEEP.)
+   */
+  terminalRequiresBothLone: boolean;
+  /**
+   * If true, the first ply on which both sides are lone Hubs starts a shared
+   * Terminal phase: both EMP charges reset to 0 so an early lone Hub cannot
+   * bank charge before the opponent joins Phase 3. (Probe dial 2 — KEEP.)
+   */
+  terminalSharedPhaseClock: boolean;
+  /**
+   * When the shared Terminal phase arms, give this much charge to the side
+   * that is **not** about to move. Probe dial 3 at 1 over-corrected Heuristic
+   * seat bias (W~97%→~2.5%); shipping keeps 0.
+   */
+  terminalPhaseEntryKomi: number;
+  /**
+   * Optional EMP charge target while in Terminal Overclock. `undefined` / omit
+   * → use `empChargeTarget`. Probe / balance dial (suggested ~10).
+   */
+  terminalEmpChargeTarget?: number;
+  /**
+   * Optional base blast radius while firing in Terminal Overclock. `undefined` /
+   * omit → use `empRadius`. Growth (below) stacks on this base.
+   */
+  terminalEmpRadius?: number;
+  /**
+   * Shared Terminal age: every this many completed plies since the phase armed,
+   * Terminal EMP blast radius grows +1 (thermal runaway). 0 disables growth.
+   * Shipping fleet default **5** (~15 plies to r=6 kite-break; ~35 to board max).
+   */
+  terminalEmpRadiusGrowthInterval: number;
+  /**
+   * Cap on growing Terminal EMP radius (Chebyshev). Board max useful is 10
+   * (corner↔corner on 11×11).
+   */
+  terminalEmpRadiusMax: number;
 }
 
 /**
@@ -203,6 +248,27 @@ export function heavyWingPresetFromRules(rules: RulesConfig): HeavyWingPreset {
   return 'standard';
 }
 
+/**
+ * Allowed lobby values for Terminal EMP radius growth interval (plies per +1).
+ * All integers in 3–10 are valid; denser ladder lets captains tune hunt length.
+ */
+export const TERMINAL_EMP_RADIUS_GROWTH_INTERVALS = [
+  3, 4, 5, 6, 7, 8, 9, 10,
+] as const;
+
+export type TerminalEmpRadiusGrowthInterval =
+  (typeof TERMINAL_EMP_RADIUS_GROWTH_INTERVALS)[number];
+
+export function isTerminalEmpRadiusGrowthInterval(
+  value: unknown,
+): value is TerminalEmpRadiusGrowthInterval {
+  return (
+    typeof value === 'number' &&
+    Number.isInteger(value) &&
+    (TERMINAL_EMP_RADIUS_GROWTH_INTERVALS as readonly number[]).includes(value)
+  );
+}
+
 export type RulesLobbyOverrides = {
   infiltratorSpoolUp: boolean;
   infiltratorActivationPly: number;
@@ -215,6 +281,11 @@ export type RulesLobbyOverrides = {
   empChargeTarget: number;
   /** Enemy reply plies the blackout lasts. Min 1, max 3. */
   empBlackoutPlies: number;
+  /**
+   * Terminal Overclock thermal runaway: plies per +1 blast radius (3–10).
+   * Fleet default 5.
+   */
+  terminalEmpRadiusGrowthInterval: TerminalEmpRadiusGrowthInterval;
 };
 
 /** Fleet defaults for the lobby knobs (hybrid-fleet preset). */
@@ -226,9 +297,12 @@ export const FLEET_LOBBY_DEFAULTS: RulesLobbyOverrides = {
   // EMP balance probe 2026-07-29 (enemy-only blast): r=3 keeps Lockout ~1.7% of
   // HvR games with Strike at ~98%; r=4 floods. Blackout length is flavour, not
   // balance. See docs/lockout-impossibility.md §9.
+  // Terminal Overclock (lone Hub): see docs/terminal-overclock.md — probe shows
+  // strong first-mover / lone-Hub bias under Heuristic; keep knobs tunable.
   empRadius: 3,
   empChargeTarget: 15,
   empBlackoutPlies: 1,
+  terminalEmpRadiusGrowthInterval: 5,
 };
 
 const EMP_RADIUS_MAX = 5;
@@ -249,6 +323,11 @@ export function lobbyOverridesFromRules(
     empRadius: rules.empRadius,
     empChargeTarget: rules.empChargeTarget,
     empBlackoutPlies: rules.empBlackoutPlies,
+    terminalEmpRadiusGrowthInterval: isTerminalEmpRadiusGrowthInterval(
+      rules.terminalEmpRadiusGrowthInterval,
+    )
+      ? rules.terminalEmpRadiusGrowthInterval
+      : FLEET_LOBBY_DEFAULTS.terminalEmpRadiusGrowthInterval,
   };
 }
 
@@ -265,7 +344,9 @@ export function isDefaultFleetLobby(
     o.heavyWingPreset === FLEET_LOBBY_DEFAULTS.heavyWingPreset &&
     o.empRadius === FLEET_LOBBY_DEFAULTS.empRadius &&
     o.empChargeTarget === FLEET_LOBBY_DEFAULTS.empChargeTarget &&
-    o.empBlackoutPlies === FLEET_LOBBY_DEFAULTS.empBlackoutPlies
+    o.empBlackoutPlies === FLEET_LOBBY_DEFAULTS.empBlackoutPlies &&
+    o.terminalEmpRadiusGrowthInterval ===
+      FLEET_LOBBY_DEFAULTS.terminalEmpRadiusGrowthInterval
   );
 }
 
@@ -338,6 +419,13 @@ export function sanitizeRulesLobbyOverrides(
     );
   }
 
+  if (typeof input.terminalEmpRadiusGrowthInterval === 'number') {
+    const n = Math.floor(input.terminalEmpRadiusGrowthInterval);
+    if (isTerminalEmpRadiusGrowthInterval(n)) {
+      out.terminalEmpRadiusGrowthInterval = n;
+    }
+  }
+
   return out;
 }
 
@@ -359,6 +447,7 @@ export function lobbyOverridesToRulesPartial(
     empRadius: lobby.empRadius,
     empChargeTarget: lobby.empChargeTarget,
     empBlackoutPlies: lobby.empBlackoutPlies,
+    terminalEmpRadiusGrowthInterval: lobby.terminalEmpRadiusGrowthInterval,
     ...heavyWingPresetToRulesPartial(lobby.heavyWingPreset),
   };
 }
@@ -383,6 +472,12 @@ export const CLASSIC_RULES: RulesConfig = {
   empRadius: 0,
   empChargeTarget: 0,
   empBlackoutPlies: 1,
+  terminalOverclock: false,
+  terminalRequiresBothLone: false,
+  terminalSharedPhaseClock: false,
+  terminalPhaseEntryKomi: 0,
+  terminalEmpRadiusGrowthInterval: 0,
+  terminalEmpRadiusMax: 10,
 };
 
 /**
@@ -408,6 +503,12 @@ export const HYBRID_RULES: RulesConfig = {
   empRadius: 0,
   empChargeTarget: 0,
   empBlackoutPlies: 1,
+  terminalOverclock: false,
+  terminalRequiresBothLone: false,
+  terminalSharedPhaseClock: false,
+  terminalPhaseEntryKomi: 0,
+  terminalEmpRadiusGrowthInterval: 0,
+  terminalEmpRadiusMax: 10,
 };
 
 /** Hybrid + Infiltrator Navigational Target Lock (A/B vs hybrid). */
@@ -438,6 +539,25 @@ export const HYBRID_FLEET_RULES: RulesConfig = {
   empRadius: FLEET_LOBBY_DEFAULTS.empRadius,
   empChargeTarget: FLEET_LOBBY_DEFAULTS.empChargeTarget,
   empBlackoutPlies: FLEET_LOBBY_DEFAULTS.empBlackoutPlies,
+  /** Lone-Hub Phase 3: Hub moves charge; Terminal fire fuses own drives. */
+  terminalOverclock: true,
+  /** Both fleets must be lone Hubs — no Overclock while opponent still has ships. */
+  terminalRequiresBothLone: true,
+  /** Entering both-lone resets both charges (no banked head start). */
+  terminalSharedPhaseClock: true,
+  /**
+   * Entry komi over-corrected Heuristic hubs-only (W~97% → ~2.5% at komi=1).
+   * Keep 0 until a fairer tempo rule is found; see terminal-overclock probe.
+   */
+  terminalPhaseEntryKomi: 0,
+  /** Shorter arming than multi-ship EMP so the hunt finishes inside ply budgets. */
+  terminalEmpChargeTarget: 10,
+  /**
+   * Thermal runaway: +1 blast radius every 5 Terminal plies (shared age),
+   * capped at 10 so kiting cannot soft-draw the sector.
+   */
+  terminalEmpRadiusGrowthInterval: 5,
+  terminalEmpRadiusMax: 10,
 };
 
 const BY_VERSION: Record<RulesVersion, RulesConfig> = {

@@ -1,0 +1,262 @@
+{
+  "ranAt": "2026-07-31T01:07:38.851Z",
+  "games": 40,
+  "maxPlies": 120,
+  "geometry": [
+    {
+      "radius": 3,
+      "playable": 120,
+      "pctPairsOutOfRange": 71.9327731092437,
+      "safeEnemySquares": {
+        "min": 72,
+        "max": 104,
+        "mean": 85.6
+      },
+      "anomalyOppositesHit": {
+        "northSouth": false,
+        "eastWest": false,
+        "corners": false
+      }
+    },
+    {
+      "radius": 4,
+      "playable": 120,
+      "pctPairsOutOfRange": 58.26330532212885,
+      "safeEnemySquares": {
+        "min": 40,
+        "max": 95,
+        "mean": 69.33333333333333
+      },
+      "anomalyOppositesHit": {
+        "northSouth": false,
+        "eastWest": false,
+        "corners": false
+      }
+    },
+    {
+      "radius": 5,
+      "playable": 120,
+      "pctPairsOutOfRange": 44.53781512605042,
+      "safeEnemySquares": {
+        "min": 11,
+        "max": 85,
+        "mean": 53
+      },
+      "anomalyOppositesHit": {
+        "northSouth": false,
+        "eastWest": false,
+        "corners": false
+      }
+    }
+  ],
+  "cells": [
+    {
+      "label": "dial0 lone-any T=10 r=3 HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 39,
+      "hub": 1,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 39,
+      "empFires": 39,
+      "terminalHits": 39,
+      "terminalMisses": 0,
+      "pliesSum": 839
+    },
+    {
+      "label": "dial0 lone-any asym White-lone HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 40,
+      "hub": 0,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 40,
+      "empFires": 40,
+      "terminalHits": 40,
+      "terminalMisses": 0,
+      "pliesSum": 840
+    },
+    {
+      "label": "dial1 both-lone T=10 r=3 HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 38,
+      "hub": 2,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 37,
+      "empFires": 38,
+      "terminalHits": 38,
+      "terminalMisses": 0,
+      "pliesSum": 835
+    },
+    {
+      "label": "dial1 both-lone asym White-lone HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 0,
+      "hub": 40,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 0,
+      "empFires": 0,
+      "terminalHits": 0,
+      "terminalMisses": 0,
+      "pliesSum": 1120
+    },
+    {
+      "label": "dial2 +shared-clock T=10 r=3 HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 38,
+      "hub": 2,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 39,
+      "empFires": 38,
+      "terminalHits": 38,
+      "terminalMisses": 0,
+      "pliesSum": 831
+    },
+    {
+      "label": "dial2 +shared-clock asym White-lone HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 0,
+      "hub": 40,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 0,
+      "empFires": 0,
+      "terminalHits": 0,
+      "terminalMisses": 0,
+      "pliesSum": 1120
+    },
+    {
+      "label": "dial3 +entry-komi T=10 r=3 HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 39,
+      "hub": 1,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 1,
+      "empFires": 39,
+      "terminalHits": 39,
+      "terminalMisses": 0,
+      "pliesSum": 799
+    },
+    {
+      "label": "dial3 +entry-komi asym White-lone HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 0,
+      "hub": 40,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 0,
+      "empFires": 0,
+      "terminalHits": 0,
+      "terminalMisses": 0,
+      "pliesSum": 1120
+    },
+    {
+      "label": "hubs OFF HvH",
+      "n": 40,
+      "truncated": 37,
+      "lockout": 0,
+      "hub": 3,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 1,
+      "empFires": 0,
+      "terminalHits": 0,
+      "terminalMisses": 0,
+      "pliesSum": 4495
+    },
+    {
+      "label": "ship dial3 T=10 r=3 HvR",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 36,
+      "hub": 4,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 32,
+      "empFires": 36,
+      "terminalHits": 36,
+      "terminalMisses": 0,
+      "pliesSum": 804
+    },
+    {
+      "label": "ship dial3 T=10 r=3 MvH",
+      "n": 12,
+      "truncated": 0,
+      "lockout": 12,
+      "hub": 0,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 0,
+      "empFires": 12,
+      "terminalHits": 12,
+      "terminalMisses": 0,
+      "pliesSum": 240
+    },
+    {
+      "label": "ship dial3 asym Black-lone HvH",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 40,
+      "hub": 0,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 40,
+      "empFires": 40,
+      "terminalHits": 40,
+      "terminalMisses": 0,
+      "pliesSum": 1240
+    },
+    {
+      "label": "fleet midgame Terminal ON HvR",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 1,
+      "hub": 39,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 40,
+      "empFires": 2,
+      "terminalHits": 1,
+      "terminalMisses": 1,
+      "pliesSum": 2750
+    },
+    {
+      "label": "fleet midgame Terminal OFF HvR",
+      "n": 40,
+      "truncated": 0,
+      "lockout": 0,
+      "hub": 40,
+      "sector": 0,
+      "other": 0,
+      "whiteWins": 40,
+      "empFires": 2,
+      "terminalHits": 0,
+      "terminalMisses": 2,
+      "pliesSum": 2784
+    }
+  ],
+  "answers": {
+    "Dial0 (lone-any) hubs-only trunc / White WR?": "trunc 0.0%; W 97.5%; lock 97.5%",
+    "Dial1 (both-lone) fixes lone-vs-escort reward?": "asym White-lone WR dial0 100.0% → dial1 0.0% (want lone side <<50% or richer favored via hub captures)",
+    "Dial2 (shared clock) hubs-only White WR vs dial1?": "W 92.5% → 97.5%; trunc 0.0% → 0.0%",
+    "Dial3 (entry komi) hubs-only White WR vs dial2?": "W 97.5% → 2.5%; trunc 0.0% → 0.0%",
+    "Shipping dial3 vs OFF truncate?": "ON trunc 0.0% vs OFF 92.5%",
+    "Anomaly kite geometry r=3?": "~71.9% pairs out of blast; N/S opposite hit=false",
+    "AI hit/miss on dial3?": "HvH 39/0; MCTS 12/0",
+    "Midgame regression?": "ON lock 2.5% hub 97.5% | OFF lock 0.0% hub 100.0%",
+    "Asymmetry dial3 White-lone / Black-lone?": "White-lone WR 0.0%; Black-lone cell 100.0%",
+    "maxPlies budget": "120 · games/cell 40"
+  }
+}

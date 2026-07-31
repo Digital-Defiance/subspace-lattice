@@ -59,4 +59,22 @@
     <grapheme>Contested</grapheme>
     <phoneme>kɑnˈtɛstɪd</phoneme>
   </lexeme>
+  <!-- Rip / tare — not the crying homograph. Alias is more reliable than
+       IPA for this pair (phoneme rules still often pick /tɪɹ/). -->
+  <lexeme>
+    <grapheme>tear</grapheme>
+    <alias>tare</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Tear</grapheme>
+    <alias>Tare</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>tears</grapheme>
+    <alias>tares</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Tears</grapheme>
+    <alias>Tares</alias>
+  </lexeme>
 </lexicon>

@@ -15,6 +15,11 @@ export interface CreateRoomRequest {
     infiltratorSpoolUp?: boolean;
     infiltratorActivationPly?: number;
     sectorActivationPly?: number;
+    heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
+    empRadius?: number;
+    empChargeTarget?: number;
+    empBlackoutPlies?: number;
+    terminalEmpRadiusGrowthInterval?: number;
   };
 }
 
@@ -124,6 +129,7 @@ export function createSubspaceLatticeApiClient() {
           empRadius?: number;
           empChargeTarget?: number;
           empBlackoutPlies?: number;
+          terminalEmpRadiusGrowthInterval?: number;
         };
       },
     ) => {

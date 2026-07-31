@@ -51,9 +51,16 @@ export function ObjectiveHud({
   const infilLocked = infilUnlock > 0 && infilRemaining > 0;
   const empOn =
     (rules.empChargeTarget ?? 0) > 0 && (rules.empRadius ?? 0) > 0;
-  const empTarget = rules.empChargeTarget ?? 0;
+  const whiteEmpTarget = engine.getEmpChargeTarget(PlayerColor.White);
+  const blackEmpTarget = engine.getEmpChargeTarget(PlayerColor.Black);
+  const empTarget = engine.getEmpChargeTarget();
   const whiteEmp = state.empCharge?.[PlayerColor.White] ?? 0;
   const blackEmp = state.empCharge?.[PlayerColor.Black] ?? 0;
+  const empRadiusNow = engine.getEmpRadius();
+  const terminalLive =
+    engine.isTerminalOverclock(PlayerColor.White) ||
+    engine.isTerminalOverclock(PlayerColor.Black);
+  const growthEvery = rules.terminalEmpRadiusGrowthInterval ?? 0;
   const empArmed =
     empOn &&
     ((state.currentPlayer === PlayerColor.White
@@ -104,8 +111,9 @@ export function ObjectiveHud({
         <div className="objective-hud__emp" data-testid="emp-charge-status">
           {empOn && (
             <p className="objective-hud__explanation">
-              EMP charge W {Math.min(whiteEmp, empTarget)}/{empTarget} · B{' '}
-              {Math.min(blackEmp, empTarget)}/{empTarget}
+              {terminalLive ? 'Terminal Overclock · ' : ''}
+              EMP charge W {Math.min(whiteEmp, whiteEmpTarget)}/{whiteEmpTarget} ·
+              B {Math.min(blackEmp, blackEmpTarget)}/{blackEmpTarget}
               {empArmed ? ' · armed' : ''}
               {state.empActive
                 ? ` · blackout: ${
@@ -116,7 +124,10 @@ export function ObjectiveHud({
                     state.empActive.pliesRemaining
                   } ply left)`
                 : ''}
-              {` · radius ${rules.empRadius}`}
+              {` · blast r=${empRadiusNow}`}
+              {terminalLive && growthEvery > 0
+                ? ` · radiation +1 / ${growthEvery} plies`
+                : ''}
             </p>
           )}
           {(onFireEmp && canFireEmpAction && !state.winner) || resignControl ? (

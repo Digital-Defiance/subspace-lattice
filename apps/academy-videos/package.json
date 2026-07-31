@@ -19,6 +19,7 @@
     "render:ep09": "remotion render src/index.ts Episode09 out/ep09-ai-skirmish.mp4",
     "render:ep10": "remotion render src/index.ts Episode10 out/ep10-infiltrator.mp4",
     "render:ep11": "remotion render src/index.ts Episode11 out/ep11-lockout.mp4",
+    "render:ep-story-01": "remotion render src/index.ts EpisodeStory01 out/ep-story-01.mp4",
     "tts": "node scripts/generate-tts.mjs",
     "seed:mission-episodes": "node scripts/seed-mission-episodes.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"

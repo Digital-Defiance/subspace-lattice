@@ -71,6 +71,18 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
             Lockout.
           </p>
 
+          <h3>Terminal Overclock</h3>
+          <p>
+            Under normal operation a Command Hub vents excess radiation through
+            the Escort relay network. When both fleets are reduced to lone Hubs,
+            those vents seal: Hub moves charge EMP, and firing fuses your own
+            drives (life support intact). The reactor enters thermal runaway —
+            every 5 plies the shared blast radius grows by +1 (up to the sector
+            maximum). Both commanders can read the spike on remaining sensors.
+            Kiting only delays the inevitable: when containment drops, the
+            shockwave can blanket the board. There is nowhere left to hide.
+          </p>
+
           <h3>Hub safety (“refuse the hang”)</h3>
           <p>
             Your Command Hub is <strong>hanging</strong> when the opponent can

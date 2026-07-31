@@ -17,6 +17,7 @@ import ep08 from '../scripts/episodes/ep08-heavy-wing.json';
 import ep09 from '../scripts/episodes/ep09-ai-skirmish.json';
 import ep10 from '../scripts/episodes/ep10-infiltrator.json';
 import ep11 from '../scripts/episodes/ep11-lockout.json';
+import epStory01 from '../scripts/episodes/ep-story-01.json';
 
 function load(raw: unknown): EpisodeScript {
   return EpisodeScriptSchema.parse(raw);
@@ -35,6 +36,7 @@ const episodes = [
   load(ep09),
   load(ep10),
   load(ep11),
+  load(epStory01),
 ];
 
 export const RemotionRoot: React.FC = () => {

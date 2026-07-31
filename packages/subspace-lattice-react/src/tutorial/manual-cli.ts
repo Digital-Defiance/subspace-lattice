@@ -363,6 +363,15 @@ cornered Hub can still capture its way out. Under \texttt{hybrid-fleet},
         empty and you win with \texttt{winnerReason=no-moves}.
 \end{itemize}
 
+\paragraph{Terminal Overclock.}
+When \emph{both} fleets are reduced to a lone Command Hub, Phase~3 begins.
+Hub moves now \emph{charge} EMP (they no longer reset). Firing fuses the
+firer's drives --- life support intact, but the Hub cannot move again. The
+shared blast radius grows $+1$ every $5$ plies by default (lobby $3$--$10$),
+capped at $10$, so endlessly kiting a fixed radius eventually fails. Hit and
+the firer wins Lockout despite being fused; miss and the opponent finishes you
+after their reply. See Official Rules \S Terminal Overclock.
+
 Expanded branching from Refractors and Carriers does not change the win
 conditions --- it changes which geometries feed them.
 `;
@@ -409,8 +418,9 @@ function main() {
 \noindent
 This manual replays the guided Fleet Academy missions with every ply
 diagrammed and explained: a short Surgical Strike highlight reel, a full
-57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock, and
-Mission 4 --- Lockout via Command Overload (EMP). Part I teaches how to think
+57-ply battle, a \texttt{hybrid-fleet} siege decided by the sector clock,
+Mission 4 --- Lockout via Command Overload (EMP), and Mission 5 --- Terminal
+Overclock (thermal runaway vs a cowardly kite). Part I teaches how to think
 --- fleet geometry including optional Refractors and Carriers, reading
 positions, valuing moves, and looking ahead. Later parts walk the games. Each
 diagram shows the position \emph{after} the numbered ply; the moved ship's

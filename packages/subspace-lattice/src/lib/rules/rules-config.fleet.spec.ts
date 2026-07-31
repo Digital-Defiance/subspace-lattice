@@ -95,6 +95,25 @@ describe('lobby rules overrides', () => {
     ).toEqual({ heavyWingPreset: 'fleet-draft' });
   });
 
+  it('sanitize accepts Terminal growth intervals 3–10', () => {
+    expect(
+      sanitizeRulesLobbyOverrides({ terminalEmpRadiusGrowthInterval: 8 }),
+    ).toEqual({ terminalEmpRadiusGrowthInterval: 8 });
+    expect(
+      sanitizeRulesLobbyOverrides({ terminalEmpRadiusGrowthInterval: 2 }),
+    ).toEqual({});
+    expect(
+      sanitizeRulesLobbyOverrides({ terminalEmpRadiusGrowthInterval: 11 }),
+    ).toEqual({});
+    const custom = resolveFleetLobbyRules({
+      terminalEmpRadiusGrowthInterval: 3,
+    });
+    expect(custom.terminalEmpRadiusGrowthInterval).toBe(3);
+    expect(
+      isDefaultFleetLobby({ terminalEmpRadiusGrowthInterval: 8 }),
+    ).toBe(false);
+  });
+
   it('resolveFleetLobbyRules + isDefaultFleetLobby', () => {
     expect(isDefaultFleetLobby(undefined)).toBe(true);
     expect(isDefaultFleetLobby(FLEET_LOBBY_DEFAULTS)).toBe(true);
