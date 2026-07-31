@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AbsoluteFill, Audio, Sequence, staticFile } from 'remotion';
 import type { EpisodeScript } from '../lib/schema';
 import { sceneAudioStaticPath } from '../lib/audio-paths';
+import { buildBgmSpans } from '../lib/bgm';
 import type { AudioSeconds } from '../lib/timing';
 import {
   FPS,
@@ -9,6 +10,7 @@ import {
   sceneDurationFrames,
   sceneStarts,
 } from '../lib/timing';
+import { SmartBgm } from '../components/SmartBgm';
 import {
   BoardScene,
   MontageScene,
@@ -28,6 +30,10 @@ export type EpisodeProps = {
 export const Episode: React.FC<EpisodeProps> = ({ script, audioSeconds }) => {
   const fps = script.fps ?? FPS;
   const starts = sceneStarts(script, fps, audioSeconds);
+  const bgmSpans = useMemo(
+    () => buildBgmSpans(script, fps, audioSeconds),
+    [script, fps, audioSeconds],
+  );
   const totalPlies = script.scenes.reduce(
     (max, scene) =>
       scene.kind === 'board' || scene.kind === 'pause-predict'
@@ -40,6 +46,19 @@ export const Episode: React.FC<EpisodeProps> = ({ script, audioSeconds }) => {
 
   return (
     <AbsoluteFill>
+      {/* BGM at root — consecutive identical `bgm` values share one span. */}
+      {bgmSpans.map((span) => (
+        <Sequence
+          key={`bgm-${span.key}-${span.contentFrom}`}
+          from={span.sequenceFrom}
+          durationInFrames={span.sequenceDurationInFrames}
+          name={`bgm:${span.key}`}
+          layout="none"
+        >
+          <SmartBgm span={span} />
+        </Sequence>
+      ))}
+
       {script.scenes.map((scene, i) => {
         const from = starts[i]!;
         const durationInFrames = sceneDurationFrames(

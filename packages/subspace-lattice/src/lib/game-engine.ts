@@ -1093,6 +1093,62 @@ export class SubspaceLatticeEngine {
     return this.buildSensorNetForOwner(owner);
   }
 
+  /**
+   * Power-relay hops from a Hub-linked ship back to its Command Hub
+   * (shortest Chebyshev hop path along the Sensor Net link graph).
+   * Empty when the piece is the Hub, missing, or unlinked.
+   */
+  public getSensorNetRelayPath(pieceId: string): SensorNetLink[] {
+    const piece = this.state.pieces[pieceId];
+    if (!piece || piece.type === PieceType.CommandHub) return [];
+
+    const friendly = Object.values(this.state.pieces).filter(
+      (p) => p.owner === piece.owner,
+    );
+    const hub = friendly.find((p) => p.type === PieceType.CommandHub);
+    if (!hub) return [];
+
+    const linkDistance = this.rules.linkDistance;
+    const byId = new Map(friendly.map((p) => [p.id, p] as const));
+    const parent = new Map<string, string>();
+    const linked = new Set<string>([hub.id]);
+    const queue = [hub.id];
+
+    while (queue.length > 0) {
+      const id = queue.shift()!;
+      const current = byId.get(id);
+      if (!current) continue;
+      for (const other of friendly) {
+        if (linked.has(other.id)) continue;
+        if (chebyshev(current.position, other.position) <= linkDistance) {
+          linked.add(other.id);
+          parent.set(other.id, id);
+          queue.push(other.id);
+        }
+      }
+    }
+
+    if (!linked.has(pieceId)) return [];
+
+    const links: SensorNetLink[] = [];
+    let cur = pieceId;
+    while (cur !== hub.id) {
+      const prev = parent.get(cur);
+      if (!prev) break;
+      const a = byId.get(cur);
+      const b = byId.get(prev);
+      if (!a || !b) break;
+      links.push({
+        fromId: a.id,
+        toId: b.id,
+        from: { ...a.position },
+        to: { ...b.position },
+      });
+      cur = prev;
+    }
+    return links;
+  }
+
   private buildSensorNetContext(): SensorNetContext {
     return {
       byOwner: {
@@ -1173,4 +1229,12 @@ export class SubspaceLatticeEngine {
 
 interface SensorNetContext {
   byOwner: Record<PlayerColor, Set<string>>;
+}
+
+/** One power-relay hop between Hub-linked ships (Chebyshev ≤ linkDistance). */
+export interface SensorNetLink {
+  fromId: string;
+  toId: string;
+  from: Coordinate;
+  to: Coordinate;
 }

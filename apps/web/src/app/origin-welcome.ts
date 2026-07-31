@@ -1,4 +1,4 @@
-export const ORIGIN_STORY_YOUTUBE_ID = '6HvQHV3Mkm8';
+export const ORIGIN_STORY_YOUTUBE_ID = 'Au0OwdSuslg';
 
 /** Watch-page / share URL. */
 export const ORIGIN_STORY_YOUTUBE_URL = `https://youtu.be/${ORIGIN_STORY_YOUTUBE_ID}`;

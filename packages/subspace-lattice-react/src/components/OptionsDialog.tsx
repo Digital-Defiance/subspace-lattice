@@ -1,18 +1,67 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { PieceStyles, getStyleRimFlags } from './PieceStyles';
 import { SoundMuteButton } from './SoundMuteButton';
 import { useBoardContrastOutline } from '../hooks/useBoardContrastOutline';
 import { useGameLogLpgn } from '../hooks/useGameLogLpgn';
+import { useGameSoundsVolume } from '../hooks/useGameSoundsVolume';
 import { usePieceStyle } from '../hooks/usePieceStyle';
+import { useShowPowerRelay } from '../hooks/useShowPowerRelay';
+import { useSoundtrackEnabled } from '../hooks/useSoundtrackEnabled';
+import { useSoundtrackVolume } from '../hooks/useSoundtrackVolume';
 import './OptionsDialog.scss';
 
 export interface OptionsDialogProps {
   onClose: () => void;
 }
 
+function VolumeSlider({
+  label,
+  value,
+  onChange,
+  testId,
+}: {
+  label: string;
+  value: number;
+  onChange: (next: number) => void;
+  testId: string;
+}) {
+  const id = useId();
+  const pct = Math.round(value * 100);
+  return (
+    <div className="options-row options-row--volume">
+      <label className="options-volume" htmlFor={id}>
+        <span className="options-row__label">{label}</span>
+        <input
+          id={id}
+          type="range"
+          min={0}
+          max={100}
+          step={1}
+          value={pct}
+          data-testid={testId}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={pct}
+          aria-valuetext={`${pct} percent`}
+          onChange={(event) =>
+            onChange(Number.parseInt(event.target.value, 10) / 100)
+          }
+        />
+        <span className="options-volume__pct" aria-hidden="true">
+          {pct}%
+        </span>
+      </label>
+    </div>
+  );
+}
+
 export const OptionsDialog: React.FC<OptionsDialogProps> = ({ onClose }) => {
   const [styleIndex, setStyleIndex] = usePieceStyle();
   const [pieceOutline, setPieceOutline] = useBoardContrastOutline();
+  const [showPowerRelay, setShowPowerRelay] = useShowPowerRelay();
+  const [soundtrackOn, setSoundtrackOn] = useSoundtrackEnabled();
+  const [sfxVolume, setSfxVolume] = useGameSoundsVolume();
+  const [ostVolume, setOstVolume] = useSoundtrackVolume();
   const [lpgnLog, setLpgnLog] = useGameLogLpgn();
   const rimFlags = getStyleRimFlags(styleIndex);
   const bakedOutline =
@@ -47,6 +96,48 @@ export const OptionsDialog: React.FC<OptionsDialogProps> = ({ onClose }) => {
           <div className="options-row">
             <span className="options-row__label">Game sounds</span>
             <SoundMuteButton className="options-control-btn" />
+          </div>
+          <VolumeSlider
+            label="Effects volume"
+            value={sfxVolume}
+            onChange={setSfxVolume}
+            testId="options-sfx-volume"
+          />
+          <div className="options-row">
+            <span className="options-row__label">Soundtrack</span>
+            <button
+              type="button"
+              className="options-control-btn"
+              aria-pressed={soundtrackOn}
+              data-testid="options-soundtrack"
+              title="Optional adaptive music that follows Sensor Net contact, the Sector clock, and Terminal Overclock. Off by default."
+              onClick={() => setSoundtrackOn(!soundtrackOn)}
+            >
+              {soundtrackOn ? 'On' : 'Off'}
+            </button>
+          </div>
+          <VolumeSlider
+            label="Soundtrack volume"
+            value={ostVolume}
+            onChange={setOstVolume}
+            testId="options-ost-volume"
+          />
+        </section>
+
+        <section className="options-section" aria-labelledby="options-board">
+          <h3 id="options-board">Board</h3>
+          <div className="options-row">
+            <span className="options-row__label">Power relay</span>
+            <button
+              type="button"
+              className="options-control-btn"
+              aria-pressed={showPowerRelay}
+              data-testid="options-power-relay"
+              title="When a ship is selected, show its dashed power-relay path back to the Command Hub"
+              onClick={() => setShowPowerRelay(!showPowerRelay)}
+            >
+              {showPowerRelay ? 'On' : 'Off'}
+            </button>
           </div>
         </section>
 

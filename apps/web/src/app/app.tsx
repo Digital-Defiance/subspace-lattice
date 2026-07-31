@@ -4,10 +4,12 @@ import {
   GameLayout,
   MissionFiguresHarness,
   SetupDiagramHarness,
+  Soundboard,
   Tutorial,
 } from '@subspace-lattice/react';
 import { Landing } from './landing';
 import { PrivacyPage } from './privacy';
+import { SoundtrackPage } from './soundtrack-page';
 import { Story } from './story';
 
 /** Old /leaderboard bookmarks → Lattice TEI on the federation standings site. */
@@ -27,9 +29,11 @@ export function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/story" element={<Story />} />
+      <Route path="/soundtrack" element={<SoundtrackPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/play" element={<GameLayout />} />
       <Route path="/tutorial" element={<Tutorial />} />
+      <Route path="/soundboard" element={<Soundboard />} />
       <Route path="/leaderboard" element={<FederationStandingsRedirect />} />
       <Route path="/game" element={<Navigate to="/play" replace />} />
       <Route path="/game/:roomCode" element={<GameLayout />} />

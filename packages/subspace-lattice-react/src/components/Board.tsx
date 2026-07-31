@@ -17,6 +17,7 @@ import {
 import {
   usePieceStyle,
 } from '../hooks/usePieceStyle';
+import { useShowPowerRelay } from '../hooks/useShowPowerRelay';
 import './Board.scss';
 
 interface BoardProps {
@@ -40,6 +41,8 @@ interface BoardProps {
   pieceStyle?: number;
   /** Force Outline on/off (skips persisted preference). */
   contrastOutline?: boolean;
+  /** Force selection-scoped Hub relay path on/off (skips persisted preference). */
+  showPowerRelay?: boolean;
   /**
    * When false (e.g. online waiting room), suppress selection and legal-move
    * highlights even if a seat color is set. Off-turn and game-over also
@@ -69,11 +72,13 @@ export const Board: React.FC<BoardProps> = ({
   onInvalidAction,
   pieceStyle: forcedPieceStyle,
   contrastOutline: forcedOutline,
+  showPowerRelay: forcedPowerRelay,
   interactive = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
   const [styleIndex] = usePieceStyle(forcedPieceStyle);
   const [pieceOutline] = useBoardContrastOutline(forcedOutline);
+  const [powerRelayOn] = useShowPowerRelay(forcedPowerRelay);
   const rimFlags = getStyleRimFlags(styleIndex);
   // Outline always adds a *white* visibility trace — never a dark one.
   // Skip sides that already ship a light rim (avoids double-white).
@@ -117,6 +122,40 @@ export const Board: React.FC<BoardProps> = ({
     () => (showNet ? engine.getSensorNetSet(PlayerColor.Black) : null),
     [engine, showNet],
   );
+  const powerRelayLinks = useMemo(() => {
+    if (!showNet || !powerRelayOn || !selectedPieceId) return [];
+    return engine.getSensorNetRelayPath(selectedPieceId);
+  }, [engine, showNet, powerRelayOn, selectedPieceId]);
+  const terminalBlastBySide = useMemo(() => {
+    const white = new Set<string>();
+    const black = new Set<string>();
+    const n = gameState.boardSize;
+    const paint = (color: PlayerColor, into: Set<string>) => {
+      if (!engine.isTerminalOverclock(color)) return;
+      const hub = Object.values(gameState.pieces).find(
+        (piece) =>
+          piece.owner === color && piece.type === PieceType.CommandHub,
+      );
+      if (!hub) return;
+      const radius = engine.getEmpRadius(color);
+      for (
+        let x = Math.max(0, hub.position.x - radius);
+        x <= Math.min(n - 1, hub.position.x + radius);
+        x++
+      ) {
+        for (
+          let y = Math.max(0, hub.position.y - radius);
+          y <= Math.min(n - 1, hub.position.y + radius);
+          y++
+        ) {
+          into.add(`${x},${y}`);
+        }
+      }
+    };
+    paint(PlayerColor.White, white);
+    paint(PlayerColor.Black, black);
+    return { white, black };
+  }, [engine, gameState.boardSize, gameState.pieces]);
   const spoolTargets = useMemo(
     () =>
       new Set(
@@ -202,8 +241,20 @@ export const Board: React.FC<BoardProps> = ({
     );
   };
 
+  const terminalBlastClass = (x: number, y: number): string => {
+    const key = `${x},${y}`;
+    const w = terminalBlastBySide.white.has(key);
+    const b = terminalBlastBySide.black.has(key);
+    if (w && b) return 'terminal-blast-contested';
+    if (w) return 'terminal-blast-white';
+    if (b) return 'terminal-blast-black';
+    return '';
+  };
+
   const netClass = (x: number, y: number): string => {
     if (!showNet || !whiteNet || !blackNet) return '';
+    // Terminal EMP disks own the cell tint — don't muddy with Sensor Net mixes.
+    if (terminalBlastClass(x, y)) return '';
     const key = `${x},${y}`;
     const w = whiteNet.has(key);
     const b = blackNet.has(key);
@@ -212,6 +263,15 @@ export const Board: React.FC<BoardProps> = ({
     if (b) return 'sovereign-black';
     return '';
   };
+
+  const isTerminalBlast = (x: number, y: number): boolean =>
+    Boolean(terminalBlastClass(x, y));
+
+  const cellCenter = (coord: Coordinate): { cx: number; cy: number } => ({
+    cx: coord.x + 0.5,
+    // Display sorts high y to the top row — flip for SVG overlay.
+    cy: gameState.boardSize - 1 - coord.y + 0.5,
+  });
 
   const selectedPiece = selectedPieceId
     ? engine.getPiece(selectedPieceId)
@@ -299,12 +359,14 @@ export const Board: React.FC<BoardProps> = ({
     cell: Cell,
     piece: BoardPiece | null,
     detected: boolean,
+    terminalBlast: boolean,
   ): string => {
     const coordinate = `column ${cell.coordinate.x}, row ${cell.coordinate.y}`;
     if (cell.type === CellType.GravityWell) {
       return `${coordinate}, Gravity Well, blocked`;
     }
-    if (!piece) return `${coordinate}, empty`;
+    const blastNote = terminalBlast ? ', Terminal EMP blast radius' : '';
+    if (!piece) return `${coordinate}, empty${blastNote}`;
     const pieceName = {
       [PieceType.CommandHub]: 'Command Hub',
       [PieceType.Escort]: 'Escort',
@@ -313,7 +375,7 @@ export const Board: React.FC<BoardProps> = ({
       [PieceType.Refractor]: 'Refractor',
       [PieceType.Carrier]: 'Carrier',
     }[piece.type];
-    return `${coordinate}, ${piece.owner} ${pieceName}${detected ? ', Target Locked' : ''}`;
+    return `${coordinate}, ${piece.owner} ${pieceName}${detected ? ', Target Locked' : ''}${blastNote}`;
   };
 
   return (
@@ -335,7 +397,31 @@ export const Board: React.FC<BoardProps> = ({
         outlineBlack || outlineWhite ? 'true' : undefined
       }
       data-playable={playable ? 'true' : 'false'}
+      data-power-relay={powerRelayOn && showNet ? 'true' : undefined}
     >
+      {powerRelayLinks.length > 0 && (
+        <svg
+          className="power-relay-overlay"
+          viewBox={`0 0 ${gameState.boardSize} ${gameState.boardSize}`}
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          {powerRelayLinks.map((link) => {
+            const a = cellCenter(link.from);
+            const b = cellCenter(link.to);
+            return (
+              <line
+                key={`${link.fromId}-${link.toId}`}
+                className="power-relay-link"
+                x1={a.cx}
+                y1={a.cy}
+                x2={b.cx}
+                y2={b.cy}
+              />
+            );
+          })}
+        </svg>
+      )}
       {displayCells.map((cell: Cell) => {
         const piece = cell.pieceId ? gameState.pieces[cell.pieceId] : null;
         const isSelected = playable && piece?.id === selectedPieceId;
@@ -345,6 +431,14 @@ export const Board: React.FC<BoardProps> = ({
         );
         const detected =
           showNet && piece ? engine.isPieceDetected(piece) : false;
+        const terminalBlast = isTerminalBlast(
+          cell.coordinate.x,
+          cell.coordinate.y,
+        );
+        const blastClass = terminalBlastClass(
+          cell.coordinate.x,
+          cell.coordinate.y,
+        );
         const isSelectable =
           playable &&
           piece?.owner === localPlayer &&
@@ -356,14 +450,14 @@ export const Board: React.FC<BoardProps> = ({
         return (
           <div
             key={`${cell.coordinate.x}-${cell.coordinate.y}`}
-            className={`subspace-cell ${isGravityWell ? 'gravity-well' : ''} ${isSelected ? 'selected' : ''} ${isSpoolTarget ? 'spool-target' : ''} ${isSelectable && guidance ? 'tutorial-selectable' : ''} ${isDestination ? 'legal-destination' : ''} ${playable && isGuidedDestination(cell.coordinate) ? 'tutorial-destination' : ''} ${isFocused ? 'tutorial-focus' : ''} ${isAdvisorFrom(cell.coordinate) ? 'advisor-from' : ''} ${isAdvisorTo(cell.coordinate) ? 'advisor-to' : ''} ${netClass(cell.coordinate.x, cell.coordinate.y)}`}
+            className={`subspace-cell ${isGravityWell ? 'gravity-well' : ''} ${isSelected ? 'selected' : ''} ${isSpoolTarget ? 'spool-target' : ''} ${isSelectable && guidance ? 'tutorial-selectable' : ''} ${isDestination ? 'legal-destination' : ''} ${playable && isGuidedDestination(cell.coordinate) ? 'tutorial-destination' : ''} ${isFocused ? 'tutorial-focus' : ''} ${isAdvisorFrom(cell.coordinate) ? 'advisor-from' : ''} ${isAdvisorTo(cell.coordinate) ? 'advisor-to' : ''} ${netClass(cell.coordinate.x, cell.coordinate.y)} ${blastClass}`}
             data-testid={`cell-${cell.coordinate.x}-${cell.coordinate.y}`}
             data-cell-x={cell.coordinate.x}
             data-cell-y={cell.coordinate.y}
             role="gridcell"
             aria-rowindex={gameState.boardSize - cell.coordinate.y}
             aria-colindex={cell.coordinate.x + 1}
-            aria-label={cellLabel(cell, piece, detected)}
+            aria-label={cellLabel(cell, piece, detected, terminalBlast)}
             aria-selected={isSelected}
             aria-disabled={!playable || undefined}
             tabIndex={
@@ -377,7 +471,13 @@ export const Board: React.FC<BoardProps> = ({
                 ? 'Navigational Target Lock'
                 : detected
                   ? 'Target Locked — special movement suppressed'
-                  : undefined
+                  : blastClass === 'terminal-blast-white'
+                    ? 'White Terminal EMP blast radius'
+                    : blastClass === 'terminal-blast-black'
+                      ? 'Black Terminal EMP blast radius'
+                      : blastClass === 'terminal-blast-contested'
+                        ? 'Overlapping Terminal EMP blast radii'
+                        : undefined
             }
             onClick={() =>
               handleCellClick(cell.coordinate.x, cell.coordinate.y)

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-29T21:01:15.557Z",
+  "generatedAt": "2026-07-31T17:48:34.447Z",
   "model": "eleven_text_to_sound_v2",
   "plan": [
     {
@@ -97,6 +97,30 @@
       "fingerprint": "57a91bd67c041c3a86fb0b83a36ee3e04756d7f7822ea6286d2e133dc7162f10",
       "chars": 253,
       "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/infiltrator-spool.mp3"
+    },
+    {
+      "id": "phase-three-initiated",
+      "fingerprint": "489d6128a48e3a872daedbc1d82da465dc2b19a3401a8004aa18964b579cf3a1",
+      "chars": 346,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/phase-three-initiated.mp3"
+    },
+    {
+      "id": "thermal-runaway-radius-expanded",
+      "fingerprint": "27dfa0b5b361592d376f1f57f0db74435536ec2b36a870a2c61d266ec15ac8f5",
+      "chars": 312,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/thermal-runaway-radius-expanded.mp3"
+    },
+    {
+      "id": "terminal-overclock-fired",
+      "fingerprint": "d803065e4a5b428da38f836a4aa2aba4879a901e7b756355ccb73093cb4f9e47",
+      "chars": 420,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/terminal-overclock-fired.mp3"
+    },
+    {
+      "id": "terminal-overclock-charged",
+      "fingerprint": "2cef6705843642c5fbb1d5882cd9b5e523223d30b1920b865852cdf23fa283e2",
+      "chars": 268,
+      "out": "/Volumes/Code/IWGF/subspace-lattice/apps/web/public/sfx/terminal-overclock-charged.mp3"
     }
   ]
 }

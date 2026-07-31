@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"/><style>
+  body { margin: 0; background: #06080c; font-family: system-ui, sans-serif; color: #eee; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0 0 8px; }
+  p { font-size: 13px; color: #aaa; margin: 0 0 20px; max-width: 640px; line-height: 1.4; }
+  .row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .group h2 { font-size: 14px; margin: 0 0 10px; color: #ccc; font-weight: 500; }
+  .swatches { display: grid; grid-template-columns: repeat(3, 72px); gap: 8px; }
+  .cell {
+    width: 72px; height: 72px; border-radius: 4px;
+    border: 1px solid #1a2230; box-sizing: border-box;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 6px; font-size: 10px; text-shadow: 0 1px 2px #000;
+  }
+  .label { font-size: 11px; color: #888; text-align: center; margin-top: 4px; }
+  .item { display: flex; flex-direction: column; align-items: center; }
+  .sovereign-white { background:#1f5f9a; box-shadow: inset 0 0 0 1px rgba(150,210,255,.7); }
+  .sovereign-black { background:#8f3d4a; box-shadow: inset 0 0 0 1px rgba(255,175,155,.75); }
+  .sovereign-contested { background:#6a4a82; box-shadow: inset 0 0 0 1px rgba(220,190,255,.65); }
+  .terminal-blast-white { background:#0085ff; box-shadow: inset 0 0 0 1px rgba(150,210,255,.9); }
+  .terminal-blast-black { background:#dc2626; box-shadow: inset 0 0 0 1px rgba(255,160,140,.85); }
+  .terminal-blast-contested { background:#dc83d9; box-shadow: inset 0 0 0 1px rgba(255,210,250,.9); }
+</style></head><body>
+  <h1>Board spectrum — Sensor Net vs Terminal EMP</h1>
+  <p>Terminal overlap #dc83d9 = exclusion mix of #0085ff × #dc2626. Net contested stays muted #6a4a82.</p>
+  <div class="row">
+    <div class="group">
+      <h2>Sensor Net (territory)</h2>
+      <div class="swatches">
+        <div class="item"><div class="cell sovereign-white">W</div><div class="label">White net</div></div>
+        <div class="item"><div class="cell sovereign-black">B</div><div class="label">Black net</div></div>
+        <div class="item"><div class="cell sovereign-contested">Both</div><div class="label">Contested</div></div>
+      </div>
+    </div>
+    <div class="group">
+      <h2>Terminal EMP</h2>
+      <div class="swatches">
+        <div class="item"><div class="cell terminal-blast-white">W</div><div class="label">White EMP</div></div>
+        <div class="item"><div class="cell terminal-blast-black">B</div><div class="label">Black EMP</div></div>
+        <div class="item"><div class="cell terminal-blast-contested">Both</div><div class="label">Overlap</div></div>
+      </div>
+    </div>
+  </div>
+</body></html>

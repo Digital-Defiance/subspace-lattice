@@ -15,7 +15,7 @@
   border: 1px solid $accent;
   border-radius: $radius-lg;
   padding: 1.5rem 1.6rem 1.35rem;
-  width: min(92vw, 420px);
+  width: min(92vw, 460px);
   max-height: 80vh;
   overflow-y: auto;
   color: $text;
@@ -88,6 +88,39 @@
 .options-row__label {
   color: $text;
   font-size: 0.92rem;
+}
+
+.options-row--volume {
+  align-items: stretch;
+}
+
+.options-volume {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, auto) minmax(0, 1fr) 2.75rem;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  cursor: pointer;
+
+  input[type='range'] {
+    width: 100%;
+    margin: 0;
+    accent-color: $accent;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid #f8fafc;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.options-volume__pct {
+  color: #9aa8bc;
+  font-family: var(--font-sol-pro-regular);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .options-row__control {

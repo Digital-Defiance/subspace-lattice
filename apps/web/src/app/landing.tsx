@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './landing.scss';
 import {
   DocLink,
   SubspaceLatticeLogo,
+  hasSoundtrackPreferenceSet,
   isTauriRuntime,
+  useLatticeSoundtrack,
 } from '@subspace-lattice/react';
 import { OriginWelcomeGate } from './origin-welcome-gate';
 import {
   ORIGIN_STORY_YOUTUBE_URL,
   hasSeenOriginWelcome,
 } from './origin-welcome';
+import { SoundtrackWelcomeGate } from './soundtrack-welcome-gate';
 
 // <li><img className={styles.platformIcon} height="16" src="/google-play-brands-solid-full.svg" alt="Google Play" /> <a className={styles.platformLink} target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=org.digitaldefiance.app.warp12">Google Play</a></li>
 const appsSection = (<section className="appAvailability">
@@ -24,16 +27,37 @@ const appsSection = (<section className="appAvailability">
 
 export function Landing() {
   const [showWelcome, setShowWelcome] = useState(false);
+  const [showSoundtrack, setShowSoundtrack] = useState(false);
+
+  // Command deck OST — leave running on navigate so /play can crossfade to lobby.
+  useLatticeSoundtrack(null, {
+    scene: 'command-deck',
+    stopOnUnmount: false,
+  });
 
   useEffect(() => {
-    if (!hasSeenOriginWelcome()) setShowWelcome(true);
+    if (!hasSeenOriginWelcome()) {
+      setShowWelcome(true);
+      return;
+    }
+    if (!hasSoundtrackPreferenceSet()) setShowSoundtrack(true);
+  }, []);
+
+  const dismissWelcome = useCallback(() => {
+    setShowWelcome(false);
+    if (!hasSoundtrackPreferenceSet()) setShowSoundtrack(true);
+  }, []);
+
+  const dismissSoundtrack = useCallback(() => {
+    setShowSoundtrack(false);
   }, []);
 
   return (
     <div className="landing">
-      {showWelcome && (
-        <OriginWelcomeGate onDismiss={() => setShowWelcome(false)} />
-      )}
+      {showWelcome ? <OriginWelcomeGate onDismiss={dismissWelcome} /> : null}
+      {!showWelcome && showSoundtrack ? (
+        <SoundtrackWelcomeGate onDismiss={dismissSoundtrack} />
+      ) : null}
       <main className="landing-hero">
         <SubspaceLatticeLogo className="landing-logo" width={544} ariaLabel="Subspace Lattice — Command the Fleet. Control the Lattice."  />
         <p className="landing-kicker">Fleet tactics · Signal warfare · Sovereign space</p>
@@ -72,6 +96,8 @@ export function Landing() {
           </a>
           <span aria-hidden="true"> · </span>
           <Link to="/story">Sector 11 briefing</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/soundtrack">Soundtrack</Link>
           <span aria-hidden="true"> · </span>
           <DocLink doc="manual">Introductory manual</DocLink>
           <span aria-hidden="true"> · </span>

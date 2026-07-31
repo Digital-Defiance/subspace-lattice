@@ -132,6 +132,22 @@ Scene kinds: `title` · `narration` · `story` · `board` · `pause-predict` · 
 Optional per-scene `backgroundAsset`: filename under `public/story/<episode-id>/`
 (e.g. `"title.png"` → `public/story/ep-story-01/title.png`).
 
+Optional per-scene `bgm` (string path, object, or `null`):
+
+- Prefer Remotion `public/`-relative paths:
+  - `soundtrack/Void Pulse.mp3` — fleet OST library
+  - `audio/<episode-id>/custom-bed.mp3` — episode-local bed
+  - `episode:intro.mp3` — shorthand for `audio/<episode-id>/intro.mp3`
+- Bare filenames still map to `soundtrack/<file>`.
+- Object form: `{ "src", "volume?", "duck?", "loop?", "key?" }` for mix /
+  loop / span-identity control.
+- Episode-level `bgm` is the default for every scene; a scene may override
+  or set `"bgm": null` to stay silent.
+- Consecutive scenes with the same span `key` (default: resolved path) share
+  one continuous `<Audio>` mount with ~1s crossfades and VO ducking
+  (defaults ≈40% bed / ≈8% ducked; final bed fades out over ~4s).
+  See `src/lib/bgm.ts` + `src/components/SmartBgm.tsx`.
+
 `story` beats are lore cards (headline + optional subhead + VO) over art — no
 board SVG.
 
@@ -160,17 +176,19 @@ Edit JSON → refresh Studio. No remotion recompile of content needed.
   (`*.alignment.json`) via `SyncedCaptions` — active sentence + upcoming,
   no caption box. Re-run `yarn videos:tts -- --episode ep-story-01 --stale`
   to refresh sidecars.
-- **Atmosphere**: drop bed music under `public/audio/bed.mp3` and wire an
-  `<Audio>` in `Episode.tsx` when ready.
+- **Atmosphere**: optional per-scene `bgm` (fleet soundtrack beds). Mounted at
+  Episode root with consecutive-track grouping, crossfades, and VO ducking.
 
 ## Layout
 
 ```
 apps/academy-videos/
   public/missions → docs/figures/missions
+  public/soundtrack → apps/web/public/soundtrack
   public/story/<episode-id>/*.png   # lore stills (backgroundAsset)
   public/audio/<episode-id>/*.mp3   # TTS (gitignored)
   scripts/episodes/*.json
   src/compositions/Episode.tsx
   src/components/Scenes.tsx
+  src/components/SmartBgm.tsx
 ```

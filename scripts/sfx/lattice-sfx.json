@@ -135,6 +135,38 @@
       "loop": false,
       "promptInfluence": 0.5,
       "prompt": "Fast sci-fi targeting sequence. A rapid, accelerating series of crisp digital telemetry pings that instantly resolve into a sharp, bright confirmation chime. Triangulating a location, painting a target, high-tech navigational lock. Clean, fast UI alert."
+    },
+    {
+      "id": "phase-three-initiated",
+      "title": "Phase Three Initiated",
+      "durationSeconds": 1.5,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Deep, resonant naval klaxon echoing in a massive, hollow metallic space. The heavy, pressurized slamming and locking of massive steel bulkhead vents sealing shut. A low, rhythmic, throbbing bass pulse begins, resembling a mechanical heartbeat slowly accelerating. Oppressive, tense, gritty sci-fi alarm, transitioning into a claustrophobic drone."
+    },
+    {
+      "id": "terminal-overclock-charged",
+      "title": "Terminal Overclock Charged",
+      "durationSeconds": 1.5,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "A sharp, high-voltage electrical arc snapping. A heavy, locking mechanical clunk, like a massive firing pin dropping into place. The underlying rhythmic bass pulse shifts into a sustained, high-tension electrical hum. A cold, synthetic, computerized confirmation beep."
+    },
+    {
+      "id": "thermal-runaway-radius-expanded",
+      "title": "Thermal Runaway Radius Expanded",
+      "durationSeconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "A sudden, violent wave of distorted electromagnetic static, like a massive Geiger counter spiking aggressively. A heavy, localized sub-bass 'wub' or thud that violently shakes a metallic chassis. High-pitched, unstable thermal venting sound that cuts off abruptly. A distinct, escalating, atonal chime of danger."
+    },
+    {
+      "id": "terminal-overclock-fired",
+      "title": "Terminal Overclock Fired",
+      "durationSeconds": 2,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "prompt": "Heavy sci-fi capacitor charging for an EMP blast. Aggressive, unstable electromagnetic crackles and static. A low, violent bass drone pitching up rapidly into a deafening, piercing energy whine. Sudden, silent vacuum drop, followed by a colossal, shattering sub-bass shockwave. Overloaded circuits, intense power surge, concluding with the dying, grinding sputter of a massive engine groaning to a halt and fusing solid."
     }
   ]
 }

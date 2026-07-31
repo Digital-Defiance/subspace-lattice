@@ -5,6 +5,7 @@
   --board-gap: 2px;
   --board-pad: 4px;
   --cell-ideal: 40px;
+  position: relative;
   display: grid;
   grid-template-columns: repeat(var(--board-n), minmax(0, 1fr));
   grid-template-rows: repeat(var(--board-n), minmax(0, 1fr));
@@ -36,6 +37,26 @@
       drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
       drop-shadow(0 0 0.55px rgba(244, 236, 232, 0.98))
       drop-shadow(0 0 1.1px rgba(244, 236, 232, 0.9));
+  }
+
+  // Stretched over the padded grid; cell centers use viewBox units 0..n.
+  .power-relay-overlay {
+    position: absolute;
+    inset: var(--board-pad);
+    width: calc(100% - 2 * var(--board-pad));
+    height: calc(100% - 2 * var(--board-pad));
+    pointer-events: none;
+    z-index: 3;
+    overflow: visible;
+  }
+
+  .power-relay-link {
+    fill: none;
+    stroke: #5eb0ff;
+    stroke-width: 0.08;
+    stroke-dasharray: 0.18 0.14;
+    stroke-linecap: round;
+    opacity: 0.9;
   }
 }
 
@@ -155,6 +176,24 @@
   &.sovereign-contested {
     background-color: #6a4a82;
     box-shadow: inset 0 0 0 1px rgba(220, 190, 255, 0.65);
+  }
+
+  // Terminal Overclock: per-side EMP disks (thermal runaway).
+  // White: #0085ff (sat/brightness boost of net blue #1f5f9a).
+  // Black: hot red. Contested: exclusion mix of the two (#dc83d9).
+  &.terminal-blast-white {
+    background-color: #0085ff;
+    box-shadow: inset 0 0 0 1px rgba(150, 210, 255, 0.9);
+  }
+
+  &.terminal-blast-black {
+    background-color: #dc2626;
+    box-shadow: inset 0 0 0 1px rgba(255, 160, 140, 0.85);
+  }
+
+  &.terminal-blast-contested {
+    background-color: #dc83d9;
+    box-shadow: inset 0 0 0 1px rgba(255, 210, 250, 0.9);
   }
 
   &.spool-target {

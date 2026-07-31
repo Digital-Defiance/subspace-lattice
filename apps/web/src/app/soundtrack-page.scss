@@ -1,0 +1,110 @@
+$teal: #34e3c5;
+$purple: #a855f7;
+$muted: #9eacc8;
+
+.ost-cues {
+  display: grid;
+  gap: 0;
+}
+
+.ost-cue {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+  padding: 1.6rem 0;
+  border-top: 1px solid rgba(115, 139, 185, 0.2);
+
+  &:last-child {
+    border-bottom: 1px solid rgba(115, 139, 185, 0.2);
+  }
+}
+
+.ost-cue__stage {
+  color: rgba(52, 227, 197, 0.62);
+  font-family: ui-monospace, monospace;
+  font-size: 0.95rem;
+  padding-top: 0.15rem;
+}
+
+.ost-cue__trigger {
+  margin: 0 0 0.3rem;
+  color: $purple;
+  font: 700 0.68rem/1.3 var(--font-sol-pro-regular);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ost-cue__body h3 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-all-round-gothic);
+  font-size: 1.45rem;
+  font-weight: 400;
+  color: #fff;
+}
+
+.ost-cue__behavior {
+  margin: 0 0 1.1rem;
+  max-width: 42rem;
+  color: $muted;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.ost-cue__tracks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ost-cue__tracks li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(115, 139, 185, 0.22);
+  border-radius: 0.75rem;
+  background: rgba(14, 21, 37, 0.55);
+
+  > span {
+    color: #edf5ff;
+    font-family: var(--font-sol-pro-regular);
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+  }
+}
+
+.ost-cue__play {
+  appearance: none;
+  flex: 0 0 auto;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid rgba(52, 227, 197, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: $teal;
+  font-family: var(--font-sol-pro-regular);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    border-color: $teal;
+    color: #fff;
+  }
+
+  &--active {
+    color: #041018;
+    background: $teal;
+    border-color: $teal;
+  }
+}
+
+@media (max-width: 700px) {
+  .ost-cue {
+    grid-template-columns: 2.25rem 1fr;
+  }
+}

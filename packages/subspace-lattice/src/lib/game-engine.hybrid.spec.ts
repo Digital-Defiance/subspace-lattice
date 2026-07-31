@@ -67,6 +67,64 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
     expect(twoRelays.getPiece('w-e5')?.position).toEqual({ x: 6, y: 2 });
   });
 
+  it('getSensorNetRelayPath traces selected ship back to the Hub', () => {
+    const engine = new SubspaceLatticeEngine({ rulesVersion: 'hybrid' });
+    const hubPath = engine.getSensorNetRelayPath('w-ch');
+    expect(hubPath).toEqual([]);
+
+    const escort = engine.getPiece('w-e1');
+    expect(escort).toBeTruthy();
+    const path = engine.getSensorNetRelayPath('w-e1');
+    expect(path.length).toBeGreaterThan(0);
+    expect(path.some((link) => link.fromId === 'w-ch' || link.toId === 'w-ch')).toBe(
+      true,
+    );
+    expect(path.some((link) => link.fromId === 'w-e1' || link.toId === 'w-e1')).toBe(
+      true,
+    );
+
+    const linkDistance = engine.getRules().linkDistance;
+    for (const link of path) {
+      const d = Math.max(
+        Math.abs(link.from.x - link.to.x),
+        Math.abs(link.from.y - link.to.y),
+      );
+      expect(d).toBeLessThanOrEqual(linkDistance);
+    }
+  });
+
+  it('getSensorNetRelayPath is empty for an unlinked escort', () => {
+    const engine = new SubspaceLatticeEngine({ rulesVersion: 'hybrid' });
+    const state = structuredClone(engine.getState());
+    for (const id of Object.keys(state.pieces)) {
+      if (id.startsWith('b-') && id !== 'b-ch' && id !== 'b-e1') {
+        const p = state.pieces[id]!;
+        const cell = state.cells.find(
+          (c) =>
+            c.coordinate.x === p.position.x &&
+            c.coordinate.y === p.position.y,
+        );
+        if (cell) cell.pieceId = undefined;
+        delete state.pieces[id];
+      }
+    }
+    const escort = state.pieces['b-e1']!;
+    const old = state.cells.find(
+      (c) =>
+        c.coordinate.x === escort.position.x &&
+        c.coordinate.y === escort.position.y,
+    )!;
+    old.pieceId = undefined;
+    escort.position = { x: 0, y: 0 };
+    const dest = state.cells.find(
+      (c) => c.coordinate.x === 0 && c.coordinate.y === 0,
+    )!;
+    dest.pieceId = 'b-e1';
+
+    const live = SubspaceLatticeEngine.fromState(state);
+    expect(live.getSensorNetRelayPath('b-e1')).toEqual([]);
+  });
+
   it('unlinked escort does not radiate', () => {
     const engine = new SubspaceLatticeEngine({ rulesVersion: 'hybrid' });
     const state = structuredClone(engine.getState());
@@ -76,7 +134,8 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
         const p = state.pieces[id]!;
         const cell = state.cells.find(
           (c) =>
-            c.coordinate.x === p.position.x && c.coordinate.y === p.position.y,
+            c.coordinate.x === p.position.x &&
+            c.coordinate.y === p.position.y,
         );
         if (cell) cell.pieceId = undefined;
         delete state.pieces[id];

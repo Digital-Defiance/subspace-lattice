@@ -1,76 +1,83 @@
 {
-    "id": "ep-story-01",
-    "compositionId": "EpisodeStory01",
-    "title": "The Battle for Sector 11",
-    "youtubeTitle": "The Fall of Sector 11 (A Subspace Lattice Story)",
-    "description": "Decades ago, a shattered stellar core created the most dangerous electromagnetic graveyard in the galaxy. This is the true story of how the Battle for Sector 11 was fought.",
-    "fps": 30,
-    "width": 1920,
-    "height": 1080,
-    "scenes": [
-      {
-        "kind": "title",
-        "id": "title",
-        "backgroundAsset": "title.png",
-        "eyebrow": "Historical Archives",
-        "headline": "The Fall of Sector 11",
-        "subhead": "A shattered stellar core. Two armadas. One dead zone.",
-        "voiceover": "Decades ago, the stellar core of Sector 11 imploded, shattering a vital gateway and leaving behind an electromagnetic graveyard. When the first task forces arrived to reclaim it, they found a void so dense their sensors read nothing but pitch black. The sector could not simply be sailed; it had to be illuminated, thread by thread.",
-        "durationHintSec": 22
-      },
-      {
-        "kind": "story",
-        "id": "the-unmapped-dark",
-        "backgroundAsset": "the-unmapped-dark.png",
-        "headline": "The Unmapped Dark",
-        "subhead": "Where heavy dreadnoughts go blind.",
-        "voiceover": "The surviving logs tell of the 'Unmapped Dark.' Command quickly realized their massive particle weapons were useless out there, carrying lances with no lanes to fire down. To survive, they relied on specialized escort ships. Built to take the dark on the chin, these brave vanguard vessels were the only ones capable of plodding forward into the unknown.",
-        "durationHintSec": 20
-      },
-      {
-        "kind": "story",
-        "id": "the-singularity",
-        "backgroundAsset": "the-singularity.png",
-        "headline": "The Anomalous Core",
-        "subhead": "The collapsed heart of a dying star.",
-        "voiceover": "At the exact center of the battlefield churned the Anomalous Core—the collapsed remains of the dying star. Its gravitational tear was so absolute it swallowed matter, kinetic ordnance, and subspace signals whole. It stood as an impenetrable pillar, forcing commanders into brutal choke points before the first shots were ever fired.",
-        "durationHintSec": 20
-      },
-      {
-        "kind": "story",
-        "id": "signal-architecture",
-        "backgroundAsset": "signal-architecture.png",
-        "headline": "The Fragile Tether",
-        "subhead": "A lifeline made of light and power.",
-        "voiceover": "Victory in Sector 11 required a synchronized signal architecture. The flagship served as the brain, pumping power through a daisy-chain of mobile escort relays. But this lifeline was fragile. Historical records show entire forward lines plunging into catastrophic darkness the moment a single relay tether was severed by enemy fire.",
-        "durationHintSec": 20
-      },
-      {
-        "kind": "story",
-        "id": "electronic-warfare",
-        "backgroundAsset": "electronic-warfare.png",
-        "headline": "Contested Space",
-        "subhead": "The unseen trap of the glowing net.",
-        "voiceover": "As the armadas advanced, their network fields expanded and violently collided. Where these signals clashed, the void sparked into an electronic warfare dead zone. It was a terrifying trap—pilots who crossed into the enemy's glow found their engine coils instantly seized by a target lock, stranding swift strike craft to an agonizing crawl.",
-        "durationHintSec": 21
-      },
-      {
-        "kind": "story",
-        "id": "decisive-resolution",
-        "backgroundAsset": "decisive-resolution.png",
-        "headline": "Total Blackout",
-        "subhead": "No retreat. Only absolute completion.",
-        "voiceover": "The war logs confirm that no standoff in Sector 11 lasted forever. A battle ended only when a surgical strike decapitated an opposing flagship, or when a fleet saturated the sector with enough signal to force a catastrophic system blackout upon their enemy. There was no retreat—only absolute completion.",
-        "durationHintSec": 22
-      },
-      {
-        "kind": "story",
-        "id": "outro",
-        "backgroundAsset": "outro.png",
-        "headline": "Sovereign Space",
-        "subhead": "The history of the Lattice.",
-        "voiceover": "Today, Sector 11 is not remembered as a standard space battle, but as a grueling, high-stakes conquest of the dark. Those legendary commanders proved that you do not simply conquer space; you weave a lattice of control, and you make it yours.",
-        "durationHintSec": 15
-      }
-    ]
-  }
+  "id": "ep-story-01",
+  "compositionId": "EpisodeStory01",
+  "title": "The Battle for Sector 11",
+  "youtubeTitle": "The Fall of Sector 11 (A Subspace Lattice Story)",
+  "description": "Decades ago, a shattered stellar core created the most dangerous electromagnetic graveyard in the galaxy. This is the true story of how the Battle for Sector 11 was fought.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "backgroundAsset": "title.png",
+      "bgm": "soundtrack/Void Pulse.mp3",
+      "eyebrow": "Historical Archives",
+      "headline": "The Fall of Sector 11",
+      "subhead": "A shattered stellar core. Two armadas. One dead zone.",
+      "voiceover": "Decades ago, the stellar core of Sector 11 imploded, shattering a vital gateway and leaving behind an electromagnetic graveyard. When the first task forces arrived to reclaim it, they found a void so dense their sensors read nothing but pitch black. The sector could not simply be sailed; it had to be illuminated, thread by thread.",
+      "durationHintSec": 22
+    },
+    {
+      "kind": "story",
+      "id": "the-unmapped-dark",
+      "backgroundAsset": "the-unmapped-dark.png",
+      "bgm": "soundtrack/Void Pulse.mp3",
+      "headline": "The Unmapped Dark",
+      "subhead": "Where heavy dreadnoughts go blind.",
+      "voiceover": "The surviving logs tell of the 'Unmapped Dark.' Command quickly realized their massive particle weapons were useless out there, carrying lances with no lanes to fire down. To survive, they relied on specialized escort ships. Built to take the dark on the chin, these brave vanguard vessels were the only ones capable of plodding forward into the unknown.",
+      "durationHintSec": 20
+    },
+    {
+      "kind": "story",
+      "id": "the-singularity",
+      "backgroundAsset": "the-singularity.png",
+      "bgm": "soundtrack/Void Protocol.mp3",
+      "headline": "The Anomalous Core",
+      "subhead": "The collapsed heart of a dying star.",
+      "voiceover": "At the exact center of the battlefield churned the Anomalous Core—the collapsed remains of the dying star. Its gravitational tear was so absolute it swallowed matter, kinetic ordnance, and subspace signals whole. It stood as an impenetrable pillar, forcing commanders into brutal choke points before the first shots were ever fired.",
+      "durationHintSec": 20
+    },
+    {
+      "kind": "story",
+      "id": "signal-architecture",
+      "backgroundAsset": "signal-architecture.png",
+      "bgm": "soundtrack/Void Protocol.mp3",
+      "headline": "The Fragile Tether",
+      "subhead": "A lifeline made of light and power.",
+      "voiceover": "Victory in Sector 11 required a synchronized signal architecture. The flagship served as the brain, pumping power through a daisy-chain of mobile escort relays. But this lifeline was fragile. Historical records show entire forward lines plunging into catastrophic darkness the moment a single relay tether was severed by enemy fire.",
+      "durationHintSec": 20
+    },
+    {
+      "kind": "story",
+      "id": "electronic-warfare",
+      "backgroundAsset": "electronic-warfare.png",
+      "bgm": "soundtrack/Cold Calculations.mp3",
+      "headline": "Contested Space",
+      "subhead": "The unseen trap of the glowing net.",
+      "voiceover": "As the armadas advanced, their network fields expanded and violently collided. Where these signals clashed, the void sparked into an electronic warfare dead zone. It was a terrifying trap—pilots who crossed into the enemy's glow found their engine coils instantly seized by a target lock, stranding swift strike craft to an agonizing crawl.",
+      "durationHintSec": 21
+    },
+    {
+      "kind": "story",
+      "id": "decisive-resolution",
+      "backgroundAsset": "decisive-resolution.png",
+      "bgm": "soundtrack/The Last Thermal Count.mp3",
+      "headline": "Total Blackout",
+      "subhead": "No retreat. Only absolute completion.",
+      "voiceover": "The war logs confirm that no standoff in Sector 11 lasted forever. A battle ended only when a surgical strike decapitated an opposing flagship, or when a fleet saturated the sector with enough signal to force a catastrophic system blackout upon their enemy. There was no retreat—only absolute completion.",
+      "durationHintSec": 22
+    },
+    {
+      "kind": "story",
+      "id": "outro",
+      "backgroundAsset": "outro.png",
+      "bgm": "soundtrack/The Final Algorithm.mp3",
+      "headline": "Sovereign Space",
+      "subhead": "The history of the Lattice.",
+      "voiceover": "Today, Sector 11 is not remembered as a standard space battle, but as a grueling, high-stakes conquest of the dark. Those legendary commanders proved that you do not simply conquer space; you weave a lattice of control, and you make it yours.",
+      "durationHintSec": 15
+    }
+  ]
+}

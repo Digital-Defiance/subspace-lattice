@@ -15,13 +15,15 @@ function soundFingerprint(state: GameState): string {
     state.plyCount ?? 0,
     state.winner ?? '',
     state.winnerReason ?? '',
+    state.terminalPhaseArmed ? '1' : '0',
+    state.terminalPhaseArmedAtPly ?? '',
     state.empActive
-      ? `${state.empActive.firedBy}:${state.empActive.pliesRemaining}`
+      ? `${state.empActive.firedBy}:${state.empActive.pliesRemaining}:${state.empActive.radius}`
       : '',
     state.empCharge?.[PlayerColor.White] ?? 0,
     state.empCharge?.[PlayerColor.Black] ?? 0,
     Object.values(state.pieces ?? {})
-      .map((p) => `${p.id}:${p.position.x},${p.position.y}`)
+      .map((p) => `${p.id}:${p.position.x},${p.position.y}:${p.enginesFused ? 'f' : ''}`)
       .sort()
       .join('|'),
   ].join(';');

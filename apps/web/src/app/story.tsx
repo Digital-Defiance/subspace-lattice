@@ -289,9 +289,9 @@ export function Story() {
 
       <footer className="story-footer">
         Fiction explains the board; the{' '}
-        <DocLink doc="rules">official rules</DocLink> govern it. Prefer
-        plain text? Read this briefing as{' '}
-        <DocLink doc="story">Markdown</DocLink>.
+        <DocLink doc="rules">official rules</DocLink> govern it. Hear the fight
+        as the <Link to="/soundtrack">fleet soundtrack</Link>. Prefer plain
+        text? Read this briefing as <DocLink doc="story">Markdown</DocLink>.
       </footer>
     </div>
   );

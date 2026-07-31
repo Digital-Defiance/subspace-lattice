@@ -29,7 +29,11 @@ export type LatticeGameSound =
   | 'beam-move'
   | 'refractor-move'
   | 'carrier-move'
-  | 'capture';
+  | 'capture'
+  | 'phase-three-initiated'
+  | 'terminal-overclock-charged'
+  | 'thermal-runaway-radius-expanded'
+  | 'terminal-overclock-fired';
 
 const SOUND_SRC: Record<LatticeGameSound, string> = {
   'game-start': '/sfx/game-start.mp3',
@@ -48,14 +52,26 @@ const SOUND_SRC: Record<LatticeGameSound, string> = {
   'refractor-move': '/sfx/refractor-move.mp3',
   'carrier-move': '/sfx/carrier-move.mp3',
   capture: '/sfx/capture.mp3',
+  'phase-three-initiated': '/sfx/phase-three-initiated.mp3',
+  'terminal-overclock-charged': '/sfx/terminal-overclock-charged.mp3',
+  'thermal-runaway-radius-expanded':
+    '/sfx/thermal-runaway-radius-expanded.mp3',
+  'terminal-overclock-fired': '/sfx/terminal-overclock-fired.mp3',
 };
 
 const ALL_SOUNDS = Object.keys(SOUND_SRC) as LatticeGameSound[];
 
 export const GAME_SOUNDS_MUTED_STORAGE_KEY = 'lattice-sounds-muted';
+export const GAME_SOUNDS_VOLUME_STORAGE_KEY =
+  'subspace-lattice.gameSoundsVolume.v1';
 const MUTE_CHANGE_EVENT = 'lattice-sounds-muted-change';
+const VOLUME_CHANGE_EVENT = 'lattice-sounds-volume-change';
+
+/** Default matches the previous hard-coded one-shot level. */
+export const DEFAULT_GAME_SOUNDS_VOLUME = 0.85;
 
 let soundsMuted = readStoredMuted();
+let soundsVolume = readStoredVolume();
 const activeAudio = new Set<HTMLAudioElement>();
 
 export function readStoredGameSoundsMuted(): boolean {
@@ -67,6 +83,21 @@ function readStoredMuted(): boolean {
     return localStorage.getItem(GAME_SOUNDS_MUTED_STORAGE_KEY) === 'true';
   } catch {
     return false;
+  }
+}
+
+function clampVolume(value: number): number {
+  if (!Number.isFinite(value)) return DEFAULT_GAME_SOUNDS_VOLUME;
+  return Math.min(1, Math.max(0, value));
+}
+
+function readStoredVolume(): number {
+  try {
+    const raw = localStorage.getItem(GAME_SOUNDS_VOLUME_STORAGE_KEY);
+    if (raw == null) return DEFAULT_GAME_SOUNDS_VOLUME;
+    return clampVolume(Number.parseFloat(raw));
+  } catch {
+    return DEFAULT_GAME_SOUNDS_VOLUME;
   }
 }
 
@@ -91,6 +122,25 @@ export function areGameSoundsMuted(): boolean {
   return soundsMuted;
 }
 
+export function getGameSoundsVolume(): number {
+  return soundsVolume;
+}
+
+export function setGameSoundsVolume(volume: number): void {
+  soundsVolume = clampVolume(volume);
+  try {
+    localStorage.setItem(GAME_SOUNDS_VOLUME_STORAGE_KEY, String(soundsVolume));
+  } catch {
+    /* ignore */
+  }
+  for (const audio of activeAudio) {
+    audio.volume = soundsVolume;
+  }
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new Event(VOLUME_CHANGE_EVENT));
+  }
+}
+
 /** Subscribe to mute preference changes (same-tab + cross-tab). */
 export function subscribeGameSoundsMuted(
   onStoreChange: () => void,
@@ -113,6 +163,31 @@ export function subscribeGameSoundsMuted(
   };
 }
 
+/** Subscribe to effects volume changes (same-tab + cross-tab). */
+export function subscribeGameSoundsVolume(
+  onStoreChange: () => void,
+): () => void {
+  if (typeof window === 'undefined') return () => undefined;
+  const onStorage = (event: StorageEvent) => {
+    if (
+      event.key === GAME_SOUNDS_VOLUME_STORAGE_KEY ||
+      event.key === null
+    ) {
+      soundsVolume = readStoredVolume();
+      for (const audio of activeAudio) {
+        audio.volume = soundsVolume;
+      }
+      onStoreChange();
+    }
+  };
+  window.addEventListener('storage', onStorage);
+  window.addEventListener(VOLUME_CHANGE_EVENT, onStoreChange);
+  return () => {
+    window.removeEventListener('storage', onStorage);
+    window.removeEventListener(VOLUME_CHANGE_EVENT, onStoreChange);
+  };
+}
+
 export function stopGameSounds(): void {
   for (const audio of activeAudio) {
     audio.pause();
@@ -128,15 +203,18 @@ export function stopGameSounds(): void {
  */
 export function playGameSound(
   id: LatticeGameSound,
-  opts?: { volume?: number },
+  opts?: { volume?: number; /** Ignore Options mute (soundboard). */ force?: boolean },
 ): HTMLAudioElement | null {
-  if (soundsMuted) return null;
+  if (soundsMuted && !opts?.force) return null;
   const src = SOUND_SRC[id];
   if (!src) return null;
 
   try {
     const audio = new Audio(src);
-    audio.volume = Math.min(1, Math.max(0, opts?.volume ?? 0.85));
+    audio.volume = Math.min(
+      1,
+      Math.max(0, opts?.volume ?? soundsVolume),
+    );
     activeAudio.add(audio);
     const release = () => {
       activeAudio.delete(audio);
@@ -229,6 +307,19 @@ export function collectLatticeSoundsAfterPly(
 ): LatticeGameSound[] {
   const play: LatticeGameSound[] = [];
 
+  // EMP may end the game (Lockout) on the same ply — fire SFX before the
+  // winner early-return so Terminal / midgame overload still audibles.
+  const empFired =
+    Boolean(moveInfo?.empFired) || (!before.empActive && Boolean(after.empActive));
+  if (empFired) {
+    const terminalFire =
+      moveInfo?.terminalEmp === true ||
+      Object.values(after.pieces ?? {}).some((p) => p.enginesFused);
+    play.push(
+      terminalFire ? 'terminal-overclock-fired' : 'command-overload',
+    );
+  }
+
   if (!before.winner && after.winner) {
     switch (after.winnerReason) {
       case 'hub-capture':
@@ -247,35 +338,35 @@ export function collectLatticeSoundsAfterPly(
     return play;
   }
 
-  if (moveInfo?.empFired || (!before.empActive && after.empActive)) {
-    play.push('command-overload');
-  } else if (moveInfo?.spoolAnnounce || gainedSpoolTarget(before, after)) {
-    play.push('infiltrator-spool');
-  } else if (!moveInfo?.spoolFailed) {
-    // Piece relocation SFX (failed jump — no board move).
-    let movedType: PieceType | null = moveInfo?.moverType ?? null;
-    let moveDist = 0;
-    for (const [id, piece] of Object.entries(after.pieces ?? {})) {
-      const prev = before.pieces?.[id];
-      if (!prev) continue;
-      const dist = chebyshev(prev.position, piece.position);
-      if (dist === 0) continue;
-      movedType = piece.type;
-      moveDist = dist;
-      break;
-    }
-    if (movedType === PieceType.Infiltrator && moveDist > 1) {
-      play.push('infiltrator-warp');
-    } else if (movedType) {
-      const moveSound = moveSoundForPieceType(movedType);
-      if (moveSound) play.push(moveSound);
-    }
+  if (!empFired) {
+    if (moveInfo?.spoolAnnounce || gainedSpoolTarget(before, after)) {
+      play.push('infiltrator-spool');
+    } else if (!moveInfo?.spoolFailed) {
+      // Piece relocation SFX (failed jump — no board move).
+      let movedType: PieceType | null = moveInfo?.moverType ?? null;
+      let moveDist = 0;
+      for (const [id, piece] of Object.entries(after.pieces ?? {})) {
+        const prev = before.pieces?.[id];
+        if (!prev) continue;
+        const dist = chebyshev(prev.position, piece.position);
+        if (dist === 0) continue;
+        movedType = piece.type;
+        moveDist = dist;
+        break;
+      }
+      if (movedType === PieceType.Infiltrator && moveDist > 1) {
+        play.push('infiltrator-warp');
+      } else if (movedType) {
+        const moveSound = moveSoundForPieceType(movedType);
+        if (moveSound) play.push(moveSound);
+      }
 
-    if (
-      moveInfo?.capturedType ||
-      Object.keys(before.pieces ?? {}).some((id) => !after.pieces?.[id])
-    ) {
-      play.push('capture');
+      if (
+        moveInfo?.capturedType ||
+        Object.keys(before.pieces ?? {}).some((id) => !after.pieces?.[id])
+      ) {
+        play.push('capture');
+      }
     }
   }
 
@@ -292,15 +383,39 @@ export function collectLatticeSoundsAfterPly(
     }
   }
 
-  const chargeTarget = rules.empChargeTarget ?? 0;
-  if (chargeTarget > 0) {
-    for (const color of [PlayerColor.White, PlayerColor.Black]) {
-      const b = before.empCharge?.[color] ?? 0;
-      const a = after.empCharge?.[color] ?? 0;
-      if (b < chargeTarget && a >= chargeTarget) {
-        play.push('emp-charged');
-        break;
-      }
+  // Terminal Phase 3: last non-Hub falls → shared phase arms (counter @ 0).
+  if (!before.terminalPhaseArmed && after.terminalPhaseArmed) {
+    play.push('phase-three-initiated');
+  }
+
+  // Radius bloom while the shared Terminal phase is already live.
+  if (before.terminalPhaseArmed && after.terminalPhaseArmed) {
+    const rBefore = Math.max(
+      beforeEng.getEmpRadius(PlayerColor.White),
+      beforeEng.getEmpRadius(PlayerColor.Black),
+    );
+    const rAfter = Math.max(
+      afterEng.getEmpRadius(PlayerColor.White),
+      afterEng.getEmpRadius(PlayerColor.Black),
+    );
+    if (rAfter > rBefore) {
+      play.push('thermal-runaway-radius-expanded');
+    }
+  }
+
+  // Charge reached fire threshold: Terminal → terminal-overclock-charged; else emp-charged.
+  for (const color of [PlayerColor.White, PlayerColor.Black]) {
+    const target = afterEng.getEmpChargeTarget(color);
+    if (target <= 0) continue;
+    const b = before.empCharge?.[color] ?? 0;
+    const a = after.empCharge?.[color] ?? 0;
+    if (b < target && a >= target) {
+      play.push(
+        afterEng.isTerminalOverclock(color)
+          ? 'terminal-overclock-charged'
+          : 'emp-charged',
+      );
+      break;
     }
   }
 

@@ -28,6 +28,7 @@ import { useGameSync } from '../hooks/useGameSync';
 import { useLocalAiGame } from '../hooks/useLocalAiGame';
 import { usePassAndPlayGame } from '../hooks/usePassAndPlayGame';
 import { useLatticeGameSounds } from '../hooks/useLatticeGameSounds';
+import { useLatticeSoundtrack } from '../hooks/useLatticeSoundtrack';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
 import { AdvisorPanel } from './AdvisorPanel';
 import { Board } from './Board';
@@ -144,6 +145,46 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
   } = usePassAndPlayGame();
 
   const offlineActive = localAiActive || passPlayActive || passPlaySetupOpen;
+
+  const soundtrackEngine = localAiActive
+    ? localEngine
+    : passPlayActive
+      ? passPlayEngine
+      : engine;
+  const soundtrackLive = localAiActive
+    ? Boolean(localEngine)
+    : passPlayActive
+      ? Boolean(passPlayEngine)
+      : Boolean(
+          engine && activeRoom?.whitePlayerId && activeRoom?.blackPlayerId,
+        );
+  const soundtrackKey = localAiActive
+    ? 'local-ai'
+    : passPlayActive
+      ? 'pass-play'
+      : (activeRoom?.id ?? null);
+  const soundtrackSeat: PlayerColor | 'OBSERVER' | null = localAiActive
+    ? localAiColor
+    : passPlayActive
+      ? 'OBSERVER'
+      : !activeRoom
+        ? null
+        : (activeRoom.observerIds ?? []).includes(localPlayerId) &&
+            activeRoom.whitePlayerId !== localPlayerId &&
+            activeRoom.blackPlayerId !== localPlayerId
+          ? 'OBSERVER'
+          : activeRoom.whitePlayerId === localPlayerId
+            ? PlayerColor.White
+            : activeRoom.blackPlayerId === localPlayerId
+              ? PlayerColor.Black
+              : 'OBSERVER';
+
+  useLatticeSoundtrack(soundtrackEngine ?? null, {
+    scene: soundtrackLive ? 'match' : 'lobby',
+    matchLive: soundtrackLive,
+    matchKey: soundtrackKey,
+    localPlayer: soundtrackSeat,
+  });
 
   useEffect(() => {
     if (leavingOnlineRef.current) {
