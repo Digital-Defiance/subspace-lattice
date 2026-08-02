@@ -1150,3 +1150,7 @@ export function createTutorialEngine(
 export function isWalkthroughLesson(lesson: TutorialLesson): boolean {
   return lesson.presentation === 'walkthrough';
 }
+
+export function isPuzzleLesson(lesson: TutorialLesson): boolean {
+  return lesson.presentation === 'puzzle';
+}

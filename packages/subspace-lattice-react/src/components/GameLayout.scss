@@ -95,6 +95,10 @@
   font-family: var(--font-sol-pro-regular);
   font-weight: 600;
   line-height: 1.2;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
 
   &:hover {
     filter: brightness(1.08);

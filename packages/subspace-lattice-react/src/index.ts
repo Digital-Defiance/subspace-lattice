@@ -26,10 +26,21 @@ export * from './lib/debug-export';
 export * from './lib/lpgn-export';
 export * from './lib/deliver-file';
 export * from './components/SetupDiagram';
+export * from './components/VisualRulesAcademy';
+export * from './components/SensorNetLab';
 export * from './components/FiguresCaptureHarness';
 export * from './components/MissionFiguresHarness';
+export * from './components/LpgnFiguresHarness';
+export * from './components/LpgnAnnotatePage';
 export * from './components/ObjectiveHud';
 export * from './components/Tutorial';
+export * from './tutorial/fleet-drills';
+export * from './tutorial/fleet-puzzles';
+export {
+  TERMINAL_DRILLS,
+  TERMINAL_DRILL_PACK,
+} from './tutorial/fleet-drills';
+export * from './tutorial/tutorial-pack';
 export * from './components/SubspaceLatticeLogo';
 export * from './firebase/app';
 export * from './firebase/platform';

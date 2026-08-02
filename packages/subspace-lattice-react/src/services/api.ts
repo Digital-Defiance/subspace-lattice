@@ -45,7 +45,7 @@ export interface SendChatRequest {
 
 export interface ReportLocalAiMatchRequest {
   eventId: string;
-  strength: 'fast' | 'normal' | 'strong';
+  strength: 'fast' | 'normal' | 'strong' | 'deep';
   humanWon: boolean;
   displayName?: string;
 }

@@ -61,15 +61,22 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
   const localPlayerId = uid || '';
   const [showRules, setShowRules] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
-  const [aiStrength, setAiStrength] = useState<AiStrengthId>('normal');
   const [preferredSeat, setPreferredSeat] = useState<PlayerColor>(
     PlayerColor.White,
   );
   const { roomCode: routeRoomCode } = useParams<{ roomCode?: string }>();
   const [searchParams] = useSearchParams();
   const preferWatch = searchParams.get('watch') === '1';
+  const wantLocalStart = searchParams.get('local') === '1';
+  const aiFromQuery = searchParams.get('ai');
+  const [aiStrength, setAiStrength] = useState<AiStrengthId>(() =>
+    aiFromQuery && AI_STRENGTH_PRESETS.some((p) => p.id === aiFromQuery)
+      ? (aiFromQuery as AiStrengthId)
+      : 'normal',
+  );
   const navigate = useNavigate();
   const normalizedBase = basePath.replace(/\/$/, '');
+  const localStartAttempted = useRef(false);
 
   const {
     activeRoom,
@@ -381,6 +388,26 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
     startLocalAiGame(aiStrength, preferredSeat, rules);
   };
 
+  // First-command deep link: /play?local=1&ai=fast → start offline Fast AI.
+  useEffect(() => {
+    if (!wantLocalStart || localStartAttempted.current) return;
+    if (activeRoom || localAiActive || passPlayActive || passPlaySetupOpen) {
+      return;
+    }
+    localStartAttempted.current = true;
+    beginLocalAi();
+    navigate('/play', { replace: true });
+    // beginLocalAi is intentionally recreated; guard is localStartAttempted.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot deep link
+  }, [
+    wantLocalStart,
+    activeRoom,
+    localAiActive,
+    passPlayActive,
+    passPlaySetupOpen,
+    navigate,
+  ]);
+
   const beginPassAndPlay = (rules?: LobbyRulesOptions) => {
     exitLocalAiGame();
     openPassAndPlaySetup(preferredSeat, rules);
@@ -529,7 +556,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         {AI_STRENGTH_PRESETS.map((p) => (
           <option key={p.id} value={p.id}>
             {p.label}
-            {p.simulations > 0 ? ` (MCTS ${p.simulations})` : ' (heuristic)'}
+            {p.id === 'deep'
+              ? ' (guided MCTS)'
+              : p.simulations > 0
+                ? ` (MCTS ${p.simulations})`
+                : ' (heuristic)'}
           </option>
         ))}
       </select>
@@ -947,6 +978,34 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             >
               Pass &amp; Play
             </button>
+            <Link
+              className="auth-gate-btn auth-gate-btn-ghost"
+              to="/rules"
+              data-testid="open-visual-rules"
+            >
+              Rules
+            </Link>
+            <Link
+              className="auth-gate-btn auth-gate-btn-ghost"
+              to="/drills"
+              data-testid="open-terminal-drills"
+            >
+              Before Game 1
+            </Link>
+            <Link
+              className="auth-gate-btn auth-gate-btn-ghost"
+              to="/play?local=1&ai=fast"
+              data-testid="first-local-fast"
+            >
+              First local game · Fast AI
+            </Link>
+            <Link
+              className="auth-gate-btn auth-gate-btn-ghost"
+              to="/puzzles"
+              data-testid="open-fleet-puzzles"
+            >
+              Puzzles
+            </Link>
           </div>
           <div className="auth-gate-divider" role="presentation" />
           <div className="auth-gate-section">

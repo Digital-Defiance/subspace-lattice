@@ -6,7 +6,9 @@ readable companion to the Markdown under `docs/` in the repo.
 
 | Start here | |
 | --- | --- |
+| [Deep Lattice](./deep-lattice) | Flagship AI — status log (product charter: [lattice.iwgf.org/deep-lattice](https://lattice.iwgf.org/deep-lattice)) |
 | [Player overview](./player-overview) | How a match feels, wins, TEI |
+| [Lattice Atlas](./lattice-atlas) | Numbers: openings, pieces, win paths, clocks |
 | [LPGN](./LPGN) | Lattice Portable Game Notation (match export) |
 | [Privacy policy](./privacy) | How local & online play handle data |
 | [Sector 11 briefing](./story) | Lore + fiction ↔ mechanics glossary |
@@ -15,6 +17,8 @@ readable companion to the Markdown under `docs/` in the repo.
 
 ## Design / ops
 
+- [Deep Lattice lab](./deep-lattice-lab) — encoder, training, strength bar
+- [Lattice Atlas](./lattice-atlas) — encyclopedia of numbers
 - [Roadmap](./ROADMAP)
 - [Playtest checklist](./playtest-fleet-checklist)
 - [ADRs](./adr/001-hybrid-sensor-net)

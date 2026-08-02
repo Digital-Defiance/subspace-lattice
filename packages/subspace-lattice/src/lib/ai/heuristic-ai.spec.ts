@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { createSequenceRng, HeuristicAi } from './heuristic-ai';
 import { SubspaceLatticeEngine } from '../game-engine';
 import { PieceType, PlayerColor } from '../interfaces';
-import { requirePieceAgentMove } from './agent';
+import { isEmpAgentMove, requirePieceAgentMove } from './agent';
+import { resolveRulesConfig } from '../rules/rules-config';
 
 describe('HeuristicAi', () => {
   it('returns a legal move on the opening position for black', () => {
@@ -67,5 +68,27 @@ describe('HeuristicAi', () => {
     const live = SubspaceLatticeEngine.fromState(state);
     const ai = new HeuristicAi();
     expect(ai.chooseMove(live)).toBeNull();
+  });
+
+  it('keeps charged midgame EMP on the candidate list', () => {
+    // Old heuristic omitted EMP unless freeze≥2 and Δeval≥35, so games stalled
+    // at full charge. Candidate presence is the finishing-pressure contract.
+    const rules = resolveRulesConfig('hybrid-fleet', {
+      empChargeTarget: 1,
+      sectorActivationPly: 10_000,
+      firstPlayerRelayCount: 0,
+    });
+    const engine = new SubspaceLatticeEngine({ rules });
+    const state = structuredClone(engine.getState());
+    state.currentPlayer = PlayerColor.White;
+    state.empCharge = {
+      [PlayerColor.White]: 1,
+      [PlayerColor.Black]: 0,
+    };
+    state.plyCount = 120;
+    const live = SubspaceLatticeEngine.fromState(state, rules);
+    expect(live.canFireEmp()).toBe(true);
+    const scored = new HeuristicAi(createSequenceRng([0])).scoreMoves(live);
+    expect(scored.some((s) => isEmpAgentMove(s.move))).toBe(true);
   });
 });

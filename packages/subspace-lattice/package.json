@@ -63,6 +63,20 @@
           "cwd": "packages/subspace-lattice",
           "command": "bash scripts/terminal-overclock-probe.sh"
         }
+      },
+      "dataset-jsonl": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "{workspaceRoot}",
+          "command": "bash scripts/dataset-jsonl.sh"
+        }
+      },
+      "neural-stub-ladder": {
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "{workspaceRoot}",
+          "command": "bash scripts/neural-stub-ladder.sh"
+        }
       }
     }
   },

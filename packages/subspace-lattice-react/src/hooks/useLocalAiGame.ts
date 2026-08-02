@@ -15,10 +15,12 @@ import {
   HeuristicAi,
   applyAgentMove,
   isEmpAgentMove,
+  isHeavyAiStrength,
   isDefaultFleetLobby,
   LatticeDebugExport,
   matchDebugEntryFromMoveInfo,
   MatchDebugMoveEntry,
+  MctsAi,
   PieceType,
   PlayerColor,
   heavyWingPresetFromRules,
@@ -35,11 +37,13 @@ const AI_THINK_MS = 50;
 
 function teiForStrength(strength: AiStrengthId) {
   const anchor =
-    strength === 'strong'
-      ? TEI_AI_ANCHORS.commander
-      : strength === 'normal'
-        ? TEI_AI_ANCHORS.lieutenant
-        : TEI_AI_ANCHORS.ensign;
+    strength === 'deep'
+      ? TEI_AI_ANCHORS.admiral
+      : strength === 'strong'
+        ? TEI_AI_ANCHORS.commander
+        : strength === 'normal'
+          ? TEI_AI_ANCHORS.lieutenant
+          : TEI_AI_ANCHORS.ensign;
   const tei = getTeiDisplay(anchor);
   return { grade: tei.grade, score: tei.score };
 }
@@ -69,7 +73,14 @@ export function useLocalAiGame() {
   const customModulesMatch = useRef(false);
   const debugLog = useRef(createMatchDebugLog());
   const initialStateRef = useRef<GameState | null>(null);
-  const ai = useMemo(() => createAiForStrength(strength), [strength]);
+  const ai = useMemo(
+    () =>
+      createAiForStrength(strength, Math.random, {
+        // Interactive Deep Lattice: cap wall-clock so the board stays responsive.
+        timeBudgetMs: strength === 'deep' ? 4_000 : undefined,
+      }),
+    [strength],
+  );
   const aiTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const api = useMemo(() => createSubspaceLatticeApiClient(), []);
 
@@ -248,7 +259,7 @@ export function useLocalAiGame() {
   );
 
   const playAiMove = useCallback(
-    (current: SubspaceLatticeEngine) => {
+    async (current: SubspaceLatticeEngine) => {
       const state = current.getState();
       if (state.winner || state.currentPlayer !== aiColor) {
         setAiThinking(false);
@@ -266,8 +277,12 @@ export function useLocalAiGame() {
           refresh(current);
           return;
         }
-        // MctsAi already caps the root fan-out; always use the strength agent.
-        choice = ai.chooseMove(current);
+        // Heavy tiers yield during search so "AI thinking" stays painted.
+        if (isHeavyAiStrength(strength) && ai instanceof MctsAi) {
+          choice = await ai.chooseMoveAsync(current);
+        } else {
+          choice = ai.chooseMove(current);
+        }
         if (!choice) {
           choice = new HeuristicAi().chooseMove(current);
         }
@@ -397,7 +412,7 @@ export function useLocalAiGame() {
     setAiThinking(true);
     // Yield so React can paint "AI thinking" before the (sync) search runs.
     aiTimer.current = setTimeout(() => {
-      playAiMove(engine);
+      void playAiMove(engine);
     }, AI_THINK_MS);
 
     return clearAiTimer;

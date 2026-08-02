@@ -120,8 +120,15 @@ describe('MctsAi', () => {
     const bait = { pieceId: 'w-e2', to: { x: 8, y: 3 } };
     expect(moveLeavesHubHanging(live, bait)).toBe(true);
 
-    for (const strength of ['fast', 'normal', 'strong'] as const) {
-      const ai = createAiForStrength(strength, createSequenceRng([0]));
+    for (const strength of ['fast', 'normal', 'strong', 'deep'] as const) {
+      const ai =
+        strength === 'deep'
+          ? new MctsAi({
+              simulations: 24,
+              quiescencePlies: 4,
+              rng: createSequenceRng([0]),
+            })
+          : createAiForStrength(strength, createSequenceRng([0]));
       expect(evaluatePuzzle(puzzle, ai).passed).toBe(true);
     }
   });
@@ -129,6 +136,23 @@ describe('MctsAi', () => {
   it('strong preset name encodes budget', () => {
     const ai = createAiForStrength('strong');
     expect(ai.name).toBe('mcts-200');
+  });
+
+  it('deep preset brands as deep-lattice', () => {
+    const ai = createAiForStrength('deep');
+    expect(ai.name).toBe('deep-lattice');
+  });
+
+  it('chooseMoveAsync matches chooseMove on a forced win', async () => {
+    const puzzle = CLASSIC_PUZZLES.find((p) => p.id === 'hub-mate-in-1')!;
+    const live = SubspaceLatticeEngine.fromState(puzzle.state);
+    const ai = new MctsAi({
+      simulations: 8,
+      rng: createSequenceRng([0]),
+    });
+    const sync = ai.chooseMove(live);
+    const asyncMove = await ai.chooseMoveAsync(live);
+    expect(sync).toEqual(asyncMove);
   });
 });
 

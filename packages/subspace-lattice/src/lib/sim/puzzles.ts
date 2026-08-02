@@ -5,6 +5,12 @@ import { CellType } from '../interfaces/cellType';
 import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
 import { Agent, isEmpAgentMove } from '../ai/agent';
+import type { RulesConfig } from '../rules/rules-config';
+import {
+  terminalCloseForBlast,
+  terminalLockoutInRange,
+  terminalMissOutOfRange,
+} from './terminal-goldens';
 
 export interface PuzzleExpectedMove {
   pieceId: string;
@@ -15,8 +21,14 @@ export interface Puzzle {
   id: string;
   description: string;
   state: GameState;
+  /** Optional rules when state alone does not recover Terminal/EMP knobs. */
+  rules?: RulesConfig;
   /** Any of these moves is accepted as solving the puzzle. */
   expectedMoves: PuzzleExpectedMove[];
+  /** When true, firing EMP is the solving action. */
+  expectedEmp?: boolean;
+  /** When true, any non-EMP legal move that reduces Chebyshev to enemy Hub passes. */
+  expectHubCloser?: boolean;
 }
 
 function emptyBoard(boardSize: number): GameState {
@@ -162,7 +174,60 @@ function hybridAvoidEnemyNet(): Puzzle {
 
 export const HYBRID_PUZZLES: Puzzle[] = [hybridAvoidEnemyNet()];
 
-export const ALL_PUZZLES: Puzzle[] = [...CLASSIC_PUZZLES, ...HYBRID_PUZZLES];
+/** Fleet / Terminal content-factory pack (AI regression + yarn sim). */
+function fleetFromGolden(
+  id: string,
+  description: string,
+  golden: {
+    state: GameState;
+    rules: RulesConfig;
+  },
+  opts: {
+    expectedEmp?: boolean;
+    expectHubCloser?: boolean;
+    expectedMoves?: PuzzleExpectedMove[];
+  },
+): Puzzle {
+  const state = structuredClone(golden.state);
+  state.rulesVersion = 'hybrid-fleet';
+  return {
+    id,
+    description,
+    state,
+    rules: golden.rules,
+    expectedMoves: opts.expectedMoves ?? [],
+    expectedEmp: opts.expectedEmp,
+    expectHubCloser: opts.expectHubCloser,
+  };
+}
+
+export const FLEET_PUZZLES: Puzzle[] = [
+  fleetFromGolden(
+    'fleet-terminal-lockout-fire',
+    'Armed Terminal EMP in range — fire for Lockout',
+    terminalLockoutInRange(),
+    { expectedEmp: true },
+  ),
+  fleetFromGolden(
+    'fleet-terminal-refuse-miss',
+    'Armed Terminal EMP out of range — do not fire; close instead',
+    terminalMissOutOfRange(),
+    { expectHubCloser: true },
+  ),
+  fleetFromGolden(
+    'fleet-terminal-close-for-blast',
+    'Charging Terminal — reduce Chebyshev distance toward enemy Hub',
+    terminalCloseForBlast(),
+    { expectHubCloser: true },
+  ),
+  hubMateInOne(),
+];
+
+export const ALL_PUZZLES: Puzzle[] = [
+  ...CLASSIC_PUZZLES,
+  ...HYBRID_PUZZLES,
+  ...FLEET_PUZZLES,
+];
 
 export function moveMatchesExpected(
   pieceId: string,
@@ -174,13 +239,58 @@ export function moveMatchesExpected(
   );
 }
 
+function chebyshev(
+  a: Coordinate,
+  b: Coordinate,
+): number {
+  return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y));
+}
+
 export function evaluatePuzzle(
   puzzle: Puzzle,
   agent: Agent,
-): { passed: boolean; chosen: { pieceId: string; to: Coordinate } | null } {
-  const engine = SubspaceLatticeEngine.fromState(puzzle.state);
+): {
+  passed: boolean;
+  chosen: { pieceId: string; to: Coordinate } | { type: 'emp' } | null;
+} {
+  const engine = SubspaceLatticeEngine.fromState(puzzle.state, puzzle.rules);
   const chosen = agent.chooseMove(engine);
-  if (!chosen || isEmpAgentMove(chosen)) return { passed: false, chosen: null };
+  if (!chosen) return { passed: false, chosen: null };
+
+  if (puzzle.expectedEmp) {
+    return {
+      passed: isEmpAgentMove(chosen),
+      chosen: isEmpAgentMove(chosen)
+        ? { type: 'emp' }
+        : { pieceId: chosen.pieceId, to: chosen.to },
+    };
+  }
+
+  if (isEmpAgentMove(chosen)) {
+    return { passed: false, chosen: { type: 'emp' } };
+  }
+
+  if (puzzle.expectHubCloser) {
+    const piece = engine.getPiece(chosen.pieceId);
+    const enemyHub = Object.values(engine.getState().pieces).find(
+      (p) =>
+        p.owner !== engine.getState().currentPlayer &&
+        p.type === PieceType.CommandHub,
+    );
+    if (!piece || !enemyHub) {
+      return {
+        passed: false,
+        chosen: { pieceId: chosen.pieceId, to: chosen.to },
+      };
+    }
+    const before = chebyshev(piece.position, enemyHub.position);
+    const after = chebyshev(chosen.to, enemyHub.position);
+    return {
+      passed: after < before,
+      chosen: { pieceId: chosen.pieceId, to: chosen.to },
+    };
+  }
+
   return {
     passed: moveMatchesExpected(
       chosen.pieceId,

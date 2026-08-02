@@ -40,6 +40,8 @@ export interface PlayMatchOptions {
    * When set, `rules` defaults to `engine.getRules()`.
    */
   engine?: SubspaceLatticeEngine;
+  /** Called after winner check, before the side-to-move agent acts. */
+  onBeforeMove?: (engine: SubspaceLatticeEngine) => void;
 }
 
 function emptyCaptureStats(): Pick<
@@ -107,6 +109,7 @@ export function playMatch(
 
     const agent =
       state.currentPlayer === PlayerColor.White ? white : black;
+    options.onBeforeMove?.(engine);
     const choice = agent.chooseMove(engine);
     if (!choice) {
       const winner =

@@ -25,6 +25,12 @@ import {
   terminalOverclockRules,
   terminalOverclockSteps,
 } from './data/mission-terminal-overclock';
+import {
+  terminalLockoutFire,
+  terminalLockoutFireSteps,
+  terminalRefuseMiss,
+  terminalRefuseMissSteps,
+} from './data/mission-terminal-goldens';
 
 /**
  * Advanced-manual view of the guided missions.
@@ -140,6 +146,35 @@ export function buildManualMissions(): ManualMission[] {
       rules: terminalOverclockRules,
       createState: createTerminalOverclockState,
       steps: terminalOverclockSteps,
+    },
+    {
+      id: 'mission-terminal-lockout-fire',
+      title: 'Mission 5b — Terminal Lockout (armed fire)',
+      intro:
+        'Frozen golden from the AI regression pack. Both fleets are lone Hubs, ' +
+        'Terminal is armed, White’s charge is full, and Black sits inside the ' +
+        'blast. One action: fire Command Overload for Lockout.',
+      outro:
+        'White wins immediately (winnerReason=no-moves). Same position the ' +
+        'Heuristic / MCTS Terminal goldens must solve — content factory feeds ' +
+        'both the coach and the academy.',
+      rules: terminalLockoutFire.rules,
+      createState: terminalLockoutFire.createState,
+      steps: terminalLockoutFireSteps,
+    },
+    {
+      id: 'mission-terminal-refuse-miss',
+      title: 'Mission 5c — Refuse the out-of-range EMP',
+      intro:
+        'Same Terminal phase, but Black is at the far corner — outside radius. ' +
+        'Firing now is a self-fuse miss. Close Chebyshev distance instead and ' +
+        'let the blast grow.',
+      outro:
+        'Charge stays ready for a later Lockout shot. The coach line matches: ' +
+        'outside blast range — miss fuses you first.',
+      rules: terminalRefuseMiss.rules,
+      createState: terminalRefuseMiss.createState,
+      steps: terminalRefuseMissSteps,
     },
     {
       id: 'mission-ai-fleet-skirmish',

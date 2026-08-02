@@ -91,6 +91,18 @@ export function rulesConfigId(rules: RulesConfig): string {
   if ((rules.firstPlayerRelayCount ?? 0) > 0) {
     parts.push(`relay${rules.firstPlayerRelayCount}`);
   }
+  if ((rules.empRadius ?? 0) > 0) {
+    parts.push(`empR${rules.empRadius}`);
+    parts.push(`emp${rules.empChargeTarget}`);
+  }
+  if (rules.terminalOverclock) {
+    const termTarget =
+      rules.terminalEmpChargeTarget ?? rules.empChargeTarget ?? 0;
+    parts.push(`term${termTarget}`);
+    if ((rules.terminalEmpRadiusGrowthInterval ?? 0) > 0) {
+      parts.push(`growth${rules.terminalEmpRadiusGrowthInterval}`);
+    }
+  }
   const draft = rules.heavyUnitDraft ?? 'standard';
   if (draft !== 'standard') {
     parts.push(`draft=${draft}`);
@@ -123,6 +135,9 @@ export function rulesConfigId(rules: RulesConfig): string {
  * Initiative Relay Escorts.
  * `draft=refractor-carrier` (etc.) sets heavyUnitDraft; `anchor` enables
  * carrierRequiresHubAnchor; `files=1-9` sets heavyUnitFiles.
+ * Fleet EMP / Terminal (hybrid-fleet): `emp15`/`emp=15` (empChargeTarget),
+ * `empR3`/`empR=3` (empRadius), `term10`/`term=10` (terminalEmpChargeTarget),
+ * `growth5`/`growth=5` (terminalEmpRadiusGrowthInterval).
  */
 export function parseFixedRulesSpec(spec: string): RulesConfig {
   const trimmed = spec.trim();
@@ -157,6 +172,10 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
   let heavyUnitDraft: RulesConfig['heavyUnitDraft'] | undefined;
   let carrierRequiresHubAnchor: boolean | undefined;
   let heavyUnitFiles: [number, number] | undefined;
+  let empChargeTarget: number | undefined;
+  let empRadius: number | undefined;
+  let terminalEmpChargeTarget: number | undefined;
+  let terminalEmpRadiusGrowthInterval: number | undefined;
 
   for (const part of parts) {
     if (/^neutral$/i.test(part)) {
@@ -198,6 +217,33 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
     const neutralEq = part.match(/^neutral=([01])$/i);
     if (neutralEq) {
       neutral = neutralEq[1] === '1';
+      continue;
+    }
+    const empFleetEq = part.match(
+      /^(emp|empR|radius|term|growth)=([0-9.]+)$/i,
+    );
+    if (empFleetEq) {
+      const key = empFleetEq[1]!.toLowerCase();
+      const value = Number(empFleetEq[2]);
+      if (!Number.isFinite(value)) {
+        throw new Error(`Invalid number in --fixed part: ${part}`);
+      }
+      if (key === 'emp') empChargeTarget = value;
+      else if (key === 'empr' || key === 'radius') empRadius = value;
+      else if (key === 'term') terminalEmpChargeTarget = value;
+      else if (key === 'growth') terminalEmpRadiusGrowthInterval = value;
+      continue;
+    }
+    const empFleetTagged = part.match(
+      /^(empR|emp|term|growth|radius)(\d+)$/i,
+    );
+    if (empFleetTagged) {
+      const key = empFleetTagged[1]!.toLowerCase();
+      const value = Number(empFleetTagged[2]);
+      if (key === 'emp') empChargeTarget = value;
+      else if (key === 'empr' || key === 'radius') empRadius = value;
+      else if (key === 'term') terminalEmpChargeTarget = value;
+      else if (key === 'growth') terminalEmpRadiusGrowthInterval = value;
       continue;
     }
     const eq = part.match(/^(hub|esc|link|sec|hold|activation|act)=([0-9.]+)$/i);
@@ -259,6 +305,10 @@ export function parseFixedRulesSpec(spec: string): RulesConfig {
     heavyUnitDraft,
     carrierRequiresHubAnchor,
     heavyUnitFiles,
+    empChargeTarget,
+    empRadius,
+    terminalEmpChargeTarget,
+    terminalEmpRadiusGrowthInterval,
   });
 }
 

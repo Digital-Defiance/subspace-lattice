@@ -7,7 +7,7 @@ import { PlayerColor } from '../interfaces';
 import { resolveRulesConfig } from '../rules/rules-config';
 import { formatLadderReport, runLadder } from './ladder';
 import { playMatch } from './match-runner';
-import { CLASSIC_PUZZLES, HYBRID_PUZZLES, evaluatePuzzle } from './puzzles';
+import { CLASSIC_PUZZLES, FLEET_PUZZLES, HYBRID_PUZZLES, evaluatePuzzle } from './puzzles';
 
 describe('sim substrate', () => {
   it('tags new games with classic rulesVersion', () => {
@@ -82,6 +82,16 @@ describe('sim substrate', () => {
   it('heuristic solves hybrid sensor-net puzzles', () => {
     const ai = new HeuristicAi(createSequenceRng([0]));
     for (const puzzle of HYBRID_PUZZLES) {
+      const { passed, chosen } = evaluatePuzzle(puzzle, ai);
+      expect(passed, `${puzzle.id} chose ${JSON.stringify(chosen)}`).toBe(
+        true,
+      );
+    }
+  });
+
+  it('heuristic solves fleet Terminal puzzles', () => {
+    const ai = new HeuristicAi(createSequenceRng([0]));
+    for (const puzzle of FLEET_PUZZLES) {
       const { passed, chosen } = evaluatePuzzle(puzzle, ai);
       expect(passed, `${puzzle.id} chose ${JSON.stringify(chosen)}`).toBe(
         true,

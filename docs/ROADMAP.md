@@ -54,6 +54,34 @@ Implement README design; keep `classic` for A/B and regression.
 
 ---
 
+## Phase 2b — Deep Lattice neural (player + explainer)
+
+Gateway: [`docs/deep-lattice.md`](./deep-lattice.md) · Lab: [`docs/deep-lattice-lab.md`](./deep-lattice-lab.md) · ADR: [`docs/adr/007-deep-lattice-neural.md`](./adr/007-deep-lattice-neural.md)
+
+- [x] **2b.1** Position encoder (`encodePosition`) + version + unit tests
+- [ ] **2b.2** Strength bar: goldens + short ladder vs Deep (`yarn neural:strength-bar`)
+- [x] **2b.3** Dataset export (features + outcome / search `q`) — `yarn dataset:jsonl --label-sims`
+- [x] **2b.4** Value net v0 + CPU inference (`createMlpNeuralValue`, weights JSON)
+- [ ] **2b.5** Retune Deep preset; human-gate promotion
+- [ ] **2b.6** Policy head + MCTS prior; contrastive annotate/advisor copy
+- [ ] **2b.7** (Later) Core ML / WebGPU batch leaf eval
+
+---
+
+## Phase 2c — Lattice Atlas (encyclopedia of numbers)
+
+Handbook home for openings, pieces, win paths, clocks — regenerable census +
+dated sim labs. Separate from Deep Lattice (player track).
+
+- [x] **2c.1** Atlas hub + chapters under `docs/lattice-atlas.md` / `docs/atlas/`
+- [x] **2c.2** `yarn atlas:census` → `docs/atlas/census.json`
+- [x] **2c.2b** `yarn atlas:observe` + `yarn atlas:diff` (ply-event JSONL + top deltas)
+- [ ] **2c.3** Population tables from evolve scorecards (hub/sector/lockout, trunc)
+- [ ] **2c.4** Opening book + piece-move histograms by AI tier
+- [ ] **2c.5** Human LPGN corpus stats when volume exists
+
+---
+
 ## Phase 3 — Evolution loop (better game + better AI)
 
 - [x] **3.1** Define scorecard metrics (decisiveness, first-move fairness, skill discrimination, interesting midgames)
@@ -93,6 +121,7 @@ Implement README design; keep `classic` for A/B and regression.
 | 0 Simulation substrate | Done |
 | 1 Hybrid rules | Done (see `docs/adr/001-hybrid-sensor-net.md`) |
 | 2 Strong AI | Done (MCTS + eval; Fast/Normal/Strong local slider) |
+| 2b Deep Lattice neural | In progress — encoder → value → policy ([gateway](./deep-lattice.md) · [lab](./deep-lattice-lab.md)) |
 | 3 Evolution | Done (`yarn evolve`; human gate — see ADR 002) |
 | 4 Product | Mostly done (ISMCTS / async / online e2e deferred) |
 

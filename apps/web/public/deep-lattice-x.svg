@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 512">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        fill: url(#New_Gradient_Swatch_2-4);
+      }
+
+      .cls-3 {
+        fill: url(#New_Gradient_Swatch_2-9);
+      }
+
+      .cls-4 {
+        fill: url(#New_Gradient_Swatch_2-3);
+      }
+
+      .cls-5 {
+        fill: url(#New_Gradient_Swatch_2-8);
+      }
+
+      .cls-6 {
+        fill: url(#New_Gradient_Swatch_2-7);
+      }
+
+      .cls-7 {
+        fill: url(#New_Gradient_Swatch_2-6);
+      }
+
+      .cls-8 {
+        fill: url(#New_Gradient_Swatch_2-5);
+      }
+
+      .cls-9 {
+        fill: url(#New_Gradient_Swatch_2-2);
+      }
+
+      .cls-10 {
+        filter: url(#drop-shadow-1);
+      }
+
+      .cls-11 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-12 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-13 {
+        fill: #00899c;
+      }
+
+      .cls-13, .cls-14, .cls-15, .cls-16, .cls-17, .cls-18, .cls-19 {
+        fill-rule: evenodd;
+      }
+
+      .cls-14 {
+        fill: #09e8ca;
+      }
+
+      .cls-20 {
+        opacity: .35;
+      }
+
+      .cls-21 {
+        fill: url(#New_Gradient_Swatch_2);
+      }
+
+      .cls-15 {
+        fill: #1ef7da;
+      }
+
+      .cls-22 {
+        letter-spacing: -.1em;
+      }
+
+      .cls-16 {
+        fill: #8efaec;
+      }
+
+      .cls-23 {
+        fill: url(#New_Gradient_Swatch_2-20);
+      }
+
+      .cls-24 {
+        fill: url(#New_Gradient_Swatch_2-22);
+      }
+
+      .cls-25 {
+        fill: url(#New_Gradient_Swatch_2-21);
+      }
+
+      .cls-26 {
+        fill: url(#New_Gradient_Swatch_2-23);
+      }
+
+      .cls-27 {
+        fill: url(#New_Gradient_Swatch_2-19);
+      }
+
+      .cls-28 {
+        fill: url(#New_Gradient_Swatch_2-18);
+      }
+
+      .cls-29 {
+        fill: url(#New_Gradient_Swatch_2-17);
+      }
+
+      .cls-30 {
+        fill: url(#New_Gradient_Swatch_2-16);
+      }
+
+      .cls-31 {
+        fill: url(#New_Gradient_Swatch_2-15);
+      }
+
+      .cls-32 {
+        fill: url(#New_Gradient_Swatch_2-14);
+      }
+
+      .cls-33 {
+        fill: url(#New_Gradient_Swatch_2-13);
+      }
+
+      .cls-34 {
+        fill: url(#New_Gradient_Swatch_2-12);
+      }
+
+      .cls-35 {
+        fill: url(#New_Gradient_Swatch_2-11);
+      }
+
+      .cls-36 {
+        fill: url(#New_Gradient_Swatch_2-10);
+      }
+
+      .cls-37 {
+        font-family: SolPro-Bold, 'Sol Pro';
+        font-size: 108px;
+        font-weight: 700;
+      }
+
+      .cls-17 {
+        fill: #295c8c;
+      }
+
+      .cls-18 {
+        fill: #00c2bb;
+      }
+
+      .cls-38 {
+        letter-spacing: .02em;
+      }
+
+      .cls-39 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-19 {
+        fill: #0f637a;
+      }
+    </style>
+    <linearGradient id="New_Gradient_Swatch_2" data-name="New Gradient Swatch 2" x1="428.09" y1="236.78" x2="842.12" y2="236.78" gradientTransform="translate(190.68 159.3) rotate(45) scale(.53 -.53)" gradientUnits="userSpaceOnUse">
+      <stop offset=".03" stop-color="#843092"/>
+      <stop offset=".49" stop-color="#0e4c90"/>
+      <stop offset=".58" stop-color="#0f5296"/>
+      <stop offset=".71" stop-color="#1064a5"/>
+      <stop offset=".86" stop-color="#1380bf"/>
+      <stop offset=".99" stop-color="#16a0db"/>
+    </linearGradient>
+    <linearGradient id="New_Gradient_Swatch_2-2" data-name="New Gradient Swatch 2" x1="435.21" y1="297.45" x2="844.73" y2="297.45" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-3" data-name="New Gradient Swatch 2" x1="419.67" y1="357.98" x2="857.14" y2="357.98" gradientTransform="translate(164.84 96.06) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-4" data-name="New Gradient Swatch 2" x1="412.8" y1="418.58" x2="859.6" y2="418.58" gradientTransform="translate(151.93 64.41) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-5" data-name="New Gradient Swatch 2" x1="428.26" y1="297.44" x2="828.25" y2="297.44" gradientTransform="translate(158.99 172.28) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-6" data-name="New Gradient Swatch 2" x1="443.19" y1="358.06" x2="824.75" y2="358.06" gradientTransform="translate(181.7 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-7" data-name="New Gradient Swatch 2" x1="435.21" y1="418.62" x2="844.73" y2="418.62" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-8" data-name="New Gradient Swatch 2" x1="419.68" y1="479.2" x2="857.15" y2="479.2" gradientTransform="translate(120.26 77.33) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-9" data-name="New Gradient Swatch 2" x1="424.98" y1="358.11" x2="809.08" y2="358.11" gradientTransform="translate(127.3 185.19) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-10" data-name="New Gradient Swatch 2" x1="428.24" y1="418.65" x2="828.24" y2="418.65" gradientTransform="translate(114.41 153.54) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-11" data-name="New Gradient Swatch 2" x1="428.05" y1="479.24" x2="842.09" y2="479.24" gradientTransform="translate(101.5 121.9) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-12" data-name="New Gradient Swatch 2" x1="424.02" y1="539.88" x2="852.1" y2="539.88" gradientTransform="translate(88.56 90.24) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-13" data-name="New Gradient Swatch 2" x1="424.95" y1="479.35" x2="809.05" y2="479.35" gradientTransform="translate(82.7 166.39) rotate(45.01) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-14" data-name="New Gradient Swatch 2" x1="443.52" y1="539.93" x2="797.12" y2="539.93" gradientTransform="translate(181.68 424.31) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-15" data-name="New Gradient Swatch 2" x1="428.03" y1="600.47" x2="842.09" y2="600.47" gradientTransform="translate(56.91 103.17) rotate(45) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-16" data-name="New Gradient Swatch 2" x1="412.79" y1="418.67" x2="859.59" y2="418.67" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-17" data-name="New Gradient Swatch 2" x1="396.71" y1="488.16" x2="723.13" y2="488.16" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-18" data-name="New Gradient Swatch 2" x1="416.79" y1="358.46" x2="743.21" y2="358.46" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-19" data-name="New Gradient Swatch 2" x1="411.25" y1="293.6" x2="900.09" y2="293.6" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-20" data-name="New Gradient Swatch 2" x1="417.41" y1="539.12" x2="843.89" y2="539.12" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-21" data-name="New Gradient Swatch 2" x1="351.21" y1="386.21" x2="611.19" y2="386.21" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-22" data-name="New Gradient Swatch 2" x1="374.35" y1="448.44" x2="581.35" y2="448.44" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <linearGradient id="New_Gradient_Swatch_2-23" data-name="New Gradient Swatch 2" x1="313.95" y1="416.08" x2="471.55" y2="416.08" gradientTransform="translate(181.69 424.32) rotate(.63) scale(.53 -.53)" xlink:href="#New_Gradient_Swatch_2"/>
+    <filter id="drop-shadow-1" x="411" y="77" width="213" height="261" filterUnits="userSpaceOnUse">
+      <feOffset dx="7" dy="7"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#000" flood-opacity=".75"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clippath">
+      <rect class="cls-1" x="419.74" y="85.62" width="181.81" height="229.99"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <path class="cls-1" d="M872.18,345.86H151.82v-5.78h720.35v5.78ZM872.18,351.58H151.82v5.78h720.35v-5.78ZM872.18,363.08H151.82v5.78h720.35v-5.78ZM872.18,374.45H151.82v5.78h720.35v-5.78ZM872.18,386H151.82v5.78h720.35v-5.78ZM872.18,397.56H151.82v5.78h720.35v-5.78ZM872.18,409.04H151.82v5.78h720.35v-5.78ZM872.18,420.6H151.82v5.78h720.35v-5.78Z"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="151.83" y1="383.61" x2="872.18" y2="383.61" gradientUnits="userSpaceOnUse">
+      <stop offset=".03" stop-color="#843092"/>
+      <stop offset=".49" stop-color="#0e4c90"/>
+      <stop offset=".58" stop-color="#0f5296"/>
+      <stop offset=".71" stop-color="#1064a5"/>
+      <stop offset=".86" stop-color="#1380bf"/>
+      <stop offset=".99" stop-color="#16a0db"/>
+    </linearGradient>
+  </defs>
+  <g class="cls-20">
+    <rect class="cls-21" x="491.9" y="283.63" width="38.31" height="38.31" rx="4.76" ry="4.76" data-layer-id="2398993356876" transform="translate(-65.98 443.82) rotate(-44.38)"/>
+    <path class="cls-9" d="M566.68,267.57c2.09,2.15,2.06,5.59-.08,7.69l-19.6,19.19c-2.16,2.09-5.59,2.05-7.7-.08l-19.19-19.63c-2.09-2.16-2.05-5.59.08-7.7l19.61-19.18c2.16-2.09,5.59-2.05,7.7.08l19.18,19.63Z" data-layer-id="3161965356886"/>
+    <rect class="cls-4" x="556.6" y="220.37" width="38.31" height="38.31" rx="1.36" ry="1.36" data-layer-id="6113928956895" transform="translate(-3.32 470.92) rotate(-44.37)"/>
+    <rect class="cls-2" x="588.95" y="188.72" width="38.31" height="38.31" data-layer-id="4241379356905" transform="translate(28.04 484.52) rotate(-44.37)"/>
+    <rect class="cls-8" x="461.18" y="252.26" width="36.39" height="36.39" rx="6.46" ry="6.46" data-layer-id="9545717356915" transform="translate(-52.43 412.34) rotate(-44.37)"/>
+    <path class="cls-7" d="M491.44,231.84l13.77-13.47c3.75-3.67,9.77-3.61,13.45.15h0l13.47,13.77c3.67,3.75,3.61,9.77-.15,13.45l-13.77,13.47c-3.75,3.67-9.77,3.61-13.45-.15l-13.45-13.75c-3.68-3.75-3.63-9.77.12-13.45,0,0,.01,0,.02-.01Z" data-layer-id="0440293556926"/>
+    <path class="cls-6" d="M567.36,203.55c2.09,2.15,2.06,5.59-.08,7.69l-19.61,19.19c-2.15,2.09-5.59,2.05-7.69-.08l-19.19-19.61c-2.09-2.16-2.05-5.59.08-7.7l19.61-19.15c2.15-2.09,5.59-2.05,7.69.08l19.19,19.59Z" data-layer-id="2794344456937"/>
+    <rect class="cls-5" x="557.27" y="156.35" width="38.31" height="38.31" rx="1.36" ry="1.36" data-layer-id="9420408156946" transform="translate(41.65 453.14) rotate(-44.37)"/>
+    <rect class="cls-3" x="432.19" y="222.54" width="31.03" height="31.03" rx="7.39" ry="7.39" data-layer-id="6087638756956" transform="translate(-38.8 380.96) rotate(-44.37)"/>
+    <rect class="cls-36" x="461.86" y="188.23" width="36.39" height="36.4" rx="6.46" ry="6.46" data-layer-id="8784547756965" transform="translate(-7.46 394.56) rotate(-44.37)"/>
+    <rect class="cls-35" x="493.24" y="155.62" width="38.31" height="38.31" rx="4.76" ry="4.76" data-layer-id="2633284556976" transform="translate(23.9 408.15) rotate(-44.37)"/>
+    <rect class="cls-34" x="525.59" y="123.94" width="38.31" height="38.31" rx="2.72" ry="2.72" data-layer-id="9726692456985" transform="translate(55.27 421.74) rotate(-44.37)"/>
+    <rect class="cls-33" x="432.85" y="158.5" width="31.03" height="31.03" rx="7.39" ry="7.39" data-layer-id="2082071456995" transform="translate(6.21 363.23) rotate(-44.38)"/>
+    <path class="cls-32" d="M464.23,133.05l7.55-7.39c5.11-4.99,13.29-4.9,18.29.2h0l7.39,7.55c4.99,5.1,4.9,13.28-.2,18.27l-7.55,7.39c-5.1,4.99-13.28,4.9-18.27-.2l-7.39-7.55c-4.99-5.1-4.9-13.28.2-18.27h-.01Z" data-layer-id="1779048457006"/>
+    <rect class="cls-31" x="493.92" y="91.59" width="38.31" height="38.31" rx="4.76" ry="4.76" data-layer-id="8273522757016" transform="translate(68.87 390.36) rotate(-44.37)"/>
+    <path class="cls-30" d="M403.52,205.58c.08-6.93,5.75-12.48,12.68-12.4,6.93.08,12.48,5.75,12.4,12.68-.08,6.93-5.75,12.48-12.68,12.4-6.92-.08-12.47-5.75-12.4-12.68Z" data-layer-id="9702628757026"/>
+    <path class="cls-29" d="M395.07,168.77c.06-5.06,4.21-9.11,9.27-9.05s9.11,4.21,9.05,9.27c-.06,5.05-4.2,9.11-9.25,9.05-5.06-.05-9.12-4.2-9.06-9.25,0,0,0,0,0-.01Z" data-layer-id="0161670857035"/>
+    <path class="cls-28" d="M404.93,237.41c.05-5.06,4.2-9.12,9.26-9.06s9.12,4.2,9.06,9.26c-.05,5.06-4.2,9.12-9.26,9.06,0,0,0,0,0,0-5.05-.06-9.11-4.2-9.05-9.26Z" data-layer-id="9117603457051"/>
+    <path class="cls-27" d="M424.09,271.88c.06-5.53,4.59-9.96,10.11-9.9,5.53.06,9.96,4.59,9.9,10.11-.06,5.52-4.58,9.96-10.11,9.9-5.52-.06-9.95-4.59-9.9-10.11Z" data-layer-id="7676445357066"/>
+    <path class="cls-23" d="M429.61,142.23c.06-5.53,4.6-9.95,10.12-9.89s9.95,4.6,9.89,10.12c-.06,5.52-4.59,9.95-10.11,9.89-5.53-.06-9.96-4.59-9.9-10.12Z" data-layer-id="0025335457083"/>
+    <path class="cls-25" d="M370.24,222.34c.05-4.03,3.36-7.26,7.4-7.2,4.03.05,7.26,3.36,7.2,7.4-.05,4.03-3.36,7.25-7.38,7.2-4.03-.04-7.26-3.34-7.22-7.36,0-.01,0-.02,0-.03Z" data-layer-id="9448250957098"/>
+    <path class="cls-24" d="M382.67,189.59c.05-3.21,2.7-5.77,5.91-5.71s5.77,2.7,5.71,5.91c-.05,3.2-2.68,5.76-5.88,5.71-3.21-.04-5.78-2.67-5.74-5.88,0,0,0-.01,0-.02Z" data-layer-id="1278316157130"/>
+    <path class="cls-26" d="M350.42,206.37c.02-2.44,2.02-4.41,4.47-4.38,2.44.02,4.41,2.02,4.38,4.47-.02,2.44-2.02,4.41-4.47,4.38,0,0,0,0-.01,0-2.44-.02-4.4-2.02-4.37-4.46,0,0,0,0,0-.01Z" data-layer-id="1545434557142"/>
+  </g>
+  <g class="cls-10">
+    <g class="cls-39">
+      <g>
+        <path class="cls-15" d="M455.67,109.13c-1.01-1.01-2.52-2.35-4.36-3.86-6.88-5.37-8.06-7.55-8.06-7.55,0,0,7.05-2.18,17.96-3.69v15.11h-5.54Z" data-layer-id="9915755503533"/>
+        <path class="cls-14" d="M461.21,94.02c5.37-.67,11.92-1.34,18.8-1.18v16.45h-18.8v-15.28h0Z" data-layer-id="0700950203576"/>
+        <path class="cls-15" d="M480.01,92.68c5.2,0,10.74.34,16.45,1.18.84.17,1.68.34,2.52.34v14.94h-18.8v-16.45h-.17Z" data-layer-id="2616000103616"/>
+        <path class="cls-15" d="M517.79,101.74c3.36,2.01,6.72,4.53,9.74,7.39h-9.74v-7.39h0Z" data-layer-id="2825296703655"/>
+        <path class="cls-14" d="M447.44,127.93c7.72-9.9,10.91-15.11,10.91-15.11,0,0-.17-1.18-2.69-3.69h5.54v18.8h-13.77Z" data-layer-id="0747723703696"/>
+        <polygon class="cls-15" data-layer-id="9365092903735" points="461.21 109.13 480.01 109.13 480.01 127.93 461.21 127.93 461.21 109.13"/>
+        <polygon class="cls-15" data-layer-id="0301444203775" points="498.82 109.13 517.79 109.13 517.79 127.93 498.82 127.93 498.82 109.13"/>
+        <path class="cls-15" d="M536.59,119.2c2.01,2.69,4.03,5.71,5.71,8.9h-5.71v-8.9h0Z" data-layer-id="6788908803818"/>
+        <path class="cls-15" d="M432.84,146.73c3.19-4.2,6.55-8.56,9.57-12.42v12.42h-9.57Z" data-layer-id="9356603803857"/>
+        <path class="cls-14" d="M442.41,134.31c.67-.84,1.34-1.68,1.85-2.35,1.18-1.34,2.18-2.69,3.19-4.03h13.77v18.8h-18.8v-12.42h0Z" data-layer-id="8049009503897"/>
+        <polygon class="cls-16" data-layer-id="5951832403937" points="461.21 127.93 480.01 127.93 480.01 146.73 461.21 146.73 461.21 127.93"/>
+        <polygon class="cls-15" data-layer-id="2939796203977" points="480.01 127.93 498.82 127.93 498.82 146.73 480.01 146.73 480.01 127.93"/>
+        <polygon class="cls-16" data-layer-id="2861115604018" points="498.82 127.93 517.79 127.93 517.79 146.73 498.82 146.73 498.82 127.93"/>
+        <polygon class="cls-15" data-layer-id="9030662404058" points="517.79 127.93 536.59 127.93 536.59 146.73 517.79 146.73 517.79 127.93"/>
+        <path class="cls-16" d="M542.3,127.93c3.19,5.71,5.71,11.92,7.55,18.8h-13.26v-18.8h5.71Z" data-layer-id="4301391404098"/>
+        <path class="cls-15" d="M419.74,165.7v-.17c0-.34,1.51-2.52,3.86-5.88v6.04h-3.86Z" data-layer-id="4595644504139"/>
+        <path class="cls-14" d="M423.61,159.49c2.35-3.36,5.71-8.06,9.23-12.76h9.57v18.8h-18.8v-6.04h0Z" data-layer-id="7289835104179"/>
+        <polygon class="cls-15" data-layer-id="1485256804218" points="442.41 146.73 461.21 146.73 461.21 165.7 442.41 165.7 442.41 146.73"/>
+        <path class="cls-14" d="M480.01,161.17c-1.51,1.51-3.53,3.19-5.71,4.36h-13.09v-18.8h18.8v14.44h0Z" data-layer-id="4447343204255"/>
+        <path class="cls-15" d="M483.54,156.97s-.17.17-.17.34c-.5.67-1.68,2.18-3.19,3.86v-14.44h18.8v18.8h-14.94c.17-6.38-.5-8.56-.5-8.56h0Z" data-layer-id="8661811904295"/>
+        <polygon class="cls-16" data-layer-id="1748743904335" points="517.79 146.73 536.59 146.73 536.59 165.7 517.79 165.7 517.79 146.73"/>
+        <path class="cls-15" d="M423.61,170.91c-1.68-2.01-3.36-4.36-3.69-5.37h3.69v5.37h0Z" data-layer-id="1256769704375"/>
+        <path class="cls-16" d="M442.41,177.12c-2.18,2.01-4.36,3.19-7.05,2.69-6.88-1.51-8.06-4.53-10.07-6.88-.5-.5-1.01-1.18-1.51-1.85v-5.37h18.8v11.42h-.17Z" data-layer-id="9960446404416"/>
+        <path class="cls-15" d="M461.21,166.37c-1.51,0-3.53.34-6.21,1.18-5.71,1.85-9.23,6.38-12.59,9.57v-11.42h18.8v.67h0Z" data-layer-id="2474657504455"/>
+        <path class="cls-15" d="M474.3,165.7c-1.01.5-2.01,1.01-3.02,1.18-4.53,1.18-6.04-.5-10.07-.5v-.84h13.09v.17ZM474.81,184.51c2.01-2.69,3.86-5.04,5.2-7.22v7.22h-5.2Z" data-layer-id="1506704304495"/>
+        <path class="cls-14" d="M480.01,177.29c2.01-3.02,3.36-5.71,3.53-8.39.17-1.18.17-2.35.34-3.19h14.94v18.8h-18.8v-7.22h0Z" data-layer-id="8682009504531"/>
+        <polygon class="cls-16" data-layer-id="1580887504572" points="498.82 165.7 517.79 165.7 517.79 184.51 498.82 184.51 498.82 165.7"/>
+        <polygon class="cls-15" data-layer-id="0105422504611" points="517.79 165.7 536.59 165.7 536.59 184.51 517.79 184.51 517.79 165.7"/>
+        <path class="cls-18" d="M552.87,165.7c.17,3.02.17,6.04.17,9.07,0,3.36-.17,6.55-.5,9.74h-15.95v-18.8h16.28Z" data-layer-id="0913959304650"/>
+        <path class="cls-16" d="M461.38,203.31c4.7-7.72,9.57-13.77,13.43-18.8h5.2v18.8h-18.63Z" data-layer-id="1488709504690"/>
+        <polygon class="cls-15" data-layer-id="5652405204732" points="480.01 184.51 498.82 184.51 498.82 203.31 480.01 203.31 480.01 184.51"/>
+        <polygon class="cls-14" data-layer-id="2985644904771" points="498.82 184.51 517.79 184.51 517.79 203.31 498.82 203.31 498.82 184.51"/>
+        <polygon class="cls-18" data-layer-id="6492081104808" points="517.79 184.51 536.59 184.51 536.59 203.31 517.79 203.31 517.79 184.51"/>
+        <path class="cls-18" d="M552.54,184.51c-.34,6.55-1.01,12.76-1.85,18.8h-14.27v-18.8h16.12Z" data-layer-id="8737435104847"/>
+        <path class="cls-15" d="M454.83,222.11c0-4.7,1.01-9.23,3.36-13.43,1.01-1.85,2.01-3.53,3.02-5.04v18.47h-6.38Z" data-layer-id="6874882604924"/>
+        <polygon class="cls-14" data-layer-id="5057745504963" points="461.21 203.64 461.38 203.31 480.01 203.31 480.01 222.11 461.21 222.11 461.21 203.64"/>
+        <polygon class="cls-18" data-layer-id="3279053705005" points="480.01 203.31 498.82 203.31 498.82 222.11 480.01 222.11 480.01 203.31"/>
+        <polygon class="cls-18" data-layer-id="3737699305045" points="498.82 203.31 517.79 203.31 517.79 222.11 498.82 222.11 498.82 203.31"/>
+        <polygon class="cls-18" data-layer-id="4386371305084" points="517.79 203.31 536.59 203.31 536.59 222.11 517.79 222.11 517.79 203.31"/>
+        <polygon class="cls-19" data-layer-id="8273031705128" points="442.07 297.49 442.41 297.32 442.41 297.49 442.07 297.49"/>
+        <path class="cls-17" d="M442.41,315.62h-4.2s-5.2-10.91,0-15.28c1.18-1.01,2.52-1.85,4.03-2.85h.34v18.13h-.17Z" data-layer-id="9428488705172"/>
+        <path class="cls-18" d="M458.36,240.91c-2.01-6.04-3.53-12.59-3.53-18.8h6.38v18.8h-2.85Z" data-layer-id="5110112705213"/>
+        <path class="cls-19" d="M461.21,248.13c-1.01-2.18-2.01-4.7-2.85-7.22h2.85v7.22h0Z" data-layer-id="6989821405253"/>
+        <path class="cls-17" d="M450.63,278.69c.84-3.02,5.37-3.53,5.37-3.53,0,0,2.69-1.18,5.2-2.52v6.04h-10.58ZM461.21,266.93c-1.18-.67-2.01-1.85-2.01-3.36h0c0-1.51.84-2.69,2.01-3.36v6.72h0Z" data-layer-id="7591837205292"/>
+        <path class="cls-17" d="M442.41,297.32c5.04-3.02,10.74-5.54,11.58-8.06,1.01-3.36.34-4.53.34-4.53,0,0-3.86-.84-3.86-4.87,0-.34,0-.84.17-1.18h10.58v18.8l-18.8-.17h0Z" data-layer-id="1112664905331"/>
+        <polygon class="cls-18" data-layer-id="3453956605371" points="461.21 315.28 442.41 315.62 442.41 297.49 461.21 297.49 461.21 315.28"/>
+        <polygon class="cls-18" data-layer-id="8429871805410" points="461.21 222.11 480.01 222.11 480.01 240.91 461.21 240.91 461.21 222.11"/>
+        <path class="cls-18" d="M462.39,259.88h4.7c-1.68-2.69-3.86-6.72-5.88-11.58v-7.22h18.8v18.8h-17.63Z" data-layer-id="4554280105452"/>
+        <path class="cls-19" d="M461.21,272.64c2.18-1.01,4.2-2.18,4.53-3.02.5-.84.5-1.68.5-2.18h-3.19c-.67,0-1.34-.17-1.85-.5v-6.72c.34-.17.84-.34,1.18-.5h17.63v18.97h-18.8v-6.04h0Z" data-layer-id="4074787505490"/>
+        <polygon class="cls-18" data-layer-id="5019421505529" points="461.21 278.69 480.01 278.69 480.01 297.49 461.21 297.49 461.21 278.69"/>
+        <polygon class="cls-17" data-layer-id="6521432805566" points="480.01 315.11 461.21 315.28 461.21 297.49 480.01 297.49 480.01 315.11"/>
+        <polygon class="cls-19" data-layer-id="5593197905606" points="480.01 222.11 498.82 222.11 498.82 240.91 480.01 240.91 480.01 222.11"/>
+        <polygon class="cls-17" data-layer-id="2614336805644" points="480.01 240.91 498.82 240.91 498.82 259.88 480.01 259.88 480.01 240.91"/>
+        <polygon class="cls-19" data-layer-id="4174668205683" points="480.01 278.69 498.82 278.69 498.82 297.49 480.01 297.49 480.01 278.69"/>
+        <polygon class="cls-18" data-layer-id="9476988705722" points="498.82 314.95 480.01 315.11 480.01 297.49 498.82 297.49 498.82 314.95"/>
+        <polygon class="cls-18" data-layer-id="1347872205761" points="498.82 240.91 517.79 240.91 517.79 259.88 498.82 259.88 498.82 240.91"/>
+        <polygon class="cls-13" data-layer-id="9174368505800" points="498.82 259.88 517.79 259.88 517.79 278.69 498.82 278.69 498.82 259.88"/>
+        <polygon class="cls-19" data-layer-id="9777899105838" points="498.82 278.69 517.79 278.69 517.79 297.49 498.82 297.49 498.82 278.69"/>
+        <polygon class="cls-19" data-layer-id="2865171405876" points="517.79 315.11 501.84 314.95 498.82 314.95 498.82 297.49 517.79 297.49 517.79 315.11"/>
+        <polygon class="cls-18" data-layer-id="0648442605918" points="517.79 222.11 536.59 222.11 536.59 240.91 517.79 240.91 517.79 222.11"/>
+        <polygon class="cls-16" data-layer-id="1111270105958" points="517.79 240.91 536.59 240.91 536.59 259.88 517.79 259.88 517.79 240.91"/>
+        <polygon class="cls-18" data-layer-id="3582058405999" points="517.79 259.88 536.59 259.88 536.59 278.69 517.79 278.69 517.79 259.88"/>
+        <polygon class="cls-13" data-layer-id="4374946706038" points="517.79 278.69 536.59 278.69 536.59 297.49 517.79 297.49 517.79 278.69"/>
+        <polygon class="cls-18" data-layer-id="2827769406076" points="536.59 315.28 517.79 315.11 517.79 297.49 536.59 297.49 536.59 315.28"/>
+        <path class="cls-18" d="M547.67,222.11c-1.34,7.05-2.69,13.26-4.2,18.8h-7.05v-18.8h11.25Z" data-layer-id="7618150706113"/>
+        <path class="cls-18" d="M543.64,240.91c-2.18,8.73-4.2,15.28-5.37,18.8h2.69-4.53v-18.8h7.22Z" data-layer-id="2425248406151"/>
+        <path class="cls-18" d="M541.12,259.88c1.85.34,3.19,1.85,3.19,3.69h0c0,2.01-1.68,3.86-3.86,3.86h-3.02c0,.5,0,1.34.5,2.18.84,1.68,9.74,5.37,9.74,5.37,0,0,4.53.5,5.37,3.53h-16.62v-18.8h4.7v.17Z" data-layer-id="4938035406189"/>
+        <path class="cls-18" d="M553.21,278.69c.17.34.17.67.17,1.18,0,4.03-3.86,4.87-3.86,4.87,0,0-.67,1.34.34,4.53.5,1.51,2.85,3.02,5.71,4.7v3.53h-18.8v-18.8h16.45Z" data-layer-id="7332484106228"/>
+        <polygon class="cls-19" data-layer-id="0697830206266" points="555.39 315.45 536.59 315.28 536.59 297.49 555.39 297.49 555.39 315.45"/>
+        <path class="cls-18" d="M555.39,293.96c2.01,1.18,4.2,2.35,6.21,3.53h-6.21v-3.53h0Z" data-layer-id="7413048306305"/>
+        <path class="cls-19" d="M561.6,297.49c1.51.84,2.85,1.85,4.03,2.85,5.2,4.36,0,15.28,0,15.28l-10.24-.17v-17.96h6.21Z" data-layer-id="2042908806344"/>
+        <polygon class="cls-18" data-layer-id="1397124706381" points="567.31 176.95 591.15 176.95 591.15 200.62 567.31 200.62 567.31 176.95"/>
+        <polygon class="cls-18" data-layer-id="3644758806422" points="557.74 204.99 578.22 204.99 578.22 225.47 557.74 225.47 557.74 204.99"/>
+        <polygon class="cls-18" data-layer-id="9981555306460" points="557.4 152.44 573.86 152.44 573.86 168.72 557.4 168.72 557.4 152.44"/>
+        <polygon class="cls-15" data-layer-id="5668031706499" points="585.27 148.75 601.56 148.75 601.56 165.2 585.27 165.2 585.27 148.75"/>
+        <polygon class="cls-15" data-layer-id="8652755206538" points="563.62 129.27 579.9 129.27 579.9 145.56 563.62 145.56 563.62 129.27"/>
+        <polygon class="cls-15" data-layer-id="1154208906580" points="542.97 104.93 557.57 104.93 557.57 119.7 542.97 119.7 542.97 104.93"/>
+        <polygon class="cls-16" data-layer-id="7676667606618" points="571 109.8 585.61 109.8 585.61 124.4 571 124.4 571 109.8"/>
+        <polygon class="cls-15" data-layer-id="2566305806655" points="539.27 148.24 547.84 148.24 547.84 156.81 539.27 156.81 539.27 148.24"/>
+        <polygon class="cls-14" data-layer-id="5271695406695" points="488.07 109.63 498.31 109.63 498.31 119.87 488.07 119.87 488.07 109.63"/>
+        <polygon class="cls-16" data-layer-id="7678262206736" points="520.47 111.98 534.57 111.98 534.57 126.08 520.47 126.08 520.47 111.98"/>
+        <polygon class="cls-16" data-layer-id="5697647206778" points="503.85 85.62 517.95 85.62 517.95 99.73 503.85 99.73 503.85 85.62"/>
+        <polygon class="cls-18" data-layer-id="5515679906818" points="549.85 230.5 561.1 230.5 561.1 241.92 549.85 241.92 549.85 230.5"/>
+      </g>
+    </g>
+  </g>
+  <g class="cls-12">
+    <g>
+      <text class="cls-37" transform="translate(144.27 426.38)"><tspan x="0" y="0">DEEP </tspan><tspan class="cls-38" x="323.35" y="0">L</tspan><tspan class="cls-22" x="389.55" y="0">A</tspan><tspan x="452.51" y="0">TTICE</tspan></text>
+      <g>
+        <path class="cls-11" d="M151.83,342.13h46.44c10.48,0,17.71,5.83,17.71,16.63v51.62c0,10.8-7.24,15.98-17.71,15.98h-46.44v-84.24ZM166.62,356.28v55.94h26.89c4.97,0,7.78-2.38,7.78-8.32v-39.42c0-5.72-2.81-8.21-7.78-8.21h-26.89Z"/>
+        <path class="cls-11" d="M243.73,391.27v12.64c0,5.94,2.7,8.32,7.67,8.32h34.02v14.15h-38.77c-10.37,0-17.71-5.18-17.71-15.98v-51.62c0-10.8,7.34-16.63,17.71-16.63h38.77v14.15h-34.02c-4.97,0-7.67,2.48-7.67,8.21v12.64h40.72v14.15h-40.72Z"/>
+        <path class="cls-11" d="M311.56,391.27v12.64c0,5.94,2.7,8.32,7.67,8.32h34.02v14.15h-38.77c-10.37,0-17.71-5.18-17.71-15.98v-51.62c0-10.8,7.34-16.63,17.71-16.63h38.77v14.15h-34.02c-4.97,0-7.67,2.48-7.67,8.21v12.64h40.72v14.15h-40.72Z"/>
+        <path class="cls-11" d="M429.06,377.02c0,1.51-.11,5.51-.22,6.8-.54,9.83-7.78,14.36-17.5,14.36h-30.89v28.19h-14.8v-84.24h45.68c10.37,0,17.71,5.83,17.71,16.63v18.25ZM380.46,356.28v27.76h26.03c4.97,0,7.78-2.48,7.78-8.32v-11.23c0-5.72-2.81-8.21-7.78-8.21h-26.03Z"/>
+        <path class="cls-11" d="M474.63,410.39v-68.26h14.8v61.78c0,5.94,2.7,8.32,7.67,8.32h34.56v14.15h-39.31c-10.37,0-17.71-5.18-17.71-15.98Z"/>
+        <path class="cls-11" d="M533.81,426.38l26.03-76.36c2.38-6.91,6.48-9.18,11.02-9.18s9.07,2.27,11.34,9.18l25.38,76.36h-15.34l-6.05-16.85h-31l-6.05,16.85h-15.34ZM570.75,363.09l-11.34,32.29h22.57l-11.23-32.29Z"/>
+        <path class="cls-11" d="M632.96,356.28v70.09h-14.69v-70.09h-21.49v-14.15h57.24v14.15h-21.06Z"/>
+        <path class="cls-11" d="M690.2,356.28v70.09h-14.69v-70.09h-21.49v-14.15h57.24v14.15h-21.06Z"/>
+        <path class="cls-11" d="M733.62,426.38h-14.8v-84.24h14.8v84.24Z"/>
+        <path class="cls-11" d="M770.12,356.28c-4.97,0-7.67,2.48-7.67,8.21v39.42c0,5.94,2.7,8.32,7.67,8.32h34.78v14.15h-39.53c-10.37,0-17.71-5.18-17.71-15.98v-51.62c0-10.8,7.34-16.63,17.71-16.63h39.53v14.15h-34.78Z"/>
+        <path class="cls-11" d="M830.49,391.27v12.64c0,5.94,2.7,8.32,7.67,8.32h34.02v14.15h-38.77c-10.37,0-17.71-5.18-17.71-15.98v-51.62c0-10.8,7.34-16.63,17.71-16.63h38.77v14.15h-34.02c-4.97,0-7.67,2.48-7.67,8.21v12.64h40.72v14.15h-40.72Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -23,12 +23,25 @@ import {
  * resolutions later than hub captures (clock signature).
  */
 export interface WinPathStats {
-  /** Share of decided games ending in hub capture. */
+  /** Share of decided games ending in hub capture (Surgical Strike). */
   hubCaptureRate: number;
   /** Share of decided games ending in sector integration. */
   sectorIntegrationRate: number;
-  /** Share of decided games ending in no-moves. */
+  /**
+   * Share of decided games ending in no-moves (immobility / Lockout).
+   * Includes Terminal Overclock Lockout after a fused EMP.
+   */
   noMovesRate: number;
+  /**
+   * Share of decided games that fired EMP at least once
+   * (midgame Command Overload or Terminal shot).
+   */
+  empFireRate: number;
+  /**
+   * Share of decided games that ended no-moves after an EMP fire —
+   * the Terminal Lockout signature (vs pure immobility).
+   */
+  empLockoutRate: number;
   decidedGames: number;
   hubSampleCount: number;
   sectorSampleCount: number;
@@ -266,6 +279,12 @@ export function computeWinPathStats(
     .filter((m) => reasonOf(m) === 'sector-integration')
     .map((m) => m.plies);
   const noMoves = decided.filter((m) => reasonOf(m) === 'no-moves').length;
+  const withEmp = decided.filter((m) =>
+    m.replay.some((p) => p.empFired),
+  );
+  const empLockout = withEmp.filter(
+    (m) => reasonOf(m) === 'no-moves',
+  ).length;
 
   const medianHubPlies = median(hubPlies);
   const medianSectorPlies = median(sectorPlies);
@@ -283,6 +302,8 @@ export function computeWinPathStats(
     hubCaptureRate: n === 0 ? 0 : hubPlies.length / n,
     sectorIntegrationRate: n === 0 ? 0 : sectorPlies.length / n,
     noMovesRate: n === 0 ? 0 : noMoves / n,
+    empFireRate: n === 0 ? 0 : withEmp.length / n,
+    empLockoutRate: n === 0 ? 0 : empLockout / n,
     decidedGames: n,
     hubSampleCount: hubPlies.length,
     sectorSampleCount: sectorPlies.length,

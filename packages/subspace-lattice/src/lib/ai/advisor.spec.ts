@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
   explainAdvisorMove,
+  explainStrategicIntent,
   formatAdvisorSuggestion,
+  gradePlayedMove,
+  inferFleetPhase,
   shouldRecordLocalAiTei,
   suggestAdvisorMove,
 } from './advisor';
@@ -131,5 +134,53 @@ describe('formatAdvisorSuggestion / TEI policy', () => {
   it('skips TEI when the match was assisted', () => {
     expect(shouldRecordLocalAiTei(false)).toBe(true);
     expect(shouldRecordLocalAiTei(true)).toBe(false);
+  });
+});
+
+describe('explainStrategicIntent / inferFleetPhase', () => {
+  it('labels early escort pushes as screen-building', () => {
+    const engine = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+    const escort = Object.values(engine.getState().pieces).find(
+      (p) => p.owner === PlayerColor.White && p.type === PieceType.Escort,
+    )!;
+    const to = { x: escort.position.x, y: escort.position.y + 1 };
+    expect(inferFleetPhase(engine, PlayerColor.White)).toBe('opening-screen');
+    const lines = explainStrategicIntent(engine, {
+      pieceId: escort.id,
+      to,
+    });
+    expect(lines.some((l) => /screen|Relay|Sensor Net/i.test(l))).toBe(true);
+  });
+});
+
+describe('gradePlayedMove', () => {
+  it('ranks a hub capture as top optimality', () => {
+    const live = engineWithHubCaptureOpportunity();
+    const grade = gradePlayedMove(
+      live,
+      { pieceId: 'b-e3', to: { x: 5, y: 0 } },
+      { strength: 'fast', rng: () => 0 },
+    );
+    expect(grade.rank).toBe(1);
+    expect(grade.optimalityPct).toBe(100);
+    expect(grade.reasons.some((l) => /win condition/i.test(l))).toBe(true);
+  });
+
+  it('uses advisor tip strength without throwing on quiet positions', () => {
+    const engine = new SubspaceLatticeEngine({ rulesVersion: 'hybrid-fleet' });
+    const escort = Object.values(engine.getState().pieces).find(
+      (p) => p.owner === PlayerColor.White && p.type === PieceType.Escort,
+    )!;
+    const to = { x: escort.position.x, y: escort.position.y + 1 };
+    expect(engine.canMovePiece(escort, to)).toBe(true);
+    const grade = gradePlayedMove(
+      engine,
+      { pieceId: escort.id, to },
+      { strength: 'fast', rng: () => 0.2 },
+    );
+    expect(grade.candidateCount).toBeGreaterThan(0);
+    expect(grade.reasons.length).toBeGreaterThan(0);
+    expect(grade.optimalityPct).toBeGreaterThanOrEqual(0);
+    expect(grade.optimalityPct).toBeLessThanOrEqual(100);
   });
 });

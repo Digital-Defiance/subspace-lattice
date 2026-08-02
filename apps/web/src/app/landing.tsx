@@ -8,6 +8,7 @@ import {
   isTauriRuntime,
   useLatticeSoundtrack,
 } from '@subspace-lattice/react';
+import { MarketingNav } from './marketing-nav';
 import { OriginWelcomeGate } from './origin-welcome-gate';
 import {
   ORIGIN_STORY_YOUTUBE_URL,
@@ -16,14 +17,46 @@ import {
 import { SoundtrackWelcomeGate } from './soundtrack-welcome-gate';
 
 // <li><img className={styles.platformIcon} height="16" src="/google-play-brands-solid-full.svg" alt="Google Play" /> <a className={styles.platformLink} target="_blank" rel="noopener noreferrer" href="https://play.google.com/store/apps/details?id=org.digitaldefiance.app.warp12">Google Play</a></li>
-const appsSection = (<section className="appAvailability">
-  <h4>Available on multiple platforms</h4>
-  <ul>
-    <li><img className="platformIcon" height="16" src="/microsoft-brands-solid-full.svg" alt="Microsoft Store" /> <a className="platformLink" target="_blank" rel="noopener noreferrer" href="https://apps.microsoft.com/detail/9PNNSVNCZ2NK">Microsoft Store</a></li>
-    <li><img className="platformIcon" height="16" src="/beer-mug-duotone-solid-full.svg" alt="Homebrew" /> <a className="platformLink" target="_blank" rel="noopener noreferrer" href="https://brew.digitaldefiance.org">Mac via Homebrew</a></li>
-  </ul>
-  <p>More pending app store review!</p>
-</section>);
+const appsSection = (
+  <section className="appAvailability">
+    <h4>Available on multiple platforms</h4>
+    <ul>
+      <li>
+        <img
+          className="platformIcon"
+          height="16"
+          src="/microsoft-brands-solid-full.svg"
+          alt="Microsoft Store"
+        />{' '}
+        <a
+          className="platformLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://apps.microsoft.com/detail/9PNNSVNCZ2NK"
+        >
+          Microsoft Store
+        </a>
+      </li>
+      <li>
+        <img
+          className="platformIcon"
+          height="16"
+          src="/beer-mug-duotone-solid-full.svg"
+          alt="Homebrew"
+        />{' '}
+        <a
+          className="platformLink"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://brew.digitaldefiance.org"
+        >
+          Mac via Homebrew
+        </a>
+      </li>
+    </ul>
+    <p>More pending app store review!</p>
+  </section>
+);
 
 export function Landing() {
   const [showWelcome, setShowWelcome] = useState(false);
@@ -58,9 +91,18 @@ export function Landing() {
       {!showWelcome && showSoundtrack ? (
         <SoundtrackWelcomeGate onDismiss={dismissSoundtrack} />
       ) : null}
+
+      <MarketingNav active="home" />
+
       <main className="landing-hero">
-        <SubspaceLatticeLogo className="landing-logo" width={544} ariaLabel="Subspace Lattice — Command the Fleet. Control the Lattice."  />
-        <p className="landing-kicker">Fleet tactics · Signal warfare · Sovereign space</p>
+        <SubspaceLatticeLogo
+          className="landing-logo"
+          width={544}
+          ariaLabel="Subspace Lattice — Command the Fleet. Control the Lattice."
+        />
+        <p className="landing-kicker">
+          Fleet tactics · Signal warfare · Sovereign space
+        </p>
         <h1 className="landing-headline">
           Every ship is a weapon.
           <span>Every signal redraws the battlefield.</span>
@@ -72,44 +114,98 @@ export function Landing() {
           theirs. Find the enemy Hub before the sector closes around you.
         </p>
         <div className="landing-actions">
-          <Link to="/play" className="landing-cta" data-testid="enter-game">
-            Take Command
+          <Link to="/drills" className="landing-cta" data-testid="before-game-1">
+            Before Game 1
           </Link>
-          <Link to="/tutorial" className="landing-secondary">
-            Learn to Play
-          </Link>
+        </div>
+        <ol className="landing-path" aria-label="Recommended first command">
+          <li>
+            <span className="landing-path-n">1</span>
+            <Link target="_blank" to={ORIGIN_STORY_YOUTUBE_URL}>
+              Watch the origin story
+            </Link>
+          </li>
+          <li>
+            <span className="landing-path-n">2</span>
+            <button
+              type="button"
+              className="landing-path-btn"
+              onClick={() => setShowSoundtrack(true)}
+            >
+              Turn on the soundtrack
+            </button>
+          </li>
+          <li>
+            <span className="landing-path-n">3</span>
+            <Link to="/rules">Rules</Link>
+          </li>
+          <li>
+            <span className="landing-path-n">4</span>
+            <Link to="/drills">Before Game 1</Link>
+            <span className="landing-path-note"> — short highlighted drills</span>
+          </li>
+          <li>
+            <span className="landing-path-n">5</span>
+            <Link to="/play?local=1&ai=fast" data-testid="enter-game">
+              First local game · Fast AI
+            </Link>
+          </li>
+        </ol>
+        <p className="landing-docs">
+          <Link to="/puzzles">Puzzles</Link>
+          <span aria-hidden="true"> · </span>
           <a
             href="https://iwgf.org/leaderboard/lattice"
-            className="landing-secondary"
             data-testid="federation-standings"
           >
             Standings
           </a>
-        </div>
-        <p className="landing-docs">
-          <a
-            href={ORIGIN_STORY_YOUTUBE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Origin story
-          </a>
-          <span aria-hidden="true"> · </span>
-          <Link to="/story">Sector 11 briefing</Link>
-          <span aria-hidden="true"> · </span>
-          <Link to="/soundtrack">Soundtrack</Link>
           <span aria-hidden="true"> · </span>
           <DocLink doc="manual">Introductory manual</DocLink>
           <span aria-hidden="true"> · </span>
           <DocLink doc="rules">Official rules</DocLink>
           <span aria-hidden="true"> · </span>
+          <Link to="/annotate">Annotate LPGN</Link>
+          <span aria-hidden="true"> · </span>
           <DocLink doc="advanced">Advanced walkthrough</DocLink>
         </p>
       </main>
 
+      <section className="landing-atelier" aria-labelledby="landing-atelier-title">
+        <p className="landing-section-label">Fleet atelier</p>
+        <h2 id="landing-atelier-title">Built for the board — and beyond it.</h2>
+        <p className="landing-atelier-copy">
+          Flagship AI research, an adaptive score, and the cue library that makes
+          Sector 11 feel alive. Same craft as the rules engine — shown off on
+          purpose.
+        </p>
+        <Link
+          to="/deep-lattice"
+          className="landing-atelier-deep"
+          data-testid="landing-deep-lattice"
+        >
+          <img
+            src="/deep-lattice-x.svg"
+            width={1024}
+            height={512}
+            alt="Deep Lattice — research charter"
+            decoding="async"
+          />
+        </Link>
+        <p className="landing-atelier-links">
+          <Link to="/soundtrack">Soundtrack</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/soundboard">Soundboard</Link>
+          <span aria-hidden="true"> · </span>
+          <Link to="/story">Sector 11 briefing</Link>
+        </p>
+      </section>
+
       <section className="landing-premise" aria-labelledby="landing-premise-title">
         <p className="landing-section-label">The battle for the lattice</p>
-        <h2 id="landing-premise-title">You do not conquer space. You make it yours.</h2>
+        <h2 id="landing-premise-title">
+          You do not conquer space. You make it yours.
+        </h2>
         <p>
           Your fleet is small, and every move changes what it can see, where it
           can strike, and which systems still work. Push too far and your relay
@@ -148,18 +244,32 @@ export function Landing() {
       {!isTauriRuntime() && appsSection}
 
       <footer className="landing-footer">
+        <nav className="landing-sitemap" aria-label="Site map">
+          <Link to="/play">Play</Link>
+          <Link to="/rules">Rules</Link>
+          <Link to="/deep-lattice">Deep Lattice</Link>
+          <Link to="/soundtrack">Soundtrack</Link>
+          <Link to="/soundboard">Soundboard</Link>
+          <Link to="/story">Briefing</Link>
+          <Link to="/annotate">Annotate</Link>
+          <a href="https://iwgf.org/leaderboard/lattice">Standings</a>
+          <Link to="/privacy">Privacy</Link>
+        </nav>
         <div className="landing-footer-links">
           Subspace Lattice ·{' '}
           <Link to="https://iwgf.org" className="landing-iwgf-link">
             Interstellar Warp Gaming Federation
           </Link>{' '}
-          · lattice.iwgf.org ·{' '}
-          <Link to="/privacy" className="landing-iwgf-link">
-            Privacy
+          · lattice.iwgf.org
+        </div>
+        <div className="landing-footer-copyright">
+          © 2026 Digital Defiance. All rights reserved.
+        </div>
+        <div className="landing-footer-iwgf">
+          <Link to="https://iwgf.org" className="landing-iwgf-link">
+            <span className="landing-footer-iwgf-text-logo">IWGF</span>
           </Link>
         </div>
-        <div className="landing-footer-copyright">© 2026 Digital Defiance. All rights reserved.</div>
-        <div className="landing-footer-iwgf"><Link to="https://iwgf.org" className="landing-iwgf-link"><span className="landing-footer-iwgf-text-logo">IWGF</span></Link></div>
       </footer>
     </div>
   );

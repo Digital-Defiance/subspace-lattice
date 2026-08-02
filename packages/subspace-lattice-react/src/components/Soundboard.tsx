@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   listGameSounds,
   playGameSound,
@@ -111,7 +110,7 @@ export function Soundboard() {
     <main className="soundboard" data-testid="soundboard">
       <div className="soundboard__atmosphere" aria-hidden="true" />
       <header className="soundboard__header">
-        <p className="soundboard__eyebrow">Internal · not linked from nav</p>
+        <p className="soundboard__eyebrow">Fleet atelier · SFX catalog</p>
         <h1 className="soundboard__title">Soundboard</h1>
         <p className="soundboard__lede">
           Every catalogued fleet SFX. Plays even if Options mute is on.
@@ -124,9 +123,6 @@ export function Soundboard() {
           >
             Stop all
           </button>
-          <Link to="/" className="soundboard__ghost soundboard__ghost--link">
-            ← Home
-          </Link>
         </div>
       </header>
 

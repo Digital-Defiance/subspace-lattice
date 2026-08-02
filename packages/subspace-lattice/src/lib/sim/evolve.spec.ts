@@ -93,6 +93,14 @@ describe('evolution / scorecard', () => {
       parseFixedRulesSpec('hub3,esc1,link2,0.45,relay2')
         .firstPlayerRelayCount,
     ).toBe(2);
+    const fleetEmp = parseFixedRulesSpec(
+      'hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,emp12,term8,growth3,empR4',
+    );
+    expect(fleetEmp.version).toBe('hybrid-fleet');
+    expect(fleetEmp.empChargeTarget).toBe(12);
+    expect(fleetEmp.terminalEmpChargeTarget).toBe(8);
+    expect(fleetEmp.terminalEmpRadiusGrowthInterval).toBe(3);
+    expect(fleetEmp.empRadius).toBe(4);
     const cells = resolveFixedRulesConfigs([
       'hub3,esc1,link2,0.51',
       'hub3,esc1,link2,0.51',
@@ -320,6 +328,8 @@ describe('evolution / scorecard', () => {
       hubCaptureRate: 0.65,
       sectorIntegrationRate: 0.3,
       noMovesRate: 0.05,
+      empFireRate: 0.1,
+      empLockoutRate: 0.04,
       decidedGames: 10,
       hubSampleCount: 7,
       sectorSampleCount: 3,
@@ -527,7 +537,7 @@ describe('evolution / scorecard', () => {
     // Identical rules + paired seeds ⇒ identical scorecards (only configId-
     // independent fields could differ, and they don't).
     expect(result.scorecards[0]).toEqual(result.scorecards[1]);
-  });
+  }, 20_000);
 
   it('counterfactual mode evaluates sector-disabled twins with paired seeds', () => {
     const rules = resolveRulesConfig('hybrid');

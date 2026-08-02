@@ -1,0 +1,30 @@
+.soundboard-page {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+  // Match story/soundtrack marketing shell padding; no opaque fill —
+  // atmosphere paints the whole viewport behind nav + content.
+  padding: 1.5rem clamp(1.25rem, 4vw, 4rem) 0;
+  background: transparent;
+
+  .mkt-nav {
+    position: relative;
+    z-index: 2;
+    margin-bottom: clamp(1rem, 3vw, 2rem);
+  }
+
+  .soundboard {
+    position: relative;
+    z-index: 1;
+    min-height: auto;
+    padding-top: 0;
+    background: transparent;
+  }
+
+  // Full-viewport glow again (Soundboard default), under the shared header.
+  .soundboard__atmosphere {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+}

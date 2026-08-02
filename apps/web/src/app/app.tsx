@@ -3,12 +3,18 @@ import {
   FiguresCaptureHarness,
   GameLayout,
   MissionFiguresHarness,
+  LpgnAnnotatePage,
+  LpgnFiguresHarness,
   SetupDiagramHarness,
-  Soundboard,
   Tutorial,
+  FleetDrills,
+  FleetPuzzles,
+  VisualRulesAcademy,
 } from '@subspace-lattice/react';
+import { DeepLatticePage } from './deep-lattice-page';
 import { Landing } from './landing';
 import { PrivacyPage } from './privacy';
+import { SoundboardPage } from './soundboard-page';
 import { SoundtrackPage } from './soundtrack-page';
 import { Story } from './story';
 
@@ -29,11 +35,15 @@ export function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/story" element={<Story />} />
+      <Route path="/deep-lattice" element={<DeepLatticePage />} />
       <Route path="/soundtrack" element={<SoundtrackPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/play" element={<GameLayout />} />
+      <Route path="/rules" element={<VisualRulesAcademy />} />
       <Route path="/tutorial" element={<Tutorial />} />
-      <Route path="/soundboard" element={<Soundboard />} />
+      <Route path="/drills" element={<FleetDrills />} />
+      <Route path="/puzzles" element={<FleetPuzzles />} />
+      <Route path="/soundboard" element={<SoundboardPage />} />
       <Route path="/leaderboard" element={<FederationStandingsRedirect />} />
       <Route path="/game" element={<Navigate to="/play" replace />} />
       <Route path="/game/:roomCode" element={<GameLayout />} />
@@ -44,6 +54,8 @@ export function App() {
         path="/harness/mission-figures"
         element={<MissionFiguresHarness />}
       />
+      <Route path="/harness/lpgn-figures" element={<LpgnFiguresHarness />} />
+      <Route path="/annotate" element={<LpgnAnnotatePage />} />
     </Routes>
   );
 }

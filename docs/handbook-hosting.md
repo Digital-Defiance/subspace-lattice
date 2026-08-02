@@ -45,7 +45,8 @@ Static handbook traffic almost always stays inside Hosting’s free allotment.
 
 ## What is published
 
-Player pages: overview, Sector 11 briefing (`story.md`), playtest notes.
-Design: ROADMAP, ADRs, desktop-build, viability. Normative rules stay PDF
-(also copied into the handbook `public/` for convenience, and remain on
-lattice.iwgf.org/docs/).
+Player pages: Deep Lattice product charter (`/deep-lattice`), Deep Lattice
+status log, overview, Sector 11 briefing (`story.md`), Atlas, LPGN, playtest
+notes. Design: ROADMAP, Deep Lattice lab, ADRs,
+desktop-build, viability. Normative rules stay PDF (also copied into the
+handbook `public/` for convenience, and remain on lattice.iwgf.org/docs/).

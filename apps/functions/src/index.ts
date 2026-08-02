@@ -633,7 +633,12 @@ export const reportLatticeLocalAiMatch = onCall(async (request) => {
   if (!eventId || eventId.length > 128) {
     throw new HttpsError('invalid-argument', 'eventId is required.');
   }
-  if (strength !== 'fast' && strength !== 'normal' && strength !== 'strong') {
+  if (
+    strength !== 'fast' &&
+    strength !== 'normal' &&
+    strength !== 'strong' &&
+    strength !== 'deep'
+  ) {
     throw new HttpsError('invalid-argument', 'Invalid AI strength.');
   }
 

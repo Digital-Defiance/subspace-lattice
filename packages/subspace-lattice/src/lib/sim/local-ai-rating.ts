@@ -12,11 +12,13 @@ import { getTeiDisplay, TEI_AI_ANCHORS, type TeiDisplay } from './tei-grade';
 
 export function aiAnchorRatingForStrength(strength: AiStrengthId): Rating {
   const anchor =
-    strength === 'strong'
-      ? TEI_AI_ANCHORS.commander
-      : strength === 'normal'
-        ? TEI_AI_ANCHORS.lieutenant
-        : TEI_AI_ANCHORS.ensign;
+    strength === 'deep'
+      ? TEI_AI_ANCHORS.admiral
+      : strength === 'strong'
+        ? TEI_AI_ANCHORS.commander
+        : strength === 'normal'
+          ? TEI_AI_ANCHORS.lieutenant
+          : TEI_AI_ANCHORS.ensign;
   return createRating(anchor.mu, anchor.sigma);
 }
 

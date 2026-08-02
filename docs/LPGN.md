@@ -385,10 +385,69 @@ and may still offer JSON for bugs (triple-click the match title).
 
 ---
 
+## 14. Annotate LPGN → PDF (replay pipeline)
+
+Player-facing export is write-only until you want coaching. Core now ships a
+**read path**:
+
+| Step | API / command | Role |
+| --- | --- | --- |
+| Parse | `parseLpgn` | Headers + ply tokens |
+| Replay | `replayLpgn` | Apply on the real engine from `[Rules]` / `[HeavyWing]` |
+| Annotate | `annotateLpgnReplay` | Facts, mate-in-1/2 shortcuts, EMP/net coaching branches, **advisor why + heuristic optimality** |
+| Board capture | `yarn capture:lpgn-figures` | Playwright → live `Board` SVG (Sensor Net, EMP/TO, piece art) |
+| TeX/PDF | `yarn annotate:lpgn <file.lpgn>` | Writes `docs/lpgn-reports/<id>/` |
+
+Each ply gets:
+
+- **Why (both seats)** — strategic plan (`explainStrategicIntent`: build screen,
+  liquidate, sector race, Hub hunt, …) plus tactical notes (`explainAdvisorMove`).
+- **Optimality (your seat only)** — 1-ply eval shortlist + `suggestAdvisorMove`
+  tip when search disagrees. Opponent plies are explained, not graded.
+
+```bash
+yarn annotate:lpgn path/to/game.lpgn --advisor normal
+yarn annotate:lpgn path/to/game.lpgn --advisor strong
+```
+
+```bash
+yarn annotate:lpgn path/to/game.lpgn
+# captures Board diagrams (default), then pdflatex
+
+yarn annotate:lpgn path/to/game.lpgn --every-ply
+yarn annotate:lpgn path/to/game.lpgn --force-capture   # redo SVGs
+yarn annotate:lpgn path/to/game.lpgn --letter-svg       # offline glyph fallback (no net/EMP art)
+yarn capture:lpgn-figures -- --lpgn path/to/game.lpgn --plies 29,37,75
+```
+
+Requires Playwright chromium (via `@playwright/test`), a Vite web app, plus
+`rsvg-convert` + `pdflatex` for PDF. Harness: `/harness/lpgn-figures`.
+
+### Client-side annotate (no server CPU)
+
+Open **`/annotate`** in the web app (or desktop shell). Paste / upload LPGN,
+pick your seat + advisor strength, and run grading **in the browser**. A
+percentage bar updates as each ply yields to the event loop; when finished,
+use **Print / Save as PDF** for a printable HTML report with live Board
+diagrams (key positions by default).
+
+This is the player-facing path so annotation CPU stays on the client. The
+Node + Playwright pipeline above remains for handbook / content-factory PDFs.
+
+**Why Board capture:** letter SVGs are fine for legality debugging; coaching
+PDFs need the player's Subspace Lattice piece pack, Sensor Net sovereign
+colours, and EMP / Terminal Overclock blast colouring.
+
+**Scorer (next):** once replay is trusted, compare each ply to Heuristic/MCTS
+top move (`yarn sim` consumer) for AI regression corpora.
+
+---
+
 ## See also
 
 - [`docs/player-overview.md`](./player-overview.md) — wins and fantasy
+- [`docs/content-factory.md`](./content-factory.md) — drills / puzzles from matches
 - [`docs/rules.tex`](./rules.tex) — normative rules (Gravity Well, spool, EMP, Terminal)
 - [`docs/terminal-overclock.md`](./terminal-overclock.md) — Terminal design pointer
 - [`docs/adr/004-infiltrator-spool.md`](./adr/004-infiltrator-spool.md) — spool design
-- Core: `pieceTypeChessSymbolMap`, `MoveInfo`, `WinnerReason`
+- Core: `pieceTypeChessSymbolMap`, `MoveInfo`, `WinnerReason`, `parseLpgn`, `replayLpgn`

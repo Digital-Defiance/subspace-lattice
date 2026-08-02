@@ -33,6 +33,11 @@ export interface TutorialStep {
   /** Optional line after this ply before the next step (or lesson success). */
   success?: string;
   playerMove: TutorialMove;
+  /**
+   * Additional accepted solutions for this ply (puzzles / flexible drills).
+   * Checked after `playerMove`.
+   */
+  alternateMoves?: readonly TutorialMove[];
   /** Human seat for this ply. Default White. */
   seat?: PlayerColor;
   aiMove?: TutorialMove;
@@ -55,8 +60,9 @@ export interface TutorialLesson {
   /**
    * `drill` (default): player must play the highlighted move.
    * `walkthrough`: pre-calculated game — Next plays each scripted ply for you.
+   * `puzzle`: free selection; solution not highlighted; 1–5 graded plies.
    */
-  presentation?: 'drill' | 'walkthrough';
+  presentation?: 'drill' | 'walkthrough' | 'puzzle';
   /** When false, Objective HUD shows live clock (fleet lessons). Default paused. */
   hudPaused?: boolean;
 }

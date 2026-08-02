@@ -1,0 +1,14 @@
+
+> nx run core:evolve --track A --ai-trials 0 --jobs 14 --fairness-games 24 --skill-games 8 --fairness-mcts 20 --max-plies 200 --counterfactual --seed 310731 --fixed hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act80,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act120,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,emp12;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,emp18;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,term8;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,term12;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,growth3 --out packages/subspace-lattice/docs/sim-runs/evolve-20260731-hybrid-fleet-terminal-cf.jsonl
+
+> bash scripts/evolve.sh --track A --ai-trials 0 --jobs 14 --fairness-games 24 --skill-games 8 --fairness-mcts 20 --max-plies 200 --counterfactual --seed 310731 --fixed "hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act80,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act120,relay1;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,emp12;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,emp18;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,term8;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,term12;hybrid-fleet:hub3,esc1,link2,0.45,hold1,neutral,act100,relay1,growth3" --out packages/subspace-lattice/docs/sim-runs/evolve-20260731-hybrid-fleet-terminal-cf.jsonl
+
+
+  dist/sim-worker.mjs  283.1kb
+
+⚡ Done in 56ms
+
+  dist/evolve-cli.mjs  308.7kb
+
+⚡ Done in 90ms
+evolve — track=A fixed=8 seed=310731 jobs=14 fairnessAgent=auto fairnessMcts=20 maxPlies=200 (human gate; will not change defaults)

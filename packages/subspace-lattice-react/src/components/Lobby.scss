@@ -234,6 +234,10 @@
   font-family: var(--font-sol-pro-regular);
   cursor: pointer;
   font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
 
   &:hover {
     background: $accent-soft;

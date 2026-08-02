@@ -37,15 +37,15 @@ export { DEFAULT_TEI_CONFIG as DEFAULT_TEI_SCORE_CONFIG } from 'warp12-engine';
 import type { PlayerRating } from 'warp12-engine';
 
 /**
- * Local-AI OpenSkill anchors for Fast / Normal / Strong.
+ * Local-AI OpenSkill anchors for Fast / Normal / Strong / Deep Lattice.
  *
- * Calibrated 2026-07-21 under `hybrid-fleet` (heuristic / mcts-50 / mcts-200
- * round-robin, 8 games/pairing, seed 20260721 — see
+ * Fast–Strong calibrated 2026-07-21 under `hybrid-fleet` (heuristic / mcts-50 /
+ * mcts-200 round-robin — see
  * `docs/sim-runs/evolve-20260721-ai-tier-calibration.jsonl`).
- * μ from measured ladder; σ uses tight “known opponent” values so display
- * letters match Warp-style officer tracks (not provisional ladder σ).
+ * Deep Lattice (`mcts-800` + guided rollouts) uses a provisional Flag Officer
+ * μ above Commander until `yarn calibrate:ai` re-anchors it.
  *
- * Display TEI: Fast P0 · Normal I10 · Strong I52.
+ * Display TEI: Fast P0 · Normal I10 · Strong I52 · Deep ~C70+ provisional.
  */
 export const TEI_AI_ANCHORS = {
   ensign: {
@@ -65,5 +65,11 @@ export const TEI_AI_ANCHORS = {
     sigma: 3.0,
     matches: 999,
     label: 'Commander',
+  },
+  admiral: {
+    mu: 52.0,
+    sigma: 3.0,
+    matches: 999,
+    label: 'Admiral',
   },
 } as const satisfies Record<string, PlayerRating & { label: string }>;

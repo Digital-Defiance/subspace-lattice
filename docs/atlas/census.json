@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-08-01T15:02:57.983Z",
+  "generator": "atlas-census",
+  "encodingNote": "Opening branching is White to move at initial setup. Black inventory is the mirrored fleet.",
+  "rulesets": {
+    "hybrid-fleet": {
+      "rulesVersion": "hybrid-fleet",
+      "rulesId": "hybrid-fleet",
+      "sectorActivationPly": 100,
+      "sectorIntegrationRatio": 0.45,
+      "sectorHoldPlies": 1,
+      "heavyUnitDraft": "standard",
+      "heavyUnitFiles": [
+        2,
+        8
+      ],
+      "firstPlayerRelayCount": 1,
+      "opening": {
+        "white": {
+          "inventory": {
+            "CommandHub": 1,
+            "Escort": 4,
+            "Infiltrator": 2,
+            "Beam": 2
+          },
+          "branching": {
+            "legalMoves": 183,
+            "escortMoves": 9,
+            "escortShare": 0.04918032786885246,
+            "byMoverType": {
+              "CommandHub": 2,
+              "Escort": 9,
+              "Infiltrator": 166,
+              "Beam": 6
+            },
+            "canFireEmp": false,
+            "empCharge": 0,
+            "empTarget": 15
+          }
+        },
+        "black": {
+          "inventory": {
+            "CommandHub": 1,
+            "Escort": 3,
+            "Infiltrator": 2,
+            "Beam": 2
+          },
+          "inventoryOnly": true
+        }
+      },
+      "board": {
+        "size": 11,
+        "gravityWell": {
+          "x": 5,
+          "y": 5
+        }
+      }
+    },
+    "hybrid": {
+      "rulesVersion": "hybrid",
+      "rulesId": "hybrid",
+      "sectorActivationPly": 0,
+      "sectorIntegrationRatio": 0.45,
+      "sectorHoldPlies": 0,
+      "heavyUnitDraft": "standard",
+      "heavyUnitFiles": [
+        2,
+        8
+      ],
+      "firstPlayerRelayCount": 0,
+      "opening": {
+        "white": {
+          "inventory": {
+            "CommandHub": 1,
+            "Escort": 3,
+            "Infiltrator": 2,
+            "Beam": 2
+          },
+          "branching": {
+            "legalMoves": 181,
+            "escortMoves": 5,
+            "escortShare": 0.027624309392265192,
+            "byMoverType": {
+              "CommandHub": 2,
+              "Escort": 5,
+              "Infiltrator": 168,
+              "Beam": 6
+            },
+            "canFireEmp": false,
+            "empCharge": 0,
+            "empTarget": 0
+          }
+        },
+        "black": {
+          "inventory": {
+            "CommandHub": 1,
+            "Escort": 3,
+            "Infiltrator": 2,
+            "Beam": 2
+          },
+          "inventoryOnly": true
+        }
+      },
+      "board": {
+        "size": 11,
+        "gravityWell": {
+          "x": 5,
+          "y": 5
+        }
+      }
+    }
+  }
+}

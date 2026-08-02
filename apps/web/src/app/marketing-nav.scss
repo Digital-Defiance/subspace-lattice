@@ -1,0 +1,115 @@
+$teal: #34e3c5;
+$muted: #9eacc8;
+
+.mkt-nav {
+  width: 100%;
+  margin: 0 0 clamp(1rem, 3vw, 2rem);
+  position: relative;
+  z-index: 2;
+}
+
+.mkt-nav__inner {
+  width: min(72rem, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1.25rem;
+  padding: 0.15rem 0 0.85rem;
+  border-bottom: 1px solid rgba(115, 139, 185, 0.18);
+  font-family: var(--font-sol-pro-regular);
+  font-size: 0.82rem;
+}
+
+.mkt-nav__home {
+  color: $muted;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+
+  &:hover {
+    color: #edf5ff;
+  }
+}
+
+.mkt-nav__primary,
+.mkt-nav__atelier {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a {
+    color: $muted;
+    text-decoration: none;
+
+    &:hover {
+      color: #edf5ff;
+    }
+  }
+}
+
+.mkt-nav__atelier {
+  padding-left: 1rem;
+  border-left: 1px solid rgba(52, 227, 197, 0.28);
+}
+
+.mkt-nav__deep {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  opacity: 0.92;
+
+  img {
+    display: block;
+    width: min(9.5rem, 42vw);
+    height: auto;
+    // Source SVG sits on transparent; screen helps scanlines on dark.
+    mix-blend-mode: screen;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.mkt-nav__link--active {
+  color: $teal !important;
+}
+
+.mkt-nav__cta {
+  margin-left: auto;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid rgba(52, 227, 197, 0.45);
+  border-radius: 0.2rem;
+  color: $teal;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+
+  &:hover {
+    color: #041018;
+    background: $teal;
+    border-color: $teal;
+  }
+}
+
+@media (max-width: 700px) {
+  .mkt-nav__atelier {
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+    justify-content: center;
+    padding-top: 0.35rem;
+    border-top: 1px solid rgba(115, 139, 185, 0.14);
+  }
+
+  .mkt-nav__cta {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+}

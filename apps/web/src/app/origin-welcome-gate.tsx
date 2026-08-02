@@ -53,8 +53,8 @@ export function OriginWelcomeGate({ onDismiss }: OriginWelcomeGateProps) {
               role="status"
               data-testid="origin-welcome-ended"
             >
-              Transmission complete. Explore the deck when you are ready —
-              tutorial and rules live on the command deck.
+              Transmission complete. Next: Before Game 1 drills, then a Fast AI
+              match — or explore the command deck.
             </p>
           ) : (
             <p className="origin-welcome__watching-hint" aria-live="polite">
@@ -72,21 +72,21 @@ export function OriginWelcomeGate({ onDismiss }: OriginWelcomeGateProps) {
           <div className="origin-welcome__watch-actions">
             {ended ? (
               <>
-                <button
-                  type="button"
+                <Link
                   className="origin-welcome__primary origin-welcome__primary--pulse"
+                  to="/drills"
                   data-testid="origin-welcome-continue"
                   onClick={finish}
                 >
-                  Continue to command deck
-                </button>
+                  Before Game 1
+                </Link>
                 <Link
                   className="origin-welcome__secondary"
-                  to="/play"
+                  to="/play?local=1&ai=fast"
                   data-testid="origin-welcome-deploy"
                   onClick={finish}
                 >
-                  Deploy to Grid
+                  First local game · Fast AI
                 </Link>
               </>
             ) : (
@@ -108,8 +108,9 @@ export function OriginWelcomeGate({ onDismiss }: OriginWelcomeGateProps) {
             Welcome to Sector 11, Captain.
           </h1>
           <p className="origin-welcome__copy">
-            Before you take the helm, you can watch how the Lattice was woven —
-            or deploy straight to the grid.
+            Watch how the Lattice was woven, then warm up with Before Game 1
+            drills before your first Fast AI match — or deploy straight to the
+            grid.
           </p>
           <div className="origin-welcome__actions">
             <button
@@ -122,11 +123,11 @@ export function OriginWelcomeGate({ onDismiss }: OriginWelcomeGateProps) {
             </button>
             <Link
               className="origin-welcome__secondary"
-              to="/play"
+              to="/drills"
               data-testid="origin-welcome-skip"
               onClick={finish}
             >
-              Deploy to Grid (Skip to Gameplay)
+              Skip to Before Game 1
             </Link>
           </div>
         </div>

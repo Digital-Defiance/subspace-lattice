@@ -6,7 +6,8 @@ import { defineConfig } from 'vitepress';
  */
 export default defineConfig({
   title: 'Subspace Lattice',
-  description: 'Sector 11 briefing, player overview, rules companions, and design notes',
+  description:
+    'Deep Lattice, Sector 11 briefing, player overview, and design notes',
   // Content lives in the monorepo docs/ tree (not under apps/handbook).
   srcDir: '../../docs',
   outDir: './dist',
@@ -18,7 +19,8 @@ export default defineConfig({
     siteTitle: 'Subspace Lattice',
     nav: [
       { text: 'Play', link: 'https://lattice.iwgf.org/play' },
-      { text: 'Story page', link: 'https://lattice.iwgf.org/story' },
+      { text: 'Deep Lattice', link: '/deep-lattice' },
+      { text: 'Atlas', link: '/lattice-atlas' },
       { text: 'Overview', link: '/player-overview' },
       { text: 'Briefing', link: '/story' },
     ],
@@ -27,9 +29,23 @@ export default defineConfig({
         text: 'Players',
         items: [
           { text: 'Home', link: '/' },
+          { text: 'Deep Lattice', link: '/deep-lattice' },
           { text: 'Player overview', link: '/player-overview' },
           { text: 'Sector 11 briefing', link: '/story' },
+          { text: 'LPGN', link: '/LPGN' },
           { text: 'Playtest checklist', link: '/playtest-fleet-checklist' },
+        ],
+      },
+      {
+        text: 'Lattice Atlas',
+        items: [
+          { text: 'Atlas home', link: '/lattice-atlas' },
+          { text: 'Opening', link: '/atlas/opening' },
+          { text: 'Pieces & wings', link: '/atlas/pieces' },
+          { text: 'Win paths', link: '/atlas/win-paths' },
+          { text: 'Clocks & Terminal', link: '/atlas/clocks' },
+          { text: 'AI & measurement', link: '/atlas/measurement' },
+          { text: 'Census (generated)', link: '/atlas/census' },
         ],
       },
       {
@@ -53,6 +69,9 @@ export default defineConfig({
         text: 'Design notes',
         items: [
           { text: 'Roadmap', link: '/ROADMAP' },
+          { text: 'Deep Lattice lab', link: '/deep-lattice-lab' },
+          { text: 'Lockout impossibility', link: '/lockout-impossibility' },
+          { text: 'Terminal Overclock', link: '/terminal-overclock' },
           { text: 'Game viability', link: '/game-viability-testing' },
           { text: 'Desktop / store build', link: '/desktop-build' },
           { text: 'Handbook hosting', link: '/handbook-hosting' },
@@ -62,6 +81,7 @@ export default defineConfig({
           { text: 'ADR 004 — Infiltrator spool', link: '/adr/004-infiltrator-spool' },
           { text: 'ADR 005 — Sector clock', link: '/adr/005-functional-clock-gate' },
           { text: 'ADR 006 — Sector ties', link: '/adr/006-color-neutral-sector-ties' },
+          { text: 'ADR 007 — Deep Lattice neural', link: '/adr/007-deep-lattice-neural' },
         ],
       },
     ],

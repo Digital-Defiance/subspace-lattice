@@ -44,6 +44,11 @@ interface BoardProps {
   /** Force selection-scoped Hub relay path on/off (skips persisted preference). */
   showPowerRelay?: boolean;
   /**
+   * Teaching / lab: keep this piece selected so Power Relay lines stay visible.
+   * Cleared when the id is missing from the current state.
+   */
+  guidedSelectionId?: string;
+  /**
    * When false (e.g. online waiting room), suppress selection and legal-move
    * highlights even if a seat color is set. Off-turn and game-over also
    * disable play.
@@ -73,6 +78,7 @@ export const Board: React.FC<BoardProps> = ({
   pieceStyle: forcedPieceStyle,
   contrastOutline: forcedOutline,
   showPowerRelay: forcedPowerRelay,
+  guidedSelectionId,
   interactive = true,
 }) => {
   const [selectedPieceId, setSelectedPieceId] = useState<string | null>(null);
@@ -106,12 +112,23 @@ export const Board: React.FC<BoardProps> = ({
   const turnKey = `${gameState.currentPlayer}:${gameState.plyCount ?? 0}`;
 
   useEffect(() => {
+    if (guidedSelectionId) return;
     setSelectedPieceId(null);
-  }, [turnKey]);
+  }, [turnKey, guidedSelectionId]);
 
   useEffect(() => {
+    if (guidedSelectionId) return;
     if (!playable) setSelectedPieceId(null);
-  }, [playable]);
+  }, [playable, guidedSelectionId]);
+
+  useEffect(() => {
+    if (!guidedSelectionId) return;
+    if (gameState.pieces[guidedSelectionId]) {
+      setSelectedPieceId(guidedSelectionId);
+    } else {
+      setSelectedPieceId(null);
+    }
+  }, [guidedSelectionId, gameState.pieces]);
 
   const showNet = engine.isHybrid();
   const whiteNet = useMemo(
@@ -424,7 +441,9 @@ export const Board: React.FC<BoardProps> = ({
       )}
       {displayCells.map((cell: Cell) => {
         const piece = cell.pieceId ? gameState.pieces[cell.pieceId] : null;
-        const isSelected = playable && piece?.id === selectedPieceId;
+        const isSelected =
+          piece?.id === selectedPieceId &&
+          (playable || Boolean(guidedSelectionId));
         const isGravityWell = cell.type === CellType.GravityWell;
         const isSpoolTarget = spoolTargets.has(
           `${cell.coordinate.x},${cell.coordinate.y}`,

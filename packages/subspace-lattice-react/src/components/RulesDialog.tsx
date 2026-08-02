@@ -96,8 +96,10 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
           <h3>The Board</h3>
           <p>
             The central <strong>Gravity Well</strong> cannot be occupied or
-            traversed (blocker only). White begins with one forward{' '}
-            <strong>Initiative Relay</strong> Escort as seat compensation.
+            traversed (blocker only). White moves first, which under equal fleets
+            was a measured disadvantage (you commit and reveal net first). White
+            therefore begins with one forward <strong>Initiative Relay</strong>{' '}
+            Escort as visible compensation.
           </p>
 
           <h3>Sensor Net</h3>

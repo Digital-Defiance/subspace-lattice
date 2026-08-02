@@ -18,6 +18,7 @@ function nodeEnv(name: string): string | undefined {
  * - `LATTICE_HUB_MATE_FILTER=0` disables only moveLeavesHubHanging filters.
  * - `LATTICE_HUB_IN_ONE=0` disables only the hub-in-one eval bonus (see evaluate.ts).
  * - `LATTICE_TRADE_FILTER=0` disables bad-trade / hanging-mover filters.
+ * - `LATTICE_EMP_LOCKOUT_FILTER=0` disables opponent EMP-Lockout reply filter.
  * Default: all on.
  */
 export function hubSafetyEnabled(): boolean {
@@ -34,6 +35,10 @@ export function hubInOneEvalEnabled(): boolean {
 
 export function tradeFilterEnabled(): boolean {
   return nodeEnv('LATTICE_TRADE_FILTER') !== '0';
+}
+
+export function empLockoutFilterEnabled(): boolean {
+  return nodeEnv('LATTICE_EMP_LOCKOUT_FILTER') !== '0';
 }
 
 /** Capture enemy Command Hub if any legal move does so. */
@@ -141,27 +146,59 @@ export function moveLosesMaterialOnReply(
   return false;
 }
 
-/** Hub mate or a clearly losing trade on the reply. */
+/**
+ * True when playing `move` leaves the opponent able to fire EMP and win on
+ * Lockout (`no-moves`) immediately. Mirrors HeuristicAi's +50k EMP Lockout
+ * tactical from the defender's side. Winning moves that end the game are safe.
+ */
+export function moveLeavesEmpLockout(
+  engine: SubspaceLatticeEngine,
+  move: AgentMove,
+): boolean {
+  if (!empLockoutFilterEnabled()) return false;
+  if (!engine.empEnabled()) return false;
+  const me = engine.getState().currentPlayer;
+  const child = engine.clone();
+  if (!applyAgentMove(child, move)) return true;
+  const state = child.getState();
+  if (state.winner) return false;
+  // Opponent to move after our ply.
+  if (!child.canFireEmp()) return false;
+  const enemy = state.currentPlayer;
+  const probe = child.clone();
+  if (!probe.fireEmp()) return false;
+  return probe.getState().winner === enemy && me !== enemy;
+}
+
+/** Hub mate, EMP Lockout reply, or a clearly losing trade. */
 export function moveIsTacticallyUnsafe(
   engine: SubspaceLatticeEngine,
   move: AgentMove,
 ): boolean {
   return (
-    moveLeavesHubHanging(engine, move) || moveLosesMaterialOnReply(engine, move)
+    moveLeavesHubHanging(engine, move) ||
+    moveLeavesEmpLockout(engine, move) ||
+    moveLosesMaterialOnReply(engine, move)
   );
 }
 
 /**
- * Prefer moves that do not walk into an immediate Surgical Strike.
- * If every legal move hangs the hub (forced loss), return the full list.
+ * Prefer moves that do not walk into an immediate Surgical Strike or
+ * EMP Lockout reply. If every legal move is unsafe, return the full list.
  */
 export function filterMovesAvoidingHubMate<T extends AgentMove>(
   engine: SubspaceLatticeEngine,
   moves: readonly T[],
 ): T[] {
   if (moves.length === 0) return [];
-  if (!hubMateFilterEnabled()) return [...moves];
-  const safe = moves.filter((m) => !moveLeavesHubHanging(engine, m));
+  if (
+    !hubMateFilterEnabled() &&
+    !empLockoutFilterEnabled() &&
+    !tradeFilterEnabled()
+  ) {
+    return [...moves];
+  }
+  const safe = moves.filter((m) => !moveIsTacticallyUnsafe(engine, m));
   return safe.length > 0 ? safe : [...moves];
 }
 
@@ -176,7 +213,11 @@ export function pickBestAvoidingHubMate<T extends AgentMove>(
   rng: () => number,
 ): T | null {
   if (scored.length === 0) return null;
-  if (!hubMateFilterEnabled() && !tradeFilterEnabled()) {
+  if (
+    !hubMateFilterEnabled() &&
+    !empLockoutFilterEnabled() &&
+    !tradeFilterEnabled()
+  ) {
     let bestScore = Number.NEGATIVE_INFINITY;
     const best: T[] = [];
     for (const { move, score } of scored) {
@@ -211,13 +252,16 @@ export function pickBestAvoidingHubMate<T extends AgentMove>(
     return null;
   };
 
-  // Prefer: not hub-mate AND not a losing trade.
+  // Prefer: not hub-mate / EMP-lockout AND not a losing trade.
   const best =
     pickSafe((m) => !moveIsTacticallyUnsafe(engine, m)) ??
-    pickSafe((m) => !moveLeavesHubHanging(engine, m));
+    pickSafe(
+      (m) =>
+        !moveLeavesHubHanging(engine, m) && !moveLeavesEmpLockout(engine, m),
+    );
   if (best) return best;
 
-  // Everything hangs the hub — forced loss; keep the strongest attempt.
+  // Everything tactically losing — forced loss; keep the strongest attempt.
   const top = bands.get(scores[0]!)!;
   return top[Math.min(top.length - 1, Math.floor(rng() * top.length))]!;
 }

@@ -133,7 +133,7 @@ export const OptionsDialog: React.FC<OptionsDialogProps> = ({ onClose }) => {
               className="options-control-btn"
               aria-pressed={showPowerRelay}
               data-testid="options-power-relay"
-              title="When a ship is selected, show its dashed power-relay path back to the Command Hub"
+              title="When a ship is selected, show its amber dashed power-relay path back to the Command Hub"
               onClick={() => setShowPowerRelay(!showPowerRelay)}
             >
               {showPowerRelay ? 'On' : 'Off'}

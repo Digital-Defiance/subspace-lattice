@@ -1,0 +1,343 @@
+@use './variables' as *;
+
+.lpgn-annotate {
+  min-height: 100vh;
+  padding: 1.25rem clamp(1rem, 3vw, 2rem) 3rem;
+  background:
+    radial-gradient(ellipse at 12% -10%, rgba(52, 227, 197, 0.08), transparent 36rem),
+    $panel-bg-deep;
+  color: $text;
+}
+
+.lpgn-annotate-chrome {
+  max-width: 52rem;
+  margin: 0 auto 1.5rem;
+
+  a {
+    color: $accent;
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  h1 {
+    margin: 0.55rem 0 0.4rem;
+    font-family: var(--font-all-round-gothic);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 400;
+    color: #f4f8ff;
+  }
+
+  p {
+    margin: 0;
+    color: $text-dim;
+    line-height: 1.45;
+    max-width: 40rem;
+  }
+}
+
+.lpgn-annotate-setup {
+  max-width: 52rem;
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lpgn-annotate-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  span {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    font-family: var(--font-sol-pro-regular);
+  }
+
+  textarea,
+  select,
+  input[type='file'] {
+    font: inherit;
+    color: $text;
+    background: $panel-bg;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    padding: 0.65rem 0.75rem;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 10rem;
+    line-height: 1.4;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+  }
+}
+
+.lpgn-annotate-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.85rem;
+}
+
+.lpgn-annotate-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.lpgn-annotate-primary,
+.lpgn-annotate-ghost {
+  font: inherit;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  padding: 0.65rem 1.1rem;
+}
+
+.lpgn-annotate-primary {
+  background: #0f766e;
+  border: 1px solid #14b8a6;
+  color: #ecfeff;
+}
+
+.lpgn-annotate-ghost {
+  background: transparent;
+  border: 1px solid $border;
+  color: $text;
+}
+
+.lpgn-annotate-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  p {
+    margin: 0;
+    color: $text-dim;
+    font-size: 0.9rem;
+  }
+}
+
+.lpgn-annotate-progress-track {
+  height: 0.55rem;
+  overflow: hidden;
+  background: #172033;
+  border-radius: 999px;
+
+  span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, #0d9488, #34e3c5);
+    transition: width 160ms ease;
+  }
+
+  &.is-step {
+    height: 0.4rem;
+    margin-top: 0.15rem;
+
+    span {
+      background: linear-gradient(90deg, #0369a1, #38bdf8);
+    }
+  }
+}
+
+.lpgn-annotate-progress-step {
+  font-size: 0.8rem !important;
+  color: #94a3b8 !important;
+}
+
+.lpgn-annotate-progress-eta {
+  margin: 0 !important;
+  font-size: 0.9rem !important;
+  color: #99f6e4 !important;
+}
+
+.lpgn-annotate-error {
+  margin: 0;
+  color: #fca5a5;
+}
+
+.lpgn-annotate-report {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.lpgn-annotate-report-head {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border;
+
+  h2 {
+    margin: 0.25rem 0 0.4rem;
+    font-family: var(--font-all-round-gothic);
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 400;
+  }
+}
+
+.lpgn-annotate-kicker {
+  margin: 0;
+  color: #34e3c5;
+  font: 700 0.7rem/1.3 var(--font-sol-pro-regular);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.lpgn-annotate-meta {
+  margin: 0 0 0.75rem;
+  color: $text-dim;
+  font-size: 0.9rem;
+}
+
+.lpgn-annotate-summary {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: $text-dim;
+  line-height: 1.45;
+}
+
+.lpgn-annotate-ply {
+  margin: 0 0 1.35rem;
+  padding: 0 0 1.15rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  break-inside: avoid;
+
+  &.is-key {
+    border-bottom-color: rgba(52, 227, 197, 0.35);
+  }
+
+  header h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+
+    code {
+      font-weight: 500;
+      color: #99f6e4;
+    }
+  }
+}
+
+.lpgn-annotate-phase {
+  margin: 0 0 0.55rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.lpgn-annotate-board {
+  max-width: 22rem;
+  margin: 0.65rem 0 0.85rem;
+}
+
+.lpgn-annotate-facts,
+.lpgn-annotate-why ul {
+  margin: 0.35rem 0 0.55rem;
+  padding-left: 1.15rem;
+  line-height: 1.45;
+  color: $text-dim;
+}
+
+.lpgn-annotate-why h4,
+.lpgn-annotate-grade h4 {
+  margin: 0.5rem 0 0.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #cbd5e1;
+}
+
+.lpgn-annotate-grade p {
+  margin: 0 0 0.25rem;
+  color: $text-dim;
+  line-height: 1.4;
+}
+
+.lpgn-annotate-alt {
+  color: #fcd34d !important;
+}
+
+.lpgn-annotate-live {
+  margin: 0.75rem 0 0;
+  color: #34e3c5;
+  font-size: 0.9rem;
+}
+
+.lpgn-annotate-live-tail {
+  height: 1px;
+}
+
+.lpgn-annotate-callout {
+  margin: 0.55rem 0 0;
+  padding: 0.55rem 0.7rem;
+  border-left: 3px solid #64748b;
+  background: rgba(15, 23, 42, 0.55);
+  color: $text-dim;
+  line-height: 1.4;
+  font-size: 0.92rem;
+
+  &.is-shortcut {
+    border-left-color: #f87171;
+  }
+
+  &.is-branch {
+    border-left-color: #34e3c5;
+  }
+}
+
+@media print {
+  .lpgn-annotate {
+    background: #fff;
+    color: #0f172a;
+    padding: 0;
+  }
+
+  .no-print,
+  .lpgn-annotate-chrome {
+    display: none !important;
+  }
+
+  .lpgn-annotate-report {
+    max-width: none;
+  }
+
+  .lpgn-annotate-report-head h2,
+  .lpgn-annotate-ply header h3,
+  .lpgn-annotate-kicker {
+    color: #0f172a;
+  }
+
+  .lpgn-annotate-kicker {
+    color: #0f766e;
+  }
+
+  .lpgn-annotate-meta,
+  .lpgn-annotate-summary,
+  .lpgn-annotate-facts,
+  .lpgn-annotate-why ul,
+  .lpgn-annotate-grade p,
+  .lpgn-annotate-phase,
+  .lpgn-annotate-callout {
+    color: #334155;
+  }
+
+  .lpgn-annotate-ply header h3 code {
+    color: #0f766e;
+  }
+
+  .lpgn-annotate-alt {
+    color: #92400e !important;
+  }
+
+  .lpgn-annotate-callout {
+    background: #f8fafc;
+    border-left-color: #64748b;
+  }
+
+  .lpgn-annotate-board {
+    max-width: 3.4in;
+  }
+}

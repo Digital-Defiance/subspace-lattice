@@ -114,6 +114,8 @@ Env helper: `. scripts/lib/subspace-env.sh` → `subspace_env_load|validate` (`b
 | Path | Purpose |
 |------|---------|
 | `docs/player-overview.md` | Player fantasy / wins / TEI |
+| `docs/deep-lattice.md` | Deep Lattice status log (product: `/deep-lattice`) |
+| `docs/deep-lattice-lab.md` | Neural track engineering notebook |
 | `docs/desktop-build.md` | Tauri init, stores, Homebrew |
 | `docs/ROADMAP.md` | Phases; academy items still open |
 | `docs/rules.tex` | Normative rules |

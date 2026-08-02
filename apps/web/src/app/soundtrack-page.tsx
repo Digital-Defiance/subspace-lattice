@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DocLink, SubspaceLatticeLogo, getSoundtrackVolume } from '@subspace-lattice/react';
+import { MarketingNav } from './marketing-nav';
 import './story.scss';
 import './soundtrack-page.scss';
 
@@ -91,7 +92,15 @@ function trackSrc(stem: string): string {
   return `/soundtrack/${encodeURIComponent(stem)}.mp3`;
 }
 
-function TrackPreview({
+const ALL_TRACKS = CUES.flatMap((cue) => cue.tracks);
+
+function nextPlayThroughStem(stem: string): string | null {
+  const index = ALL_TRACKS.indexOf(stem);
+  if (index < 0) return null;
+  return ALL_TRACKS[(index + 1) % ALL_TRACKS.length];
+}
+
+function TrackRow({
   stem,
   activeStem,
   onToggle,
@@ -109,10 +118,10 @@ function TrackPreview({
         type="button"
         className={`ost-cue__play${playing ? ' ost-cue__play--active' : ''}`}
         aria-pressed={playing}
-        aria-label={playing ? `Stop ${stem}` : `Preview ${stem}`}
+        aria-label={playing ? `Stop ${stem}` : `Play ${stem}`}
         onClick={() => onToggle(stem)}
       >
-        {playing ? 'Stop' : 'Preview'}
+        {playing ? 'Stop' : 'Play'}
       </button>
     </li>
   );
@@ -121,8 +130,16 @@ function TrackPreview({
 export function SoundtrackPage() {
   const briefId = useId();
   const cuesId = useId();
+  const chainId = useId();
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playThroughRef = useRef(false);
+  const playStemRef = useRef<(stem: string) => void>(() => undefined);
   const [activeStem, setActiveStem] = useState<string | null>(null);
+  const [playThrough, setPlayThrough] = useState(false);
+
+  useEffect(() => {
+    playThroughRef.current = playThrough;
+  }, [playThrough]);
 
   useEffect(() => {
     return () => {
@@ -131,18 +148,19 @@ export function SoundtrackPage() {
     };
   }, []);
 
-  const toggleStem = (stem: string) => {
-    if (activeStem === stem) {
-      audioRef.current?.pause();
-      audioRef.current = null;
-      setActiveStem(null);
-      return;
-    }
-
+  const playStem = (stem: string) => {
     audioRef.current?.pause();
     const audio = new Audio(trackSrc(stem));
     audio.volume = getSoundtrackVolume();
     audio.addEventListener('ended', () => {
+      if (audioRef.current !== audio) return;
+      const next = playThroughRef.current
+        ? nextPlayThroughStem(stem)
+        : null;
+      if (next) {
+        playStemRef.current(next);
+        return;
+      }
       setActiveStem(null);
       audioRef.current = null;
     });
@@ -155,17 +173,24 @@ export function SoundtrackPage() {
       },
     );
   };
+  playStemRef.current = playStem;
+
+  const toggleStem = (stem: string) => {
+    if (activeStem === stem) {
+      audioRef.current?.pause();
+      audioRef.current = null;
+      setActiveStem(null);
+      return;
+    }
+    playStem(stem);
+  };
 
   return (
     <div className="story-page soundtrack-page">
-      <nav className="story-nav" aria-label="Soundtrack navigation">
-        <Link to="/" className="story-home">
-          ← Command deck
-        </Link>
-        <Link to="/play" className="story-play">
-          Enter Sector 11
-        </Link>
-      </nav>
+      <MarketingNav
+        active="soundtrack"
+        cta={{ to: '/play', label: 'Enter Sector 11' }}
+      />
 
       <header className="story-hero">
         <SubspaceLatticeLogo
@@ -203,6 +228,21 @@ export function SoundtrackPage() {
         <section aria-labelledby={cuesId}>
           <p className="story-section-label">Signal cues</p>
           <h2 id={cuesId}>Every stage has a voice.</h2>
+          <div className="ost-playback">
+            <button
+              type="button"
+              className={`ost-playback__toggle${playThrough ? ' ost-playback__toggle--active' : ''}`}
+              aria-pressed={playThrough}
+              aria-describedby={chainId}
+              onClick={() => setPlayThrough((on) => !on)}
+            >
+              {playThrough ? 'Play through on' : 'Play through'}
+            </button>
+            <p id={chainId}>
+              When on, finishing a track starts the next cue in order — from
+              command deck through resolution, then wraps.
+            </p>
+          </div>
           <div className="ost-cues">
             {CUES.map((cue) => (
               <article key={cue.id} id={cue.id} className="ost-cue">
@@ -215,7 +255,7 @@ export function SoundtrackPage() {
                   <p className="ost-cue__behavior">{cue.behavior}</p>
                   <ul className="ost-cue__tracks">
                     {cue.tracks.map((track) => (
-                      <TrackPreview
+                      <TrackRow
                         key={track}
                         stem={track}
                         activeStem={activeStem}
@@ -232,17 +272,17 @@ export function SoundtrackPage() {
         <section className="story-cta" aria-label="Continue">
           <p>Ready to hear it under fire?</p>
           <div>
-            <Link to="/story">Sector 11 briefing</Link>
+            <Link to="/soundboard">Soundboard</Link>
             <Link to="/play">Enter Sector 11</Link>
           </div>
         </section>
       </main>
 
       <footer className="story-footer">
-        Companion to the <Link to="/story">Sector 11 briefing</Link>. Fiction
-        sets the mood; the <DocLink doc="rules">official rules</DocLink> still
-        govern the board. Prefer the command deck?{' '}
-        <Link to="/">Return home</Link>.
+        Companion to the <Link to="/story">Sector 11 briefing</Link> and{' '}
+        <Link to="/soundboard">soundboard</Link>. Fiction sets the mood; the{' '}
+        <DocLink doc="rules">official rules</DocLink> still govern the board.
+        Prefer the command deck? <Link to="/">Return home</Link>.
       </footer>
     </div>
   );

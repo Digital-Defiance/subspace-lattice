@@ -69,6 +69,19 @@ export interface RunLadderOptions {
     index: number;
     total: number;
   }) => void;
+  /** Optional progress hook after each individual game. */
+  onGameComplete?: (info: {
+    white: string;
+    black: string;
+    gameIndex: number;
+    gamesPerPairing: number;
+    pairingIndex: number;
+    pairingTotal: number;
+    plies: number;
+    truncated: boolean;
+    winner?: string;
+    winnerReason?: string;
+  }) => void;
 }
 
 function updateElo(
@@ -143,6 +156,7 @@ export function runLadder(options: RunLadderOptions): LadderResult {
         const wRating = ratings[whiteName]!;
         const bRating = ratings[blackName]!;
 
+        let winnerLabel: string | undefined;
         if (result.truncated || !result.winner) {
           truncated += 1;
           draws += 1;
@@ -151,17 +165,32 @@ export function runLadder(options: RunLadderOptions): LadderResult {
           ratings[blackName] = next.black;
         } else if (result.winner === PlayerColor.White) {
           whiteWins += 1;
+          winnerLabel = whiteName;
           updateElo(elo, whiteName, blackName);
           const next = applyMatchResult(wRating, bRating, 'white');
           ratings[whiteName] = next.white;
           ratings[blackName] = next.black;
         } else {
           blackWins += 1;
+          winnerLabel = blackName;
           updateElo(elo, blackName, whiteName);
           const next = applyMatchResult(wRating, bRating, 'black');
           ratings[whiteName] = next.white;
           ratings[blackName] = next.black;
         }
+
+        options.onGameComplete?.({
+          white: whiteName,
+          black: blackName,
+          gameIndex: g + 1,
+          gamesPerPairing,
+          pairingIndex,
+          pairingTotal: directed.length,
+          plies: result.plies,
+          truncated: result.truncated,
+          winner: winnerLabel,
+          winnerReason: result.winnerReason,
+        });
 
         // Advance TEI hysteresis state after every rated outcome
         for (const n of [whiteName, blackName]) {

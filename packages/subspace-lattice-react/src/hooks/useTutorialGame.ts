@@ -1,23 +1,31 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PlayerColor, type Coordinate } from '@subspace-lattice/core';
 import {
-  TUTORIAL_LESSONS,
   createTutorialEngine,
+  isPuzzleLesson,
   isWalkthroughLesson,
   type TutorialLesson,
   type TutorialStep,
 } from '../tutorial/tutorial-model';
-import { isEmpTutorialMove } from '../tutorial/tutorial-types';
-
-const PROGRESS_KEY = 'subspace-lattice:tutorial-progress';
+import {
+  isEmpTutorialMove,
+  type TutorialMove,
+} from '../tutorial/tutorial-types';
+import {
+  ACADEMY_PACK,
+  type TutorialPackConfig,
+} from '../tutorial/tutorial-pack';
 
 export type TutorialPhase = 'playing' | 'ai-turn' | 'success' | 'graduated';
 
-function savedLessonIndex(): number {
+function savedLessonIndex(
+  progressKey: string,
+  lessonCount: number,
+): number {
   if (typeof window === 'undefined') return 0;
-  const value = Number(window.localStorage.getItem(PROGRESS_KEY) ?? 0);
+  const value = Number(window.localStorage.getItem(progressKey) ?? 0);
   return Number.isInteger(value)
-    ? Math.min(Math.max(value, 0), TUTORIAL_LESSONS.length - 1)
+    ? Math.min(Math.max(value, 0), Math.max(0, lessonCount - 1))
     : 0;
 }
 
@@ -29,10 +37,34 @@ function stepSeat(step: TutorialStep): PlayerColor {
   return step.seat ?? PlayerColor.White;
 }
 
-/** Deterministic tutorial controller; graded lessons never invoke MCTS. */
-export function useTutorialGame() {
-  const [lessonIndex, setLessonIndex] = useState(savedLessonIndex);
-  const lesson = TUTORIAL_LESSONS[lessonIndex]!;
+function acceptedMoves(step: TutorialStep): TutorialMove[] {
+  return [step.playerMove, ...(step.alternateMoves ?? [])];
+}
+
+function isAcceptedPieceMove(
+  step: TutorialStep,
+  pieceId: string,
+  to: Coordinate,
+): boolean {
+  return acceptedMoves(step).some(
+    (move) =>
+      !isEmpTutorialMove(move) &&
+      move.pieceId === pieceId &&
+      sameCoordinate(move.to, to),
+  );
+}
+
+function stepExpectsEmp(step: TutorialStep): boolean {
+  return acceptedMoves(step).some((move) => isEmpTutorialMove(move));
+}
+
+/** Deterministic tutorial / drill controller; graded lessons never invoke MCTS. */
+export function useTutorialGame(pack: TutorialPackConfig = ACADEMY_PACK) {
+  const lessons = pack.lessons;
+  const [lessonIndex, setLessonIndex] = useState(() =>
+    savedLessonIndex(pack.progressKey, lessons.length),
+  );
+  const lesson = lessons[lessonIndex]!;
   const [stepIndex, setStepIndex] = useState(0);
   const [engine, setEngine] = useState(() => createTutorialEngine(lesson));
   const [phase, setPhase] = useState<TutorialPhase>('playing');
@@ -42,6 +74,7 @@ export function useTutorialGame() {
   const seat = stepSeat(step);
   const totalSteps = lesson.steps.length;
   const walkthrough = isWalkthroughLesson(lesson);
+  const puzzle = isPuzzleLesson(lesson);
 
   const beginLesson = useCallback((nextLesson: TutorialLesson, index: number) => {
     setLessonIndex(index);
@@ -63,23 +96,20 @@ export function useTutorialGame() {
 
   const chooseLesson = useCallback(
     (index: number) => {
-      const bounded = Math.min(
-        Math.max(index, 0),
-        TUTORIAL_LESSONS.length - 1,
-      );
-      beginLesson(TUTORIAL_LESSONS[bounded]!, bounded);
+      const bounded = Math.min(Math.max(index, 0), lessons.length - 1);
+      beginLesson(lessons[bounded]!, bounded);
     },
-    [beginLesson],
+    [beginLesson, lessons],
   );
 
-  const persistProgress = useCallback((completedIndex: number) => {
-    if (typeof window === 'undefined') return;
-    const nextUnlocked = Math.min(
-      completedIndex + 1,
-      TUTORIAL_LESSONS.length - 1,
-    );
-    window.localStorage.setItem(PROGRESS_KEY, String(nextUnlocked));
-  }, []);
+  const persistProgress = useCallback(
+    (completedIndex: number) => {
+      if (typeof window === 'undefined') return;
+      const nextUnlocked = Math.min(completedIndex + 1, lessons.length - 1);
+      window.localStorage.setItem(pack.progressKey, String(nextUnlocked));
+    },
+    [lessons.length, pack.progressKey],
+  );
 
   const finishLesson = useCallback(() => {
     setPhase('success');
@@ -190,13 +220,19 @@ export function useTutorialGame() {
   const submitMove = useCallback(
     (pieceId: string, to: Coordinate): boolean => {
       if (walkthrough || phase !== 'playing') return false;
-      if (isEmpTutorialMove(step.playerMove)) return false;
-      if (
-        pieceId !== step.playerMove.pieceId ||
-        !sameCoordinate(to, step.playerMove.to)
-      ) {
+      if (stepExpectsEmp(step)) {
         setFeedback(
-          'That move is legal, but it does not complete this step’s objective.',
+          puzzle
+            ? 'This puzzle is solved with Command Overload — Fire EMP when ready.'
+            : 'This step needs Command Overload — use Fire EMP on the objective HUD.',
+        );
+        return false;
+      }
+      if (!isAcceptedPieceMove(step, pieceId, to)) {
+        setFeedback(
+          puzzle
+            ? 'Legal, but not the line. Look again — there is a sharper idea.'
+            : 'That move is legal, but it does not complete this step’s objective.',
         );
         return false;
       }
@@ -204,7 +240,9 @@ export function useTutorialGame() {
       const next = engine.clone();
       if (!next.movePiece(pieceId, to)) {
         setFeedback(
-          'That order is not legal in this position. Try the highlighted destination.',
+          puzzle
+            ? 'That order is not legal here.'
+            : 'That order is not legal in this position. Try the highlighted destination.',
         );
         return false;
       }
@@ -212,8 +250,32 @@ export function useTutorialGame() {
       advanceAfterPlayerPly(next);
       return true;
     },
-    [advanceAfterPlayerPly, engine, phase, step, walkthrough],
+    [advanceAfterPlayerPly, engine, phase, puzzle, step, walkthrough],
   );
+
+  const submitEmp = useCallback((): boolean => {
+    if (walkthrough || phase !== 'playing') return false;
+    if (!stepExpectsEmp(step)) {
+      setFeedback(
+        puzzle
+          ? 'Not yet — this puzzle wants a piece move, not EMP.'
+          : 'Do not fire EMP on this step — complete the highlighted objective first.',
+      );
+      return false;
+    }
+    if (!engine.canFireEmp()) {
+      setFeedback('Command Overload is not armed yet.');
+      return false;
+    }
+    const next = engine.clone();
+    if (!next.fireEmp()) {
+      setFeedback('EMP could not fire in this position. Restart.');
+      return false;
+    }
+    setEngine(next);
+    advanceAfterPlayerPly(next);
+    return true;
+  }, [advanceAfterPlayerPly, engine, phase, puzzle, step, walkthrough]);
 
   useEffect(() => {
     if (walkthrough || phase !== 'ai-turn' || !step.aiMove) return;
@@ -251,23 +313,25 @@ export function useTutorialGame() {
   ]);
 
   const continueTutorial = useCallback(() => {
-    if (lessonIndex === TUTORIAL_LESSONS.length - 1) {
+    if (lessonIndex === lessons.length - 1) {
       setPhase('graduated');
       return;
     }
     chooseLesson(lessonIndex + 1);
-  }, [chooseLesson, lessonIndex]);
+  }, [chooseLesson, lessonIndex, lessons.length]);
 
   const progress = useMemo(() => {
-    const lessonWeight = 1 / TUTORIAL_LESSONS.length;
+    const lessonWeight = 1 / lessons.length;
     const within =
       phase === 'success'
         ? 1
         : (stepIndex + (phase === 'ai-turn' ? 0.5 : 0)) / totalSteps;
     return (lessonIndex + within) * lessonWeight * 100;
-  }, [lessonIndex, phase, stepIndex, totalSteps]);
+  }, [lessonIndex, lessons.length, phase, stepIndex, totalSteps]);
 
   return {
+    pack,
+    lessons,
     lessonIndex,
     lesson,
     stepIndex,
@@ -275,6 +339,7 @@ export function useTutorialGame() {
     seat,
     totalSteps,
     walkthrough,
+    puzzle,
     engine,
     phase,
     feedback,
@@ -283,6 +348,7 @@ export function useTutorialGame() {
     resetLesson,
     chooseLesson,
     submitMove,
+    submitEmp,
     playWalkthroughPly,
     playWalkthroughBatch,
     continueTutorial,

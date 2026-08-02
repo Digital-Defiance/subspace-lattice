@@ -99,6 +99,29 @@
       "voiceover": "Now the late endgame. When both fleets are stripped to lone Command Hubs, the Terminal Overclock countdown begins. After a shared ten plies, the system arms. Firing fuses your own drives—you cannot move again, and missing is an immediate loss. But the terror is visible: the shared blast radius grows over time as the reactor runs away. Fleet default is plus one radius every five plies. This reel uses every three so you can see the bloom."
     },
     {
+      "kind": "pause-predict",
+      "id": "pause-refuse-miss",
+      "missionId": "mission-terminal-refuse-miss",
+      "ply": 0,
+      "revealPly": 1,
+      "prompt": "EMP is armed. Black is outside the blast. Do you fire now, or step closer?",
+      "overlays": { "nets": "both", "fiveQuestions": true },
+      "voiceover": "Pause and predict. Terminal charge is full, but Black sits at the far corner — outside radius three. Fire now, or close the distance?",
+      "durationHintSec": 10,
+      "revealVoiceover": "Step closer. An out-of-range fire fuses White immediately and leaves Black free to answer. The growing blast — and a later Lockout — reward patience.",
+      "revealDurationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "refuse-miss-close",
+      "missionId": "mission-terminal-refuse-miss",
+      "ply": 1,
+      "moveLabel": "White closes — EMP stays armed for later",
+      "overlays": { "nets": "both" },
+      "voiceover": "White steps toward Black. Charge stays ready. The hunt continues until geometry says Lockout.",
+      "durationHintSec": 8
+    },
+    {
       "kind": "board",
       "id": "terminal-start",
       "missionId": "mission-terminal-overclock",

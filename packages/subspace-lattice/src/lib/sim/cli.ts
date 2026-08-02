@@ -10,7 +10,12 @@ import {
   runLadder,
 } from './ladder';
 import { runMultiSeedLadder } from './ladder-parallel';
-import { CLASSIC_PUZZLES, HYBRID_PUZZLES, evaluatePuzzle } from './puzzles';
+import {
+  CLASSIC_PUZZLES,
+  FLEET_PUZZLES,
+  HYBRID_PUZZLES,
+  evaluatePuzzle,
+} from './puzzles';
 
 function parseArgs(argv: string[]): {
   games: number;
@@ -75,7 +80,7 @@ export async function runSimCli(
       simulations: Math.max(10, mctsSims),
       rng: createSeededRng(seed + 1),
     });
-    for (const puzzle of [...CLASSIC_PUZZLES, ...HYBRID_PUZZLES]) {
+    for (const puzzle of [...CLASSIC_PUZZLES, ...HYBRID_PUZZLES, ...FLEET_PUZZLES]) {
       const h = evaluatePuzzle(puzzle, heuristic);
       const m = evaluatePuzzle(puzzle, mcts);
       console.log(

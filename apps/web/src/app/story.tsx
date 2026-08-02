@@ -9,6 +9,7 @@ import {
   Piece,
   SubspaceLatticeLogo,
 } from '@subspace-lattice/react';
+import { MarketingNav } from './marketing-nav';
 import './story.scss';
 
 /** Shipping default piece pack (`Subspace Lattice` / public/pieces/27). */
@@ -109,14 +110,10 @@ export function Story() {
 
   return (
     <div className="story-page">
-      <nav className="story-nav" aria-label="Story navigation">
-        <Link to="/" className="story-home">
-          ← Command deck
-        </Link>
-        <Link to="/play" className="story-play">
-          Enter Sector 11
-        </Link>
-      </nav>
+      <MarketingNav
+        active="story"
+        cta={{ to: '/play', label: 'Enter Sector 11' }}
+      />
 
       <header className="story-hero">
         <SubspaceLatticeLogo
