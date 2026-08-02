@@ -1,0 +1,188 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-01T22:14:56.012Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-M200vH-s31-deepish.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-01T20:25:46.452Z",
+    "games": 4,
+    "seed": 31,
+    "rulesVersion": "hybrid-fleet",
+    "white": "mcts",
+    "black": "heuristic",
+    "sims": 200,
+    "maxPlies": 400
+  },
+  "games": 4,
+  "hasCoords": false,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 6,
+    "ply0": [
+      {
+        "key": "W:Infiltrator",
+        "count": 4,
+        "pct": 100
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam | W:Escort | B:Infiltrator",
+        "count": 2,
+        "pct": 50
+      },
+      {
+        "key": "W:Infiltrator | B:Beam | W:Infiltrator | B:Beam | W:Beam | B:Infiltrator",
+        "count": 1,
+        "pct": 25
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam | W:Beam | B:Infiltrator",
+        "count": 1,
+        "pct": 25
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:Infiltrator",
+        "count": 4,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator",
+        "count": 3,
+        "pct": 12.5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator",
+        "count": 3,
+        "pct": 12.5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam",
+        "count": 3,
+        "pct": 12.5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam | W:Escort",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam | W:Escort | B:Infiltrator",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:Infiltrator | B:Beam",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:Infiltrator | B:Beam | W:Infiltrator",
+        "count": 1,
+        "pct": 4.166666666666667
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 19,
+        "pct": 39.583333333333336
+      },
+      {
+        "key": "Beam",
+        "count": 17,
+        "pct": 35.416666666666664
+      },
+      {
+        "key": "Escort",
+        "count": 9,
+        "pct": 18.75
+      },
+      {
+        "key": "CommandHub",
+        "count": 3,
+        "pct": 6.25
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0.0625
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 194,
+        "pct": 44.907407407407405
+      },
+      {
+        "key": "Infiltrator",
+        "count": 109,
+        "pct": 25.23148148148148
+      },
+      {
+        "key": "Beam",
+        "count": 76,
+        "pct": 17.59259259259259
+      },
+      {
+        "key": "CommandHub",
+        "count": 53,
+        "pct": 12.268518518518519
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0.04861111111111111,
+    "plies": 432
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 379,
+        "pct": 52.20385674931129
+      },
+      {
+        "key": "CommandHub",
+        "count": 221,
+        "pct": 30.44077134986226
+      },
+      {
+        "key": "Beam",
+        "count": 102,
+        "pct": 14.049586776859504
+      },
+      {
+        "key": "Infiltrator",
+        "count": 24,
+        "pct": 3.3057851239669422
+      }
+    ],
+    "empRate": 0.01652892561983471,
+    "captureRate": 0.02203856749311295,
+    "plies": 726,
+    "finishMix": [
+      {
+        "key": "no-moves",
+        "count": 2,
+        "pct": 50
+      },
+      {
+        "key": "hub-capture",
+        "count": 1,
+        "pct": 25
+      },
+      {
+        "key": "truncated",
+        "count": 1,
+        "pct": 25
+      }
+    ]
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-01T22:14:47.767Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvR-s13.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-01T17:23:28.029Z",
+    "games": 20,
+    "seed": 13,
+    "rulesVersion": "hybrid-fleet",
+    "white": "mcts",
+    "black": "random",
+    "sims": 40,
+    "maxPlies": 400
+  },
+  "games": 20,
+  "hasCoords": false,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 6,
+    "ply0": [
+      {
+        "key": "W:Infiltrator",
+        "count": 20,
+        "pct": 100
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator",
+        "count": 8,
+        "pct": 40
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Escort | B:Infiltrator",
+        "count": 4,
+        "pct": 20
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Beam | B:Infiltrator",
+        "count": 4,
+        "pct": 20
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Beam | W:Escort | B:Infiltrator",
+        "count": 1,
+        "pct": 5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Beam | B:Escort",
+        "count": 1,
+        "pct": 5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:CommandHub | B:Infiltrator",
+        "count": 1,
+        "pct": 5
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:CommandHub | W:Escort | B:Infiltrator",
+        "count": 1,
+        "pct": 5
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:Infiltrator",
+        "count": 20,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator",
+        "count": 20,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator",
+        "count": 20,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator",
+        "count": 18,
+        "pct": 15
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Infiltrator",
+        "count": 8,
+        "pct": 6.666666666666667
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator",
+        "count": 8,
+        "pct": 6.666666666666667
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Beam",
+        "count": 5,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:Infiltrator | B:Infiltrator | W:Infiltrator | B:Infiltrator | W:Escort",
+        "count": 4,
+        "pct": 3.3333333333333335
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 182,
+        "pct": 75.83333333333333
+      },
+      {
+        "key": "Beam",
+        "count": 30,
+        "pct": 12.5
+      },
+      {
+        "key": "Escort",
+        "count": 23,
+        "pct": 9.583333333333334
+      },
+      {
+        "key": "CommandHub",
+        "count": 5,
+        "pct": 2.0833333333333335
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0.04583333333333333
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 679,
+        "pct": 34.57230142566191
+      },
+      {
+        "key": "Escort",
+        "count": 511,
+        "pct": 26.018329938900205
+      },
+      {
+        "key": "Beam",
+        "count": 465,
+        "pct": 23.676171079429736
+      },
+      {
+        "key": "CommandHub",
+        "count": 309,
+        "pct": 15.733197556008147
+      }
+    ],
+    "empRate": 0.004073319755600814,
+    "captureRate": 0.03207739307535642,
+    "plies": 1964
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 248,
+        "pct": 31.95876288659794
+      },
+      {
+        "key": "Infiltrator",
+        "count": 180,
+        "pct": 23.195876288659793
+      },
+      {
+        "key": "CommandHub",
+        "count": 178,
+        "pct": 22.938144329896907
+      },
+      {
+        "key": "Beam",
+        "count": 170,
+        "pct": 21.90721649484536
+      }
+    ],
+    "empRate": 0.005154639175257732,
+    "captureRate": 0.037371134020618556,
+    "plies": 776,
+    "finishMix": [
+      {
+        "key": "hub-capture",
+        "count": 13,
+        "pct": 65
+      },
+      {
+        "key": "sector-integration",
+        "count": 7,
+        "pct": 35
+      }
+    ]
+  }
+}

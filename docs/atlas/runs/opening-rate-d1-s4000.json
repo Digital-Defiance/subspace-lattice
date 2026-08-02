@@ -1,0 +1,4483 @@
+{
+  "generator": "atlas-rate",
+  "at": "2026-08-01T22:31:55.024Z",
+  "rulesVersion": "hybrid-fleet",
+  "depth": 1,
+  "sims": 4000,
+  "maxBranch": 200,
+  "seed": 41,
+  "legalCount": 183,
+  "byMoverType": {
+    "Infiltrator": 166,
+    "CommandHub": 2,
+    "Escort": 9,
+    "Beam": 6
+  },
+  "ply0": {
+    "byVisits": [
+      {
+        "key": "w-i1:7,3",
+        "label": "Infiltrator(3,0)→(7,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 25,
+        "winRate": 0.6741981950714228,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,1",
+        "label": "Infiltrator(3,0)→(6,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 25,
+        "winRate": 0.6671746428474533,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-ch:4,1",
+        "label": "CommandHub(5,0)→(4,1)",
+        "pieceId": "w-ch",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "CommandHub",
+        "staticEval": 67.03333333333335,
+        "visits": 25,
+        "winRate": 0.6662795018631306,
+        "reasons": [
+          "Move Command Hub from (5,0) → (4,1).",
+          "Expands your Sensor Net coverage."
+        ]
+      },
+      {
+        "key": "w-i1:1,5",
+        "label": "Infiltrator(3,0)→(1,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 25,
+        "winRate": 0.6725061673125626,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,3",
+        "label": "Infiltrator(3,0)→(10,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 25,
+        "winRate": 0.6810675854153503,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,3)."
+        ]
+      },
+      {
+        "key": "w-i1:6,2",
+        "label": "Infiltrator(3,0)→(6,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.656756766361605,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,3",
+        "label": "Infiltrator(7,0)→(7,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.6651227587289693,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,3",
+        "label": "Infiltrator(3,0)→(4,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6540704283821441,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,3",
+        "label": "Infiltrator(7,0)→(6,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6579625477867616,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,3",
+        "label": "Infiltrator(7,0)→(8,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6622996783274258,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,1",
+        "label": "Infiltrator(7,0)→(8,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 24,
+        "winRate": 0.6578290678177237,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,1)."
+        ]
+      },
+      {
+        "key": "w-i1:5,6",
+        "label": "Infiltrator(3,0)→(5,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 24,
+        "winRate": 0.6651841679833116,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,6",
+        "label": "Infiltrator(7,0)→(4,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 24,
+        "winRate": 0.64559972247465,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,5",
+        "label": "Infiltrator(3,0)→(4,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 24,
+        "winRate": 0.6654932603919049,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,8",
+        "label": "Infiltrator(3,0)→(9,8)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 24,
+        "winRate": 0.6542738984723316,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,2",
+        "label": "Infiltrator(3,0)→(10,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6572354911416528,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,2).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,4",
+        "label": "Infiltrator(7,0)→(1,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6509455839576422,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,7",
+        "label": "Infiltrator(7,0)→(1,7)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6572936848631878,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,4",
+        "label": "Infiltrator(7,0)→(7,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6657697433792539,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,5",
+        "label": "Infiltrator(7,0)→(9,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6634542620702368,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,6",
+        "label": "Infiltrator(7,0)→(10,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.660062306597551,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,1",
+        "label": "Infiltrator(3,0)→(3,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6280098120954866,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,2",
+        "label": "Infiltrator(3,0)→(3,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6365503862631657,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,3",
+        "label": "Infiltrator(7,0)→(3,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6501525451817595,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,2",
+        "label": "Infiltrator(7,0)→(4,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6448281005878257,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,2",
+        "label": "Infiltrator(3,0)→(2,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6446137596532295,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:5,2",
+        "label": "Infiltrator(3,0)→(5,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6429071785193371,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:5,2",
+        "label": "Infiltrator(7,0)→(5,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6385568811617592,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,1",
+        "label": "Infiltrator(3,0)→(4,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 23,
+        "winRate": 0.6361000593666688,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e4:6,3",
+        "label": "Escort(5,3)→(6,3)",
+        "pieceId": "w-e4",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Escort",
+        "staticEval": 82.25000000000001,
+        "visits": 23,
+        "winRate": 0.6373109535279723,
+        "reasons": [
+          "Move Escort from (5,3) → (6,3).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,10",
+        "label": "Infiltrator(7,0)→(1,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 23,
+        "winRate": 0.6454469365219611,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,10",
+        "label": "Infiltrator(7,0)→(9,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 23,
+        "winRate": 0.6405180083607622,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,10",
+        "label": "Infiltrator(7,0)→(0,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 23,
+        "winRate": 0.6423325184789217,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,6",
+        "label": "Infiltrator(3,0)→(3,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 23,
+        "winRate": 0.6418222170375225,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,0",
+        "label": "Infiltrator(3,0)→(0,0)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6371638479776437,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,1",
+        "label": "Infiltrator(3,0)→(0,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6425657413570084,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,1",
+        "label": "Infiltrator(3,0)→(1,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6436296768313047,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,2",
+        "label": "Infiltrator(3,0)→(1,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6316762476299581,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,2)."
+        ]
+      },
+      {
+        "key": "w-i1:2,6",
+        "label": "Infiltrator(3,0)→(2,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.645322747344592,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,5",
+        "label": "Infiltrator(3,0)→(7,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6399384475967337,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      }
+    ],
+    "byStatic": [
+      {
+        "key": "w-i1:5,4",
+        "label": "Infiltrator(3,0)→(5,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 86.60000000000002,
+        "visits": 22,
+        "winRate": 0.6260530120083283,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:5,4",
+        "label": "Infiltrator(7,0)→(5,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 5,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 86.60000000000002,
+        "visits": 22,
+        "winRate": 0.6102934442290685,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (5,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,2",
+        "label": "Beam(8,0)→(8,2)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 2
+        },
+        "mover": "Beam",
+        "staticEval": 86.35000000000002,
+        "visits": 22,
+        "winRate": 0.6275738386728269,
+        "reasons": [
+          "Move Beam from (8,0) → (8,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,2",
+        "label": "Beam(2,0)→(2,2)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Beam",
+        "staticEval": 86.35000000000002,
+        "visits": 21,
+        "winRate": 0.5927008933326162,
+        "reasons": [
+          "Move Beam from (2,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,3",
+        "label": "Infiltrator(3,0)→(7,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 25,
+        "winRate": 0.6741981950714228,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,2",
+        "label": "Infiltrator(3,0)→(6,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.656756766361605,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,3",
+        "label": "Infiltrator(7,0)→(7,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.6651227587289693,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,1",
+        "label": "Infiltrator(3,0)→(3,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6280098120954866,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,2",
+        "label": "Infiltrator(3,0)→(3,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6365503862631657,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,3",
+        "label": "Infiltrator(7,0)→(3,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6501525451817595,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,2",
+        "label": "Infiltrator(7,0)→(4,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6448281005878257,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,4",
+        "label": "Infiltrator(3,0)→(4,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6161564747733879,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,4",
+        "label": "Infiltrator(3,0)→(6,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6234397127954323,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,2",
+        "label": "Infiltrator(3,0)→(7,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6241227819095492,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,1",
+        "label": "Infiltrator(7,0)→(3,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6228360663238913,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,4",
+        "label": "Infiltrator(7,0)→(6,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6181572094607753,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,3",
+        "label": "Beam(2,0)→(2,3)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6301855343784485,
+        "reasons": [
+          "Move Beam from (2,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,2",
+        "label": "Infiltrator(3,0)→(4,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.5987549328435494,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,2",
+        "label": "Infiltrator(7,0)→(6,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.6103964732769792,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,1",
+        "label": "Beam(8,0)→(8,1)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 1
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.5990057960147975,
+        "reasons": [
+          "Move Beam from (8,0) → (8,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,3",
+        "label": "Infiltrator(3,0)→(3,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5814004428214439,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,1",
+        "label": "Infiltrator(3,0)→(7,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5900042920963877,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,2",
+        "label": "Infiltrator(7,0)→(3,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5826040668489972,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,4",
+        "label": "Infiltrator(7,0)→(4,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5918255534572987,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,1",
+        "label": "Infiltrator(7,0)→(7,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5627074195390003,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,2",
+        "label": "Infiltrator(7,0)→(7,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5891160506588103,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,1",
+        "label": "Beam(2,0)→(2,1)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 1
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.577459880139495,
+        "reasons": [
+          "Move Beam from (2,0) → (2,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,3",
+        "label": "Beam(8,0)→(8,3)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5836171079383283,
+        "reasons": [
+          "Move Beam from (8,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,3",
+        "label": "Infiltrator(3,0)→(4,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6540704283821441,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,3",
+        "label": "Infiltrator(7,0)→(6,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6579625477867616,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,3",
+        "label": "Infiltrator(7,0)→(8,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6622996783274258,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e2:6,1",
+        "label": "Escort(6,0)→(6,1)",
+        "pieceId": "w-e2",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.609693482742839,
+        "reasons": [
+          "Move Escort from (6,0) → (6,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,3",
+        "label": "Infiltrator(7,0)→(2,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.619388248458467,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,3",
+        "label": "Infiltrator(7,0)→(4,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.6176374584276242,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e1:4,1",
+        "label": "Escort(4,0)→(4,1)",
+        "pieceId": "w-e1",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6135834046969834,
+        "reasons": [
+          "Move Escort from (4,0) → (4,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,3",
+        "label": "Infiltrator(3,0)→(2,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6051119523452038,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,3",
+        "label": "Infiltrator(3,0)→(8,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6033473229409095,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,3",
+        "label": "Infiltrator(3,0)→(6,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 20,
+        "winRate": 0.582436222181223,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,2",
+        "label": "Infiltrator(3,0)→(2,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6446137596532295,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:5,2",
+        "label": "Infiltrator(3,0)→(5,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6429071785193371,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      }
+    ],
+    "all": [
+      {
+        "key": "w-i1:7,3",
+        "label": "Infiltrator(3,0)→(7,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 25,
+        "winRate": 0.6741981950714228,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,1",
+        "label": "Infiltrator(3,0)→(6,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 25,
+        "winRate": 0.6671746428474533,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-ch:4,1",
+        "label": "CommandHub(5,0)→(4,1)",
+        "pieceId": "w-ch",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "CommandHub",
+        "staticEval": 67.03333333333335,
+        "visits": 25,
+        "winRate": 0.6662795018631306,
+        "reasons": [
+          "Move Command Hub from (5,0) → (4,1).",
+          "Expands your Sensor Net coverage."
+        ]
+      },
+      {
+        "key": "w-i1:1,5",
+        "label": "Infiltrator(3,0)→(1,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 25,
+        "winRate": 0.6725061673125626,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,3",
+        "label": "Infiltrator(3,0)→(10,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 25,
+        "winRate": 0.6810675854153503,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,3)."
+        ]
+      },
+      {
+        "key": "w-i1:6,2",
+        "label": "Infiltrator(3,0)→(6,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.656756766361605,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,3",
+        "label": "Infiltrator(7,0)→(7,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 24,
+        "winRate": 0.6651227587289693,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,3",
+        "label": "Infiltrator(3,0)→(4,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6540704283821441,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,3",
+        "label": "Infiltrator(7,0)→(6,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6579625477867616,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,3",
+        "label": "Infiltrator(7,0)→(8,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 24,
+        "winRate": 0.6622996783274258,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,1",
+        "label": "Infiltrator(7,0)→(8,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 24,
+        "winRate": 0.6578290678177237,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,1)."
+        ]
+      },
+      {
+        "key": "w-i1:5,6",
+        "label": "Infiltrator(3,0)→(5,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 24,
+        "winRate": 0.6651841679833116,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,6",
+        "label": "Infiltrator(7,0)→(4,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 24,
+        "winRate": 0.64559972247465,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,5",
+        "label": "Infiltrator(3,0)→(4,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 24,
+        "winRate": 0.6654932603919049,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,8",
+        "label": "Infiltrator(3,0)→(9,8)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 24,
+        "winRate": 0.6542738984723316,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,2",
+        "label": "Infiltrator(3,0)→(10,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6572354911416528,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,2).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,4",
+        "label": "Infiltrator(7,0)→(1,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6509455839576422,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,7",
+        "label": "Infiltrator(7,0)→(1,7)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6572936848631878,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,4",
+        "label": "Infiltrator(7,0)→(7,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6657697433792539,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,5",
+        "label": "Infiltrator(7,0)→(9,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.6634542620702368,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,6",
+        "label": "Infiltrator(7,0)→(10,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 24,
+        "winRate": 0.660062306597551,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,1",
+        "label": "Infiltrator(3,0)→(3,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6280098120954866,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,2",
+        "label": "Infiltrator(3,0)→(3,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6365503862631657,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,3",
+        "label": "Infiltrator(7,0)→(3,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6501525451817595,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,2",
+        "label": "Infiltrator(7,0)→(4,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 23,
+        "winRate": 0.6448281005878257,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,2",
+        "label": "Infiltrator(3,0)→(2,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6446137596532295,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:5,2",
+        "label": "Infiltrator(3,0)→(5,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6429071785193371,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:5,2",
+        "label": "Infiltrator(7,0)→(5,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 23,
+        "winRate": 0.6385568811617592,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,1",
+        "label": "Infiltrator(3,0)→(4,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 23,
+        "winRate": 0.6361000593666688,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e4:6,3",
+        "label": "Escort(5,3)→(6,3)",
+        "pieceId": "w-e4",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Escort",
+        "staticEval": 82.25000000000001,
+        "visits": 23,
+        "winRate": 0.6373109535279723,
+        "reasons": [
+          "Move Escort from (5,3) → (6,3).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,10",
+        "label": "Infiltrator(7,0)→(1,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 23,
+        "winRate": 0.6454469365219611,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,10",
+        "label": "Infiltrator(7,0)→(9,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 23,
+        "winRate": 0.6405180083607622,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,10",
+        "label": "Infiltrator(7,0)→(0,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 23,
+        "winRate": 0.6423325184789217,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,6",
+        "label": "Infiltrator(3,0)→(3,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 23,
+        "winRate": 0.6418222170375225,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,0",
+        "label": "Infiltrator(3,0)→(0,0)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6371638479776437,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,1",
+        "label": "Infiltrator(3,0)→(0,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6425657413570084,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,1",
+        "label": "Infiltrator(3,0)→(1,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6436296768313047,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,2",
+        "label": "Infiltrator(3,0)→(1,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6316762476299581,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,2)."
+        ]
+      },
+      {
+        "key": "w-i1:2,6",
+        "label": "Infiltrator(3,0)→(2,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.645322747344592,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,5",
+        "label": "Infiltrator(3,0)→(7,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6399384475967337,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,2",
+        "label": "Infiltrator(3,0)→(9,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.648541716389184,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,2)."
+        ]
+      },
+      {
+        "key": "w-i1:9,3",
+        "label": "Infiltrator(3,0)→(9,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6348771276851823,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,5",
+        "label": "Infiltrator(3,0)→(9,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6445111911793296,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,6",
+        "label": "Infiltrator(3,0)→(10,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6456900900195659,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,0",
+        "label": "Infiltrator(7,0)→(1,0)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6331780877767739,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,5",
+        "label": "Infiltrator(7,0)→(1,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6352263629565187,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,5",
+        "label": "Infiltrator(7,0)→(2,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6355700427798076,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,6",
+        "label": "Infiltrator(7,0)→(8,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.650169007753789,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,0",
+        "label": "Infiltrator(7,0)→(9,0)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6424015219429807,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,7",
+        "label": "Infiltrator(7,0)→(9,7)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 23,
+        "winRate": 0.6374596386694287,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:5,4",
+        "label": "Infiltrator(3,0)→(5,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 5,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 86.60000000000002,
+        "visits": 22,
+        "winRate": 0.6260530120083283,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (5,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:5,4",
+        "label": "Infiltrator(7,0)→(5,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 5,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 86.60000000000002,
+        "visits": 22,
+        "winRate": 0.6102934442290685,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (5,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,2",
+        "label": "Beam(8,0)→(8,2)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 2
+        },
+        "mover": "Beam",
+        "staticEval": 86.35000000000002,
+        "visits": 22,
+        "winRate": 0.6275738386728269,
+        "reasons": [
+          "Move Beam from (8,0) → (8,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,4",
+        "label": "Infiltrator(3,0)→(4,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6161564747733879,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,4",
+        "label": "Infiltrator(3,0)→(6,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6234397127954323,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,2",
+        "label": "Infiltrator(3,0)→(7,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6241227819095492,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,1",
+        "label": "Infiltrator(7,0)→(3,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6228360663238913,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,4",
+        "label": "Infiltrator(7,0)→(6,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6181572094607753,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,3",
+        "label": "Beam(2,0)→(2,3)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 22,
+        "winRate": 0.6301855343784485,
+        "reasons": [
+          "Move Beam from (2,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e2:6,1",
+        "label": "Escort(6,0)→(6,1)",
+        "pieceId": "w-e2",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.609693482742839,
+        "reasons": [
+          "Move Escort from (6,0) → (6,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,3",
+        "label": "Infiltrator(7,0)→(2,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.619388248458467,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,3",
+        "label": "Infiltrator(7,0)→(4,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 22,
+        "winRate": 0.6176374584276242,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e3:5,2",
+        "label": "Escort(5,1)→(5,2)",
+        "pieceId": "w-e3",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Escort",
+        "staticEval": 84.25000000000001,
+        "visits": 22,
+        "winRate": 0.6304871516809466,
+        "reasons": [
+          "Move Escort from (5,1) → (5,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,2",
+        "label": "Infiltrator(3,0)→(8,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 22,
+        "winRate": 0.6231586933786638,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,2",
+        "label": "Infiltrator(7,0)→(2,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 22,
+        "winRate": 0.628524923825244,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,2",
+        "label": "Infiltrator(7,0)→(8,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.25000000000001,
+        "visits": 22,
+        "winRate": 0.6251332269173566,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e3:4,1",
+        "label": "Escort(5,1)→(4,1)",
+        "pieceId": "w-e3",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 83.90000000000002,
+        "visits": 22,
+        "winRate": 0.6147059097904655,
+        "reasons": [
+          "Move Escort from (5,1) → (4,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e3:6,1",
+        "label": "Escort(5,1)→(6,1)",
+        "pieceId": "w-e3",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 83.90000000000002,
+        "visits": 22,
+        "winRate": 0.6183636026500067,
+        "reasons": [
+          "Move Escort from (5,1) → (6,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,1",
+        "label": "Infiltrator(7,0)→(4,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 22,
+        "winRate": 0.6171405940796929,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e4:4,3",
+        "label": "Escort(5,3)→(4,3)",
+        "pieceId": "w-e4",
+        "to": {
+          "x": 4,
+          "y": 3
+        },
+        "mover": "Escort",
+        "staticEval": 82.25000000000001,
+        "visits": 22,
+        "winRate": 0.6302514730974011,
+        "reasons": [
+          "Move Escort from (5,3) → (4,3).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e4:5,2",
+        "label": "Escort(5,3)→(5,2)",
+        "pieceId": "w-e4",
+        "to": {
+          "x": 5,
+          "y": 2
+        },
+        "mover": "Escort",
+        "staticEval": 69,
+        "visits": 22,
+        "winRate": 0.6196130448273279,
+        "reasons": [
+          "Move Escort from (5,3) → (5,2).",
+          "Repositions relative to the enemy Command Hub.",
+          "Trades some Sensor Net for tempo or safety."
+        ]
+      },
+      {
+        "key": "w-i1:1,10",
+        "label": "Infiltrator(3,0)→(1,10)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 22,
+        "winRate": 0.6191979558948779,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,10",
+        "label": "Infiltrator(3,0)→(0,10)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6166641412045801,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,9",
+        "label": "Infiltrator(3,0)→(1,9)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6122828958357295,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,6",
+        "label": "Infiltrator(3,0)→(4,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6173853395478281,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,6",
+        "label": "Infiltrator(3,0)→(6,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6241303296846152,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,9",
+        "label": "Infiltrator(3,0)→(9,9)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6210547018973228,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,6",
+        "label": "Infiltrator(7,0)→(6,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6146529202564246,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,9",
+        "label": "Infiltrator(7,0)→(9,9)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 22,
+        "winRate": 0.6183569365472419,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,8",
+        "label": "Infiltrator(3,0)→(1,8)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 22,
+        "winRate": 0.6210715289860397,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,6",
+        "label": "Infiltrator(3,0)→(7,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 22,
+        "winRate": 0.623327977519598,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,9",
+        "label": "Infiltrator(7,0)→(0,9)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 22,
+        "winRate": 0.6268059966404395,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,6",
+        "label": "Infiltrator(7,0)→(3,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 22,
+        "winRate": 0.6167673693119474,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,6",
+        "label": "Infiltrator(7,0)→(7,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 22,
+        "winRate": 0.6308607844086288,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,4",
+        "label": "Infiltrator(3,0)→(0,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6325426946221012,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,5",
+        "label": "Infiltrator(3,0)→(0,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6166072714520348,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,6",
+        "label": "Infiltrator(3,0)→(0,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.620768373068509,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,8",
+        "label": "Infiltrator(3,0)→(0,8)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6187007008230505,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,4",
+        "label": "Infiltrator(3,0)→(1,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6173736979607797,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,7",
+        "label": "Infiltrator(3,0)→(1,7)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6270394032840777,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,4",
+        "label": "Infiltrator(3,0)→(3,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6254947703518069,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:3,5",
+        "label": "Infiltrator(3,0)→(3,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6279651414534039,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,4",
+        "label": "Infiltrator(3,0)→(7,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6167374600919824,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,4",
+        "label": "Infiltrator(3,0)→(8,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6293081371847281,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,0",
+        "label": "Infiltrator(3,0)→(10,0)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6279218218801776,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,4",
+        "label": "Infiltrator(3,0)→(10,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6179516891219969,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,5",
+        "label": "Infiltrator(3,0)→(10,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.631172118355396,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,7",
+        "label": "Infiltrator(3,0)→(10,7)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6334002767421423,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,0",
+        "label": "Infiltrator(7,0)→(0,0)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6172572273054399,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,2",
+        "label": "Infiltrator(7,0)→(0,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6135961209172847,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,2).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,3",
+        "label": "Infiltrator(7,0)→(0,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6189881584615372,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,3)."
+        ]
+      },
+      {
+        "key": "w-i2:0,5",
+        "label": "Infiltrator(7,0)→(0,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6181564159756142,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,6",
+        "label": "Infiltrator(7,0)→(0,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6133537993308639,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,1",
+        "label": "Infiltrator(7,0)→(1,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6334713799856373,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,4",
+        "label": "Infiltrator(7,0)→(2,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6332057048798514,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:2,6",
+        "label": "Infiltrator(7,0)→(2,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6237038110552691,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,4",
+        "label": "Infiltrator(7,0)→(3,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6301029053970775,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,5",
+        "label": "Infiltrator(7,0)→(3,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6322642890955633,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,5",
+        "label": "Infiltrator(7,0)→(7,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.630362497803782,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,5",
+        "label": "Infiltrator(7,0)→(8,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6204949349175077,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,4",
+        "label": "Infiltrator(7,0)→(9,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6294999290666994,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,6",
+        "label": "Infiltrator(7,0)→(9,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6146218325015583,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,5",
+        "label": "Infiltrator(7,0)→(10,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 22,
+        "winRate": 0.6221644166314259,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,2",
+        "label": "Beam(2,0)→(2,2)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "mover": "Beam",
+        "staticEval": 86.35000000000002,
+        "visits": 21,
+        "winRate": 0.5927008933326162,
+        "reasons": [
+          "Move Beam from (2,0) → (2,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:4,2",
+        "label": "Infiltrator(3,0)→(4,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 4,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.5987549328435494,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (4,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,2",
+        "label": "Infiltrator(7,0)→(6,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.6103964732769792,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,1",
+        "label": "Beam(8,0)→(8,1)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 1
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 21,
+        "winRate": 0.5990057960147975,
+        "reasons": [
+          "Move Beam from (8,0) → (8,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-e1:4,1",
+        "label": "Escort(4,0)→(4,1)",
+        "pieceId": "w-e1",
+        "to": {
+          "x": 4,
+          "y": 1
+        },
+        "mover": "Escort",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6135834046969834,
+        "reasons": [
+          "Move Escort from (4,0) → (4,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,3",
+        "label": "Infiltrator(3,0)→(2,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6051119523452038,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,3",
+        "label": "Infiltrator(3,0)→(8,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 21,
+        "winRate": 0.6033473229409095,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,1",
+        "label": "Infiltrator(3,0)→(2,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 21,
+        "winRate": 0.5975526050871863,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,1)."
+        ]
+      },
+      {
+        "key": "w-i1:8,1",
+        "label": "Infiltrator(3,0)→(8,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 21,
+        "winRate": 0.6003225617649024,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,1)."
+        ]
+      },
+      {
+        "key": "w-i2:2,1",
+        "label": "Infiltrator(7,0)→(2,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 2,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 21,
+        "winRate": 0.608898168887365,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (2,1)."
+        ]
+      },
+      {
+        "key": "w-i2:6,1",
+        "label": "Infiltrator(7,0)→(6,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 83.90000000000002,
+        "visits": 21,
+        "winRate": 0.609333709543727,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,10",
+        "label": "Infiltrator(3,0)→(9,10)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 21,
+        "winRate": 0.6131199729823738,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:5,6",
+        "label": "Infiltrator(7,0)→(5,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 5,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 62.95000000000001,
+        "visits": 21,
+        "winRate": 0.6085972420499438,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (5,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,10",
+        "label": "Infiltrator(3,0)→(10,10)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 21,
+        "winRate": 0.6099291226883886,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,9",
+        "label": "Infiltrator(3,0)→(0,9)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 21,
+        "winRate": 0.5961587595998243,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,9",
+        "label": "Infiltrator(3,0)→(10,9)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 21,
+        "winRate": 0.6082272173901431,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,8",
+        "label": "Infiltrator(7,0)→(1,8)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 21,
+        "winRate": 0.5931050514099345,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:6,5",
+        "label": "Infiltrator(7,0)→(6,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 6,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 21,
+        "winRate": 0.6109054316129661,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (6,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,3",
+        "label": "Infiltrator(3,0)→(0,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5922187699020989,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,3)."
+        ]
+      },
+      {
+        "key": "w-i1:0,7",
+        "label": "Infiltrator(3,0)→(0,7)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5983958725865854,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,0",
+        "label": "Infiltrator(3,0)→(1,0)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6104143790190607,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,6",
+        "label": "Infiltrator(3,0)→(1,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6132083918207858,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,4",
+        "label": "Infiltrator(3,0)→(2,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6122079847260983,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:2,5",
+        "label": "Infiltrator(3,0)→(2,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 2,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6038026902655969,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (2,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,5",
+        "label": "Infiltrator(3,0)→(8,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6106608767237592,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:8,6",
+        "label": "Infiltrator(3,0)→(8,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 8,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6105177810902501,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (8,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,0",
+        "label": "Infiltrator(3,0)→(9,0)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6102347849507921,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,4",
+        "label": "Infiltrator(3,0)→(9,4)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5973452088902542,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,6",
+        "label": "Infiltrator(3,0)→(9,6)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5976705084454059,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,1",
+        "label": "Infiltrator(3,0)→(10,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6114316995391516,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:10,8",
+        "label": "Infiltrator(3,0)→(10,8)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 10,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6105974052743688,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (10,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,4",
+        "label": "Infiltrator(7,0)→(0,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5977855011106106,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,7",
+        "label": "Infiltrator(7,0)→(0,7)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6114307099999686,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,2",
+        "label": "Infiltrator(7,0)→(1,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5936267183148192,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,2)."
+        ]
+      },
+      {
+        "key": "w-i2:1,3",
+        "label": "Infiltrator(7,0)→(1,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5883247671018836,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,6",
+        "label": "Infiltrator(7,0)→(1,6)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 6
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5981748535058475,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,6).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,1",
+        "label": "Infiltrator(7,0)→(9,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5943471859915849,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,2",
+        "label": "Infiltrator(7,0)→(9,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.6001470158384847,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,2)."
+        ]
+      },
+      {
+        "key": "w-i2:9,3",
+        "label": "Infiltrator(7,0)→(9,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5984128630648782,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,0",
+        "label": "Infiltrator(7,0)→(10,0)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 0
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5981300597654625,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,0).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,1",
+        "label": "Infiltrator(7,0)→(10,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5998472670808831,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,2",
+        "label": "Infiltrator(7,0)→(10,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5928548415975572,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,2).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,3",
+        "label": "Infiltrator(7,0)→(10,3)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 21,
+        "winRate": 0.5973763832284076,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,3)."
+        ]
+      },
+      {
+        "key": "w-e4:5,4",
+        "label": "Escort(5,3)→(5,4)",
+        "pieceId": "w-e4",
+        "to": {
+          "x": 5,
+          "y": 4
+        },
+        "mover": "Escort",
+        "staticEval": 55.849999999999994,
+        "visits": 21,
+        "winRate": 0.6013341839646388,
+        "reasons": [
+          "Move Escort from (5,3) → (5,4).",
+          "Closes distance on the enemy Command Hub.",
+          "Trades some Sensor Net for tempo or safety."
+        ]
+      },
+      {
+        "key": "w-i1:3,3",
+        "label": "Infiltrator(3,0)→(3,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 3,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5814004428214439,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (3,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:7,1",
+        "label": "Infiltrator(3,0)→(7,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 7,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5900042920963877,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (7,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:3,2",
+        "label": "Infiltrator(7,0)→(3,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5826040668489972,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (3,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,4",
+        "label": "Infiltrator(7,0)→(4,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5918255534572987,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,1",
+        "label": "Infiltrator(7,0)→(7,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5627074195390003,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:7,2",
+        "label": "Infiltrator(7,0)→(7,2)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 7,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5891160506588103,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (7,2).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h1:2,1",
+        "label": "Beam(2,0)→(2,1)",
+        "pieceId": "w-h1",
+        "to": {
+          "x": 2,
+          "y": 1
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.577459880139495,
+        "reasons": [
+          "Move Beam from (2,0) → (2,1).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-h2:8,3",
+        "label": "Beam(8,0)→(8,3)",
+        "pieceId": "w-h2",
+        "to": {
+          "x": 8,
+          "y": 3
+        },
+        "mover": "Beam",
+        "staticEval": 84.95000000000002,
+        "visits": 20,
+        "winRate": 0.5836171079383283,
+        "reasons": [
+          "Move Beam from (8,0) → (8,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,3",
+        "label": "Infiltrator(3,0)→(6,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 84.60000000000002,
+        "visits": 20,
+        "winRate": 0.582436222181223,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:1,9",
+        "label": "Infiltrator(7,0)→(1,9)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 1,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 20,
+        "winRate": 0.583261310220963,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (1,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,10",
+        "label": "Infiltrator(7,0)→(10,10)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 10
+        },
+        "mover": "Infiltrator",
+        "staticEval": 60.95000000000001,
+        "visits": 20,
+        "winRate": 0.5772125478340254,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,10).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:6,5",
+        "label": "Infiltrator(3,0)→(6,5)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 6,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 20,
+        "winRate": 0.591136231451393,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (6,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:9,8",
+        "label": "Infiltrator(7,0)→(9,8)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 9,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 20,
+        "winRate": 0.5832270869036426,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (9,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,9",
+        "label": "Infiltrator(7,0)→(10,9)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 9
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 20,
+        "winRate": 0.5890936013373569,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,9).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:0,2",
+        "label": "Infiltrator(3,0)→(0,2)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 0,
+          "y": 2
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5916718414139288,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (0,2).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:1,3",
+        "label": "Infiltrator(3,0)→(1,3)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 1,
+          "y": 3
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5868383334979467,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (1,3).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,7",
+        "label": "Infiltrator(3,0)→(9,7)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5794045339858004,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,1",
+        "label": "Infiltrator(7,0)→(0,1)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5859384097939516,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:0,8",
+        "label": "Infiltrator(7,0)→(0,8)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 0,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5780803706677837,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (0,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:8,4",
+        "label": "Infiltrator(7,0)→(8,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 8,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5872884477396845,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (8,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,7",
+        "label": "Infiltrator(7,0)→(10,7)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 7
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.573872372613723,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,7).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:10,8",
+        "label": "Infiltrator(7,0)→(10,8)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 8
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 20,
+        "winRate": 0.5906426811748751,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,8).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i2:4,5",
+        "label": "Infiltrator(7,0)→(4,5)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 4,
+          "y": 5
+        },
+        "mover": "Infiltrator",
+        "staticEval": 58.95000000000001,
+        "visits": 19,
+        "winRate": 0.5603019631012812,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (4,5).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-i1:9,1",
+        "label": "Infiltrator(3,0)→(9,1)",
+        "pieceId": "w-i1",
+        "to": {
+          "x": 9,
+          "y": 1
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 19,
+        "winRate": 0.5610121391283402,
+        "reasons": [
+          "Move Infiltrator from (3,0) → (9,1).",
+          "Repositions relative to the enemy Command Hub."
+        ]
+      },
+      {
+        "key": "w-ch:6,1",
+        "label": "CommandHub(5,0)→(6,1)",
+        "pieceId": "w-ch",
+        "to": {
+          "x": 6,
+          "y": 1
+        },
+        "mover": "CommandHub",
+        "staticEval": 67.03333333333335,
+        "visits": 18,
+        "winRate": 0.5371563610794948,
+        "reasons": [
+          "Move Command Hub from (5,0) → (6,1).",
+          "Expands your Sensor Net coverage."
+        ]
+      },
+      {
+        "key": "w-i2:10,4",
+        "label": "Infiltrator(7,0)→(10,4)",
+        "pieceId": "w-i2",
+        "to": {
+          "x": 10,
+          "y": 4
+        },
+        "mover": "Infiltrator",
+        "staticEval": 56.95000000000001,
+        "visits": 18,
+        "winRate": 0.5372574201028155,
+        "reasons": [
+          "Move Infiltrator from (7,0) → (10,4).",
+          "Closes distance on the enemy Command Hub."
+        ]
+      }
+    ]
+  },
+  "depth2": []
+}
