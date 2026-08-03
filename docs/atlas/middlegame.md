@@ -17,6 +17,7 @@ Ruleset: **`hybrid-fleet`**. Prefer search corpora (MvM / MvH / MvR), not HvH.
 | **Overload / Lockout** | EMP freeze → no-moves | Terminal drills + goldens |
 | **Hub discipline** | Fail mode: Hub wandering | `/drills` `drill-hold-the-hub` |
 | **Infiltrator Trojan** | Refuse fringe expand | `/drills` `drill-refuse-fringe-infiltrator` |
+| **Rolling Storm** | Hub disk grows sector | `/drills` `drill-rolling-storm` |
 
 ## How we mine it
 
@@ -36,7 +37,7 @@ Read **middlegame.moverShare** (Hub% is the Hub-wandering canary),
 - [x] Hub wandering (playbook §1) — mid Hub share **4.7%** on MvM@40 n=120
 - [x] Strike vs Sector under search — sector plurality (52.5% / 3.3% hub) on same corpus
 - [x] Relay on/off — see playbook; no White win% boost at n=40
-- [ ] Contested-net stall (needs coverage fields on ply events)
+- [x] Contested-net stall — ply `cov*`/`cont` fields + book `contestedNetStall`
 - [ ] Soft-EMP cadence under MvM (not HvH canary)
 
 ### Corpus snapshot (2026-08-03)
@@ -45,5 +46,8 @@ Read **middlegame.moverShare** (Hub% is the Hub-wandering canary),
 | --- | ---: | ---: | --- | ---: |
 | MvM mid s42 | 120 | 40 | 3% / 53% / 2% / 43% | 4.7 |
 | MvM open s41 | 40 | 200 | 3% / **80%** / 0% / 18% | 7.1 |
+| MvM cov s60 | 24 | 40 | 0% / **75%** / 0% / 25% | 4.4 |
+
+Coverage corpus also: mid mean cont **0.34** (stall 0%); late stallRate **4.8%**.
 
 Fill new rows only with dated observe artifacts.

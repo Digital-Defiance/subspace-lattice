@@ -286,6 +286,35 @@ const midgameDrills: FleetDrillLesson[] = [
       { x: 6, y: 5 },
     ],
   }),
+  /**
+   * Volume II — Hub bulldozer / Rolling Storm. Hub r=3 disk grows sector
+   * harder than a dark Escort tip. Twin of drill-hold-the-hub (fail mode).
+   */
+  drill({
+    id: 'drill-rolling-storm',
+    number: '07',
+    phase: 'midgame',
+    title: 'Rolling Storm',
+    concept: 'Midgame · Hub bulldozer',
+    explanation:
+      'Your tip Escort is dark — too far to paint. Marching it does nothing for coverage. One Command Hub king-step moves the whole r=3 Sensor disk and grows exclusive sector. That is Rolling Storm: Hub as a deliberate sector tool, not a bait grab.',
+    objective:
+      'Advance the Command Hub one king-step diagonally (not the dark Escort).',
+    success:
+      'Coverage grew with the Hub disk. Dark Escorts paint nothing; linked rim tips grow less per step than a Hub king-step.',
+    plyCount: 40,
+    pieces: [
+      { id: 'w-ch', type: PieceType.CommandHub, owner: PlayerColor.White, x: 2, y: 2 },
+      { id: 'w-e1', type: PieceType.Escort, owner: PlayerColor.White, x: 2, y: 5 },
+      { id: 'b-ch', type: PieceType.CommandHub, owner: PlayerColor.Black, x: 10, y: 10 },
+    ],
+    playerMove: { pieceId: 'w-ch', to: { x: 3, y: 3 } },
+    focusCells: [
+      { x: 2, y: 2 },
+      { x: 3, y: 3 },
+      { x: 2, y: 5 },
+    ],
+  }),
 ];
 
 /**
@@ -295,7 +324,7 @@ const midgameDrills: FleetDrillLesson[] = [
 const sectorDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-expand-net-45',
-    number: '07',
+    number: '08',
     phase: 'sector',
     title: 'Hit the Integration marker',
     concept: 'Sector · 45% coverage',
@@ -333,7 +362,7 @@ const sectorDrills: FleetDrillLesson[] = [
    */
   {
     id: 'drill-integration-hold',
-    number: '08',
+    number: '09',
     phase: 'sector',
     title: 'Finish Integration Hold',
     concept: 'Sector · hold clock',
@@ -388,7 +417,7 @@ const sectorDrills: FleetDrillLesson[] = [
 const strikeDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-surgical-strike',
-    number: '09',
+    number: '10',
     phase: 'strike',
     title: 'Deliver Surgical Strike',
     concept: 'Endgame · Hub capture',
@@ -412,7 +441,7 @@ const strikeDrills: FleetDrillLesson[] = [
 const terminalDrills: FleetDrillLesson[] = [
   {
     id: 'drill-terminal-lockout-fire',
-    number: '10',
+    number: '11',
     phase: 'terminal',
     title: 'Fire Terminal Lockout',
     concept: 'Terminal · Lockout',
@@ -426,7 +455,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-refuse-miss',
-    number: '11',
+    number: '12',
     phase: 'terminal',
     title: 'Refuse the out-of-range EMP',
     concept: 'Terminal · miss fuse',
@@ -440,7 +469,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-close-for-blast',
-    number: '12',
+    number: '13',
     phase: 'terminal',
     title: 'Close for the growing blast',
     concept: 'Terminal · charge',

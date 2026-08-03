@@ -8,19 +8,10 @@ import { HeuristicAi } from '../ai/heuristic-ai';
 import { MctsAi } from '../ai/mcts-ai';
 import { RandomLegalAgent } from '../ai/random-legal-agent';
 import type { Agent } from '../ai/agent';
-import { PieceType } from '../interfaces/pieceType';
 import { PlayerColor } from '../interfaces/playerColor';
 import { resolveRulesConfig, type RulesVersion } from '../rules/rules-config';
 import { playMatch } from './match-runner';
-
-const PIECE_LABEL: Record<PieceType, string> = {
-  [PieceType.CommandHub]: 'CommandHub',
-  [PieceType.Escort]: 'Escort',
-  [PieceType.Infiltrator]: 'Infiltrator',
-  [PieceType.Beam]: 'Beam',
-  [PieceType.Refractor]: 'Refractor',
-  [PieceType.Carrier]: 'Carrier',
-};
+import { replayPlyToObserveRow } from './atlas-observe-ply';
 
 type AgentKind = 'heuristic' | 'random' | 'mcts';
 
@@ -52,21 +43,9 @@ const white = makeAgent(job.whiteKind, job.seed + job.game * 2, job.sims);
 const black = makeAgent(job.blackKind, job.seed + job.game * 2 + 1, job.sims);
 const result = playMatch(white, black, { rules, maxPlies: job.maxPlies });
 
-const plies = result.replay.map((ply, i) => ({
-  type: 'ply' as const,
-  game: job.game,
-  i,
-  player: ply.player === PlayerColor.White ? 'W' : 'B',
-  mover: PIECE_LABEL[ply.moverType] ?? String(ply.moverType),
-  pieceId: ply.pieceId,
-  to: ply.to ? { x: ply.to.x, y: ply.to.y } : null,
-  capture: ply.capturedType
-    ? (PIECE_LABEL[ply.capturedType] ?? String(ply.capturedType))
-    : null,
-  emp: !!ply.empFired,
-  spool: !!ply.spoolAnnounce,
-  spoolFail: !!ply.spoolFailed,
-}));
+const plies = result.replay.map((ply, i) =>
+  replayPlyToObserveRow(ply, job.game, i),
+);
 
 parentPort?.postMessage({
   game: {

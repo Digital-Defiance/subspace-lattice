@@ -188,10 +188,41 @@ and Hub can stroll into Surgical Strike.
 paint nothing; linked rim tips grow less per step than a Hub king-step in the
 tested geometry.
 
-**Playbook:** Sector race tool in thin/Terminal positions; not a default midgame
-plan (keep Hub prior).
+**Playbook:** Sector race tool when a Hub step paints more than a tip Escort —
+thin fleets and deliberate coverage pushes. Fail mode remains Hub-as-workhorse
+(`/drills` `drill-hold-the-hub`). Teach the constructive form with
+`/drills` `drill-rolling-storm`.
 
----
+### 7. Contested-net stall (sim-provisional)
+
+**Claim:** Under Contested Space, overlapping Sensor Nets suppress exclusive
+`sectorControlRatio` even when raw `|net|` looks large. Middlegame plies with
+material overlap (`cont` high) and `max(cov) < ρ` are stalled Integration —
+neither side owns the clock cells.
+
+**Evidence:** Ply rows carry `covW/covB/netW/netB/cont/hold*` from
+`sampleNetCoverage` (`atlas-coverage.ts`). `atlas:book` reports
+`middlegame.contestedNetStall` / `endgame.contestedNetStall` (ρ=0.45).
+
+Corpus `observe-MvM-cov-s60-n24` (MvM@40, n=24, 2026-08-03):
+
+| Band | mean cont | mean covW/B | stallRate |
+| --- | ---: | --- | ---: |
+| Middlegame | **0.34** | 0.272 / 0.261 | **0%** |
+| Endgame (ply≥120) | 3.28 | — (meanMaxCov 0.285) | **4.8%** |
+
+Under search, mid nets barely overlap; Contested Space stall is a **late**
+signal, not a mid mover-share story.
+
+**Playbook:**
+
+- **Do** read exclusive coverage (HUD / scored ratio), not raw glow size.
+- **Don’t** treat a fat overlapping blob as Integration progress — when it
+  appears, fight the fringe or Trapdoor.
+- **Tell:** Midgame “stall” under MCTS is mostly exclusive race (cov≈0.27 each,
+  cont≈0); true contested stall shows up late (~5% of endgame plies here).
+
+**Next measure:** optional larger n, or human LPGN where fleets actually tangle.
 
 ### How to read `atlas:book` output
 
@@ -322,7 +353,8 @@ the workhorse plan piece. Sector remains the plurality decisive finish.
 | Surgical Strike plan | sim-provisional | `/drills` `drill-surgical-strike` · `puzzle-find-strike` |
 | Sector / Integration Hold | sim-provisional | `/drills` `drill-expand-net-45`, `drill-integration-hold` |
 | Overload timing | sim-provisional | Terminal drills + goldens |
-| Hub bulldozer | sim-provisional | goldens only — rare sector/Terminal plan |
+| Hub bulldozer | sim-provisional | `/drills` `drill-rolling-storm` · goldens |
+| Contested-net stall | sim-provisional | late ~5% stallRate (`observe-MvM-cov-s60-n24`) |
 
 ### Relay value (sim-provisional, n=40×2 @40)
 
@@ -373,7 +405,7 @@ yarn atlas:diff --a …relay0… --b …relay1…
 - [x] MvM@200 practice for sharper ply-0 collapse (`observe-MvM-open-s41-m200`)
 - [x] Volume II MvM@40 n=120 middlegame book (`observe-MvM-mid-s42-n120`)
 - [x] Theme: Relay value (counterfactual Relay on/off observe) — small Δ; keep Relay
-- [ ] Theme: Contested-net stall — need coverage fields on ply events
+- [x] Theme: Contested-net stall — coverage fields on ply events + book stallRate
 - [ ] Auto-extract “tip vs played” from annotate CLI into playbook stubs
 
 ---

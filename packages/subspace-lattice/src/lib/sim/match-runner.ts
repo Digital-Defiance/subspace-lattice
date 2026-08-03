@@ -5,8 +5,9 @@ import { PieceType } from '../interfaces/pieceType';
 import { WinnerReason } from '../interfaces/gameState';
 import { PlayerColor } from '../interfaces/playerColor';
 import { RulesConfig, resolveRulesConfig } from '../rules/rules-config';
+import { sampleNetCoverage, type NetCoverageSample } from './atlas-coverage';
 
-export interface ReplayPly {
+export interface ReplayPly extends Partial<NetCoverageSample> {
   pieceId: string;
   to: Coordinate;
   player: PlayerColor;
@@ -140,6 +141,7 @@ export function playMatch(
     const hub = Object.values(engine.getState().pieces).find(
       (p) => p.owner === player && p.type === PieceType.CommandHub,
     );
+    const coverage = sampleNetCoverage(engine);
     const ply: ReplayPly = isEmpAgentMove(choice)
       ? {
           pieceId: hub?.id ?? 'emp',
@@ -147,6 +149,7 @@ export function playMatch(
           player,
           moverType: PieceType.CommandHub,
           empFired: true,
+          ...coverage,
         }
       : {
           pieceId: choice.pieceId,
@@ -156,6 +159,7 @@ export function playMatch(
           capturedType: info?.capturedType,
           spoolAnnounce: info?.spoolAnnounce,
           spoolFailed: info?.spoolFailed,
+          ...coverage,
         };
     replay.push(ply);
     tallyPly(stats, ply);

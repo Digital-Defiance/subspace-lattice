@@ -1,0 +1,404 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-03T17:06:44.255Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvM-cov-s60-n24.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-03T16:49:35.355Z",
+    "games": 24,
+    "seed": 60,
+    "rulesVersion": "hybrid-fleet",
+    "white": "mcts",
+    "black": "mcts",
+    "sims": 40,
+    "maxPlies": 400,
+    "jobs": 8
+  },
+  "games": 24,
+  "hasCoords": true,
+  "hasCoverage": true,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 8,
+    "ply0": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 4,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 4,
+        "pct": 16.666666666666668
+      },
+      {
+        "key": "W:w-i1@6,4",
+        "count": 3,
+        "pct": 12.5
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 3,
+        "pct": 12.5
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:w-i1@5,4",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:w-i1@4,2",
+        "count": 2,
+        "pct": 8.333333333333334
+      },
+      {
+        "key": "W:w-i2@4,4",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@4,3",
+        "count": 1,
+        "pct": 4.166666666666667
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h2@8,8 | W:w-e3@5,2 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7 | W:w-i2@5,2 | B:b-i2@4,8 | W:w-i1@5,4 | B:b-h1@2,7 | W:w-i2@6,4 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,8 | W:w-i2@4,3 | B:b-i2@4,7 | W:w-i2@5,4 | B:b-e1@4,9 | W:w-h1@2,2 | B:b-h1@2,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@3,7 | W:w-i1@5,4 | B:b-i2@5,7 | W:w-i2@6,3 | B:b-i1@6,7 | W:w-h1@2,2 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@5,7 | W:w-i2@4,3 | B:b-i2@4,7 | W:w-e1@4,1 | B:b-h1@2,8 | W:w-h2@8,3 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@6,8 | W:w-i1@5,4 | B:b-i2@7,7 | W:w-i2@6,2 | B:b-h2@8,7 | W:w-i2@4,4 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@4,7 | W:w-i2@4,2 | B:b-i2@3,7 | W:w-i1@6,4 | B:b-e1@4,9 | W:w-h1@2,2 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@6,7 | W:w-i2@4,2 | B:b-i2@5,8 | W:w-i2@5,4 | B:b-h1@2,7 | W:w-h1@2,2 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@7,7 | W:w-i2@5,2 | B:b-i2@5,7 | W:w-i1@6,4 | B:b-i1@5,8 | W:w-i1@5,4 | B:b-e2@6,9",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i2@4,4 | B:b-i1@6,8 | W:w-i1@7,3 | B:b-i2@4,8 | W:w-e1@4,1 | B:b-i1@5,7 | W:w-i1@5,4 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7 | W:w-i2@4,4 | B:b-i2@5,8 | W:w-h1@2,1 | B:b-h2@8,8 | W:w-h1@3,1 | B:b-h1@2,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-i1@6,7 | W:w-i2@6,2 | B:b-i2@4,8 | W:w-h1@2,2 | B:b-h2@8,8 | W:w-h1@5,2 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@7,7 | W:w-i2@5,2 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-h1@2,7 | W:w-h2@8,3 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-i1@3,7 | W:w-i2@4,3 | B:b-i2@6,8 | W:w-i2@4,4 | B:b-h1@2,7 | W:w-e3@5,2 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@4,2 | B:b-h2@8,7 | W:w-i2@4,3 | B:b-i1@5,7 | W:w-i1@6,4 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@4,2 | B:b-i2@5,7 | W:w-i2@6,4 | B:b-i1@7,7 | W:w-e3@5,2 | B:b-e1@4,9 | W:w-h1@2,3 | B:b-e2@6,9",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@5,8 | W:w-i2@6,4 | B:b-i2@4,8 | W:w-i1@5,4 | B:b-h2@8,8 | W:w-e1@4,1 | B:b-h2@6,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@4,7 | W:w-i2@4,4 | B:b-i2@5,7 | W:w-h1@2,1 | B:b-h1@2,9 | W:w-e3@5,2 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@3,7 | W:w-i2@4,2 | B:b-h2@8,7 | W:w-i2@5,4 | B:b-i2@6,7 | W:w-i1@6,3 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      },
+      {
+        "key": "W:w-i1@7,3 | B:b-i1@5,8 | W:w-i2@6,2 | B:b-i2@4,8 | W:w-i2@5,4 | B:b-i2@5,7 | W:w-i1@4,4 | B:b-h1@2,8",
+        "count": 1,
+        "pct": 4.166666666666667
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 4,
+        "pct": 2.0833333333333335
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 4,
+        "pct": 2.0833333333333335
+      },
+      {
+        "key": "W:w-i1@6,4",
+        "count": 3,
+        "pct": 1.5625
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 3,
+        "pct": 1.5625
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@3,7",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@5,4",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@4,2",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@7,3 | B:b-i1@5,8",
+        "count": 2,
+        "pct": 1.0416666666666667
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h2@8,8 | W:w-e3@5,2",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h2@8,8 | W:w-e3@5,2 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7 | W:w-i2@5,2",
+        "count": 1,
+        "pct": 0.5208333333333334
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7 | W:w-i2@5,2 | B:b-i2@4,8",
+        "count": 1,
+        "pct": 0.5208333333333334
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 141,
+        "pct": 48.958333333333336
+      },
+      {
+        "key": "Beam",
+        "count": 97,
+        "pct": 33.68055555555556
+      },
+      {
+        "key": "Escort",
+        "count": 50,
+        "pct": 17.36111111111111
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 1275,
+        "pct": 49.18981481481482
+      },
+      {
+        "key": "Infiltrator",
+        "count": 678,
+        "pct": 26.15740740740741
+      },
+      {
+        "key": "Beam",
+        "count": 524,
+        "pct": 20.21604938271605
+      },
+      {
+        "key": "CommandHub",
+        "count": 115,
+        "pct": 4.436728395061729
+      }
+    ],
+    "empRate": 0.02970679012345679,
+    "captureRate": 0.02700617283950617,
+    "plies": 2592,
+    "coverage": {
+      "pliesWithCoverage": 2592,
+      "meanCovW": 0.272,
+      "meanCovB": 0.261,
+      "meanNetW": 33.214,
+      "meanNetB": 31.837,
+      "meanCont": 0.341,
+      "stallRate": 0,
+      "stallPlies": 0
+    },
+    "contestedNetStall": {
+      "rho": 0.45,
+      "stallRate": 0,
+      "stallPlies": 0,
+      "meanCont": 0.341,
+      "meanMaxCov": 0.272
+    }
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 1635,
+        "pct": 44.69655549480591
+      },
+      {
+        "key": "Infiltrator",
+        "count": 1017,
+        "pct": 27.802077638053582
+      },
+      {
+        "key": "Beam",
+        "count": 524,
+        "pct": 14.324767632586113
+      },
+      {
+        "key": "CommandHub",
+        "count": 482,
+        "pct": 13.176599234554402
+      }
+    ],
+    "empRate": 0.020229633679606344,
+    "captureRate": 0.017769272826681247,
+    "plies": 3658,
+    "finishMix": [
+      {
+        "key": "sector-integration",
+        "count": 18,
+        "pct": 75
+      },
+      {
+        "key": "truncated",
+        "count": 6,
+        "pct": 25
+      }
+    ],
+    "coverage": {
+      "pliesWithCoverage": 3658,
+      "meanCovW": 0.285,
+      "meanCovB": 0.271,
+      "meanNetW": 37.856,
+      "meanNetB": 35.96,
+      "meanCont": 3.28,
+      "stallRate": 0.04811372334609076,
+      "stallPlies": 176
+    },
+    "contestedNetStall": {
+      "rho": 0.45,
+      "stallRate": 0.04811372334609076,
+      "stallPlies": 176,
+      "meanCont": 3.28,
+      "meanMaxCov": 0.285
+    }
+  }
+}

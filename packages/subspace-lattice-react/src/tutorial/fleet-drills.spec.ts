@@ -10,10 +10,11 @@ import {
 
 describe('FLEET_DRILLS pack', () => {
   it('covers the full arc with phase tags', () => {
-    expect(FLEET_DRILL_PACK.lessons).toHaveLength(12);
+    expect(FLEET_DRILL_PACK.lessons).toHaveLength(13);
     expect(FLEET_DRILLS.map((d) => d.phase)).toEqual([
       'opening',
       'opening',
+      'midgame',
       'midgame',
       'midgame',
       'midgame',
@@ -78,6 +79,20 @@ describe('FLEET_DRILLS pack', () => {
         expect(
           baitEngine.canMovePiece(baitEngine.getPiece('w-ch')!, { x: 4, y: 5 }),
         ).toBe(true);
+      }
+      if (lesson.id === 'drill-rolling-storm') {
+        expect(engine.getPiece('w-ch')?.position).toEqual({ x: 3, y: 3 });
+        expect(engine.sectorControlRatio(PlayerColor.White)).toBeGreaterThan(
+          before,
+        );
+        // Temptation: dark Escort tip paints nothing.
+        const bait = createTutorialEngine(lesson);
+        const baitBefore = bait.sectorControlRatio(PlayerColor.White);
+        expect(bait.canMovePiece(bait.getPiece('w-e1')!, { x: 2, y: 6 })).toBe(
+          true,
+        );
+        expect(bait.movePiece('w-e1', { x: 2, y: 6 })).toBe(true);
+        expect(bait.sectorControlRatio(PlayerColor.White)).toBe(baitBefore);
       }
       if (lesson.id === 'drill-surgical-strike') {
         expect(engine.getState().winner).toBe(PlayerColor.White);

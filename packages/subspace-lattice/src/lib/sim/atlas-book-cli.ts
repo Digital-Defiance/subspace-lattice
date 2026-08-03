@@ -7,9 +7,11 @@
  *
  * Needs ply rows with pieceId + to (atlas:observe after 2026-08-01 book wiring).
  * Older JSONL without coords still gets mover-type opening prefixes.
+ * Coverage fields (covW/covB/netW/netB/cont) enable contested-net stall rates.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import path from 'node:path';
+import { aggregateCoverageStats } from './atlas-coverage';
 
 function argValue(argv: string[], flag: string): string | undefined {
   const i = argv.indexOf(flag);
@@ -34,6 +36,13 @@ type Ply = {
   to?: { x: number; y: number } | null;
   capture?: string | null;
   emp?: boolean;
+  covW?: number;
+  covB?: number;
+  netW?: number;
+  netB?: number;
+  cont?: number;
+  holdW?: number;
+  holdB?: number;
 };
 
 type Game = {
@@ -86,6 +95,11 @@ function main(): void {
   const topN = argInt(argv, '--top', 12);
   const openingEnd = argInt(argv, '--opening-end', 12);
   const lateStart = argInt(argv, '--late-start', 120);
+  const rhoRaw = argValue(argv, '--rho');
+  const rho =
+    rhoRaw !== undefined && Number.isFinite(Number.parseFloat(rhoRaw))
+      ? Number.parseFloat(rhoRaw)
+      : 0.45;
   const outPath = path.resolve(
     argValue(argv, '--out') ??
       path.join(
@@ -136,6 +150,8 @@ function main(): void {
   let midCaptures = 0;
   let lateCaptures = 0;
   let hasCoords = false;
+  const midCoverage: Ply[] = [];
+  const lateCoverage: Ply[] = [];
 
   for (const [, seq] of pliesByGame) {
     seq.sort((a, b) => a.i - b.i);
@@ -162,11 +178,13 @@ function main(): void {
         midPlies += 1;
         if (p.emp) midEmp += 1;
         if (p.capture) midCaptures += 1;
+        midCoverage.push(p);
       } else {
         bump(lateMovers, p.mover);
         latePlies += 1;
         if (p.emp) lateEmp += 1;
         if (p.capture) lateCaptures += 1;
+        lateCoverage.push(p);
       }
     }
   }
@@ -179,6 +197,9 @@ function main(): void {
     bump(byReason, label);
   }
 
+  const midNet = aggregateCoverageStats(midCoverage, rho);
+  const lateNet = aggregateCoverageStats(lateCoverage, rho);
+
   const draft = {
     generator: 'atlas-book',
     at: new Date().toISOString(),
@@ -186,6 +207,7 @@ function main(): void {
     run: runMeta ?? null,
     games: games.length,
     hasCoords,
+    hasCoverage: midNet != null || lateNet != null,
     bands: {
       opening: `ply 0..${openingEnd - 1}`,
       middlegame: `ply ${openingEnd}..${lateStart - 1}`,
@@ -205,6 +227,16 @@ function main(): void {
       empRate: midPlies ? midEmp / midPlies : 0,
       captureRate: midPlies ? midCaptures / midPlies : 0,
       plies: midPlies,
+      coverage: midNet,
+      contestedNetStall: midNet
+        ? {
+            rho,
+            stallRate: midNet.stallRate,
+            stallPlies: midNet.stallPlies,
+            meanCont: midNet.meanCont,
+            meanMaxCov: Math.max(midNet.meanCovW, midNet.meanCovB),
+          }
+        : null,
     },
     endgame: {
       moverShare: topEntries(lateMovers, 8),
@@ -212,6 +244,16 @@ function main(): void {
       captureRate: latePlies ? lateCaptures / latePlies : 0,
       plies: latePlies,
       finishMix: topEntries(byReason, 8),
+      coverage: lateNet,
+      contestedNetStall: lateNet
+        ? {
+            rho,
+            stallRate: lateNet.stallRate,
+            stallPlies: lateNet.stallPlies,
+            meanCont: lateNet.meanCont,
+            meanMaxCov: Math.max(lateNet.meanCovW, lateNet.meanCovB),
+          }
+        : null,
     },
   };
 
@@ -220,7 +262,7 @@ function main(): void {
 
   console.log(`atlas:book — wrote ${outPath}`);
   console.log(
-    `atlas:book — games=${draft.games} coords=${hasCoords ? 'yes' : 'mover-only'} depth=${depth}`,
+    `atlas:book — games=${draft.games} coords=${hasCoords ? 'yes' : 'mover-only'} coverage=${draft.hasCoverage ? 'yes' : 'no'} depth=${depth}`,
   );
   console.log('Opening ply-0:');
   for (const row of draft.opening.ply0.slice(0, 8)) {
@@ -233,6 +275,11 @@ function main(): void {
   console.log('Middlegame movers:');
   for (const row of draft.middlegame.moverShare.slice(0, 5)) {
     console.log(`  ${row.pct.toFixed(1)}%  ${row.key}`);
+  }
+  if (midNet) {
+    console.log(
+      `Middlegame contested stall: ${(100 * midNet.stallRate).toFixed(1)}% plies (mean cont=${midNet.meanCont}, mean covW/B=${midNet.meanCovW}/${midNet.meanCovB})`,
+    );
   }
   console.log('Endgame / finish mix:');
   for (const row of draft.endgame.finishMix) {
