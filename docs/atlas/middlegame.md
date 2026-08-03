@@ -13,9 +13,9 @@ Ruleset: **`hybrid-fleet`**. Prefer search corpora (MvM / MvH / MvR), not HvH.
 | Plan | Win fiction | Teach surface |
 | --- | --- | --- |
 | **Surgical Strike** | Hub capture | `/drills` `drill-surgical-strike` · `/puzzles` `puzzle-find-strike` |
-| **Sector Integration** | Coverage clock + hold | `/drills` `drill-expand-net-45` |
+| **Sector Integration** | Coverage clock + hold | `/drills` `drill-expand-net-45`, `drill-integration-hold` |
 | **Overload / Lockout** | EMP freeze → no-moves | Terminal drills + goldens |
-| **Hub discipline** | Fail mode: Hub wandering | `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
+| **Hub discipline** | Fail mode: Hub wandering | `/drills` `drill-hold-the-hub` · `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
 
 ## How we mine it
 

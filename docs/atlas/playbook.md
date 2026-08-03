@@ -272,9 +272,9 @@ the workhorse plan piece. Sector remains the plurality decisive finish.
 
 | Theme | Voice | Player surface |
 | --- | --- | --- |
-| Hub wandering | sim-provisional | `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
+| Hub wandering | sim-provisional | `/drills` `drill-hold-the-hub` · `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
 | Surgical Strike plan | sim-provisional | `/drills` `drill-surgical-strike` · `puzzle-find-strike` |
-| Sector / Integration Hold | sim-provisional | `/drills` `drill-expand-net-45` |
+| Sector / Integration Hold | sim-provisional | `/drills` `drill-expand-net-45`, `drill-integration-hold` |
 | Overload timing | sim-provisional | Terminal drills + goldens |
 
 ### Relay value (sim-provisional, n=40×2 @40)

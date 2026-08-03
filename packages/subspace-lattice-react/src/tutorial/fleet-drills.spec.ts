@@ -10,12 +10,14 @@ import {
 
 describe('FLEET_DRILLS pack', () => {
   it('covers the full arc with phase tags', () => {
-    expect(FLEET_DRILL_PACK.lessons).toHaveLength(9);
+    expect(FLEET_DRILL_PACK.lessons).toHaveLength(11);
     expect(FLEET_DRILLS.map((d) => d.phase)).toEqual([
       'opening',
       'opening',
       'midgame',
       'midgame',
+      'midgame',
+      'sector',
       'sector',
       'strike',
       'terminal',
@@ -50,6 +52,23 @@ describe('FLEET_DRILLS pack', () => {
         expect(engine.sectorControlRatio(PlayerColor.White)).toBeGreaterThanOrEqual(
           0.45,
         );
+      }
+      if (lesson.id === 'drill-integration-hold') {
+        expect(before).toBeGreaterThanOrEqual(0.45);
+        expect(engine.sectorControlRatio(PlayerColor.White)).toBeGreaterThanOrEqual(
+          0.45,
+        );
+        expect(engine.getState().winner).toBe(PlayerColor.White);
+        expect(engine.getState().winnerReason).toBe('sector-integration');
+      }
+      if (lesson.id === 'drill-hold-the-hub') {
+        expect(engine.getPiece('b-e1')).toBeUndefined();
+        expect(engine.getPiece('w-ch')?.position).toEqual({ x: 4, y: 4 });
+        // Temptation: Hub could have taken the same Escort.
+        const baitEngine = createTutorialEngine(lesson);
+        expect(
+          baitEngine.canMovePiece(baitEngine.getPiece('w-ch')!, { x: 4, y: 5 }),
+        ).toBe(true);
       }
       if (lesson.id === 'drill-surgical-strike') {
         expect(engine.getState().winner).toBe(PlayerColor.White);

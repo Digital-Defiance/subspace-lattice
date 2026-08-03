@@ -225,6 +225,35 @@ const midgameDrills: FleetDrillLesson[] = [
       { x: 2, y: 3 },
     ],
   }),
+  /**
+   * Volume II — Hub wandering fail mode. Hub can take the bait; Escort should.
+   * Atlas: mid Hub move share ~5% under search when the prior holds.
+   */
+  drill({
+    id: 'drill-hold-the-hub',
+    number: '05',
+    phase: 'midgame',
+    title: 'Hold the Hub',
+    concept: 'Midgame · Hub discipline',
+    explanation:
+      'Your Command Hub can snatch that Escort — and that is the trap. Midgame Hub walks reset Overload charge and stroll into Surgical Strike. Leave the Hub. Take with the Escort.',
+    objective: 'Capture the enemy Escort with your Escort — do not move the Hub.',
+    success:
+      'Escort did the work. If your Hub is the most-moved piece midgame, you are probably losing the charge race and the Strike race.',
+    plyCount: 40,
+    pieces: [
+      { id: 'w-ch', type: PieceType.CommandHub, owner: PlayerColor.White, x: 4, y: 4 },
+      { id: 'w-e1', type: PieceType.Escort, owner: PlayerColor.White, x: 4, y: 6 },
+      { id: 'b-e1', type: PieceType.Escort, owner: PlayerColor.Black, x: 4, y: 5 },
+      { id: 'b-ch', type: PieceType.CommandHub, owner: PlayerColor.Black, x: 9, y: 9 },
+    ],
+    playerMove: { pieceId: 'w-e1', to: { x: 4, y: 5 } },
+    focusCells: [
+      { x: 4, y: 6 },
+      { x: 4, y: 5 },
+      { x: 4, y: 4 },
+    ],
+  }),
 ];
 
 /**
@@ -234,7 +263,7 @@ const midgameDrills: FleetDrillLesson[] = [
 const sectorDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-expand-net-45',
-    number: '05',
+    number: '06',
     phase: 'sector',
     title: 'Hit the Integration marker',
     concept: 'Sector · 45% coverage',
@@ -266,12 +295,68 @@ const sectorDrills: FleetDrillLesson[] = [
       { x: 5, y: 6 },
     ],
   }),
+  /**
+   * Volume II — Integration Hold. Clock armed, already ≥45%, White hold
+   * streak at 1 of 2 — one quiet Escort step that keeps the net closes it.
+   */
+  {
+    id: 'drill-integration-hold',
+    number: '07',
+    phase: 'sector',
+    title: 'Finish Integration Hold',
+    concept: 'Sector · hold clock',
+    explanation:
+      'You are already over 45% exclusive coverage and the Integration Hold clock shows one ply banked. Do not wander the Hub — expand a wing Escort so the net stays painted and the hold completes.',
+    success:
+      'Sector Integration. Atlas searches finish here more often than Surgical Strike among equals — treat the hold as a real plan, not flavor.',
+    rules: resolveRulesConfig('hybrid-fleet', {
+      sectorIntegrationRatio: 0.45,
+      sectorActivationPly: 0,
+      sectorHoldPlies: 2,
+    }),
+    createState: () => {
+      const state = stateWith(
+        [
+          { id: 'w-ch', type: PieceType.CommandHub, owner: PlayerColor.White, x: 5, y: 0 },
+          { id: 'w-e1', type: PieceType.Escort, owner: PlayerColor.White, x: 5, y: 2 },
+          { id: 'w-e2', type: PieceType.Escort, owner: PlayerColor.White, x: 5, y: 4 },
+          { id: 'w-e3', type: PieceType.Escort, owner: PlayerColor.White, x: 5, y: 6 },
+          { id: 'w-e4', type: PieceType.Escort, owner: PlayerColor.White, x: 4, y: 6 },
+          { id: 'w-e5', type: PieceType.Escort, owner: PlayerColor.White, x: 6, y: 6 },
+          { id: 'w-e6', type: PieceType.Escort, owner: PlayerColor.White, x: 3, y: 6 },
+          { id: 'w-e7', type: PieceType.Escort, owner: PlayerColor.White, x: 7, y: 6 },
+          { id: 'w-e8', type: PieceType.Escort, owner: PlayerColor.White, x: 5, y: 8 },
+          { id: 'b-ch', type: PieceType.CommandHub, owner: PlayerColor.Black, x: 0, y: 10 },
+        ],
+        resolveRulesConfig('hybrid-fleet', {
+          sectorIntegrationRatio: 0.45,
+          sectorActivationPly: 0,
+          sectorHoldPlies: 2,
+        }),
+        120,
+      );
+      state.sectorHoldProgress = { [PlayerColor.White]: 1 };
+      return state;
+    },
+    steps: [
+      {
+        why: 'Hold streak is 1 of 2. Expand a wing Escort so coverage stays above 45% and the hold completes.',
+        objective:
+          'Advance the right-wing Escort one square — keep the net over the marker and finish Integration Hold.',
+        playerMove: { pieceId: 'w-e7', to: { x: 8, y: 6 } },
+        focusCells: [
+          { x: 7, y: 6 },
+          { x: 8, y: 6 },
+        ],
+      },
+    ],
+  },
 ];
 
 const strikeDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-surgical-strike',
-    number: '06',
+    number: '08',
     phase: 'strike',
     title: 'Deliver Surgical Strike',
     concept: 'Endgame · Hub capture',
@@ -295,7 +380,7 @@ const strikeDrills: FleetDrillLesson[] = [
 const terminalDrills: FleetDrillLesson[] = [
   {
     id: 'drill-terminal-lockout-fire',
-    number: '07',
+    number: '09',
     phase: 'terminal',
     title: 'Fire Terminal Lockout',
     concept: 'Terminal · Lockout',
@@ -309,7 +394,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-refuse-miss',
-    number: '08',
+    number: '10',
     phase: 'terminal',
     title: 'Refuse the out-of-range EMP',
     concept: 'Terminal · miss fuse',
@@ -323,7 +408,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-close-for-blast',
-    number: '09',
+    number: '11',
     phase: 'terminal',
     title: 'Close for the growing blast',
     concept: 'Terminal · charge',
