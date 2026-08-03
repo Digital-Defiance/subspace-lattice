@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './landing.scss';
 import {
-  DocLink,
+  PlayerDocsLinks,
   SubspaceLatticeLogo,
   hasSoundtrackPreferenceSet,
   isTauriRuntime,
@@ -151,24 +151,11 @@ export function Landing() {
             </Link>
           </li>
         </ol>
-        <p className="landing-docs">
-          <Link to="/puzzles">Puzzles</Link>
-          <span aria-hidden="true"> · </span>
-          <a
-            href="https://iwgf.org/leaderboard/lattice"
-            data-testid="federation-standings"
-          >
-            Standings
-          </a>
-          <span aria-hidden="true"> · </span>
-          <DocLink doc="manual">Introductory manual</DocLink>
-          <span aria-hidden="true"> · </span>
-          <DocLink doc="rules">Official rules</DocLink>
-          <span aria-hidden="true"> · </span>
-          <Link to="/annotate">Annotate LPGN</Link>
-          <span aria-hidden="true"> · </span>
-          <DocLink doc="advanced">Advanced walkthrough</DocLink>
-        </p>
+        <PlayerDocsLinks
+          layout="inline"
+          className="landing-docs"
+          omit={['rulesTour', 'deepLattice']}
+        />
       </main>
 
       <section className="landing-atelier" aria-labelledby="landing-atelier-title">

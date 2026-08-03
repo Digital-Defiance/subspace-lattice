@@ -6,6 +6,7 @@ import {
   type LobbyRulesOptions,
 } from '../lib/lobby-rules';
 import { LobbyRulesModules } from './LobbyRulesModules';
+import { PlayerDocsLinks } from './PlayerDocsLinks';
 import './Lobby.scss';
 
 type LobbyTab = 'create' | 'join' | 'local';
@@ -299,6 +300,12 @@ export const Lobby: React.FC<LobbyProps> = ({
           </button>
         </form>
       )}
+
+      <PlayerDocsLinks
+        layout="inline"
+        className="lobby-docs"
+        omit={['rulesTour', 'puzzles', 'standings', 'deepLattice']}
+      />
     </div>
   );
 };

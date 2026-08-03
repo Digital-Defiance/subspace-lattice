@@ -13,9 +13,10 @@ export type DocLinkProps = {
 };
 
 /**
- * Link to a player-facing Lattice doc (manual / rules PDF / story Markdown).
- * On Tauri, opens the hosted file with the system viewer/browser (fixes macOS
- * WKWebView blank `target="_blank"` on bundled asset paths).
+ * Link to a player-facing Lattice doc (manuals / rules PDF / overview /
+ * story Markdown / handbook). On Tauri, opens the hosted URL with the system
+ * viewer/browser (fixes macOS WKWebView blank `target="_blank"` on bundled
+ * asset paths).
  */
 export function DocLink({ doc, children, className }: DocLinkProps) {
   const href = latticeDocHref(doc);

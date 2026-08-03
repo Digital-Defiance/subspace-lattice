@@ -63,6 +63,10 @@ export default defineConfig({
             text: 'Advanced manual',
             link: 'https://lattice.iwgf.org/docs/advanced-manual.pdf',
           },
+          {
+            text: 'Sector 11 story',
+            link: 'https://lattice.iwgf.org/docs/story.pdf',
+          },
         ],
       },
       {

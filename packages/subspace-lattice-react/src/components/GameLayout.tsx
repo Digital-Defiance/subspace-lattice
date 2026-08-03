@@ -44,6 +44,7 @@ import { RulesDialog } from './RulesDialog';
 import { OptionsDialog } from './OptionsDialog';
 import { ArmedConfirmButton } from './ArmedConfirmButton';
 import './GameLayout.scss';
+import { PlayerDocsLinks } from './PlayerDocsLinks';
 import { SubspaceLatticeLogo } from './SubspaceLatticeLogo';
 
 export interface GameLayoutProps {
@@ -1006,6 +1007,11 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
             >
               Puzzles
             </Link>
+            <PlayerDocsLinks
+              layout="inline"
+              className="auth-gate-docs"
+              omit={['rulesTour', 'puzzles', 'standings', 'deepLattice']}
+            />
           </div>
           <div className="auth-gate-divider" role="presentation" />
           <div className="auth-gate-section">

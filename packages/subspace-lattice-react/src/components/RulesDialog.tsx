@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { DocLink } from './DocLink';
+import { PlayerDocsLinks } from './PlayerDocsLinks';
 import './RulesDialog.scss';
 
 interface RulesDialogProps {
@@ -178,23 +178,11 @@ export const RulesDialog: React.FC<RulesDialogProps> = ({ onClose }) => {
           </p>
 
           <h3>Full documents</h3>
-          <ul className="rules-doc-links">
-            <li>
-              <Link to="/story" onClick={onClose}>
-                Sector 11 briefing
-              </Link>{' '}
-              — illustrated story page; also available as{' '}
-              <DocLink doc="story">plain Markdown</DocLink>.
-            </li>
-            <li>
-              <DocLink doc="manual">Introductory manual</DocLink>{' '}
-              — shorter walkthrough for new commanders.
-            </li>
-            <li>
-              <DocLink doc="rules">Official rules (PDF)</DocLink>{' '}
-              — normative reference for serious play.
-            </li>
-          </ul>
+          <PlayerDocsLinks
+            className="rules-doc-links"
+            onNavigate={onClose}
+            omit={['storyPage', 'story', 'puzzles', 'standings']}
+          />
         </div>
       </div>
     </div>

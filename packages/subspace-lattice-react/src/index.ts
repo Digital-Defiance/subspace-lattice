@@ -18,6 +18,7 @@ export * from './components/Soundboard';
 export * from './components/ArmedConfirmButton';
 export * from './components/SoundMuteButton';
 export * from './components/DocLink';
+export * from './components/PlayerDocsLinks';
 export * from './lib/doc-links';
 export * from './lib/lobby-rules';
 export * from './lib/game-sounds';

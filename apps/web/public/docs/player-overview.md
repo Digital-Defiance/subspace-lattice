@@ -98,6 +98,7 @@ tracks in `latticeTei` (`localAi` and `online`).
 
 | Audience | Document |
 | --- | --- |
+| Flagship AI / research charter | [lattice.iwgf.org/deep-lattice](https://lattice.iwgf.org/deep-lattice) · [status log](./deep-lattice) |
 | Anyone who wants the story | [Sector 11 page](https://lattice.iwgf.org/story) (`/story` in the app). Handbook: [docs.lattice.iwgf.org/story](https://docs.lattice.iwgf.org/story). Source: [`docs/story.md`](./story.md) |
 | New / casual players | Introductory manual (`/docs/subspace-lattice-manual.pdf` on the site) |
 | Improving players | Advanced manual — three fully annotated games ([`docs/advanced-manual.pdf`](./advanced-manual.pdf), `/docs/advanced-manual.pdf` on the site; rebuild via `yarn build:advanced-manual`) |

@@ -20,5 +20,8 @@ copy_one() {
 copy_one "$ROOT/docs/rules.pdf" "rules.pdf"
 copy_one "$ROOT/docs/Subspace Lattice Manual.pdf" "subspace-lattice-manual.pdf"
 copy_one "$ROOT/docs/advanced-manual.pdf" "advanced-manual.pdf"
+copy_one "$ROOT/docs/Subspace Lattice Story.pdf" "story.pdf"
 # Plain-text twin of the /story page (glossary + full briefing prose).
 copy_one "$ROOT/docs/story.md" "story.md"
+# Player fantasy overview (Markdown).
+copy_one "$ROOT/docs/player-overview.md" "player-overview.md"

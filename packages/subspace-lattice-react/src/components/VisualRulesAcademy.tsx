@@ -1,8 +1,8 @@
 import { useId, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PieceType } from '@subspace-lattice/core';
-import { DocLink } from './DocLink';
 import { Piece } from './Piece';
+import { PlayerDocsLinks } from './PlayerDocsLinks';
 import { SensorNetLab } from './SensorNetLab';
 import { SetupDiagram } from './SetupDiagram';
 import { SubspaceLatticeLogo } from './SubspaceLatticeLogo';
@@ -539,20 +539,10 @@ export function VisualRulesAcademy() {
                 </article>
               ))}
             </div>
-            <ul className="vra-doc-links">
-              <li>
-                <DocLink doc="manual">Introductory manual</DocLink>
-              </li>
-              <li>
-                <DocLink doc="rules">Official rules (PDF)</DocLink>
-              </li>
-              <li>
-                <DocLink doc="advanced">Advanced walkthrough</DocLink>
-              </li>
-              <li>
-                <Link to="/story">Sector 11 briefing</Link>
-              </li>
-            </ul>
+            <PlayerDocsLinks
+              className="vra-doc-links"
+              omit={['rulesTour', 'puzzles', 'standings']}
+            />
           </section>
         )}
 

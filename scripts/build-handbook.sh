@@ -22,6 +22,7 @@ copy_pdf() {
 copy_pdf "$ROOT/docs/rules.pdf" "rules.pdf"
 copy_pdf "$ROOT/docs/Subspace Lattice Manual.pdf" "subspace-lattice-manual.pdf"
 copy_pdf "$ROOT/docs/advanced-manual.pdf" "advanced-manual.pdf"
+copy_pdf "$ROOT/docs/Subspace Lattice Story.pdf" "story.pdf"
 
 cd "$ROOT"
 yarn workspace @subspace-lattice/handbook build
