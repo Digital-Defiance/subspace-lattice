@@ -1,0 +1,16 @@
+atlas:diff — bundling…
+atlas:diff — a=/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvM-relay0-s50-n40.jsonl (games=40)
+atlas:diff — b=/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvM-relay1-s50-n40.jsonl (games=40)
+Biggest |Δ| (b − a):
+  meanPlies                        291.95 → 296.85 (Δ +4.90)
+  empFiresPerGame                  6.53 → 6.95 (Δ +0.42)
+  infiltratorCapturesPerGame       3.98 → 4.10 (Δ +0.12)
+  moverShare.Infiltrator           25.8% → 30.5% (Δ +4.6%)
+  moverShare.Beam                  19.0% → 16.1% (Δ -2.9%)
+  sectorRate                       57.5% → 60.0% (Δ +2.5%)
+  truncRate                        40.0% → 37.5% (Δ -2.5%)
+  whiteWinRate                     32.5% → 30.0% (Δ -2.5%)
+  hubCaptureRate                   2.5% → 0.0% (Δ -2.5%)
+  lockoutRate                      0.0% → 2.5% (Δ +2.5%)
+  moverShare.CommandHub            11.8% → 9.3% (Δ -2.5%)
+  moverShare.Escort                43.4% → 44.2% (Δ +0.7%)

@@ -35,7 +35,9 @@ Shipping default ruleset: **`hybrid-fleet`**.
 
 | Chapter | What you get |
 | --- | --- |
-| [Opening](./atlas/opening) | Branching factor, Relay Escort, piece-type share of ply-0 moves |
+| [Opening](./atlas/opening) | Branching factor, Relay Escort, Volume I status |
+| [Middlegame](./atlas/middlegame) | Volume II plans · Strike / Sector / Hub discipline |
+| [Playbook](./atlas/playbook) | Sim-provisional theory (themes + named lines) |
 | [Pieces & wings](./atlas/pieces) | Inventories, heavy-draft geometry pointers |
 | [Win paths](./atlas/win-paths) | Hub / sector / Lockout mix; truncations vs draws |
 | [Clocks & Terminal](./atlas/clocks) | Sector activation, Integration Hold, TO / EMP |

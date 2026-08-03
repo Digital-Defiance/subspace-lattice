@@ -1,0 +1,300 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-03T04:48:10.524Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvM-relay1-s50-n40.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-03T04:22:53.608Z",
+    "games": 40,
+    "seed": 50,
+    "rulesVersion": "hybrid-fleet",
+    "white": "mcts",
+    "black": "mcts",
+    "sims": 40,
+    "maxPlies": 400,
+    "jobs": 12,
+    "firstPlayerRelayCount": 1
+  },
+  "games": 40,
+  "hasCoords": true,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 8,
+    "ply0": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 6,
+        "pct": 15
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 6,
+        "pct": 15
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 5,
+        "pct": 12.5
+      },
+      {
+        "key": "W:w-i1@5,2",
+        "count": 4,
+        "pct": 10
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 4,
+        "pct": 10
+      },
+      {
+        "key": "W:w-i1@6,4",
+        "count": 4,
+        "pct": 10
+      },
+      {
+        "key": "W:w-i1@4,3",
+        "count": 3,
+        "pct": 7.5
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 3,
+        "pct": 7.5
+      },
+      {
+        "key": "W:w-i1@5,4",
+        "count": 2,
+        "pct": 5
+      },
+      {
+        "key": "W:w-i1@4,2",
+        "count": 2,
+        "pct": 5
+      },
+      {
+        "key": "W:w-i2@4,4",
+        "count": 1,
+        "pct": 2.5
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@5,8 | W:w-i2@5,2 | B:b-i2@4,7 | W:w-i2@5,4 | B:b-e2@6,9 | W:w-i1@6,4 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@6,7 | W:w-i2@6,4 | B:b-i2@4,8 | W:w-h1@2,2 | B:b-h2@8,8 | W:w-h1@5,2 | B:b-h2@6,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@7,7 | W:w-i2@6,2 | B:b-i2@6,8 | W:w-i1@5,4 | B:b-h2@8,7 | W:w-h1@2,3 | B:b-i1@5,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@4,8 | W:w-i2@6,3 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h1@2,8 | W:w-h2@8,3 | B:b-i1@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,2 | B:b-i1@7,7 | W:w-i2@3,3 | B:b-i2@5,7 | W:w-i2@6,4 | B:b-h2@8,8 | W:w-i1@5,4 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@5,7 | W:w-i1@5,4 | B:b-h2@8,8 | W:w-e3@5,2 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7 | W:w-i2@5,2 | B:b-i2@4,8 | W:w-i1@5,4 | B:b-h1@2,7 | W:w-i2@6,4 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,8 | W:w-i2@4,3 | B:b-i2@4,7 | W:w-i2@5,4 | B:b-e1@4,9 | W:w-h1@2,2 | B:b-h1@2,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@3,7 | W:w-i1@5,4 | B:b-i2@5,7 | W:w-i2@6,3 | B:b-i1@6,7 | W:w-h1@2,2 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@5,7 | W:w-i2@4,3 | B:b-i2@4,7 | W:w-e1@4,1 | B:b-h1@2,8 | W:w-h2@8,3 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@6,8 | W:w-i1@5,4 | B:b-i2@7,7 | W:w-i2@6,2 | B:b-h2@8,7 | W:w-i2@4,4 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@4,7 | W:w-i2@4,2 | B:b-i2@3,7 | W:w-i1@6,4 | B:b-e1@4,9 | W:w-h1@2,2 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 2.5
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 6,
+        "pct": 1.875
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 6,
+        "pct": 1.875
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 5,
+        "pct": 1.5625
+      },
+      {
+        "key": "W:w-i1@5,2",
+        "count": 4,
+        "pct": 1.25
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 4,
+        "pct": 1.25
+      },
+      {
+        "key": "W:w-i1@6,4",
+        "count": 4,
+        "pct": 1.25
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@5,8",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@4,3",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@3,3 | B:b-i1@7,7",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@5,2 | B:b-i1@7,7",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@6,4 | B:b-i1@7,7",
+        "count": 2,
+        "pct": 0.625
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 239,
+        "pct": 49.791666666666664
+      },
+      {
+        "key": "Beam",
+        "count": 155,
+        "pct": 32.291666666666664
+      },
+      {
+        "key": "Escort",
+        "count": 86,
+        "pct": 17.916666666666668
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 2140,
+        "pct": 49.53703703703704
+      },
+      {
+        "key": "Infiltrator",
+        "count": 1144,
+        "pct": 26.48148148148148
+      },
+      {
+        "key": "Beam",
+        "count": 807,
+        "pct": 18.680555555555557
+      },
+      {
+        "key": "CommandHub",
+        "count": 229,
+        "pct": 5.300925925925926
+      }
+    ],
+    "empRate": 0.03148148148148148,
+    "captureRate": 0.028009259259259258,
+    "plies": 4320
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 3021,
+        "pct": 42.70568278201866
+      },
+      {
+        "key": "Infiltrator",
+        "count": 2234,
+        "pct": 31.58043539722929
+      },
+      {
+        "key": "Beam",
+        "count": 944,
+        "pct": 13.34464235227594
+      },
+      {
+        "key": "CommandHub",
+        "count": 875,
+        "pct": 12.36923946847611
+      }
+    ],
+    "empRate": 0.020073508623126943,
+    "captureRate": 0.01682216567712751,
+    "plies": 7074,
+    "finishMix": [
+      {
+        "key": "sector-integration",
+        "count": 24,
+        "pct": 60
+      },
+      {
+        "key": "truncated",
+        "count": 15,
+        "pct": 37.5
+      },
+      {
+        "key": "no-moves",
+        "count": 1,
+        "pct": 2.5
+      }
+    ]
+  }
+}

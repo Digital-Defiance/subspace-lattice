@@ -1,7 +1,11 @@
 # Atlas — Opening
 
 Ruleset: **`hybrid-fleet`** unless noted. Regenerable facts come from
-`yarn atlas:census` → [`census.json`](./census.json).
+`yarn atlas:census` → [`census.json`](./census.json). Strategy (named lines):
+[Playbook · Volume I](./playbook#volume-i--opening).
+
+**Board size:** shipping stays **11×11**. 9×9 lab ditched (2026-08-02) — see
+[board-size lab](./board-size-lab).
 
 ---
 
@@ -35,8 +39,22 @@ branching ≈ **183 → 184 → 188** White legal moves — see
 [Lockout impossibility](../lockout-impossibility). Re-run census after any setup
 change; do not trust that band forever.
 
-## What we still want
+---
 
-- Top first moves by visit count under Strong / Deep (opening book seed).
-- Black’s reply tree after White’s three most common first moves.
-- Effect of removing Initiative Relay on White’s ply-0 branching (counterfactual).
+## Volume I status (sim-provisional, frozen 2026-08-02)
+
+| Claim | Status | Artifact |
+| --- | --- | --- |
+| White ply-0 ≈ always Infiltrator (practice) | Done | MvM@40 n=80 book |
+| Deep-leaf principal `I (7,0)→(5,4)` | Done | `opening-rate-deep-leaf-d1-s800.json` |
+| Black reply band (I / Beam / Escort nearly tied) | Done | `opening-rate-deep-leaf-d2-s800.json` |
+| Named depth-2 practice pairs (n≥3) | Done | playbook table |
+| Depth ≥4 ECO codes | **Blocked** | branching; do not burn MvM@40 for this |
+| Sharper ply-0 under MvM@200 | **Done** | `observe-MvM-open-s41-m200` — (6,3)/(5,4)/(4,3) band; 80% sector |
+
+Do not expand Volume I further unless humans contradict the Overture.
+
+## Still open (not opening theory)
+
+- Initiative Relay value: measured (see playbook) — small win% Δ; keep shipping.
+- Branching factor by ply until first capture (census extension).

@@ -50,16 +50,26 @@ function chebyshev(a: Coordinate, b: Coordinate): number {
  * Back-rank Infiltrator files that avoid Hub, Escorts, and heavy wing slots.
  * Standard Beams @ 2–8 keep Infiltrators on 3–7; Refractor Wing / Fleet Draft
  * park heavies on 3–7, so Infiltrators shift to the vacated 2–8 files.
+ * Escort/Hub reserved files scale with board center (11→4–6, 9→3–5).
  */
 function infiltratorFilesForSetup(
   heavyFiles: [number, number],
   boardSize: number,
 ): [number, number] {
-  const reserved = new Set<number>([heavyFiles[0], heavyFiles[1], 4, 5, 6]);
+  const center = Math.floor(boardSize / 2);
+  const reserved = new Set<number>([
+    heavyFiles[0],
+    heavyFiles[1],
+    center - 1,
+    center,
+    center + 1,
+  ]);
   const candidates: Array<[number, number]> = [
+    [center - 2, center + 2],
+    [center - 3, center + 3],
     [3, 7],
     [2, 8],
-    [1, 9],
+    [1, boardSize - 2],
     [0, boardSize - 1],
   ];
   for (const [a, b] of candidates) {
@@ -78,12 +88,13 @@ function infiltratorFilesForSetup(
   return [1, boardSize - 2];
 }
 
-/** Clamp / sanitize heavy-unit wing files; default Beam files are 2 and 8. */
+/** Clamp / sanitize heavy-unit wing files; default Beam files are center±3. */
 function normalizeHeavyUnitFiles(
   files: [number, number] | undefined,
   boardSize: number,
 ): [number, number] {
-  const fallback: [number, number] = [2, 8];
+  const center = Math.floor(boardSize / 2);
+  const fallback: [number, number] = [center - 3, center + 3];
   if (!files || files.length !== 2) return fallback;
   let a = Math.floor(files[0]);
   let b = Math.floor(files[1]);
@@ -225,10 +236,13 @@ export class SubspaceLatticeEngine {
     };
 
     const back = boardSize - 1;
-    const [leftFile, rightFile] = normalizeHeavyUnitFiles(
-      rules.heavyUnitFiles,
-      boardSize,
-    );
+    const center = Math.floor(boardSize / 2);
+    // Shipping 11 keeps rules.heavyUnitFiles (wing drafts). Smaller lab boards
+    // use center±3 so wings don't collide with center±1 Escorts.
+    const [leftFile, rightFile] =
+      boardSize === 11
+        ? normalizeHeavyUnitFiles(rules.heavyUnitFiles, boardSize)
+        : ([center - 3, center + 3] as [number, number]);
     const [leftHeavy, rightHeavy] = heavyUnitTypesForDraft(
       rules.heavyUnitDraft ?? 'standard',
     );
@@ -238,11 +252,14 @@ export class SubspaceLatticeEngine {
       boardSize,
     );
 
-    // White starting pieces
-    addPiece('w-ch', PieceType.CommandHub, PlayerColor.White, 5, 0);
-    addPiece('w-e1', PieceType.Escort, PlayerColor.White, 4, 0);
-    addPiece('w-e2', PieceType.Escort, PlayerColor.White, 6, 0);
-    addPiece('w-e3', PieceType.Escort, PlayerColor.White, 5, 1);
+    // Same roster on every size (9 pieces/side). Do not thin for 9×9.
+    const relayY = boardSize >= 11 ? 3 : 2;
+
+    // White starting pieces (file layout scales with boardSize; 11→center 5).
+    addPiece('w-ch', PieceType.CommandHub, PlayerColor.White, center, 0);
+    addPiece('w-e1', PieceType.Escort, PlayerColor.White, center - 1, 0);
+    addPiece('w-e2', PieceType.Escort, PlayerColor.White, center + 1, 0);
+    addPiece('w-e3', PieceType.Escort, PlayerColor.White, center, 1);
     addPiece('w-i1', PieceType.Infiltrator, PlayerColor.White, leftInfil, 0);
     addPiece('w-i2', PieceType.Infiltrator, PlayerColor.White, rightInfil, 0);
     addPiece('w-h1', leftHeavy, PlayerColor.White, leftFile, 0);
@@ -251,25 +268,24 @@ export class SubspaceLatticeEngine {
       // A visible, connected reinforcement for the player who must commit
       // first. It begins at the edge of the opening net, linked through the
       // central Escort, so the compensation is spatial as well as material.
-      addPiece('w-e4', PieceType.Escort, PlayerColor.White, 5, 3);
+      addPiece('w-e4', PieceType.Escort, PlayerColor.White, center, relayY);
     } else if (firstPlayerRelayCount >= 2) {
       // Two relays remain horizontally mirrored around the Hub.
-      addPiece('w-e4', PieceType.Escort, PlayerColor.White, 4, 2);
-      addPiece('w-e5', PieceType.Escort, PlayerColor.White, 6, 2);
+      addPiece('w-e4', PieceType.Escort, PlayerColor.White, center - 1, 2);
+      addPiece('w-e5', PieceType.Escort, PlayerColor.White, center + 1, 2);
     }
 
     // Black starting pieces (mirrored on far rank)
-    addPiece('b-ch', PieceType.CommandHub, PlayerColor.Black, 5, back);
-    addPiece('b-e1', PieceType.Escort, PlayerColor.Black, 4, back);
-    addPiece('b-e2', PieceType.Escort, PlayerColor.Black, 6, back);
-    addPiece('b-e3', PieceType.Escort, PlayerColor.Black, 5, back - 1);
+    addPiece('b-ch', PieceType.CommandHub, PlayerColor.Black, center, back);
+    addPiece('b-e1', PieceType.Escort, PlayerColor.Black, center - 1, back);
+    addPiece('b-e2', PieceType.Escort, PlayerColor.Black, center + 1, back);
+    addPiece('b-e3', PieceType.Escort, PlayerColor.Black, center, back - 1);
     addPiece('b-i1', PieceType.Infiltrator, PlayerColor.Black, leftInfil, back);
     addPiece('b-i2', PieceType.Infiltrator, PlayerColor.Black, rightInfil, back);
     addPiece('b-h1', leftHeavy, PlayerColor.Black, leftFile, back);
     addPiece('b-h2', rightHeavy, PlayerColor.Black, rightFile, back);
 
     // Add central gravity well
-    const center = Math.floor(boardSize / 2);
     const centerCell = cells.find(
       (c) => c.coordinate.x === center && c.coordinate.y === center,
     );

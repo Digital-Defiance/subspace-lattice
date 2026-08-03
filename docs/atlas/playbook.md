@@ -242,26 +242,76 @@ n or higher-sims practice (sharper priors). Finish: 64% sector / 32% trunc /
 - **Expect** knight-war tempo; Hub walks are not opening theory.
 - **Don’t** hang on (4,6); don’t treat static-eval leaders alone.
 
-**Next measure:** stop burning MvM@40 for depth-8 ECO (branching kills repeats).
-Treat Volume I as **sim-provisional** with Deep-leaf theory + practice pairs
-above. Clear the strength-bar trunc gate, or raise practice sims (MvM@200, n=40)
-if you want sharper ply-0 collapse.
+**Evidence (MvM@200 practice, n=40, `observe-MvM-open-s41-m200-book.json`,
+2026-08-03):** still a left-I band — **(6,3)** 17.5% · **(5,4)** 15% ·
+**(4,3)** 12.5%. Deep-leaf principal **(5,4)** is #2 in practice (was tied in
+the six-way @40 band). No depth-8 ECO repeats. Finish: **80% sector** / 17.5%
+trunc / 2.5% hub — sharper search leans Integration, not Strike.
+
+**Next measure:** Volume I **frozen**. No more opening burns unless humans
+contradict the Overture.
+
+**Drills:** opening captures / fringe → `/drills` `drill-capture-escort`,
+`drill-expand-net-fringe`.
+
+---
+
+## Volume II — Middlegame
+
+Chapter: [Middlegame](./middlegame). Corpus:
+`observe-MvM-mid-s42-n120` (MvM@40, n=120, 2026-08-03).
+
+| Signal | Value |
+| --- | ---: |
+| Mid movers | Escort 51% · Infiltrator 26% · Beam 18% · **Hub 4.7%** |
+| Finish mix | sector 52.5% · trunc 42.5% · hub 3.3% · lockout 1.7% |
+| Mean plies | 310 |
+
+Hub share in mid ~5% under search — Hub-wandering prior is holding; Escort is
+the workhorse plan piece. Sector remains the plurality decisive finish.
+
+| Theme | Voice | Player surface |
+| --- | --- | --- |
+| Hub wandering | sim-provisional | `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
+| Surgical Strike plan | sim-provisional | `/drills` `drill-surgical-strike` · `puzzle-find-strike` |
+| Sector / Integration Hold | sim-provisional | `/drills` `drill-expand-net-45` |
+| Overload timing | sim-provisional | Terminal drills + goldens |
+
+### Relay value (sim-provisional, n=40×2 @40)
+
+`diff-relay-s50.txt` — Relay **off → on**: White win% **32.5 → 30.0** (no first-player
+boost in this sample); sector **57.5 → 60**; Infiltrator move share **+4.6pp**;
+Hub move share **11.8 → 9.3**. Relay looks like a **tempo/geometry** tool, not a
+raw win% cheat — keep shipping Relay; do not cite as a White-bias lever from
+this n.
+
 ---
 
 ## Opening book (bootstrap queue)
 
 ```bash
-# Done: n=80 coordinate practice
-# yarn atlas:observe --games 80 --seed 41 --white mcts --black mcts --sims 40 \
-#   --out docs/atlas/runs/observe-MvM-open-s41-n80.jsonl
-# yarn atlas:book --in …n80.jsonl --depth 8 --top 20 --out …n80-book.json
-
-# Optional sharper practice (expensive):
-bgpucap yarn atlas:observe --games 40 --seed 41 --white mcts --black mcts --sims 200 \
+# Done: n=80 coordinate practice @40
+# Sharper practice (CPU burn — prefer --jobs 12):
+yarn atlas:observe --games 40 --jobs 12 --seed 41 \
+  --white mcts --black mcts --sims 200 \
   --out docs/atlas/runs/observe-MvM-open-s41-m200.jsonl
-```
+yarn atlas:book --in docs/atlas/runs/observe-MvM-open-s41-m200.jsonl --depth 8 --top 20
 
-Mover-only drafts already mined: `observe-MvM-s12-book.json`, etc.
+# Volume II corpus:
+yarn atlas:observe --games 120 --jobs 12 --seed 42 \
+  --white mcts --black mcts --sims 40 \
+  --out docs/atlas/runs/observe-MvM-mid-s42-n120.jsonl
+yarn atlas:book --in docs/atlas/runs/observe-MvM-mid-s42-n120.jsonl --top 20
+
+# Relay counterfactual:
+yarn atlas:observe --games 40 --jobs 12 --seed 50 --relay-count 0 \
+  --white mcts --black mcts --sims 40 \
+  --out docs/atlas/runs/observe-MvM-relay0-s50-n40.jsonl
+yarn atlas:observe --games 40 --jobs 12 --seed 50 --relay-count 1 \
+  --white mcts --black mcts --sims 40 \
+  --out docs/atlas/runs/observe-MvM-relay1-s50-n40.jsonl
+yarn atlas:diff --a …relay0… --b …relay1…
+```
 
 ---
 
@@ -272,11 +322,12 @@ Mover-only drafts already mined: `observe-MvM-s12-book.json`, etc.
 - [x] Deep-leaf ply-0 + ply-1 square map (principal I→5,4 / reply band)
 - [x] Opening visit tree under MCTS@40 with **coordinates** (n=80; left-I six-way band)
 - [x] Named depth-2 practice pairs (n≥3) — depth≥4 ECO blocked by branching
-- [ ] Optional: MvM@200 practice for sharper ply-0 collapse
+- [x] Drill links from Hub / Strike / Sector / Terminal themes
+- [x] MvM@200 practice for sharper ply-0 collapse (`observe-MvM-open-s41-m200`)
+- [x] Volume II MvM@40 n=120 middlegame book (`observe-MvM-mid-s42-n120`)
+- [x] Theme: Relay value (counterfactual Relay on/off observe) — small Δ; keep Relay
 - [ ] Theme: Contested-net stall — need coverage fields on ply events
-- [ ] Theme: Relay value (counterfactual Relay on/off observe)
 - [ ] Auto-extract “tip vs played” from annotate CLI into playbook stubs
-- [ ] Drill links from each theme → `/drills` / `/puzzles` ids
 
 ---
 

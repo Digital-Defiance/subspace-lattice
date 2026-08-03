@@ -1,0 +1,94 @@
+{
+  "generator": "board-size-probe",
+  "at": "2026-08-03T00:51:09.229Z",
+  "note": "Lab only — does not change shipping hybrid-fleet (boardSize 11).",
+  "games": 24,
+  "seed": 41,
+  "maxPlies": 300,
+  "sims": 40,
+  "sizes": [
+    11,
+    9
+  ],
+  "matchups": [
+    "HvH"
+  ],
+  "scaleRadiiModes": [
+    false,
+    true
+  ],
+  "cells": [
+    {
+      "label": "11x11 HvH",
+      "boardSize": 11,
+      "scaleRadii": false,
+      "matchup": "HvH",
+      "n": 24,
+      "hub": 2,
+      "sector": 0,
+      "lockout": 4,
+      "other": 0,
+      "truncated": 18,
+      "empFires": 38,
+      "pliesSum": 6358,
+      "whiteWins": 4,
+      "blackWins": 2,
+      "openingLegal": 183,
+      "openingSectorWhite": 0.25833333333333336
+    },
+    {
+      "label": "11x11+scale HvH",
+      "boardSize": 11,
+      "scaleRadii": true,
+      "matchup": "HvH",
+      "n": 24,
+      "hub": 3,
+      "sector": 0,
+      "lockout": 4,
+      "other": 0,
+      "truncated": 17,
+      "empFires": 38,
+      "pliesSum": 6557,
+      "whiteWins": 5,
+      "blackWins": 2,
+      "openingLegal": 183,
+      "openingSectorWhite": 0.25833333333333336
+    },
+    {
+      "label": "9x9 HvH",
+      "boardSize": 9,
+      "scaleRadii": false,
+      "matchup": "HvH",
+      "n": 24,
+      "hub": 0,
+      "sector": 2,
+      "lockout": 5,
+      "other": 0,
+      "truncated": 17,
+      "empFires": 27,
+      "pliesSum": 6292,
+      "whiteWins": 6,
+      "blackWins": 1,
+      "openingLegal": 101,
+      "openingSectorWhite": 0.35
+    },
+    {
+      "label": "9x9+scale HvH",
+      "boardSize": 9,
+      "scaleRadii": true,
+      "matchup": "HvH",
+      "n": 24,
+      "hub": 0,
+      "sector": 0,
+      "lockout": 0,
+      "other": 0,
+      "truncated": 24,
+      "empFires": 1,
+      "pliesSum": 7200,
+      "whiteWins": 0,
+      "blackWins": 0,
+      "openingLegal": 121,
+      "openingSectorWhite": 0.225
+    }
+  ]
+}

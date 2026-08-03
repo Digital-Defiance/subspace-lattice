@@ -1,0 +1,384 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-03T02:49:28.893Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-MvM-open-s41-m200.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-03T01:19:13.850Z",
+    "games": 40,
+    "seed": 41,
+    "rulesVersion": "hybrid-fleet",
+    "white": "mcts",
+    "black": "mcts",
+    "sims": 200,
+    "maxPlies": 400,
+    "jobs": 12
+  },
+  "games": 40,
+  "hasCoords": true,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 8,
+    "ply0": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 7,
+        "pct": 17.5
+      },
+      {
+        "key": "W:w-i1@5,4",
+        "count": 6,
+        "pct": 15
+      },
+      {
+        "key": "W:w-i1@4,3",
+        "count": 5,
+        "pct": 12.5
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 4,
+        "pct": 10
+      },
+      {
+        "key": "W:w-i1@4,2",
+        "count": 4,
+        "pct": 10
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 3,
+        "pct": 7.5
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 3,
+        "pct": 7.5
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 3,
+        "pct": 7.5
+      },
+      {
+        "key": "W:w-i1@5,2",
+        "count": 2,
+        "pct": 5
+      },
+      {
+        "key": "W:w-i2@5,4",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i2@6,4",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,4",
+        "count": 1,
+        "pct": 2.5
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-h1@2,7 | W:w-h2@8,3 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@3,7 | W:w-i2@4,2 | B:b-i2@5,7 | W:w-h2@8,3 | B:b-h1@2,8 | W:w-h1@2,2 | B:b-e2@6,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,8 | W:w-i2@3,3 | B:b-i2@7,7 | W:w-i1@5,4 | B:b-h2@8,7 | W:w-h2@8,3 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@4,7 | W:w-i2@6,4 | B:b-i2@6,7 | W:w-e3@5,2 | B:b-h1@2,7 | W:w-h1@2,3 | B:b-e1@4,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,4 | B:b-i1@6,8 | W:w-i2@3,3 | B:b-i2@4,8 | W:w-i1@5,4 | B:b-i1@5,7 | W:w-e1@4,1 | B:b-h2@8,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@7,3 | B:b-i1@4,8 | W:w-i2@4,2 | B:b-i2@6,8 | W:w-i1@4,4 | B:b-h2@8,7 | W:w-h2@8,3 | B:b-h2@5,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@4,8 | W:w-h2@8,3 | B:b-h2@8,7 | W:w-i1@5,4 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,2 | B:b-i1@6,8 | W:w-i2@6,2 | B:b-i2@5,7 | W:w-h2@8,3 | B:b-i1@4,7 | W:w-i2@5,4 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-i1@5,8 | W:w-i2@6,2 | B:b-i2@6,7 | W:w-h2@8,3 | B:b-e1@4,9 | W:w-i2@4,4 | B:b-e1@4,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@6,7 | W:w-i2@6,2 | B:b-i2@4,8 | W:w-i2@5,4 | B:b-h2@8,7 | W:w-e3@5,2 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@4,7 | W:w-i2@3,3 | B:b-i2@6,8 | W:w-h2@8,3 | B:b-i2@5,7 | W:w-h1@2,3 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-h1@2,7 | W:w-i2@6,3 | B:b-i1@6,7 | W:w-h1@2,3 | B:b-h2@8,7 | W:w-i2@6,4 | B:b-i2@3,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,2 | B:b-i1@4,8 | W:w-i2@5,4 | B:b-i2@4,7 | W:w-h1@2,3 | B:b-h1@2,7 | W:w-e2@6,1 | B:b-e2@6,9",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@7,7 | W:w-i2@4,4 | B:b-i2@6,7 | W:w-h1@2,2 | B:b-e3@5,8 | W:w-e1@4,1 | B:b-e3@5,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-i1@6,8 | W:w-i2@6,4 | B:b-i2@3,7 | W:w-e3@5,2 | B:b-h2@8,7 | W:w-h1@2,3 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@4,8 | W:w-i2@6,4 | B:b-i2@4,7 | W:w-e3@5,2 | B:b-h2@8,7 | W:w-h1@2,2 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@5,7 | W:w-i1@6,2 | B:b-i2@6,7 | W:w-i1@5,2 | B:b-h2@8,8 | W:w-h1@2,3 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i2@3,7 | W:w-i2@6,4 | B:b-i1@4,8 | W:w-h2@8,3 | B:b-h2@8,7 | W:w-i1@4,4 | B:b-h2@5,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@5,4 | B:b-i2@4,7 | W:w-i2@3,3 | B:b-i1@7,7 | W:w-i2@6,4 | B:b-h2@8,7 | W:w-e2@6,1 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 2.5
+      },
+      {
+        "key": "W:w-i1@7,3 | B:b-i1@7,7 | W:w-i2@5,4 | B:b-i2@6,8 | W:w-e3@5,2 | B:b-h2@8,7 | W:w-i1@4,3 | B:b-i1@5,7",
+        "count": 1,
+        "pct": 2.5
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:w-i1@6,3",
+        "count": 7,
+        "pct": 2.1875
+      },
+      {
+        "key": "W:w-i1@5,4",
+        "count": 6,
+        "pct": 1.875
+      },
+      {
+        "key": "W:w-i1@4,3",
+        "count": 5,
+        "pct": 1.5625
+      },
+      {
+        "key": "W:w-i1@6,2",
+        "count": 4,
+        "pct": 1.25
+      },
+      {
+        "key": "W:w-i1@4,2",
+        "count": 4,
+        "pct": 1.25
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@4,7",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@4,4",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@7,3",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@3,3",
+        "count": 3,
+        "pct": 0.9375
+      },
+      {
+        "key": "W:w-i1@6,3 | B:b-i1@6,7",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@4,2 | B:b-i1@6,8",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@4,3 | B:b-i1@4,7 | W:w-i2@3,3",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@5,2",
+        "count": 2,
+        "pct": 0.625
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7 | W:w-h1@2,3",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-h1@2,7 | W:w-h2@8,3",
+        "count": 1,
+        "pct": 0.3125
+      },
+      {
+        "key": "W:w-i1@6,2 | B:b-i1@6,7 | W:w-i2@4,3 | B:b-i2@3,7 | W:w-h1@2,3 | B:b-h1@2,7 | W:w-h2@8,3 | B:b-e3@5,8",
+        "count": 1,
+        "pct": 0.3125
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 234,
+        "pct": 48.75
+      },
+      {
+        "key": "Beam",
+        "count": 155,
+        "pct": 32.291666666666664
+      },
+      {
+        "key": "Escort",
+        "count": 91,
+        "pct": 18.958333333333332
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 2093,
+        "pct": 49.94034836554522
+      },
+      {
+        "key": "Infiltrator",
+        "count": 952,
+        "pct": 22.715342400381772
+      },
+      {
+        "key": "Beam",
+        "count": 849,
+        "pct": 20.257695060844668
+      },
+      {
+        "key": "CommandHub",
+        "count": 297,
+        "pct": 7.086614173228346
+      }
+    ],
+    "empRate": 0.031018849916487713,
+    "captureRate": 0.031973276067764254,
+    "plies": 4191
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 1526,
+        "pct": 35.98207969818439
+      },
+      {
+        "key": "Infiltrator",
+        "count": 1311,
+        "pct": 30.912520631926434
+      },
+      {
+        "key": "CommandHub",
+        "count": 747,
+        "pct": 17.613770337184626
+      },
+      {
+        "key": "Beam",
+        "count": 657,
+        "pct": 15.491629332704552
+      }
+    ],
+    "empRate": 0.013911813251591605,
+    "captureRate": 0.0231077576043386,
+    "plies": 4241,
+    "finishMix": [
+      {
+        "key": "sector-integration",
+        "count": 32,
+        "pct": 80
+      },
+      {
+        "key": "truncated",
+        "count": 7,
+        "pct": 17.5
+      },
+      {
+        "key": "hub-capture",
+        "count": 1,
+        "pct": 2.5
+      }
+    ]
+  }
+}

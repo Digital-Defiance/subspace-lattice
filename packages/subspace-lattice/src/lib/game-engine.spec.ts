@@ -10,8 +10,34 @@ describe('SubspaceLatticeEngine', () => {
     expect(state.rulesVersion).toBe('classic');
     expect(state.currentPlayer).toBe(PlayerColor.White);
     expect(state.pieces['w-ch']?.type).toBe(PieceType.CommandHub);
+    expect(state.pieces['w-ch']?.position).toEqual({ x: 5, y: 0 });
     expect(state.pieces['b-ch']?.type).toBe(PieceType.CommandHub);
     expect(engine.getCell({ x: 5, y: 5 })?.type).toBe(CellType.GravityWell);
+  });
+
+  it('centers the opening layout on a 9x9 boardSize override (lab)', () => {
+    const engine = new SubspaceLatticeEngine({
+      rulesVersion: 'hybrid-fleet',
+      boardSize: 9,
+    });
+    const state = engine.getState();
+    expect(state.boardSize).toBe(9);
+    expect(state.pieces['w-ch']?.position).toEqual({ x: 4, y: 0 });
+    expect(state.pieces['b-ch']?.position).toEqual({ x: 4, y: 8 });
+    // Same 9-piece roster; wings at center±3 / ±2 — no back-rank stacks.
+    expect(state.pieces['w-h1']?.position).toEqual({ x: 1, y: 0 });
+    expect(state.pieces['w-h2']?.position).toEqual({ x: 7, y: 0 });
+    expect(state.pieces['w-i1']?.position).toEqual({ x: 2, y: 0 });
+    expect(state.pieces['w-i2']?.position).toEqual({ x: 6, y: 0 });
+    expect(state.pieces['w-e1']?.position).toEqual({ x: 3, y: 0 });
+    expect(state.pieces['w-e2']?.position).toEqual({ x: 5, y: 0 });
+    expect(state.pieces['w-e4']?.position).toEqual({ x: 4, y: 2 });
+    const backFiles = Object.values(state.pieces)
+      .filter((p) => p.owner === PlayerColor.White && p.position.y === 0)
+      .map((p) => p.position.x);
+    expect(new Set(backFiles).size).toBe(backFiles.length);
+    expect(engine.getCell({ x: 4, y: 4 })?.type).toBe(CellType.GravityWell);
+    expect(engine.listLegalMoves(PlayerColor.White).length).toBeGreaterThan(0);
   });
 
   it('lists opening legal moves for white', () => {
