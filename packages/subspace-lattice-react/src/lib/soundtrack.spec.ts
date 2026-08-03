@@ -10,6 +10,7 @@ import {
   hasContestedSensorNet,
   resolveSoundtrackPhase,
   soundtrackPhasePools,
+  cueIdForSoundtrackPhase,
 } from './soundtrack';
 
 function stripToLoneHubs(engine: SubspaceLatticeEngine): void {
@@ -139,5 +140,10 @@ describe('soundtrackPhasePools', () => {
       'Pre-Mission Tension',
       'Pre-Mission Tension 2',
     ]);
+  });
+
+  it('maps resolved phase to the resolve cue id', () => {
+    expect(cueIdForSoundtrackPhase('command-deck')).toBe('command-deck');
+    expect(cueIdForSoundtrackPhase('resolved')).toBe('resolve');
   });
 });

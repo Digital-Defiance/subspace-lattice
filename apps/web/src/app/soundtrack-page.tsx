@@ -1,6 +1,15 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DocLink, SubspaceLatticeLogo, getSoundtrackVolume } from '@subspace-lattice/react';
+import {
+  DocLink,
+  SubspaceLatticeLogo,
+  cueIdForSoundtrackPhase,
+  getSoundtrackNowPlaying,
+  getSoundtrackVolume,
+  stopSoundtrack,
+  subscribeSoundtrackPlayback,
+  type SoundtrackNowPlaying,
+} from '@subspace-lattice/react';
 import { MarketingNav } from './marketing-nav';
 import './story.scss';
 import './soundtrack-page.scss';
@@ -102,26 +111,37 @@ function nextPlayThroughStem(stem: string): string | null {
 
 function TrackRow({
   stem,
-  activeStem,
+  previewStem,
+  liveStem,
   onToggle,
 }: {
   stem: string;
-  activeStem: string | null;
+  previewStem: string | null;
+  liveStem: string | null;
   onToggle: (stem: string) => void;
 }) {
-  const playing = activeStem === stem;
+  const previewing = previewStem === stem;
+  const live = !previewStem && liveStem === stem;
 
   return (
-    <li>
-      <span>{stem}</span>
+    <li className={live ? 'ost-cue__track--live' : undefined}>
+      <span>
+        {stem}
+        {live ? (
+          <span className="ost-cue__now" aria-label="Now playing">
+            {' '}
+            · now playing
+          </span>
+        ) : null}
+      </span>
       <button
         type="button"
-        className={`ost-cue__play${playing ? ' ost-cue__play--active' : ''}`}
-        aria-pressed={playing}
-        aria-label={playing ? `Stop ${stem}` : `Play ${stem}`}
+        className={`ost-cue__play${previewing ? ' ost-cue__play--active' : ''}`}
+        aria-pressed={previewing}
+        aria-label={previewing ? `Stop ${stem}` : `Play ${stem}`}
         onClick={() => onToggle(stem)}
       >
-        {playing ? 'Stop' : 'Play'}
+        {previewing ? 'Stop' : 'Play'}
       </button>
     </li>
   );
@@ -131,15 +151,32 @@ export function SoundtrackPage() {
   const briefId = useId();
   const cuesId = useId();
   const chainId = useId();
+  const nowId = useId();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const playThroughRef = useRef(false);
   const playStemRef = useRef<(stem: string) => void>(() => undefined);
-  const [activeStem, setActiveStem] = useState<string | null>(null);
+  const [previewStem, setPreviewStem] = useState<string | null>(null);
   const [playThrough, setPlayThrough] = useState(false);
+  const [live, setLive] = useState<SoundtrackNowPlaying | null>(() =>
+    getSoundtrackNowPlaying(),
+  );
 
   useEffect(() => {
     playThroughRef.current = playThrough;
   }, [playThrough]);
+
+  useEffect(() => {
+    const syncLive = () => setLive(getSoundtrackNowPlaying());
+    syncLive();
+    return subscribeSoundtrackPlayback(syncLive);
+  }, []);
+
+  useEffect(() => {
+    if (previewStem || !live) return;
+    const cueId = cueIdForSoundtrackPhase(live.phase);
+    const el = document.getElementById(cueId);
+    el?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [live, previewStem]);
 
   useEffect(() => {
     return () => {
@@ -149,6 +186,8 @@ export function SoundtrackPage() {
   }, []);
 
   const playStem = (stem: string) => {
+    // Preview takes the speakers — stop adaptive OST so two Audios don't stack.
+    stopSoundtrack();
     audioRef.current?.pause();
     const audio = new Audio(trackSrc(stem));
     audio.volume = getSoundtrackVolume();
@@ -161,14 +200,14 @@ export function SoundtrackPage() {
         playStemRef.current(next);
         return;
       }
-      setActiveStem(null);
+      setPreviewStem(null);
       audioRef.current = null;
     });
     audioRef.current = audio;
     void audio.play().then(
-      () => setActiveStem(stem),
+      () => setPreviewStem(stem),
       () => {
-        setActiveStem(null);
+        setPreviewStem(null);
         audioRef.current = null;
       },
     );
@@ -176,14 +215,19 @@ export function SoundtrackPage() {
   playStemRef.current = playStem;
 
   const toggleStem = (stem: string) => {
-    if (activeStem === stem) {
+    if (previewStem === stem) {
       audioRef.current?.pause();
       audioRef.current = null;
-      setActiveStem(null);
+      setPreviewStem(null);
       return;
     }
     playStem(stem);
   };
+
+  const liveCueId = live ? cueIdForSoundtrackPhase(live.phase) : null;
+  const liveCue = liveCueId
+    ? CUES.find((cue) => cue.id === liveCueId)
+    : undefined;
 
   return (
     <div className="story-page soundtrack-page">
@@ -205,6 +249,13 @@ export function SoundtrackPage() {
           to Terminal Overclock, the score tracks the fight you are actually
           in.”
         </blockquote>
+        {live && !previewStem ? (
+          <p className="ost-now-banner" aria-live="polite" id={nowId}>
+            Now playing · {liveCue?.title ?? live.phase}
+            {': '}
+            <a href={`#${liveCueId}`}>{live.stem}</a>
+          </p>
+        ) : null}
       </header>
 
       <main className="story-content">
@@ -244,28 +295,37 @@ export function SoundtrackPage() {
             </p>
           </div>
           <div className="ost-cues">
-            {CUES.map((cue) => (
-              <article key={cue.id} id={cue.id} className="ost-cue">
-                <span className="ost-cue__stage" aria-hidden="true">
-                  {cue.stage}
-                </span>
-                <div className="ost-cue__body">
-                  <p className="ost-cue__trigger">{cue.trigger}</p>
-                  <h3>{cue.title}</h3>
-                  <p className="ost-cue__behavior">{cue.behavior}</p>
-                  <ul className="ost-cue__tracks">
-                    {cue.tracks.map((track) => (
-                      <TrackRow
-                        key={track}
-                        stem={track}
-                        activeStem={activeStem}
-                        onToggle={toggleStem}
-                      />
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
+            {CUES.map((cue) => {
+              const cueLive = liveCueId === cue.id && !previewStem;
+              return (
+                <article
+                  key={cue.id}
+                  id={cue.id}
+                  className={`ost-cue${cueLive ? ' ost-cue--live' : ''}`}
+                  aria-current={cueLive ? 'true' : undefined}
+                >
+                  <span className="ost-cue__stage" aria-hidden="true">
+                    {cue.stage}
+                  </span>
+                  <div className="ost-cue__body">
+                    <p className="ost-cue__trigger">{cue.trigger}</p>
+                    <h3>{cue.title}</h3>
+                    <p className="ost-cue__behavior">{cue.behavior}</p>
+                    <ul className="ost-cue__tracks">
+                      {cue.tracks.map((track) => (
+                        <TrackRow
+                          key={track}
+                          stem={track}
+                          previewStem={previewStem}
+                          liveStem={live?.stem ?? null}
+                          onToggle={toggleStem}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
 

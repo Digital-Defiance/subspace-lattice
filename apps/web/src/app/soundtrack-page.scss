@@ -2,6 +2,30 @@ $teal: #34e3c5;
 $purple: #a855f7;
 $muted: #9eacc8;
 
+.ost-now-banner {
+  margin: 1.25rem 0 0;
+  max-width: 36rem;
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(52, 227, 197, 0.4);
+  border-radius: 0.75rem;
+  background: rgba(52, 227, 197, 0.08);
+  color: #edf5ff;
+  font-family: var(--font-sol-pro-regular);
+  font-size: 0.95rem;
+  line-height: 1.45;
+
+  a {
+    color: $teal;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}
+
 .ost-playback {
   display: flex;
   flex-wrap: wrap;
@@ -61,6 +85,18 @@ $muted: #9eacc8;
   &:last-child {
     border-bottom: 1px solid rgba(115, 139, 185, 0.2);
   }
+
+  &--live {
+    border-top-color: rgba(52, 227, 197, 0.45);
+
+    .ost-cue__stage {
+      color: $teal;
+    }
+
+    .ost-cue__body h3 {
+      color: $teal;
+    }
+  }
 }
 
 .ost-cue__stage {
@@ -118,6 +154,18 @@ $muted: #9eacc8;
     font-size: 0.92rem;
     letter-spacing: 0.02em;
   }
+
+  &.ost-cue__track--live {
+    border-color: rgba(52, 227, 197, 0.5);
+    background: rgba(52, 227, 197, 0.08);
+  }
+}
+
+.ost-cue__now {
+  color: $teal;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 
 .ost-cue__play {

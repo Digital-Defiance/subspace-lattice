@@ -39,6 +39,7 @@ export const DEFAULT_SOUNDTRACK_VOLUME = 0.38;
 export const SOUNDTRACK_VOLUME_STORAGE_KEY =
   'subspace-lattice.soundtrackVolume.v1';
 const VOLUME_CHANGE_EVENT = 'subspace-lattice:soundtrack-volume';
+const PLAYBACK_CHANGE_EVENT = 'subspace-lattice:soundtrack-playback';
 
 const VOID_CALL = ['Void Call', 'Void Call 2'] as const;
 const PRE_MISSION = [
@@ -248,6 +249,38 @@ function hardStopAudio(): void {
   currentAudio = null;
 }
 
+function notifyPlayback(): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event(PLAYBACK_CHANGE_EVENT));
+}
+
+export type SoundtrackNowPlaying = {
+  phase: SoundtrackPhase;
+  stem: string;
+};
+
+/** Adaptive OST currently audible (null when stopped / disabled). */
+export function getSoundtrackNowPlaying(): SoundtrackNowPlaying | null {
+  if (!currentPhase || !lastStem || !currentAudio) return null;
+  return { phase: currentPhase, stem: lastStem };
+}
+
+/**
+ * Map engine/UI phase → soundtrack page cue `id`
+ * (`resolved` → `resolve`).
+ */
+export function cueIdForSoundtrackPhase(phase: SoundtrackPhase): string {
+  return phase === 'resolved' ? 'resolve' : phase;
+}
+
+export function subscribeSoundtrackPlayback(
+  onChange: () => void,
+): () => void {
+  if (typeof window === 'undefined') return () => undefined;
+  window.addEventListener(PLAYBACK_CHANGE_EVENT, onChange);
+  return () => window.removeEventListener(PLAYBACK_CHANGE_EVENT, onChange);
+}
+
 function fadeOutThen(done: () => void): void {
   const audio = currentAudio;
   if (!audio) {
@@ -282,6 +315,7 @@ function playStem(
   audio.preload = 'auto';
   currentAudio = audio;
   lastStem = stem;
+  notifyPlayback();
   const gen = generation;
   audio.onended = () => {
     if (gen !== generation) return;
@@ -354,6 +388,7 @@ export function stopSoundtrack(): void {
   lastStem = null;
   activeMatchKey = null;
   sequenceNext = 0;
+  notifyPlayback();
 }
 
 export function setSoundtrackPreference(enabled: boolean): void {
@@ -419,6 +454,7 @@ export function syncSoundtrack(args: SyncSoundtrackArgs): void {
     hardStopAudio();
     currentPhase = null;
     lastStem = null;
+    notifyPlayback();
   }
 
   if (phase === 'resolved') {
