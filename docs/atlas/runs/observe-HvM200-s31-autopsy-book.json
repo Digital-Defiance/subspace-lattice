@@ -1,0 +1,193 @@
+{
+  "generator": "atlas-book",
+  "at": "2026-08-03T17:11:01.196Z",
+  "source": "/Volumes/Code/IWGF/subspace-lattice/docs/atlas/runs/observe-HvM200-s31-autopsy.jsonl",
+  "run": {
+    "type": "run",
+    "generator": "atlas-observe",
+    "at": "2026-08-02T19:29:22.546Z",
+    "games": 12,
+    "seed": 31,
+    "rulesVersion": "hybrid-fleet",
+    "white": "heuristic",
+    "black": "mcts",
+    "sims": 200,
+    "maxPlies": 600
+  },
+  "games": 2,
+  "hasCoords": true,
+  "hasCoverage": false,
+  "bands": {
+    "opening": "ply 0..11",
+    "middlegame": "ply 12..119",
+    "endgame": "ply 120+"
+  },
+  "opening": {
+    "depth": 8,
+    "ply0": [
+      {
+        "key": "W:w-i2@5,4",
+        "count": 1,
+        "pct": 50
+      },
+      {
+        "key": "W:w-i2@4,4",
+        "count": 1,
+        "pct": 50
+      }
+    ],
+    "lines": [
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7 | W:w-h2@8,3 | B:b-i1@5,7 | W:w-h1@2,3 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 50
+      },
+      {
+        "key": "W:w-i2@4,4 | B:b-i1@5,8 | W:w-i1@6,4 | B:b-i2@6,7 | W:w-h2@8,3 | B:b-h2@8,8 | W:w-h1@2,3 | B:b-h1@2,7",
+        "count": 1,
+        "pct": 50
+      }
+    ],
+    "prefixes": [
+      {
+        "key": "W:w-i2@5,4",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7 | W:w-h2@8,3",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7 | W:w-h2@8,3 | B:b-i1@5,7",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7 | W:w-h2@8,3 | B:b-i1@5,7 | W:w-h1@2,3",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@5,4 | B:b-i1@4,8 | W:w-i1@6,4 | B:b-i2@7,7 | W:w-h2@8,3 | B:b-i1@5,7 | W:w-h1@2,3 | B:b-h2@8,7",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@4,4",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@4,4 | B:b-i1@5,8",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@4,4 | B:b-i1@5,8 | W:w-i1@6,4",
+        "count": 1,
+        "pct": 6.25
+      },
+      {
+        "key": "W:w-i2@4,4 | B:b-i1@5,8 | W:w-i1@6,4 | B:b-i2@6,7",
+        "count": 1,
+        "pct": 6.25
+      }
+    ],
+    "moverShare": [
+      {
+        "key": "Infiltrator",
+        "count": 10,
+        "pct": 41.666666666666664
+      },
+      {
+        "key": "Beam",
+        "count": 8,
+        "pct": 33.333333333333336
+      },
+      {
+        "key": "Escort",
+        "count": 6,
+        "pct": 25
+      }
+    ],
+    "empRate": 0,
+    "captureRate": 0
+  },
+  "middlegame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 101,
+        "pct": 46.75925925925926
+      },
+      {
+        "key": "Beam",
+        "count": 60,
+        "pct": 27.77777777777778
+      },
+      {
+        "key": "Infiltrator",
+        "count": 42,
+        "pct": 19.444444444444443
+      },
+      {
+        "key": "CommandHub",
+        "count": 13,
+        "pct": 6.018518518518518
+      }
+    ],
+    "empRate": 0.013888888888888888,
+    "captureRate": 0.06018518518518518,
+    "plies": 216,
+    "coverage": null,
+    "contestedNetStall": null
+  },
+  "endgame": {
+    "moverShare": [
+      {
+        "key": "Escort",
+        "count": 223,
+        "pct": 59.78552278820376
+      },
+      {
+        "key": "CommandHub",
+        "count": 77,
+        "pct": 20.64343163538874
+      },
+      {
+        "key": "Beam",
+        "count": 73,
+        "pct": 19.571045576407506
+      }
+    ],
+    "empRate": 0.01876675603217158,
+    "captureRate": 0.024128686327077747,
+    "plies": 373,
+    "finishMix": [
+      {
+        "key": "no-moves",
+        "count": 2,
+        "pct": 100
+      }
+    ],
+    "coverage": null,
+    "contestedNetStall": null
+  }
+}

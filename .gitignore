@@ -105,3 +105,19 @@ Thumbs.db
 .nx/migrate-runs
 .claude/worktrees
 .claude/settings.local.json
+
+# Atlas burn runtime + smoke observes (cited corpora are committed explicitly)
+docs/atlas/runs/burn.pid
+docs/atlas/runs/burn-*.log
+docs/atlas/runs/observe-smoke-*
+
+# Neural lab datasets — regenerate with yarn dataset:jsonl / train scripts
+docs/sim-runs/dataset.jsonl
+docs/sim-runs/dataset-*.jsonl
+
+# Intermediate MLP checkpoints (shipped: value-mlp-v5-gpu.json only)
+packages/subspace-lattice/src/lib/ai/weights/value-mlp-v1.json
+packages/subspace-lattice/src/lib/ai/weights/value-mlp-v2.json
+packages/subspace-lattice/src/lib/ai/weights/value-mlp-v3.json
+packages/subspace-lattice/src/lib/ai/weights/value-mlp-v3-gpu.json
+packages/subspace-lattice/src/lib/ai/weights/value-mlp-v4-gpu.json
