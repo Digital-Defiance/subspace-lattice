@@ -254,6 +254,38 @@ const midgameDrills: FleetDrillLesson[] = [
       { x: 4, y: 4 },
     ],
   }),
+  /**
+   * Volume II — Infiltrator Trojan. Tip expand onto parked I activates an
+   * Escort-like crawler that takes the tip. Lateral expand is safe.
+   */
+  drill({
+    id: 'drill-refuse-fringe-infiltrator',
+    number: '06',
+    phase: 'midgame',
+    title: 'Refuse the fringe Infiltrator',
+    concept: 'Midgame · Trojan',
+    explanation:
+      'Black’s Infiltrator sits just outside your tip. Step onto the file and you paint them — Target Lock turns them into an Escort-like crawler that eats the tip. Expand sideways instead; leave the parasite in the dark.',
+    objective:
+      'Advance the tip Escort one square sideways (not onto the Infiltrator’s file).',
+    success:
+      'Net grew without activating the Trojan. Infiltrators cannot warp into your glow — only you can invite them in.',
+    plyCount: 24,
+    pieces: [
+      { id: 'w-ch', type: PieceType.CommandHub, owner: PlayerColor.White, x: 5, y: 0 },
+      { id: 'w-e1', type: PieceType.Escort, owner: PlayerColor.White, x: 5, y: 2 },
+      { id: 'w-e2', type: PieceType.Escort, owner: PlayerColor.White, x: 6, y: 2 },
+      { id: 'w-e3', type: PieceType.Escort, owner: PlayerColor.White, x: 6, y: 3 },
+      { id: 'b-i1', type: PieceType.Infiltrator, owner: PlayerColor.Black, x: 6, y: 5 },
+      { id: 'b-ch', type: PieceType.CommandHub, owner: PlayerColor.Black, x: 0, y: 10 },
+    ],
+    playerMove: { pieceId: 'w-e3', to: { x: 7, y: 3 } },
+    focusCells: [
+      { x: 6, y: 3 },
+      { x: 7, y: 3 },
+      { x: 6, y: 5 },
+    ],
+  }),
 ];
 
 /**
@@ -263,7 +295,7 @@ const midgameDrills: FleetDrillLesson[] = [
 const sectorDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-expand-net-45',
-    number: '06',
+    number: '07',
     phase: 'sector',
     title: 'Hit the Integration marker',
     concept: 'Sector · 45% coverage',
@@ -301,7 +333,7 @@ const sectorDrills: FleetDrillLesson[] = [
    */
   {
     id: 'drill-integration-hold',
-    number: '07',
+    number: '08',
     phase: 'sector',
     title: 'Finish Integration Hold',
     concept: 'Sector · hold clock',
@@ -356,7 +388,7 @@ const sectorDrills: FleetDrillLesson[] = [
 const strikeDrills: FleetDrillLesson[] = [
   drill({
     id: 'drill-surgical-strike',
-    number: '08',
+    number: '09',
     phase: 'strike',
     title: 'Deliver Surgical Strike',
     concept: 'Endgame · Hub capture',
@@ -380,7 +412,7 @@ const strikeDrills: FleetDrillLesson[] = [
 const terminalDrills: FleetDrillLesson[] = [
   {
     id: 'drill-terminal-lockout-fire',
-    number: '09',
+    number: '10',
     phase: 'terminal',
     title: 'Fire Terminal Lockout',
     concept: 'Terminal · Lockout',
@@ -394,7 +426,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-refuse-miss',
-    number: '10',
+    number: '11',
     phase: 'terminal',
     title: 'Refuse the out-of-range EMP',
     concept: 'Terminal · miss fuse',
@@ -408,7 +440,7 @@ const terminalDrills: FleetDrillLesson[] = [
   },
   {
     id: 'drill-terminal-close-for-blast',
-    number: '11',
+    number: '12',
     phase: 'terminal',
     title: 'Close for the growing blast',
     concept: 'Terminal · charge',

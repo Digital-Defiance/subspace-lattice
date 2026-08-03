@@ -304,17 +304,53 @@ export function evaluatePosition(
     let detectedMine = 0;
     let detectedTheirs = 0;
     for (const piece of Object.values(state.pieces)) {
-      if (engine.isPieceDetected(piece)) {
-        if (piece.owner === perspective) detectedMine += 1;
-        else detectedTheirs += 1;
+      if (!engine.isPieceDetected(piece)) continue;
+      if (piece.owner === perspective) {
+        detectedMine += 1;
+        continue;
       }
+      // Do not reward Target-Locking enemy Infiltrators — that is how Trojans
+      // activate. Other piece types still score as "caught in our net."
+      if (piece.type === PieceType.Infiltrator) continue;
+      detectedTheirs += 1;
     }
     score += (detectedTheirs - detectedMine) * 8;
+
+    // Infiltrator Trojan: Target-Locked enemy Infiltrators that can ortho-take
+    // our ships (especially the tip that just painted them) are parasites.
+    score -= trojanParasitePenalty(engine, perspective);
+    score += trojanParasitePenalty(engine, enemy) * 0.85;
   }
 
   score += terminalEmpEval(engine, perspective, myHub, enemyHub);
 
   return score;
+}
+
+/**
+ * Extra leaf cost when `owner` has activated enemy Infiltrators that can
+ * capture owner pieces right now (fringe expand onto a parked I).
+ */
+function trojanParasitePenalty(
+  engine: SubspaceLatticeEngine,
+  owner: PlayerColor,
+): number {
+  const state = engine.getState();
+  let penalty = 0;
+  for (const enemy of Object.values(state.pieces)) {
+    if (enemy.owner === owner) continue;
+    if (enemy.type !== PieceType.Infiltrator) continue;
+    if (!engine.isPieceDetected(enemy)) continue;
+    for (const mine of Object.values(state.pieces)) {
+      if (mine.owner !== owner) continue;
+      if (!engine.canMovePiece(enemy, mine.position)) continue;
+      // Heavier than raw hangingPressure so expand-onto-I loses to quiet expands.
+      const base = PIECE_VALUE[mine.type];
+      penalty += mine.type === PieceType.CommandHub ? base * 2 : base * 2.2;
+      break;
+    }
+  }
+  return penalty;
 }
 
 /** Sum of material values currently capturable by the opponent of `owner`. */

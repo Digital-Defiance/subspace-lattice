@@ -10,10 +10,11 @@ import {
 
 describe('FLEET_DRILLS pack', () => {
   it('covers the full arc with phase tags', () => {
-    expect(FLEET_DRILL_PACK.lessons).toHaveLength(11);
+    expect(FLEET_DRILL_PACK.lessons).toHaveLength(12);
     expect(FLEET_DRILLS.map((d) => d.phase)).toEqual([
       'opening',
       'opening',
+      'midgame',
       'midgame',
       'midgame',
       'midgame',
@@ -60,6 +61,14 @@ describe('FLEET_DRILLS pack', () => {
         );
         expect(engine.getState().winner).toBe(PlayerColor.White);
         expect(engine.getState().winnerReason).toBe('sector-integration');
+      }
+      if (lesson.id === 'drill-refuse-fringe-infiltrator') {
+        expect(engine.isPieceDetected(engine.getPiece('b-i1')!)).toBe(false);
+        // Temptation still legal before the good move.
+        const bait = createTutorialEngine(lesson);
+        expect(
+          bait.canMovePiece(bait.getPiece('w-e3')!, { x: 6, y: 4 }),
+        ).toBe(true);
       }
       if (lesson.id === 'drill-hold-the-hub') {
         expect(engine.getPiece('b-e1')).toBeUndefined();

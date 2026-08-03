@@ -174,7 +174,22 @@ Shrinking the net (**Trapdoor**) restores warp — it does not strand them.
 - Full “suffocation ring” is fantasy with n=2; **quarantine pair** is the real meta.
 
 **Next measure:** leaf / prior penalties for expanding onto Hub-adjacent fringe
-Infiltrators; optional drill seed.
+Infiltrators — **done** (`trojanParasitePenalty` + Escort prior −90);
+`/drills` `drill-refuse-fringe-infiltrator`.
+
+### 6. Hub bulldozer / Rolling Storm (sim-provisional)
+
+**Claim:** Hub r=3 is a moving coverage + exclusion disk. Marching it grows
+sector and can Target-Lock fringe Infiltrators — but midgame Hub walks clear
+EMP charge (unless Terminal lone-Hub Overclock, where Hub steps *add* charge),
+and Hub can stroll into Surgical Strike.
+
+**Evidence:** `hub-bulldozer.spec.ts` (2026-08-03). Dark (unlinked) Escorts
+paint nothing; linked rim tips grow less per step than a Hub king-step in the
+tested geometry.
+
+**Playbook:** Sector race tool in thin/Terminal positions; not a default midgame
+plan (keep Hub prior).
 
 ---
 
@@ -302,10 +317,12 @@ the workhorse plan piece. Sector remains the plurality decisive finish.
 
 | Theme | Voice | Player surface |
 | --- | --- | --- |
-| Hub wandering | sim-provisional | `/drills` `drill-hold-the-hub` · `/puzzles` `puzzle-refuse-bait`, `puzzle-secure-then-claim` |
+| Hub wandering | sim-provisional | `/drills` `drill-hold-the-hub` · `/puzzles` `puzzle-refuse-bait` |
+| Infiltrator Trojan | sim-provisional | `/drills` `drill-refuse-fringe-infiltrator` |
 | Surgical Strike plan | sim-provisional | `/drills` `drill-surgical-strike` · `puzzle-find-strike` |
 | Sector / Integration Hold | sim-provisional | `/drills` `drill-expand-net-45`, `drill-integration-hold` |
 | Overload timing | sim-provisional | Terminal drills + goldens |
+| Hub bulldozer | sim-provisional | goldens only — rare sector/Terminal plan |
 
 ### Relay value (sim-provisional, n=40×2 @40)
 

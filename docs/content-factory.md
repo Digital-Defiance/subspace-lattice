@@ -20,8 +20,8 @@ EMP steps use **Fire EMP** on the Objective HUD (puzzles enable it when `canFire
 | Phase | Drills |
 | --- | --- |
 | Opening | Capture Escort · Push net fringe |
-| Midgame | Capture Refractor · Beam lane · **Hold the Hub** |
-| Sector | Hit Integration marker (**45%**) · **Finish Integration Hold** |
+| Midgame | Capture Refractor · Beam lane · Hold the Hub · **Refuse fringe Infiltrator** |
+| Sector | Hit Integration marker (**45%**) · Finish Integration Hold |
 | Strike | Surgical Strike |
 | Terminal | Fire Lockout · Refuse miss · Close for blast |
 

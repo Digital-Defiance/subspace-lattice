@@ -264,6 +264,19 @@ export class HeuristicAi implements Agent {
     if (plyNow < 48 && engine.isHybrid()) {
       if (piece.type === PieceType.Escort && !target) {
         score += 6;
+        // Trojan tip: landing ortho-adjacent to a parked (undetected) enemy
+        // Infiltrator paints them and lets them take this Escort next.
+        for (const enemy of Object.values(engine.getState().pieces)) {
+          if (enemy.owner === piece.owner) continue;
+          if (enemy.type !== PieceType.Infiltrator) continue;
+          if (engine.isPieceDetected(enemy)) continue;
+          const dx = Math.abs(enemy.position.x - to.x);
+          const dy = Math.abs(enemy.position.y - to.y);
+          if ((dx === 1 && dy === 0) || (dx === 0 && dy === 1)) {
+            score -= 90;
+            break;
+          }
+        }
       }
       if (piece.type === PieceType.Infiltrator && !target) {
         const myHub = Object.values(engine.getState().pieces).find(
