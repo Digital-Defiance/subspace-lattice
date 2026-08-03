@@ -17,10 +17,38 @@ YouTube Fleet Academy series mirroring
 | `Episode09` | Practical AI Skirmish | Fleet Draft midgame (MCTS replay) | hand-written + AI gen |
 | `Episode10` | Infiltrator Deep Dive | Warp + Target Lock (Heuristic replay) | hand-written + AI gen |
 | `Episode11` | Lockout, EMP & Terminal Overclock | Mission 4 EMP reel + Mission 5 Terminal board reel (`mission-emp-lockout` / `mission-terminal-overclock`) | hand-written |
+| `Episode12` | **Atlas Midgame** — Overture · Trojan · Rolling Storm | Atlas playbook + short mission reels | hand-written |
 | `EpisodeStory01` | **The Battle for Sector 11** (lore) | Story stills in `public/story/ep-story-01/` | hand-written |
+| `OstVoidCall` … `OstLastSignal` | **Fleet OST** (no VO) | Cue-family mp3s + `story/scenes` | catalog |
 
 Board frames are the **same SVGs** as the advanced manual
 (`docs/figures/missions/…`), symlinked into `public/missions`.
+
+## Fleet OST (YouTube Music beds)
+
+Eight compositions — one per soundtrack family. No narration. Duration =
+sum of stems; visuals = hero still (~10s) then rotating `story/scenes`
+(~15–24s Ken Burns, deterministic shuffle per track).
+
+| Composition | Stems |
+|---|---|
+| `OstVoidCall` | Void Call · Void Call 2 |
+| `OstPreMission` | Pre-Mission Tension · 2 |
+| `OstVoidPulse` | Void Pulse · 2 · 3 · 4 |
+| `OstVoidProtocol` | Void Protocol · 2 · 3 · 4 |
+| `OstColdCalculations` | Cold Calculations · 2 · 3 · 4 |
+| `OstThermalCount` | The Last Thermal Count · 2 |
+| `OstFinalAlgorithm` | The Final Algorithm · 2 |
+| `OstLastSignal` | Last Signal Fades · 2 |
+
+```bash
+yarn videos:studio                 # pick OstVoidCall etc.
+yarn videos:ost:chapters           # → out/chapters-ost-*.txt
+yarn videos:render:ost-void-call   # → out/ost-void-call.mp4 (--concurrency=2)
+```
+
+Renders use `--concurrency=2` because the story stills are large RGBA PNGs;
+Remotion’s default 8× tabs often hit `EncodingError: The source image cannot be decoded`.
 
 Lore / story episodes can set optional `backgroundAsset` on any scene
 (filename under `public/story/<episode-id>/`). When present, Remotion uses that

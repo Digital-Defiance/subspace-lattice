@@ -1,6 +1,12 @@
 import React from 'react';
 import { Composition } from 'remotion';
 import { Episode, type EpisodeProps } from './compositions/Episode';
+import { OstFamilyVideo, type OstFamilyProps } from './compositions/OstFamily';
+import { OST_FAMILIES, OST_FPS } from './lib/ost-catalog';
+import {
+  ostFamilyDurationFrames,
+  resolveOstTrackDurations,
+} from './lib/resolve-ost-audio';
 import { resolveAudioSeconds } from './lib/resolve-audio';
 import { EpisodeScriptSchema, type EpisodeScript } from './lib/schema';
 import { episodeDurationFrames, FPS } from './lib/timing';
@@ -17,6 +23,7 @@ import ep08 from '../scripts/episodes/ep08-heavy-wing.json';
 import ep09 from '../scripts/episodes/ep09-ai-skirmish.json';
 import ep10 from '../scripts/episodes/ep10-infiltrator.json';
 import ep11 from '../scripts/episodes/ep11-lockout.json';
+import ep12 from '../scripts/episodes/ep12-atlas-midgame.json';
 import epStory01 from '../scripts/episodes/ep-story-01.json';
 
 function load(raw: unknown): EpisodeScript {
@@ -36,8 +43,14 @@ const episodes = [
   load(ep09),
   load(ep10),
   load(ep11),
+  load(ep12),
   load(epStory01),
 ];
+
+/** Placeholder until calculateMetadata measures mp3s. */
+function placeholderSeconds(stemCount: number): number[] {
+  return Array.from({ length: stemCount }, () => 120);
+}
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -66,6 +79,40 @@ export const RemotionRoot: React.FC = () => {
           }}
         />
       ))}
+
+      {OST_FAMILIES.map((family) => {
+        const placeholder = placeholderSeconds(family.stems.length);
+        return (
+          <Composition
+            key={family.compositionId}
+            id={family.compositionId}
+            component={OstFamilyVideo}
+            durationInFrames={ostFamilyDurationFrames(placeholder, OST_FPS)}
+            fps={OST_FPS}
+            width={1920}
+            height={1080}
+            defaultProps={
+              {
+                family,
+                trackSeconds: placeholder,
+              } satisfies OstFamilyProps
+            }
+            calculateMetadata={async ({ props }) => {
+              const trackSeconds = await resolveOstTrackDurations(props.family);
+              return {
+                durationInFrames: ostFamilyDurationFrames(trackSeconds, OST_FPS),
+                fps: OST_FPS,
+                width: 1920,
+                height: 1080,
+                props: {
+                  family: props.family,
+                  trackSeconds,
+                } satisfies OstFamilyProps,
+              };
+            }}
+          />
+        );
+      })}
     </>
   );
 };

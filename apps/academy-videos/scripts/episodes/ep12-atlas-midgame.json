@@ -1,0 +1,278 @@
+{
+  "id": "ep12-atlas-midgame",
+  "compositionId": "Episode12",
+  "title": "Atlas Midgame: Overture, Trojan & Rolling Storm",
+  "youtubeTitle": "Subspace Lattice Academy Ep.12 — Infiltrator Overture, Trojan & Rolling Storm",
+  "description": "Three compartmentalized lessons from the Lattice Atlas: open with Infiltrators (not Hub walks), refuse fringe parasites that punish bad net growth, and Rolling Storm — Hub as a sector tool, not a bait grab. Companion drills: /drills refuse-fringe · rolling-storm · hold-the-hub.",
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "scenes": [
+    {
+      "kind": "title",
+      "id": "title",
+      "eyebrow": "Fleet Academy · Episode 12 · Lattice Atlas",
+      "headline": "Overture, Fringe Parasites & Rolling Storm",
+      "subhead": "How engines open — then how midgame net growth and Hub walks actually work.",
+      "voiceover": "Episode twelve. Three separate lessons from lab search — not one continuous game. Chapter one: why the opening is an Infiltrator fight. Chapter two: fringe parasites that punish greedy net growth. Chapter three: Rolling Storm — when the Hub should march, and when it must stay put.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "chapters",
+      "headline": "Three chapters",
+      "bullets": [
+        "A · Open with Infiltrators",
+        "B · Refuse the fringe parasite",
+        "C · Rolling Storm + Hold the Hub"
+      ],
+      "voiceover": "Scrub the chapters as you like. These positions match the fleet drills in the app. We are teaching habits — not a chess-style opening book to drill by rote.",
+      "durationHintSec": 12
+    },
+
+    {
+      "kind": "narration",
+      "id": "ch-a-title",
+      "headline": "Chapter A · Infiltrator Overture",
+      "bullets": [
+        "Engines open with Infiltrators — almost always",
+        "Goal: plant a live Phase Runner in the midboard",
+        "This sets up fringe fights later — not a Hub stroll"
+      ],
+      "voiceover": "Chapter A: the Infiltrator Overture. Strong play starts by warping an Infiltrator into the midboard. You are not throwing the piece away — you are seating a Phase Runner where it can pressure growth later. Hub walks are the wrong habit on move one.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "board",
+      "id": "overture-start",
+      "missionId": "mission-infiltrator-overture",
+      "ply": 0,
+      "moveLabel": "Opening — hybrid-fleet start",
+      "overlays": { "nets": "both" },
+      "voiceover": "Standard fleet opening. Two Infiltrators per side. White to move. Search wants a Phase Runner first — not a Beam shuffle, and not a Hub parade.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "overture-principal",
+      "missionId": "mission-infiltrator-overture",
+      "ply": 1,
+      "moveLabel": "Ply 1 — White I → (5,4)",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "central hop — piece still safe" },
+      "voiceover": "White’s right-wing Infiltrator lands on five-four — a central hop. The piece is still yours, still mobile, and not hanging. Different wing landings also show up in play; the idea is the same: claim midboard with a warp, not with the flagship.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "overture-reply",
+      "missionId": "mission-infiltrator-overture",
+      "ply": 2,
+      "moveLabel": "Ply 2 — Black I → (6,7)",
+      "overlays": { "nets": "both" },
+      "voiceover": "Black answers with their own Infiltrator into six-seven. Beam or Escort replies are fine too — the point is tempo, not a forced mirror. Two Phase Runners now contest the middle. That is where Chapter A leads: an early knight fight that seeds the fringe battles in Chapter B.",
+      "durationHintSec": 16
+    },
+    {
+      "kind": "narration",
+      "id": "overture-leads",
+      "headline": "Where the Overture leads",
+      "bullets": [
+        "Parked Infiltrators later sit on your growth squares",
+        "Long games under search lean Sector Integration",
+        "Next: one hang that actually loses the piece"
+      ],
+      "voiceover": "So Chapter A is development, not sacrifice. Those Infiltrators will later park outside your Sensor Net and dare you to grow onto them. Long games under strong search usually finish by Sector Integration — not Surgical Strike. First, one opening mistake that really does throw the piece away.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "overture-trap-hang",
+      "missionId": "mission-overture-trap",
+      "ply": 1,
+      "moveLabel": "Trap — White hangs on (4,6)",
+      "overlays": { "nets": "both" },
+      "voiceover": "Contrast. White hops onto four-six instead. This square is different from five-four — here the Infiltrator is hung.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "overture-trap-take",
+      "missionId": "mission-overture-trap",
+      "ply": 2,
+      "moveLabel": "Black folds onto (4,6)",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "hung Infiltrator removed" },
+      "voiceover": "Black warps onto the same square and takes it. That is a real sacrifice — an unforced gift. Prefer safe central landings; skip this hang.",
+      "durationHintSec": 12
+    },
+
+    {
+      "kind": "narration",
+      "id": "ch-b-title",
+      "headline": "Chapter B · Refuse the fringe",
+      "bullets": [
+        "Exactly two Infiltrators per side",
+        "They cannot warp into your Sensor Net",
+        "You wake them by expanding onto their square"
+      ],
+      "voiceover": "Chapter B: refuse the fringe. You field exactly two Infiltrators a side — not a ring. They cannot warp into enemy glow. Their job is to sit just outside your net on squares you want for sector growth. If you expand onto them, hostile coverage locks their engines — they crawl like Escorts and capture the Escort that painted them.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "board",
+      "id": "trojan-setup",
+      "missionId": "mission-refuse-fringe-infiltrator",
+      "ply": 0,
+      "moveLabel": "Fringe — Black I outside the glow",
+      "overlays": { "nets": "both" },
+      "voiceover": "Linked White screen. Front Escort on six-three. Black’s Infiltrator sits on six-five — just outside your glow. Leave them dark and they cannot touch your Hub. Do not hope that shrinking the net later will strand them — Trapdoor restores their warp. With only two Infiltrators a side, you quarantine the grow squares. You do not build a fantasy ring.",
+      "durationHintSec": 18
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-refuse",
+      "missionId": "mission-refuse-fringe-infiltrator",
+      "ply": 0,
+      "revealPly": 1,
+      "prompt": "Net wants to grow. Onto the Infiltrator’s file, or sideways?",
+      "overlays": { "nets": "both" },
+      "voiceover": "Pause and predict. Your net wants to grow. Step onto the Infiltrator’s file — or grow sideways and leave the parasite dark?",
+      "durationHintSec": 10,
+      "revealVoiceover": "Sideways. Front Escort to seven-three. Net grew without waking the parasite. They cannot warp into your glow — only you can invite them in.",
+      "revealDurationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "refuse-done",
+      "missionId": "mission-refuse-fringe-infiltrator",
+      "ply": 1,
+      "moveLabel": "Refuse — Escort → (7,3)",
+      "overlays": { "nets": "both" },
+      "voiceover": "That matches the drill in the app: refuse the fringe Infiltrator. Expand where they are not.",
+      "durationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "trojan-paint",
+      "missionId": "mission-trojan-payoff",
+      "ply": 1,
+      "moveLabel": "Fail — Escort paints the file (6,4)",
+      "overlays": { "nets": "both", "targetLocked": true },
+      "voiceover": "Fail reel. Front Escort steps to six-four — onto the parasite’s file. Hostile coverage locks the engines down to a single orthogonal step. The gift is open.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "trojan-eat",
+      "missionId": "mission-trojan-payoff",
+      "ply": 2,
+      "moveLabel": "Parasite takes the Escort",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "activated I takes front Escort" },
+      "voiceover": "Black’s orthogonal crawl lands on six-four and removes the Escort that painted them. That is the payoff. Do not expand onto Hub-adjacent fringe Infiltrators.",
+      "durationHintSec": 12
+    },
+
+    {
+      "kind": "narration",
+      "id": "ch-c-title",
+      "headline": "Chapter C · Rolling Storm",
+      "bullets": [
+        "Hub radius three is a moving coverage disk",
+        "Unlinked Escorts paint nothing",
+        "Hub steps still reset midgame EMP charge"
+      ],
+      "voiceover": "Chapter C: Rolling Storm. The Command Hub carries a radius-three Sensor disk. Under search, the Hub rarely moves midgame — Escort is the workhorse. When you do march the Hub, make that step paint more coverage than a rim Escort would.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "board",
+      "id": "storm-setup",
+      "missionId": "mission-rolling-storm",
+      "ply": 0,
+      "moveLabel": "Dark Escort — paints nothing",
+      "overlays": { "nets": "both" },
+      "voiceover": "Thin board. Hub on two-two. Escort on two-five — too far to stay linked. Unlinked Escorts project nothing; they stay dark until connected. Marching that dark Escort does nothing for exclusive sector. The disk is on the Hub.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "pause-predict",
+      "id": "pause-storm",
+      "missionId": "mission-rolling-storm",
+      "ply": 0,
+      "revealPly": 1,
+      "prompt": "Grow coverage now. Move the dark Escort, or king-step the Hub?",
+      "overlays": { "nets": "both" },
+      "voiceover": "Pause and predict. You need coverage. Push the dark Escort, or king-step the Hub?",
+      "durationHintSec": 10,
+      "revealVoiceover": "Hub to three-three. One king-step moves the whole radius-three disk. That is Rolling Storm — Hub as a deliberate sector tool.",
+      "revealDurationHintSec": 8
+    },
+    {
+      "kind": "board",
+      "id": "storm-done",
+      "missionId": "mission-rolling-storm",
+      "ply": 1,
+      "moveLabel": "Rolling Storm — Hub → (3,3)",
+      "overlays": { "nets": "both" },
+      "stats": { "result": "radius-3 disk advanced" },
+      "voiceover": "Coverage grows with the flagship. A linked rim Escort usually grows less per step than a Hub king-step in this geometry. Use Rolling Storm in a sector race — then park again if you need Overload charge.",
+      "durationHintSec": 14
+    },
+    {
+      "kind": "narration",
+      "id": "hub-discipline",
+      "headline": "Twin: Hold the Hub",
+      "bullets": [
+        "Rolling Storm = Hub as paintbrush",
+        "Hold the Hub = refuse bait grabs",
+        "Same piece, opposite instincts by job"
+      ],
+      "voiceover": "Twin lesson. Rolling Storm is when the Hub is the paintbrush. Hold the Hub is when the Hub is bait. Same piece — opposite instincts by job.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "board",
+      "id": "hold-setup",
+      "missionId": "mission-hold-the-hub",
+      "ply": 0,
+      "moveLabel": "Bait — Hub could snatch the Escort",
+      "overlays": { "nets": "both", "hubEnPrise": true },
+      "voiceover": "Black Escort sits where your Hub can capture. Midgame Hub walks reset Overload charge and stroll into Surgical Strike. Leave the flagship.",
+      "durationHintSec": 10
+    },
+    {
+      "kind": "board",
+      "id": "hold-escort",
+      "missionId": "mission-hold-the-hub",
+      "ply": 1,
+      "moveLabel": "Escort does the capture",
+      "overlays": { "nets": "both" },
+      "stats": { "capture": "Escort takes — Hub parked" },
+      "voiceover": "Escort takes. Hub stays put. If your Hub is the most-moved piece in the middlegame, you are probably losing the charge race and the Strike race.",
+      "durationHintSec": 12
+    },
+    {
+      "kind": "narration",
+      "id": "contested-aside",
+      "headline": "Aside · Contested nets",
+      "bullets": [
+        "Read exclusive coverage — not raw glow size",
+        "Real contested stall shows up in the endgame",
+        "Middlegame under search is mostly an exclusive race"
+      ],
+      "voiceover": "Quick aside. Overlapping glow can stall exclusive sector progress in the endgame — but middlegame under search is usually an exclusive race near a quarter coverage each. Do not treat a fat contested blob as Integration progress. Fight the fringe or use Trapdoor when that blob appears.",
+      "durationHintSec": 14
+    },
+
+    {
+      "kind": "outro",
+      "id": "outro",
+      "headline": "Open with Phase Runners. Refuse parasites. Storm on purpose.",
+      "nextEpisode": "/drills · Lattice Atlas playbook",
+      "voiceover": "Three lessons. Open by seating Infiltrators in the midboard — keep them safe, skip the four-six hang. Refuse fringe parasites — grow beside them, not onto them. March the Hub only when Rolling Storm paints; otherwise Hold the Hub. Run the drills, then play Fast A.I.",
+      "durationHintSec": 14
+    }
+  ]
+}

@@ -77,4 +77,21 @@
     <grapheme>Tears</grapheme>
     <alias>Tares</alias>
   </lexeme>
+  <!-- One-word stress so TTS does not split "Target, Lock". -->
+  <lexeme>
+    <grapheme>Target Lock</grapheme>
+    <alias>Targetlock</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>target lock</grapheme>
+    <alias>targetlock</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>Target-Lock</grapheme>
+    <alias>Targetlock</alias>
+  </lexeme>
+  <lexeme>
+    <grapheme>target-lock</grapheme>
+    <alias>targetlock</alias>
+  </lexeme>
 </lexicon>

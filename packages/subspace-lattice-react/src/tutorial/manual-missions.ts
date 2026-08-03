@@ -31,6 +31,23 @@ import {
   terminalRefuseMiss,
   terminalRefuseMissSteps,
 } from './data/mission-terminal-goldens';
+import {
+  createHoldTheHubState,
+  createOvertureState,
+  createOvertureTrapState,
+  createRefuseFringeState,
+  createRollingStormState,
+  createTrojanPayoffState,
+  holdTheHubSteps,
+  overtureRules,
+  overtureSteps,
+  overtureTrapSteps,
+  refuseFringeRules,
+  refuseFringeSteps,
+  rollingStormRules,
+  rollingStormSteps,
+  trojanPayoffSteps,
+} from './data/mission-atlas-midgame';
 
 /**
  * Advanced-manual view of the guided missions.
@@ -175,6 +192,84 @@ export function buildManualMissions(): ManualMission[] {
       rules: terminalRefuseMiss.rules,
       createState: terminalRefuseMiss.createState,
       steps: terminalRefuseMissSteps,
+    },
+    {
+      id: 'mission-infiltrator-overture',
+      title: 'Atlas — Infiltrator Overture (principal)',
+      intro:
+        'Volume I opening theory from the Lattice Atlas. White’s Deep-leaf ' +
+        'principal is a right-wing Infiltrator into (5,4). Black’s knight-war ' +
+        'main line answers Infiltrator into (6,7).',
+      outro:
+        'Expect Infiltrator tempo early. Hub walks are not opening theory. ' +
+        'Deeper search finishes lean Sector Integration, not Surgical Strike.',
+      rules: overtureRules,
+      createState: createOvertureState,
+      steps: overtureSteps,
+    },
+    {
+      id: 'mission-overture-trap',
+      title: 'Atlas — Overture trap on (4,6)',
+      intro:
+        'A demoted White hop onto (4,6). Black can fold onto that square and ' +
+        'remove the hung Infiltrator — do not treat this as a sound try.',
+      outro: 'Hang demoted. Prefer the (5,4) central band.',
+      rules: overtureRules,
+      createState: createOvertureTrapState,
+      steps: overtureTrapSteps,
+    },
+    {
+      id: 'mission-refuse-fringe-infiltrator',
+      title: 'Atlas — Refuse the fringe Infiltrator',
+      intro:
+        'Trojan geometry. Black’s Infiltrator parks just outside your tip. ' +
+        'Expand onto their file and you Target Lock them into an Escort-like ' +
+        'crawler that eats the tip. Grow sideways instead.',
+      outro:
+        'Net grew without activating the parasite. Infiltrators cannot warp ' +
+        'into your glow — only you can invite them in.',
+      rules: refuseFringeRules,
+      createState: createRefuseFringeState,
+      steps: refuseFringeSteps,
+    },
+    {
+      id: 'mission-trojan-payoff',
+      title: 'Atlas — Trojan payoff (fail reel)',
+      intro:
+        'Same fringe board. Tip expands onto the Infiltrator’s file, paints ' +
+        'them, and loses the Escort to the ortho crawl.',
+      outro:
+        'That is the Trojan. Quarantine the expand squares — do not gift the tip.',
+      rules: refuseFringeRules,
+      createState: createTrojanPayoffState,
+      steps: trojanPayoffSteps,
+    },
+    {
+      id: 'mission-rolling-storm',
+      title: 'Atlas — Rolling Storm',
+      intro:
+        'Hub as a deliberate sector tool. The tip Escort is dark — marching it ' +
+        'paints nothing. One Command Hub king-step moves the whole r=3 Sensor ' +
+        'disk and grows exclusive coverage.',
+      outro:
+        'Coverage grew with the Hub disk. Use Rolling Storm when a Hub step ' +
+        'paints more than a tip — not as a midgame bait grab.',
+      rules: rollingStormRules,
+      createState: createRollingStormState,
+      steps: rollingStormSteps,
+    },
+    {
+      id: 'mission-hold-the-hub',
+      title: 'Atlas — Hold the Hub (discipline twin)',
+      intro:
+        'Fail-mode twin of Rolling Storm. The Hub could snatch that Escort — ' +
+        'leave it. Midgame Hub walks reset Overload charge and stroll into Strike.',
+      outro:
+        'Escort did the work. If your Hub is the most-moved piece midgame, you ' +
+        'are probably losing the charge race and the Strike race.',
+      rules: rollingStormRules,
+      createState: createHoldTheHubState,
+      steps: holdTheHubSteps,
     },
     {
       id: 'mission-ai-fleet-skirmish',
