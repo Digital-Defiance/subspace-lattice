@@ -146,7 +146,37 @@ Technique pages: [Clocks & Terminal](./clocks) · Terminal goldens in core.
 
 ---
 
-## Volume I — Opening
+### 5. Infiltrator Trojan / quarantine pair (sim-provisional)
+
+**Claim:** Each side has **exactly two** Infiltrators. They cannot warp into
+enemy Sensor Net. Their job is fringe parking: if you expand onto them they
+become Target Locked (warp off, **Escort-like ortho crawl**) and can take the
+piece that painted them. Refusing to expand leaves them harmless to the Hub.
+Shrinking the net (**Trapdoor**) restores warp — it does not strand them.
+
+**Evidence (engine goldens, 2026-08-03):**
+`packages/subspace-lattice/src/lib/ai/infiltrator-trojan.spec.ts` — 7/7 green.
+
+| Theory | Result |
+| --- | --- |
+| Roster = 2 per side | Confirmed |
+| Warp into Hub / enemy glow | Illegal |
+| Expand onto fringe I → ortho crawl + take expander | Confirmed |
+| Refuse expand → Hub safe from that I | Confirmed |
+| Trapdoor (shrink net) | Restores warp (polarity vs “strand” fiction) |
+| Quarantine pair on two expand cells | Both activates confirmed |
+
+**Playbook:**
+
+- **Do** park Infiltrators on squares the opponent wants for Sector / fringe.
+- **Don’t** expand onto an Infiltrator that is ortho-adjacent to your tip Escort.
+- **Don’t** expect net-collapse to neuter swallowed Infiltrators — it frees them.
+- Full “suffocation ring” is fantasy with n=2; **quarantine pair** is the real meta.
+
+**Next measure:** leaf / prior penalties for expanding onto Hub-adjacent fringe
+Infiltrators; optional drill seed.
+
+---
 
 ### How to read `atlas:book` output
 
