@@ -355,22 +355,17 @@ describe('SubspaceLatticeEngine hybrid rules', () => {
 
   it('clone preserves custom rules knobs for search branching', () => {
     const engine = new SubspaceLatticeEngine({
-      rules: {
-        version: 'hybrid',
-        boardSize: 11,
+      rules: resolveRulesConfig('hybrid', {
         sectorIntegrationRatio: 0.6,
         hubSensorRadius: 1,
         escortSensorRadius: 2,
         linkDistance: 3,
-        infiltratorSpoolUp: false,
-        infiltratorActivationPly: 0,
         sectorHoldPlies: 8,
         contestedCellsNeutral: true,
-        sectorActivationPly: 0,
         empRadius: 0,
         empChargeTarget: 0,
         empBlackoutPlies: 1,
-      },
+      }),
     });
     const clone = engine.clone();
     expect(clone.getRules()).toEqual(engine.getRules());

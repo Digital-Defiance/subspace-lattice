@@ -46,7 +46,11 @@ describe('FLEET_PUZZLES pack', () => {
               altEngine.movePiece(pm.pieceId, pm.to);
             }
             if (prior.aiMove) {
-              altEngine.movePiece(prior.aiMove.pieceId, prior.aiMove.to);
+              if (isEmpTutorialMove(prior.aiMove)) {
+                altEngine.fireEmp();
+              } else {
+                altEngine.movePiece(prior.aiMove.pieceId, prior.aiMove.to);
+              }
             }
           }
           const altPiece = altEngine.getPiece(alt.pieceId);
@@ -59,13 +63,18 @@ describe('FLEET_PUZZLES pack', () => {
 
         if (step.aiMove) {
           const ai = step.aiMove;
-          const aiPiece = engine.getPiece(ai.pieceId);
-          expect(aiPiece, `${tag} AI missing ${ai.pieceId}`).toBeTruthy();
-          expect(
-            engine.canMovePiece(aiPiece!, ai.to),
-            `${tag} illegal AI ${ai.pieceId}->(${ai.to.x},${ai.to.y})`,
-          ).toBe(true);
-          expect(engine.movePiece(ai.pieceId, ai.to), tag).toBe(true);
+          if (isEmpTutorialMove(ai)) {
+            expect(engine.canFireEmp(), tag).toBe(true);
+            expect(engine.fireEmp(), tag).toBe(true);
+          } else {
+            const aiPiece = engine.getPiece(ai.pieceId);
+            expect(aiPiece, `${tag} AI missing ${ai.pieceId}`).toBeTruthy();
+            expect(
+              engine.canMovePiece(aiPiece!, ai.to),
+              `${tag} illegal AI ${ai.pieceId}->(${ai.to.x},${ai.to.y})`,
+            ).toBe(true);
+            expect(engine.movePiece(ai.pieceId, ai.to), tag).toBe(true);
+          }
         }
       }
 

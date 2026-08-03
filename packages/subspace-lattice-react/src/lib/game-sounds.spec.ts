@@ -282,6 +282,7 @@ describe('collectLatticeSoundsAfterPly', () => {
     hub!.enginesFused = true;
     after.plyCount = (before.plyCount ?? 0) + 1;
     const sounds = collectLatticeSoundsAfterPly(before, after, rules, {
+      moverType: PieceType.CommandHub,
       empFired: true,
       terminalEmp: true,
     });
@@ -309,6 +310,7 @@ describe('collectLatticeSoundsAfterPly', () => {
     );
     hub!.enginesFused = true;
     const sounds = collectLatticeSoundsAfterPly(before, after, rules, {
+      moverType: PieceType.CommandHub,
       empFired: true,
       terminalEmp: true,
     });
