@@ -8,7 +8,9 @@ export type WinnerReason =
   | 'hub-capture'
   | 'no-moves'
   | 'sector-integration'
-  | 'resign';
+  | 'resign'
+  /** Local AI conceded a mathematically forced loss (Grandmaster resignation). */
+  | 'ai-resigned';
 
 /** Lobby-tunable knobs persisted on GameState (see RulesConfig). */
 export interface GameRulesOverrides {

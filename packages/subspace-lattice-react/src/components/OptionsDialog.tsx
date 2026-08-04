@@ -1,6 +1,7 @@
 import React, { useId } from 'react';
 import { PieceStyles, getStyleRimFlags } from './PieceStyles';
 import { SoundMuteButton } from './SoundMuteButton';
+import { useAiResignOnForcedLoss } from '../hooks/useAiResignOnForcedLoss';
 import { useBoardContrastOutline } from '../hooks/useBoardContrastOutline';
 import { useGameLogLpgn } from '../hooks/useGameLogLpgn';
 import { useGameSoundsVolume } from '../hooks/useGameSoundsVolume';
@@ -63,6 +64,8 @@ export const OptionsDialog: React.FC<OptionsDialogProps> = ({ onClose }) => {
   const [sfxVolume, setSfxVolume] = useGameSoundsVolume();
   const [ostVolume, setOstVolume] = useSoundtrackVolume();
   const [lpgnLog, setLpgnLog] = useGameLogLpgn();
+  const [aiResignOnForcedLoss, setAiResignOnForcedLoss] =
+    useAiResignOnForcedLoss();
   const rimFlags = getStyleRimFlags(styleIndex);
   const bakedOutline =
     rimFlags.lightRimOnBlack && rimFlags.lightRimOnWhite;
@@ -189,6 +192,23 @@ export const OptionsDialog: React.FC<OptionsDialogProps> = ({ onClose }) => {
               onClick={() => setLpgnLog(!lpgnLog)}
             >
               {lpgnLog ? 'On' : 'Off'}
+            </button>
+          </div>
+        </section>
+
+        <section className="options-section" aria-labelledby="options-ai">
+          <h3 id="options-ai">Local AI</h3>
+          <div className="options-row">
+            <span className="options-row__label">Resign on forced loss</span>
+            <button
+              type="button"
+              className="options-control-btn"
+              aria-pressed={aiResignOnForcedLoss}
+              data-testid="options-ai-resign-forced-loss"
+              title="When search is confident every reply is a forced loss, the AI resigns instead of playing on. Off forces play to the bitter end."
+              onClick={() => setAiResignOnForcedLoss(!aiResignOnForcedLoss)}
+            >
+              {aiResignOnForcedLoss ? 'On' : 'Off'}
             </button>
           </div>
         </section>

@@ -9,6 +9,7 @@ import {
   AI_STRENGTH_PRESETS,
   AiStrengthId,
   advisorRequiresUnrateConsent,
+  describeWinnerReason,
   formatSystemLogLine,
   isAdvisorAvailable,
   isRoomRated,
@@ -732,7 +733,10 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               <p className="winner-announcement">
                 <strong>
                   WINNER: {passPlayLabel(state.winner)}
-                  {state.winnerReason ? ` (${state.winnerReason})` : ''}!
+                  {state.winnerReason
+                    ? ` — ${describeWinnerReason(state.winnerReason)}`
+                    : ''}
+                  !
                 </strong>
               </p>
               <ExportLpgnButton
@@ -867,7 +871,10 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               <p className="winner-announcement">
                 <strong>
                   WINNER: {state.winner}
-                  {state.winnerReason ? ` (${state.winnerReason})` : ''}!
+                  {state.winnerReason
+                    ? ` — ${describeWinnerReason(state.winnerReason)}`
+                    : ''}
+                  !
                 </strong>
               </p>
               <ExportLpgnButton
@@ -1329,7 +1336,7 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
               <strong>
                 WINNER: {engine.getState().winner}
                 {engine.getState().winnerReason
-                  ? ` (${engine.getState().winnerReason})`
+                  ? ` — ${describeWinnerReason(engine.getState().winnerReason)}`
                   : ''}
                 !
               </strong>

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  PieceType,
   PlayerColor,
   resolveRulesConfig,
   SubspaceLatticeEngine,
@@ -196,8 +197,8 @@ describe('room-logic', () => {
   it('applyAuthoritativeAction rejects moves before an opponent seats', () => {
     const room = baseRoom();
     const state = new SubspaceLatticeEngine().getState();
-    const piece = state.pieces.find(
-      (p) => p.player === PlayerColor.White && p.type !== 'COMMAND_HUB',
+    const piece = Object.values(state.pieces).find(
+      (p) => p.owner === PlayerColor.White && p.type !== PieceType.CommandHub,
     );
     expect(piece).toBeDefined();
     const result = applyAuthoritativeAction(state, 'white-1', room, {

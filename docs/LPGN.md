@@ -133,7 +133,7 @@ White’s home rank is `y = 0` → rank **1**. Black’s home rank is `y = 10` �
 
 | Tag | Meaning |
 | --- | --- |
-| `Termination` | `hub-capture` · `sector-integration` · `no-moves` · `resign` (mirrors `winnerReason`) |
+| `Termination` | `hub-capture` · `sector-integration` · `no-moves` · `resign` · `ai-resigned` (mirrors `winnerReason`) |
 | `Sector` | online room code |
 | `TEI` | `rated` · `casual` · `assisted` |
 | `PlyCount` | final `plyCount` |
@@ -250,6 +250,16 @@ Example (White resigns after Black’s first reply):
 
 with `[Termination "resign"]`.
 
+Local AI Grandmaster resignation (no resign ply token — header only):
+
+```text
+1. pe5e6 ne7e6 2. Kd1e1 1-0
+```
+
+with `[Termination "ai-resigned"]` when the engine seat conceded a forced loss
+(`winnerReason: ai-resigned`). Same Result mapping as a human resign by the
+losing side.
+
 ---
 
 ## 8. Results & termination
@@ -267,7 +277,8 @@ Map `winnerReason` into `Termination` when known:
 | `hub-capture` | winner’s `1-0` / `0-1` | Surgical Strike |
 | `sector-integration` | winner’s | Sector clock |
 | `no-moves` | winner’s | Lockout (often after `EMP@` / `TEMP@`) |
-| `resign` | opponent’s | Chess-normal |
+| `resign` | opponent’s | Chess-normal human / online resign |
+| `ai-resigned` | opponent’s | Local AI conceded a forced loss (no move token) |
 
 Brace comments are allowed anywhere a PGN comment would be:
 

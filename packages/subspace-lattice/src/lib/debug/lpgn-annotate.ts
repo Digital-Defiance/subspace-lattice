@@ -20,7 +20,11 @@ import {
 } from '../ai/advisor';
 import type { AiStrengthId } from '../ai/mcts-ai';
 import { yieldToMain } from '../ai/cooperative-yield';
-import { coordToLpgnSquare, pieceLetter } from './lpgn';
+import {
+  coordToLpgnSquare,
+  describeWinnerReason,
+  pieceLetter,
+} from './lpgn';
 import type { LpgnReplayPly, LpgnReplayResult } from './lpgn-replay';
 
 const PIECE_LABEL: Record<PieceType, string> = {
@@ -231,7 +235,7 @@ function factsForPly(
   }
   if (ply.after.winner) {
     facts.push(
-      `**${seatName(ply.after.winner)} wins** (${ply.after.winnerReason ?? 'unknown'})`,
+      `**${seatName(ply.after.winner)} wins** — ${describeWinnerReason(ply.after.winnerReason)}`,
     );
   }
   const w = netPct(ply.after, PlayerColor.White, engineBefore);
@@ -714,9 +718,19 @@ export async function annotateLpgnReplay(
 
   const summary: string[] = [];
   const h = replay.parsed.headers;
+  const terminationLabel = h.Termination
+    ? describeWinnerReason(h.Termination)
+    : 'unterminated';
   summary.push(
-    `${h.White ?? 'White'} vs ${h.Black ?? 'Black'} — ${h.Result ?? '*'} (${h.Termination ?? 'unterminated'})`,
+    `${h.White ?? 'White'} vs ${h.Black ?? 'Black'} — ${h.Result ?? '*'} (${terminationLabel})`,
   );
+  if (h.Termination === 'ai-resigned') {
+    summary.push(
+      'Ended by Grandmaster resignation: search judged every legal reply a forced loss.',
+    );
+  } else if (h.Termination === 'resign') {
+    summary.push('Ended by resignation.');
+  }
   summary.push(
     `${replay.plies.length} plies · ${h.Rules ?? '?'} · ${h.HeavyWing ?? '?'}`,
   );

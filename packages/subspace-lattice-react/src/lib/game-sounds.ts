@@ -329,6 +329,7 @@ export function collectLatticeSoundsAfterPly(
         play.push('sector-integration');
         break;
       case 'resign':
+      case 'ai-resigned':
         play.push('resignation');
         break;
       default:

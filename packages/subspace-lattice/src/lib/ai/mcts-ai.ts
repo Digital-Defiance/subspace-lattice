@@ -46,6 +46,23 @@ export interface MctsAiOptions {
   name?: string;
   /** Yield to the event loop every N simulations (async search only). */
   yieldEvery?: number;
+  /**
+   * Distance-to-mate decay γ ∈ (0, 1]. Terminal rewards are discounted by
+   * γ^depth so the search prefers faster wins and longer stubborn losses.
+   * Default 0.99.
+   */
+  dtmGamma?: number;
+}
+
+/** Root search summary for UI resignation / analysis (after chooseMove*). */
+export interface MctsRootSearchStats {
+  rootVisits: number;
+  simulationBudget: number;
+  /**
+   * Best child mean *undiscounted* outcome in [0, 1] from root STM.
+   * Used for forced-loss resignation (DTM discount must not inflate this).
+   */
+  bestChildWinRate: number;
 }
 
 interface MctsNode {
@@ -54,8 +71,13 @@ interface MctsNode {
   children: MctsNode[];
   untried: AgentMove[];
   visits: number;
-  /** Total reward from root player's perspective in [0, 1]. */
+  /** Total DTM-discounted reward from root player's perspective in [0, 1]. */
   totalReward: number;
+  /**
+   * Undiscounted outcome sum in [0, 1] (raw terminal 0/1 or leaf sigmoid).
+   * Win-rate reporting / Grandmaster resignation use this, not totalReward.
+   */
+  totalRawReward: number;
 }
 
 /**
@@ -74,9 +96,11 @@ export class MctsAi implements Agent {
   private readonly timeBudgetMs: number | undefined;
   private readonly maxBranch: number;
   private readonly yieldEvery: number;
+  private readonly dtmGamma: number;
   private readonly heuristic: HeuristicAi;
   /** Last root value in [-1, 1] from side-to-move's perspective (after search). */
   private lastSearchValue: number | null = null;
+  private lastRootStats: MctsRootSearchStats | null = null;
 
   constructor(options: MctsAiOptions = {}) {
     this.simulations = options.simulations ?? 100;
@@ -89,6 +113,10 @@ export class MctsAi implements Agent {
     this.timeBudgetMs = options.timeBudgetMs;
     this.maxBranch = options.maxBranch ?? 48;
     this.yieldEvery = options.yieldEvery ?? 32;
+    const gamma = options.dtmGamma ?? 0.99;
+    this.dtmGamma = Number.isFinite(gamma)
+      ? Math.min(1, Math.max(1e-6, gamma))
+      : 0.99;
     this.heuristic = new HeuristicAi(this.rng);
     this.name =
       options.name ??
@@ -97,6 +125,7 @@ export class MctsAi implements Agent {
 
   chooseMove(engine: SubspaceLatticeEngine): AgentMove | null {
     this.lastSearchValue = null;
+    this.lastRootStats = null;
     const setup = this.beginSearch(engine);
     if (setup.done) {
       this.lastSearchValue = this.estimateTerminalOrShallow(engine, setup.move);
@@ -115,6 +144,33 @@ export class MctsAi implements Agent {
     return this.lastSearchValue;
   }
 
+  /** Root visit / best-child stats from the last full MCTS search. */
+  getLastRootStats(): MctsRootSearchStats | null {
+    return this.lastRootStats;
+  }
+
+  /**
+   * True when the last search is confident every root reply is a near-forced
+   * loss (Grandmaster resignation gate). Uses undiscounted child win rates.
+   */
+  isForcedLossResignation(
+    options: {
+      minVisits?: number;
+      maxBestWinRate?: number;
+      minVisitFraction?: number;
+    } = {},
+  ): boolean {
+    const stats = this.lastRootStats;
+    if (!stats || stats.rootVisits <= 0) return false;
+    const minVisits = options.minVisits ?? 1000;
+    const maxBestWinRate = options.maxBestWinRate ?? 0.001;
+    const minVisitFraction = options.minVisitFraction ?? 0.8;
+    const confident =
+      stats.rootVisits > minVisits ||
+      stats.rootVisits > minVisitFraction * stats.simulationBudget;
+    return confident && stats.bestChildWinRate < maxBestWinRate;
+  }
+
   /**
    * Lab / Atlas: run root search and return per-child visit stats.
    * Use a high `maxBranch` (e.g. 200) when rating full opening fan-out.
@@ -122,10 +178,11 @@ export class MctsAi implements Agent {
   analyzeRoot(engine: SubspaceLatticeEngine): {
     move: AgentMove;
     visits: number;
-    /** Mean reward in [0,1] from root side-to-move's perspective. */
+    /** Mean undiscounted outcome in [0,1] from root side-to-move's perspective. */
     winRate: number;
   }[] {
     this.lastSearchValue = null;
+    this.lastRootStats = null;
     const setup = this.beginSearch(engine);
     if (setup.done) {
       if (!setup.move) return [];
@@ -138,7 +195,7 @@ export class MctsAi implements Agent {
       .map((c) => ({
         move: c.move!,
         visits: c.visits,
-        winRate: c.visits > 0 ? c.totalReward / c.visits : 0,
+        winRate: c.visits > 0 ? c.totalRawReward / c.visits : 0,
       }))
       .sort((a, b) => b.visits - a.visits);
   }
@@ -146,9 +203,22 @@ export class MctsAi implements Agent {
   private recordRootValue(root: MctsNode): void {
     if (root.visits <= 0) {
       this.lastSearchValue = null;
+      this.lastRootStats = null;
       return;
     }
+    // Search value stays on discounted backups (stubborn-defense UCT signal).
     this.lastSearchValue = 2 * (root.totalReward / root.visits) - 1;
+    let bestRaw = 0;
+    for (const child of root.children) {
+      if (child.visits <= 0) continue;
+      const rate = child.totalRawReward / child.visits;
+      if (rate > bestRaw) bestRaw = rate;
+    }
+    this.lastRootStats = {
+      rootVisits: root.visits,
+      simulationBudget: this.simulations,
+      bestChildWinRate: bestRaw,
+    };
   }
 
   private estimateTerminalOrShallow(
@@ -178,6 +248,7 @@ export class MctsAi implements Agent {
     } = {},
   ): Promise<AgentMove | null> {
     this.lastSearchValue = null;
+    this.lastRootStats = null;
     options.onProgress?.(0, Math.max(1, this.simulations));
     await yieldToMain();
     const setup = this.beginSearch(engine);
@@ -235,6 +306,7 @@ export class MctsAi implements Agent {
       untried: [...rootMoves],
       visits: 0,
       totalReward: 0,
+      totalRawReward: 0,
     };
     return { done: false, root, rootPlayer };
   }
@@ -272,9 +344,9 @@ export class MctsAi implements Agent {
       if (deadline != null && Date.now() >= deadline) return false;
       if (i >= this.simulations) return false;
       const simEngine = engine.clone();
-      const leaf = this.selectAndExpand(root, simEngine, rootPlayer);
-      const reward = this.rollout(simEngine, rootPlayer);
-      this.backprop(leaf, reward);
+      const { leaf, depth } = this.selectAndExpand(root, simEngine, rootPlayer);
+      const { reward, rawReward } = this.rollout(simEngine, rootPlayer, depth);
+      this.backprop(leaf, reward, rawReward);
       return true;
     };
 
@@ -391,22 +463,25 @@ export class MctsAi implements Agent {
     root: MctsNode,
     engine: SubspaceLatticeEngine,
     rootPlayer: PlayerColor,
-  ): MctsNode {
+  ): { leaf: MctsNode; depth: number } {
     let node = root;
+    let depth = 0;
     while (node.untried.length === 0 && node.children.length > 0) {
       const maximizing = engine.getState().currentPlayer === rootPlayer;
       node = this.uctSelect(node, maximizing);
       if (!node.move || !applyAgentMove(engine, node.move)) {
-        return node;
+        return { leaf: node, depth };
       }
-      if (engine.getState().winner) return node;
+      depth += 1;
+      if (engine.getState().winner) return { leaf: node, depth };
     }
 
     if (node.untried.length > 0) {
       // Prefer expanding higher-prior untried moves when scored.
       const move = this.popPrioritizedUntried(engine, node);
-      if (!move) return node;
+      if (!move) return { leaf: node, depth };
       applyAgentMove(engine, move);
+      depth += 1;
       const child: MctsNode = {
         move,
         parent: node,
@@ -414,15 +489,16 @@ export class MctsAi implements Agent {
         untried: engine.getState().winner ? [] : this.legalActions(engine),
         visits: 0,
         totalReward: 0,
+        totalRawReward: 0,
       };
       if (child.untried.length > this.maxBranch) {
         child.untried = this.sampleByPrior(engine, child.untried, this.maxBranch);
       }
       node.children.push(child);
-      return child;
+      return { leaf: child, depth };
     }
 
-    return node;
+    return { leaf: node, depth };
   }
 
   private popPrioritizedUntried(
@@ -588,7 +664,8 @@ export class MctsAi implements Agent {
   private rollout(
     engine: SubspaceLatticeEngine,
     rootPlayer: PlayerColor,
-  ): number {
+    startDepth: number,
+  ): { reward: number; rawReward: number } {
     let plies = 0;
     while (!engine.getState().winner && plies < this.maxRolloutPlies) {
       const actions = this.legalActions(engine);
@@ -608,12 +685,37 @@ export class MctsAi implements Agent {
       q += 1;
     }
 
+    const depth = startDepth + plies + q;
     const winner = engine.getState().winner;
-    if (winner === rootPlayer) return 1;
-    if (winner && winner !== rootPlayer) return 0;
+    if (winner === rootPlayer) {
+      return {
+        rawReward: 1,
+        reward: this.discountedTerminalReward(1, depth),
+      };
+    }
+    if (winner && winner !== rootPlayer) {
+      return {
+        rawReward: 0,
+        reward: this.discountedTerminalReward(0, depth),
+      };
+    }
 
     const evalScore = evaluatePosition(engine, rootPlayer);
-    return 1 / (1 + Math.exp(-evalScore / 200));
+    const leaf = 1 / (1 + Math.exp(-evalScore / 200));
+    return { reward: leaf, rawReward: leaf };
+  }
+
+  /**
+   * DTM discount on [0,1] terminals via centered ±1 scale:
+   * reward = 0.5 + (undiscounted - 0.5) * γ^depth.
+   * Faster wins stay nearer 1; delayed losses stay nearer 0.5 than instant mates.
+   */
+  private discountedTerminalReward(
+    undiscounted: 0 | 1,
+    depth: number,
+  ): number {
+    const decay = this.dtmGamma ** Math.max(0, depth);
+    return 0.5 + (undiscounted - 0.5) * decay;
   }
 
   private tacticalActions(engine: SubspaceLatticeEngine): AgentMove[] {
@@ -666,11 +768,16 @@ export class MctsAi implements Agent {
     return out;
   }
 
-  private backprop(node: MctsNode, reward: number): void {
+  private backprop(
+    node: MctsNode,
+    reward: number,
+    rawReward: number,
+  ): void {
     let current: MctsNode | null = node;
     while (current) {
       current.visits += 1;
       current.totalReward += reward;
+      current.totalRawReward += rawReward;
       current = current.parent;
     }
   }

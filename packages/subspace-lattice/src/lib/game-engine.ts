@@ -557,16 +557,20 @@ export class SubspaceLatticeEngine {
   }
 
   /**
-   * Resign: opponent wins immediately (`winnerReason: resign`).
+   * Resign: opponent wins immediately (`winnerReason: resign` by default).
+   * Pass `ai-resigned` when the local AI concedes a forced loss.
    * Defaults to the side to move.
    */
-  public resign(color: PlayerColor = this.state.currentPlayer): boolean {
+  public resign(
+    color: PlayerColor = this.state.currentPlayer,
+    reason: Extract<WinnerReason, 'resign' | 'ai-resigned'> = 'resign',
+  ): boolean {
     if (this.state.winner) return false;
     const hasSeat = Object.values(this.state.pieces).some((p) => p.owner === color);
     if (!hasSeat) return false;
     const winner =
       color === PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
-    this.setWinner(winner, 'resign');
+    this.setWinner(winner, reason);
     return true;
   }
 

@@ -53,6 +53,7 @@ export * from './hooks/useGameSync';
 export * from './hooks/useGameLogLpgn';
 export * from './hooks/useShowPowerRelay';
 export * from './hooks/useLocalAiGame';
+export * from './hooks/useAiResignOnForcedLoss';
 export * from './hooks/usePassAndPlayGame';
 export * from './hooks/useLatticeGameSounds';
 export * from './hooks/useLatticeSoundtrack';

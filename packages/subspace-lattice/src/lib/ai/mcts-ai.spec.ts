@@ -154,6 +154,62 @@ describe('MctsAi', () => {
     const asyncMove = await ai.chooseMoveAsync(live);
     expect(sync).toEqual(asyncMove);
   });
+
+  it('DTM discount prefers delayed losses and faster wins', () => {
+    const ai = new MctsAi({ dtmGamma: 0.99 });
+    const probe = ai as unknown as {
+      discountedTerminalReward: (u: 0 | 1, depth: number) => number;
+    };
+    const instantLoss = probe.discountedTerminalReward(0, 0);
+    const delayedLoss = probe.discountedTerminalReward(0, 10);
+    const instantWin = probe.discountedTerminalReward(1, 0);
+    const delayedWin = probe.discountedTerminalReward(1, 10);
+    expect(instantLoss).toBe(0);
+    expect(instantWin).toBe(1);
+    expect(delayedLoss).toBeGreaterThan(instantLoss);
+    expect(delayedWin).toBeLessThan(instantWin);
+    expect(delayedLoss).toBeCloseTo(0.5 - 0.5 * 0.99 ** 10, 10);
+  });
+
+  it('isForcedLossResignation requires confident near-zero raw winrate', () => {
+    const ai = new MctsAi({ simulations: 100 });
+    const probe = ai as unknown as {
+      lastRootStats: {
+        rootVisits: number;
+        simulationBudget: number;
+        bestChildWinRate: number;
+      } | null;
+    };
+    expect(ai.isForcedLossResignation()).toBe(false);
+
+    probe.lastRootStats = {
+      rootVisits: 90,
+      simulationBudget: 100,
+      bestChildWinRate: 0,
+    };
+    expect(ai.isForcedLossResignation()).toBe(true);
+
+    probe.lastRootStats = {
+      rootVisits: 50,
+      simulationBudget: 100,
+      bestChildWinRate: 0,
+    };
+    expect(ai.isForcedLossResignation()).toBe(false);
+
+    probe.lastRootStats = {
+      rootVisits: 1200,
+      simulationBudget: 800,
+      bestChildWinRate: 0.002,
+    };
+    expect(ai.isForcedLossResignation()).toBe(false);
+
+    probe.lastRootStats = {
+      rootVisits: 1200,
+      simulationBudget: 800,
+      bestChildWinRate: 0.0005,
+    };
+    expect(ai.isForcedLossResignation()).toBe(true);
+  });
 });
 
 describe('heuristic still solves classic puzzles', () => {

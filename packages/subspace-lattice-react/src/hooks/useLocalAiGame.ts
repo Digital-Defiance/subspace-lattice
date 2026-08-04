@@ -8,6 +8,7 @@ import {
   Coordinate,
   createAiForStrength,
   createMatchDebugLog,
+  describeWinnerReason,
   formatMoveLogLine,
   formatSystemLogLine,
   GameState,
@@ -32,6 +33,7 @@ import {
 import { createSubspaceLatticeApiClient } from '../services/api';
 import type { LobbyRulesOptions } from '../lib/lobby-rules';
 import { playGameSound, playLatticeSoundsAfterPly } from '../lib/game-sounds';
+import { useAiResignOnForcedLoss } from './useAiResignOnForcedLoss';
 
 const AI_THINK_MS = 50;
 
@@ -68,6 +70,7 @@ export function useLocalAiGame() {
   const [moveLog, setMoveLog] = useState<readonly MatchDebugMoveEntry[]>([]);
   const [matchId, setMatchId] = useState<string | null>(null);
   const [aiThinking, setAiThinking] = useState(false);
+  const [aiResignOnForcedLoss] = useAiResignOnForcedLoss();
   const ratedMatch = useRef<string | null>(null);
   const assistedMatch = useRef(false);
   const customModulesMatch = useRef(false);
@@ -232,7 +235,7 @@ export function useLocalAiGame() {
     ) => {
       appendLog(
         formatSystemLogLine(
-          `Winner: ${winner}${reason ? ` (${reason})` : ''}`,
+          `Winner: ${winner}${reason ? ` — ${describeWinnerReason(reason)}` : ''}`,
         ),
       );
       if (id) {
@@ -266,7 +269,7 @@ export function useLocalAiGame() {
         return;
       }
 
-      let choice: AgentMove | null = null;
+      let choice: AgentMove | null;
       try {
         const legalCount = current.listLegalMoves().length;
         if (legalCount === 0 && !current.canFireEmp()) {
@@ -278,14 +281,43 @@ export function useLocalAiGame() {
           return;
         }
         // Heavy tiers yield during search so "AI thinking" stays painted.
-        if (isHeavyAiStrength(strength) && ai instanceof MctsAi) {
-          choice = await ai.chooseMoveAsync(current);
-        } else {
-          choice = ai.chooseMove(current);
+        const searched =
+          isHeavyAiStrength(strength) && ai instanceof MctsAi
+            ? await ai.chooseMoveAsync(current)
+            : ai.chooseMove(current);
+
+        // Grandmaster resignation: confident forced loss → concede to human.
+        if (
+          aiResignOnForcedLoss &&
+          ai instanceof MctsAi &&
+          ai.isForcedLossResignation()
+        ) {
+          const before = structuredClone(current.getState());
+          const ok = current.resign(aiColor, 'ai-resigned');
+          if (ok) {
+            playLatticeSoundsAfterPly(before, current);
+            appendLog(
+              formatSystemLogLine(
+                `${seatLabel(aiColor)} resigns (forced loss).`,
+              ),
+            );
+            const after = current.getState();
+            if (after.winner) {
+              noteWinner(
+                after.winner,
+                after.winnerReason,
+                strength,
+                matchId,
+                localPlayerColor,
+              );
+            }
+            refresh(current);
+            setAiThinking(false);
+            return;
+          }
         }
-        if (!choice) {
-          choice = new HeuristicAi().chooseMove(current);
-        }
+
+        choice = searched ?? new HeuristicAi().chooseMove(current);
       } catch (err) {
         appendLog(
           formatSystemLogLine(
@@ -397,7 +429,7 @@ export function useLocalAiGame() {
       }
       setAiThinking(false);
     },
-    [ai, aiColor, appendLog, localPlayerColor, matchId, noteWinner, recordMove, strength],
+    [ai, aiColor, aiResignOnForcedLoss, appendLog, localPlayerColor, matchId, noteWinner, recordMove, strength],
   );
 
   useEffect(() => {

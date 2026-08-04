@@ -210,4 +210,13 @@ describe('resign', () => {
     expect(engine.getState().winnerReason).toBe('resign');
     expect(engine.resign(PlayerColor.Black)).toBe(false);
   });
+
+  it('supports ai-resigned winnerReason for Grandmaster resignation', () => {
+    const engine = new SubspaceLatticeEngine({
+      rules: resolveRulesConfig('hybrid-fleet'),
+    });
+    expect(engine.resign(PlayerColor.Black, 'ai-resigned')).toBe(true);
+    expect(engine.getState().winner).toBe(PlayerColor.White);
+    expect(engine.getState().winnerReason).toBe('ai-resigned');
+  });
 });

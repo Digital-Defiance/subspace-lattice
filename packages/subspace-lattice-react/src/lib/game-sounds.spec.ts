@@ -187,6 +187,18 @@ describe('collectLatticeSoundsAfterPly', () => {
     ]);
   });
 
+  it('emits resignation on ai-resigned winnerReason', () => {
+    const rules = resolveRulesConfig('hybrid-fleet');
+    const engine = new SubspaceLatticeEngine({ rules });
+    const before = structuredClone(engine.getState());
+    const after = structuredClone(before);
+    after.winner = PlayerColor.White;
+    after.winnerReason = 'ai-resigned';
+    expect(collectLatticeSoundsAfterPly(before, after, rules)).toEqual([
+      'resignation',
+    ]);
+  });
+
   it('emits phase-three-initiated when shared Terminal phase arms', () => {
     const rules = resolveRulesConfig('hybrid-fleet', {
       sectorActivationPly: 10_000,

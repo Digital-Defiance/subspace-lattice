@@ -3,6 +3,7 @@ import {
   buildLatticeDebugPayload,
   Coordinate,
   createMatchDebugLog,
+  describeWinnerReason,
   formatMoveLogLine,
   formatSystemLogLine,
   GameState,
@@ -238,7 +239,9 @@ export function usePassAndPlayGame() {
         appendLog(
           formatSystemLogLine(
             `Winner: ${labelFor(after.winner)}${
-              after.winnerReason ? ` (${after.winnerReason})` : ''
+              after.winnerReason
+                ? ` — ${describeWinnerReason(after.winnerReason)}`
+                : ''
             }`,
           ),
         );
@@ -290,7 +293,9 @@ export function usePassAndPlayGame() {
       appendLog(
         formatSystemLogLine(
           `Winner: ${labelFor(after.winner)}${
-            after.winnerReason ? ` (${after.winnerReason})` : ''
+            after.winnerReason
+              ? ` — ${describeWinnerReason(after.winnerReason)}`
+              : ''
           }`,
         ),
       );
@@ -324,7 +329,9 @@ export function usePassAndPlayGame() {
       appendLog(
         formatSystemLogLine(
           `Winner: ${labelFor(after.winner)}${
-            after.winnerReason ? ` (${after.winnerReason})` : ''
+            after.winnerReason
+              ? ` — ${describeWinnerReason(after.winnerReason)}`
+              : ''
           }`,
         ),
       );

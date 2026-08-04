@@ -8,6 +8,13 @@ Three fiction finishes (engine `winnerReason`):
 | `sector-integration` | Sector Integration (clock) |
 | `no-moves` | Lockout / Frozen |
 
+Meta terminations (also LPGN `Termination`):
+
+| Reason | Meaning |
+| --- | --- |
+| `resign` | Human / online resign — opponent wins |
+| `ai-resigned` | Local AI conceded a forced loss (Grandmaster resignation) |
+
 **Truncation** (ply cap in sims) is not a draw rule — it is a measurement
 artifact. True draws are rare; report them separately from truncations.
 

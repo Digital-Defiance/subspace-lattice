@@ -4,10 +4,12 @@ import { resolveRulesConfig } from '../rules/rules-config';
 import {
   buildLpgnFilename,
   coordToLpgnSquare,
+  describeWinnerReason,
   diffStatesToLpgnEntry,
   formatLpgn,
   formatLpgnGameLogLines,
   formatLpgnPlyToken,
+  lpgnResult,
 } from './lpgn';
 
 describe('LPGN', () => {
@@ -153,6 +155,38 @@ describe('LPGN', () => {
     expect(text).toContain('[Result "1-0"]');
     expect(text).toContain('[Termination "hub-capture"]');
     expect(text).toContain('1. Pe5e6 Pe10e9 1-0');
+  });
+
+  it('exports ai-resigned Termination for Grandmaster resignation', () => {
+    const rules = resolveRulesConfig('hybrid-fleet');
+    const text = formatLpgn({
+      event: 'Local AI',
+      site: 'offline',
+      date: '2026.08.03',
+      white: 'You',
+      black: 'Lattice AI (normal)',
+      mode: 'local-ai',
+      rules,
+      gameState: {
+        boardSize: 11,
+        cells: [],
+        pieces: {},
+        currentPlayer: PlayerColor.Black,
+        winner: PlayerColor.White,
+        winnerReason: 'ai-resigned',
+        rulesVersion: 'hybrid-fleet',
+        plyCount: 40,
+      },
+      moves: [],
+    });
+    expect(text).toContain('[Result "1-0"]');
+    expect(text).toContain('[Termination "ai-resigned"]');
+    expect(lpgnResult(PlayerColor.White, 'ai-resigned')).toEqual({
+      result: '1-0',
+      termination: 'ai-resigned',
+    });
+    expect(describeWinnerReason('ai-resigned')).toContain('forced loss');
+    expect(describeWinnerReason('resign')).toContain('resign');
   });
 
   it('diffs EMP activation across states', () => {

@@ -122,6 +122,29 @@ export function lpgnResult(
   return { result, termination: reason };
 }
 
+/**
+ * Human-readable label for `winnerReason` / LPGN `Termination`.
+ * Keep the wire token in the string so annotate/export stay grep-friendly.
+ */
+export function describeWinnerReason(
+  reason: WinnerReason | string | undefined | null,
+): string {
+  switch (reason) {
+    case 'hub-capture':
+      return 'Surgical Strike (hub-capture)';
+    case 'sector-integration':
+      return 'Sector Integration (sector-integration)';
+    case 'no-moves':
+      return 'Lockout (no-moves)';
+    case 'resign':
+      return 'resignation (resign)';
+    case 'ai-resigned':
+      return 'AI resigned — forced loss (ai-resigned)';
+    default:
+      return reason && reason.length > 0 ? reason : 'unknown';
+  }
+}
+
 export function formatLpgnMoveText(entries: readonly LpgnMoveEntry[]): string {
   const tokens = entries
     .map(formatLpgnPlyToken)

@@ -300,6 +300,10 @@ function runBatch(opts: {
       case 'sector-integration':
         cell.sector += 1;
         break;
+      case 'resign':
+      case 'ai-resigned':
+        cell.other += 1;
+        break;
       default:
         cell.other += 1;
     }

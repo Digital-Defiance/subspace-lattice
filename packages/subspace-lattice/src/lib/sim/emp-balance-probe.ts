@@ -98,6 +98,7 @@ function runCell(opts: {
         cell.sector += 1;
         break;
       case 'resign':
+      case 'ai-resigned':
         cell.resign += 1;
         break;
       default:
