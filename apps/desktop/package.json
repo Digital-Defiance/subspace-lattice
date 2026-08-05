@@ -1,6 +1,6 @@
 {
   "name": "@subspace-lattice/desktop",
-  "version": "0.2.36",
+  "version": "0.2.37",
   "private": true,
   "scripts": {
     "tauri": "tauri",
