@@ -13,6 +13,7 @@ import {
   rateLocalAiMatch,
   rateOnlinePvpMatch,
   resolveRulesConfig,
+  lobbyOverridesToRulesPartial,
   sanitizeRulesLobbyOverrides,
   SubspaceLatticeEngine,
   type AiStrengthId,
@@ -137,7 +138,10 @@ export const createRoom = onCall(async (request) => {
   const lobbyOverrides = sanitizeRulesLobbyOverrides(
     request.data?.rulesOverrides,
   );
-  const rules = resolveRulesConfig(rulesVersion, lobbyOverrides);
+  const rules = resolveRulesConfig(
+    rulesVersion,
+    lobbyOverridesToRulesPartial(lobbyOverrides),
+  );
   const customModules = !isDefaultFleetLobby(lobbyOverrides);
   let rated = request.data?.rated === true;
   if (rated && customModules) {
@@ -165,6 +169,13 @@ export const createRoom = onCall(async (request) => {
   }
   if (rules.sectorActivationPly !== FLEET_LOBBY_DEFAULTS.sectorActivationPly) {
     moduleBits.push(`clock@${rules.sectorActivationPly}`);
+  }
+  if (
+    rules.sectorIntegrationRatio !== FLEET_LOBBY_DEFAULTS.sectorIntegrationRatio
+  ) {
+    moduleBits.push(
+      `ρ${Math.round(rules.sectorIntegrationRatio * 100)}%`,
+    );
   }
   const wingPreset = lobbyOverrides.heavyWingPreset ?? heavyWingPresetFromRules(rules);
   if (wingPreset === 'refractor-wing') moduleBits.push('wing=refractor');

@@ -704,13 +704,14 @@ export async function annotateLpgnReplay(
   }
 
   if (peakNetPly >= 0) {
+    const needPct = Math.round((rules.sectorIntegrationRatio ?? 0.45) * 100);
     branches.push({
       atPly: peakNetPly,
       kind: 'net-peak',
       title: 'Peak Sensor Net',
-      note: `Highest coverage for the annotated seat was ~${peakNet}% (need 51% for Sector Integration).`,
+      note: `Highest coverage for the annotated seat was ~${peakNet}% (need ${needPct}% for Sector Integration).`,
       betterIdea:
-        peakNet >= 45
+        peakNet >= needPct
           ? 'Sector Integration was almost on the table — one more Escort wave might have been shorter than the Hub hunt.'
           : 'Strike was the correct win path; the clock was never close.',
     });

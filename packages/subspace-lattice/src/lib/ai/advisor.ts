@@ -356,7 +356,7 @@ export function inferFleetPhase(
   }
   const ply = state.plyCount ?? 0;
   const mySector = engine.isHybrid() ? engine.sectorControlRatio(color) : 0;
-  const gate = engine.getRules().sectorIntegrationRatio ?? 0.51;
+  const gate = engine.getRules().sectorIntegrationRatio ?? 0.45;
   if (mySector >= gate * 0.8) return 'sector-race';
 
   const enemy = color === PlayerColor.White ? PlayerColor.Black : PlayerColor.White;
@@ -450,7 +450,7 @@ export function explainStrategicIntent(
   } else if (phase === 'sector-race') {
     if (sectorAfter > sectorBefore) {
       lines.push(
-        `Plan: Sector Integration race — coverage ${Math.round(sectorAfter * 100)}% (need ${Math.round((engine.getRules().sectorIntegrationRatio ?? 0.51) * 100)}%).`,
+        `Plan: Sector Integration race — coverage ${Math.round(sectorAfter * 100)}% (need ${Math.round((engine.getRules().sectorIntegrationRatio ?? 0.45) * 100)}%).`,
       );
     } else {
       lines.push('Plan: hold or contest the sector clock while preventing their Integration.');

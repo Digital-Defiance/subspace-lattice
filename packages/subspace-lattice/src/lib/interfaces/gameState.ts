@@ -17,6 +17,8 @@ export interface GameRulesOverrides {
   infiltratorSpoolUp?: boolean;
   infiltratorActivationPly?: number;
   sectorActivationPly?: number;
+  /** Exclusive Sensor Net fraction for Sector Integration (fleet default 0.45). */
+  sectorIntegrationRatio?: number;
   heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
   /** EMP blast Chebyshev radius (0 = EMP disabled). */
   empRadius?: number;

@@ -503,6 +503,7 @@ describe('SubspaceLatticeEngine lobby overrides', () => {
       infiltratorSpoolUp: true,
       infiltratorActivationPly: 2,
       sectorActivationPly: 40,
+      sectorIntegrationRatio: FLEET_LOBBY_DEFAULTS.sectorIntegrationRatio,
       heavyWingPreset: 'standard',
       empRadius: FLEET_LOBBY_DEFAULTS.empRadius,
       empChargeTarget: FLEET_LOBBY_DEFAULTS.empChargeTarget,

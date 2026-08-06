@@ -79,6 +79,7 @@ describe('lobby rules overrides', () => {
         infiltratorSpoolUp: true,
         infiltratorActivationPly: 12.9,
         sectorActivationPly: -3,
+        sectorIntegrationRatio: 0.12,
         hubSensorRadius: 99,
         heavyWingPreset: 'not-a-preset',
       }),
@@ -86,7 +87,14 @@ describe('lobby rules overrides', () => {
       infiltratorSpoolUp: true,
       infiltratorActivationPly: 12,
       sectorActivationPly: 0,
+      sectorIntegrationRatio: 0.35,
     });
+    expect(
+      sanitizeRulesLobbyOverrides({ sectorIntegrationRatio: 51 }),
+    ).toEqual({ sectorIntegrationRatio: 0.51 });
+    expect(
+      sanitizeRulesLobbyOverrides({ sectorIntegrationRatio: 0.99 }),
+    ).toEqual({ sectorIntegrationRatio: 0.7 });
   });
 
   it('sanitize accepts heavyWingPreset', () => {
@@ -120,9 +128,11 @@ describe('lobby rules overrides', () => {
     const custom = resolveFleetLobbyRules({
       infiltratorSpoolUp: true,
       sectorActivationPly: 40,
+      sectorIntegrationRatio: 0.51,
     });
     expect(custom.infiltratorSpoolUp).toBe(true);
     expect(custom.sectorActivationPly).toBe(40);
+    expect(custom.sectorIntegrationRatio).toBe(0.51);
     expect(custom.firstPlayerRelayCount).toBe(1);
     expect(custom.heavyUnitDraft).toBe('standard');
     expect(custom.heavyUnitFiles).toEqual([2, 8]);
@@ -132,6 +142,9 @@ describe('lobby rules overrides', () => {
         infiltratorActivationPly: 0,
         sectorActivationPly: 100,
       }),
+    ).toBe(false);
+    expect(
+      isDefaultFleetLobby({ sectorIntegrationRatio: 0.51 }),
     ).toBe(false);
   });
 

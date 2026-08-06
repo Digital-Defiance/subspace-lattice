@@ -363,9 +363,12 @@ export const GameLayout: React.FC<GameLayoutProps> = ({
         infiltratorSpoolUp?: boolean;
         infiltratorActivationPly?: number;
         sectorActivationPly?: number;
+        sectorIntegrationRatio?: number;
         heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
         empRadius?: number;
         empChargeTarget?: number;
+        empBlackoutPlies?: number;
+        terminalEmpRadiusGrowthInterval?: number;
       };
     },
   ) => {

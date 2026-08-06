@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import {
   EMP_BLACKOUT_PLIES_MAX,
+  SECTOR_INTEGRATION_RATIO_MAX,
+  SECTOR_INTEGRATION_RATIO_MIN,
   TERMINAL_EMP_RADIUS_GROWTH_INTERVALS,
   type HeavyWingPreset,
   type TerminalEmpRadiusGrowthInterval,
@@ -142,6 +144,42 @@ export function LobbyRulesModules({
             <p className="lobby-module-hint">
               Fleet default is {DEFAULT_LOBBY_RULES.sectorActivationPly}. 0 =
               armed from the start.
+            </p>
+          </div>
+          <div className="form-group">
+            <label htmlFor={`${idPrefix}-sector-ratio`}>
+              Sector Integration coverage (%)
+            </label>
+            <input
+              id={`${idPrefix}-sector-ratio`}
+              type="number"
+              min={Math.round(SECTOR_INTEGRATION_RATIO_MIN * 100)}
+              max={Math.round(SECTOR_INTEGRATION_RATIO_MAX * 100)}
+              step={1}
+              value={Math.round(value.sectorIntegrationRatio * 100)}
+              onChange={(e) => {
+                const n = Number(e.target.value);
+                if (!Number.isFinite(n)) {
+                  patch({
+                    sectorIntegrationRatio:
+                      DEFAULT_LOBBY_RULES.sectorIntegrationRatio,
+                  });
+                  return;
+                }
+                const clamped = Math.max(
+                  Math.round(SECTOR_INTEGRATION_RATIO_MIN * 100),
+                  Math.min(Math.round(SECTOR_INTEGRATION_RATIO_MAX * 100), Math.round(n)),
+                );
+                patch({ sectorIntegrationRatio: clamped / 100 });
+              }}
+              data-testid="lobby-sector-integration-ratio"
+            />
+            <p className="lobby-module-hint">
+              Exclusive Sensor Net needed to win Sector Integration after the
+              clock arms. Fleet default{' '}
+              {Math.round(DEFAULT_LOBBY_RULES.sectorIntegrationRatio * 100)}%.
+              Higher makes territorial wins harder (51%+ nearly removes them in
+              sims).
             </p>
           </div>
           <div className="form-group">

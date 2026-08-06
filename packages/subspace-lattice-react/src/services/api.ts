@@ -15,6 +15,7 @@ export interface CreateRoomRequest {
     infiltratorSpoolUp?: boolean;
     infiltratorActivationPly?: number;
     sectorActivationPly?: number;
+    sectorIntegrationRatio?: number;
     heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
     empRadius?: number;
     empChargeTarget?: number;
@@ -125,6 +126,7 @@ export function createSubspaceLatticeApiClient() {
           infiltratorSpoolUp?: boolean;
           infiltratorActivationPly?: number;
           sectorActivationPly?: number;
+          sectorIntegrationRatio?: number;
           heavyWingPreset?: 'standard' | 'refractor-wing' | 'fleet-draft';
           empRadius?: number;
           empChargeTarget?: number;

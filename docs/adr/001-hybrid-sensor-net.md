@@ -47,7 +47,7 @@ A piece is **detected** if its current coordinate is in the opponent’s Sensor 
 
 1. **Surgical Strike** — capture enemy Command Hub  
 2. **No moves** — opponent has no legal moves after your move  
-3. **Sector Integration** — after your move, your Sensor Net covers ≥ `sectorIntegrationRatio` (default 0.51) of all non–gravity-well coordinates  
+3. **Sector Integration** — after your move, your Sensor Net covers ≥ `sectorIntegrationRatio` of all non–gravity-well coordinates (exclusive coverage when Contested Space is on). Classic default was `0.51`; shipping hybrid / hybrid-fleet is **`0.45`** (Track A evolve — ratios ≥0.51 starve sector wins). Lobby can raise or lower this for casual modules.  
 
 `classic` keeps (1) and (2) only, with chess-like piece moves.
 

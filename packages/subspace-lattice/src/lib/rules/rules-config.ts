@@ -269,10 +269,19 @@ export function isTerminalEmpRadiusGrowthInterval(
   );
 }
 
+/** Lobby-tunable Sector Integration coverage (exclusive net / controllable cells). */
+export const SECTOR_INTEGRATION_RATIO_MIN = 0.35;
+export const SECTOR_INTEGRATION_RATIO_MAX = 0.7;
+
 export type RulesLobbyOverrides = {
   infiltratorSpoolUp: boolean;
   infiltratorActivationPly: number;
   sectorActivationPly: number;
+  /**
+   * Exclusive Sensor Net fraction required for Sector Integration.
+   * Fleet default 0.45 (Track A evolve). Higher makes territorial wins rarer.
+   */
+  sectorIntegrationRatio: number;
   /** Optional heavy-wing storyline preset (default Standard Beams). */
   heavyWingPreset: HeavyWingPreset;
   /** EMP blast radius (Chebyshev). 0 = off. Max 5. */
@@ -293,6 +302,8 @@ export const FLEET_LOBBY_DEFAULTS: RulesLobbyOverrides = {
   infiltratorSpoolUp: false,
   infiltratorActivationPly: 0,
   sectorActivationPly: 100,
+  /** Track A evolve ρ0.45 — ≥0.51 nearly removes Sector Integration wins. */
+  sectorIntegrationRatio: 0.45,
   heavyWingPreset: 'standard',
   // EMP balance probe 2026-07-29 (enemy-only blast): r=3 keeps Lockout ~1.7% of
   // HvR games with Strike at ~98%; r=4 floods. Blackout length is flavour, not
@@ -319,6 +330,7 @@ export function lobbyOverridesFromRules(
     infiltratorSpoolUp: rules.infiltratorSpoolUp,
     infiltratorActivationPly: rules.infiltratorActivationPly,
     sectorActivationPly: rules.sectorActivationPly,
+    sectorIntegrationRatio: rules.sectorIntegrationRatio,
     heavyWingPreset: heavyWingPresetFromRules(rules),
     empRadius: rules.empRadius,
     empChargeTarget: rules.empChargeTarget,
@@ -341,6 +353,7 @@ export function isDefaultFleetLobby(
     o.infiltratorActivationPly ===
       FLEET_LOBBY_DEFAULTS.infiltratorActivationPly &&
     o.sectorActivationPly === FLEET_LOBBY_DEFAULTS.sectorActivationPly &&
+    o.sectorIntegrationRatio === FLEET_LOBBY_DEFAULTS.sectorIntegrationRatio &&
     o.heavyWingPreset === FLEET_LOBBY_DEFAULTS.heavyWingPreset &&
     o.empRadius === FLEET_LOBBY_DEFAULTS.empRadius &&
     o.empChargeTarget === FLEET_LOBBY_DEFAULTS.empChargeTarget &&
@@ -383,6 +396,22 @@ export function sanitizeRulesLobbyOverrides(
       0,
       Math.min(LOBBY_PLY_MAX, Math.floor(input.sectorActivationPly)),
     );
+  }
+
+  if (
+    typeof input.sectorIntegrationRatio === 'number' &&
+    Number.isFinite(input.sectorIntegrationRatio)
+  ) {
+    // Accept either a ratio (0.45) or a whole-number percent (45).
+    let ratio = input.sectorIntegrationRatio;
+    if (ratio > 1) ratio = ratio / 100;
+    out.sectorIntegrationRatio =
+      Math.round(
+        Math.max(
+          SECTOR_INTEGRATION_RATIO_MIN,
+          Math.min(SECTOR_INTEGRATION_RATIO_MAX, ratio),
+        ) * 100,
+      ) / 100;
   }
 
   if (isHeavyWingPreset(input.heavyWingPreset)) {
@@ -444,6 +473,7 @@ export function lobbyOverridesToRulesPartial(
     infiltratorSpoolUp: lobby.infiltratorSpoolUp,
     infiltratorActivationPly: lobby.infiltratorActivationPly,
     sectorActivationPly: lobby.sectorActivationPly,
+    sectorIntegrationRatio: lobby.sectorIntegrationRatio,
     empRadius: lobby.empRadius,
     empChargeTarget: lobby.empChargeTarget,
     empBlackoutPlies: lobby.empBlackoutPlies,
