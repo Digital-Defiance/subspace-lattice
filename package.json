@@ -125,7 +125,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "firebase-tools": "^15.24.0",
     "jsdom": "^29.1.1",
-    "nx": "23.1.0",
+    "nx": "23.2.1",
     "prettier": "~3.6.2",
     "sass-embedded": "^1.100.0",
     "tslib": "^2.3.0",
